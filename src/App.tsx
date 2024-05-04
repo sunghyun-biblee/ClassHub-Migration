@@ -17,6 +17,7 @@ function App() {
       <div>
         <Nav />
         <Outlet />
+        <NaviMobileBottom />
       </div>
     );
   };

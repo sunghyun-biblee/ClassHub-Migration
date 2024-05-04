@@ -5,7 +5,7 @@ import styled from "styled-components";
 export const NaviMobileBottom = () => {
   return (
     <NaviBottom>
-      <ul className="flex justify-around items-center w-[100vw] h-10 text-sm lg:hidden font-semibold ">
+      <ul className="flex justify-around shadow-[2px_0_1px_1px_rgba(149,157,165,0.5)] items-center w-[100vw] h-10 text-sm bg-[#efefef] fixed bottom-0 left-0 z-10 lg:hidden font-semibold ">
         <li>대시보드</li>
         <li>강의</li>
         <li>홈</li>
@@ -17,10 +17,12 @@ export const NaviMobileBottom = () => {
 };
 
 const NaviBottom = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
+  margin-top: 40px;
   ul {
-    box-shadow: rgba(149, 157, 165, 0.5) 2px 0px 1px 1px;
+    li {
+      cursor: pointer;
+      width: 100%;
+      text-align: center;
+    }
   }
 `;

@@ -23,7 +23,7 @@ const SearchButton = styled.button`
 export const NaviPC = () => {
   return (
     <NavigationPC>
-      <nav className=" lg:flex justify-between items-center py-3 px-3 w-[1200px] my-0 mx-auto ">
+      <nav className=" lg:flex justify-between items-center py-3 px-3  my-0 mx-auto max-w-[1200px]">
         <img src={searchICON} alt="logo-pc" className="w-8" />
         <ul className="lg:flex justify-between w-44">
           <li className="px-3 border-solid border-[1px] border-blue-100 rounded-[3px] py-1 cursor-pointer">
@@ -41,7 +41,7 @@ export const NaviPC = () => {
           />
           <SearchButton>{/* <img src={searchICON} alt="" /> */}</SearchButton>
         </div>
-        <ul className="lg:flex  justify-around w-80">
+        <ul className="lg:flex   justify-around w-80">
           <li className="lg:px-3 py-1 border-solid border-[1px] border-green-500 rounded-[3px] cursor-pointer">
             <span>대시보드</span>
           </li>
