@@ -1,23 +1,37 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import styled from "styled-components";
 
 export const NaviMobileBottom = () => {
   return (
     <NaviBottom>
-      <ul className="flex justify-around shadow-[2px_0_1px_1px_rgba(149,157,165,0.5)] items-center w-[100vw] h-10 text-sm bg-[#efefef] fixed bottom-0 left-0 z-10 lg:hidden font-semibold ">
-        <li>대시보드</li>
-        <li>강의</li>
-        <li>홈</li>
-        <li>커뮤니티</li>
-        <li>마이페이지</li>
+      <ul className="flex justify-around shadow-[2px_0_1px_1px_rgba(149,157,165,0.5)] items-center w-[100vw] h-10 text-sm bg-[#efefef]  lg:hidden font-semibold ">
+        <li>
+          <Link to={"dashboard"}>대시보드</Link>
+        </li>
+        <li>
+          <Link to={"class"}>강의</Link>
+        </li>
+        <li>
+          <Link to={"/"}>홈</Link>
+        </li>
+        <li>
+          <Link to={"community"}>커뮤니티</Link>
+        </li>
+        <li>
+          <Link to={"mypage"}>마이페이지</Link>
+        </li>
       </ul>
     </NaviBottom>
   );
 };
 
 const NaviBottom = styled.div`
-  margin-top: 40px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 20;
   ul {
     li {
       cursor: pointer;

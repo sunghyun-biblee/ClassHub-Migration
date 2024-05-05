@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import searchICON from "../../assets/img/searchICON.svg";
+import { Link } from "react-router-dom";
 const NavigationPC = styled.div`
   @media (max-width: 1023px) {
     display: none;
@@ -10,6 +11,11 @@ const NavigationPC = styled.div`
   /* border-top: 1px solid rgba(0, 0, 0, 0.1);
   border-bottom: 2px solid rgba(0, 0, 0, 0.1); */
   box-shadow: rgba(149, 157, 165, 0.2) 0px 2px 5px;
+  position: fixed;
+  top: 0;
+  z-index: 20;
+  width: 100vw;
+  background-color: #fdfdfe;
 `;
 
 const SearchButton = styled.button`
@@ -23,14 +29,18 @@ const SearchButton = styled.button`
 export const NaviPC = () => {
   return (
     <NavigationPC>
-      <nav className=" lg:flex justify-between items-center py-3 px-3  my-0 mx-auto max-w-[1200px]">
+      <nav className=" lg:flex justify-between items-center py-3 px-3  my-0 mx-auto max-w-[1200px] w-[100vw] h-[64px]">
         <img src={searchICON} alt="logo-pc" className="w-8" />
         <ul className="lg:flex justify-between w-44">
           <li className="px-3 border-solid border-[1px] border-blue-100 rounded-[3px] py-1 cursor-pointer">
-            <span>강의</span>
+            <span>
+              <Link to={"class"}>강의</Link>
+            </span>
           </li>
           <li className="px-3 border-solid border-[1px] border-blue-100 rounded-[3px] py-1 cursor-pointer">
-            <span>커뮤니티</span>
+            <span>
+              <Link to={"community"}>커뮤니티</Link>
+            </span>
           </li>
           {/* <li>멘토링</li> */}
         </ul>
@@ -49,7 +59,9 @@ export const NaviPC = () => {
             <span>장바구니</span>
           </li>
           <li className="lg:px-3 py-1 border-solid border-[1px] border-green-500 rounded-[3px] cursor-pointer">
-            <span>마이페이지</span>
+            <span>
+              <Link to={"mypage"}>마이페이지</Link>
+            </span>
           </li>
         </ul>
       </nav>

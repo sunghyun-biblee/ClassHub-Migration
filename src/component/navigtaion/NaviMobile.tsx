@@ -3,6 +3,11 @@ import styled from "styled-components";
 import searchICON from "../../assets/img/searchICON.svg";
 import MenuBar from "../../assets/img/MenuBar.svg";
 const NavigationMobile = styled.div`
+  position: fixed;
+  top: 0;
+  width: 100vw;
+
+  background-color: #fdfdfe;
   @media (max-width: 767px) {
     display: block;
   }
@@ -68,8 +73,8 @@ export const NaviMobile = () => {
     }
   };
   return (
-    <NavigationMobile className="screen-width lg:hidden">
-      <nav className=" md:flex justify-between items-center py-3 px-3 ">
+    <NavigationMobile className="screen-width lg:hidden z-20">
+      <nav className=" md:flex justify-between items-center py-3 px-5 ">
         <div>
           <img
             src={MenuBar}

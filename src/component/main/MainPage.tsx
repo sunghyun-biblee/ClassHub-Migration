@@ -9,7 +9,7 @@ import carousel_three from "../../assets/img/carousel/carousel_three.jpg";
 import preview from "../../assets/img/preview.jpg";
 export const MainPage = () => {
   return (
-    <MainPageContainer className=" flex items-center flex-col lg:max-w-[1200px]  md:max-w-[100vw] mysm:max-w-[100vw]">
+    <MainPageContainer className=" flex items-center flex-col lg:max-w-[1200px]  md:max-w-[100vw] mysm:max-w-[100vw pt-[64px]">
       <Carousel carouselList={examArr}></Carousel>
       <PreviewClass classList={classArr}></PreviewClass>
 
@@ -29,35 +29,50 @@ const examArr = [
 const classArr = [
   {
     img: preview,
-    title: "테스트 강의",
+    overview:
+      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus culpa atque quis ullam nihil quibusdam ab consequatur veritatis sapiente eveniet, corrupti consequuntur quaerat nisi modi, saepe, vero doloribus repudiandae omnis.",
+    id: 123,
+    title: "1 번째 테스트 강의",
     name: "성현",
     price: "9,999원",
     score: "4.6",
   },
   {
     img: preview,
-    title: "테스트 강의1",
+    overview:
+      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus culpa atque quis ullam nihil quibusdam ab consequatur veritatis sapiente eveniet, corrupti consequuntur quaerat nisi modi, saepe, vero doloribus repudiandae omnis.",
+    id: 1234,
+    title: "2 번째 테스트 강의1",
     name: "성현1",
     price: "9,999원",
     score: "4.6",
   },
   {
     img: preview,
-    title: "테스트 강의2",
+    overview:
+      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus culpa atque quis ullam nihil quibusdam ab consequatur veritatis sapiente eveniet, corrupti consequuntur quaerat nisi modi, saepe, vero doloribus repudiandae omnis.",
+    id: 1235,
+    title: "3 번째 테스트 강의2",
     name: "성현2",
     price: "9,999원",
     score: "4.6",
   },
   {
     img: preview,
-    title: "테스트 강의3",
+    overview:
+      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus culpa atque quis ullam nihil quibusdam ab consequatur veritatis sapiente eveniet, corrupti consequuntur quaerat nisi modi, saepe, vero doloribus repudiandae omnis.",
+    id: 1236,
+    title: "4 번째 테스트 강의3",
     name: "성현3",
     price: "9,999원",
     score: "4.6",
   },
   {
     img: preview,
-    title: "테스트 강의입니다 잘 부탁드려요 ㅎㅎ",
+    overview:
+      "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus culpa atque quis ullam nihil quibusdam ab consequatur veritatis sapiente eveniet, corrupti consequuntur quaerat nisi modi, saepe, vero doloribus repudiandae omnis.",
+    id: 1237,
+    title: "5 번째 테스트 강의입니다 잘 부탁드려요 ㅎㅎ",
     name: "성현4",
     price: "9,999원",
     score: "4.6",
@@ -70,6 +85,7 @@ const commuArr = [
     overview: "저는 이러이러한 고민이 있습니다. ",
     name: "TEST1",
     category: "공부",
+    id: 333,
   },
   {
     title: "테스트 글제목",
@@ -77,6 +93,7 @@ const commuArr = [
       "저는 이러이러한 고민이 있습니다. 그런데 어떻게 해결해야할지 모르겠어요. ",
     name: "TEST15",
     category: "공부",
+    id: 334,
   },
   {
     title: "테스트 글제목",
@@ -84,6 +101,7 @@ const commuArr = [
       "저는 이러이러한 고민이 있습니다. 그런데 어떻게 해결해야할지 모르겠어요. 도움 부탁드립니다",
     name: "TEST2",
     category: "공부",
+    id: 335,
   },
   {
     title: "테스트 글제목",
@@ -91,6 +109,7 @@ const commuArr = [
       "저는 이러이러한 고민이 있습니다. 그런데 어떻게 해결해야할지 모르겠어요. 도움 부탁드립니다..댓글 부탁드려요",
     name: "TEST3",
     category: "공부",
+    id: 336,
   },
   {
     title: "테스트 글제목",
@@ -98,5 +117,6 @@ const commuArr = [
       "저는 이러이러한 고민이 있습니다. 그런데 어떻게 해결해야할지 모르겠어요. 도움 부탁드립니다... 다른분들은 어떻게 해결하셨나요?",
     name: "TEST4",
     category: "공부",
+    id: 337,
   },
 ];

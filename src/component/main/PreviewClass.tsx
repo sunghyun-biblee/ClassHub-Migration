@@ -9,6 +9,8 @@ export interface classProp {
     name: string;
     price: string;
     score: string;
+    id: number;
+    overview: string;
   }[];
 }
 

@@ -9,12 +9,15 @@ import { Mypage } from "./component/mypage/Mypage";
 import { Community } from "./component/community/Community";
 import { Class } from "./component/class/Class";
 import { NaviMobileBottom } from "./component/navigtaion/NaviMobileBottom";
+import { ClassDetail } from "./component/class/ClassDetail";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { classProp } from "./component/main/PreviewClass";
 
 function App() {
   const queryClient = new QueryClient();
   const LayOut = () => {
     return (
-      <div>
+      <div className="relative ">
         <Nav />
         <Outlet />
         <NaviMobileBottom />
@@ -28,11 +31,14 @@ function App() {
           <Route index element={<MainPage />}></Route>
           <Route path="mypage" element={<Mypage></Mypage>}></Route>
           <Route path="community" element={<Community></Community>}></Route>
-          <Route path="class" element={<Class></Class>}>
-            <Route path=":classId"></Route>
-          </Route>
+          <Route path="class" element={<Class></Class>}></Route>
+          <Route
+            path="class/:classId"
+            element={<ClassDetail></ClassDetail>}
+          ></Route>
         </Route>
       </Routes>
+      <ReactQueryDevtools></ReactQueryDevtools>
     </QueryClientProvider>
   );
 }
