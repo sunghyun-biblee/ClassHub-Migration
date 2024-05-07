@@ -6,9 +6,7 @@ import styled from "styled-components";
 
 export const ClassDetail = () => {
   const [selectClass, setSelectClass] = useState();
-  const useGetItem = () => {
-    return new URLSearchParams(useLocation().search);
-  };
+
   const { pathname } = useLocation();
   const id = parseInt(pathname.split("/")[2], 10);
   console.log(id);
@@ -20,7 +18,7 @@ export const ClassDetail = () => {
   return (
     <ClassDeatilContainer
       className="flex justify-center 
-    lg:w-[1200px] mysm:w-[100vw] h-[100dvh]"
+    lg:w-[1200px] mysm:w-[100vw] h-[100dvh] lg:pt-[110px] md:pt-[80px] mysm:pt-[80px]"
     >
       {!isLoading && data ? (
         <section className="md:w-[100vw] lg:max-w-[1200px]">
@@ -131,8 +129,6 @@ export const ClassDetail = () => {
 };
 
 const ClassDeatilContainer = styled.div`
-  padding-top: 80px;
-
   height: 100dvh;
   margin: 0 auto;
 `;

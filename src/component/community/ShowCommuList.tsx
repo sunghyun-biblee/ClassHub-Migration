@@ -1,0 +1,80 @@
+import React, { useState } from "react";
+import styled from "styled-components";
+import { PageNation } from "../class/PageNation";
+import { CommnuItem } from "./CommnuItem";
+
+import { useQuery } from "@tanstack/react-query";
+import { fetchCommuList } from "./hook/fetchCommuArray";
+
+interface IshowListprop {
+  category: string;
+}
+export const ShowCommuList = ({ category }: IshowListprop) => {
+  const [page, setPage] = useState(1);
+  const postLimit = 5;
+  const renderText = () => {
+    switch (category) {
+      case "qna":
+        return <h1>질문 & 답변</h1>;
+      case "study":
+        return <h1>스터디</h1>;
+      default:
+        break;
+    }
+  };
+
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["CommnuList", page],
+    queryFn: fetchCommuList,
+  });
+
+  const pageOfLast = page * postLimit; // 페이지마다 마지막 포스트 위치
+  const pageOfFirst = pageOfLast - postLimit; // 페이지마다 첫 포스트 위치
+
+  return (
+    <div className="md:mr-2">
+      <div className="flex justify-between">
+        {renderText()}
+        <select id="select" className="border-[1px] border-solid px-1 py-[1px]">
+          <option value="all">전체</option>
+          <option value="unfinish">모집중</option>
+          <option value="finish">모집완료</option>
+        </select>
+      </div>
+      <div className="flex  justify-between mt-3">
+        <div className="flex w-[88%] ">
+          <input
+            type="text"
+            className="rounded-lg border-[1px] border-solid w-[100%] text-sm pl-3 py-3 focus:outline-blue-400"
+            placeholder="검색어를 입력해주세요"
+          />
+          <Button className="w-20 mx-1 bg-blue-400">검색</Button>
+        </div>
+        <Button className="w-20 bg-gray-600">글쓰기</Button>
+      </div>
+      <article>
+        <ul className="pt-10">
+          {data?.slice(pageOfFirst, pageOfLast).map((item) => (
+            <li className="mb-2 p-4 border-b-2 border-solid rounded-md">
+              <CommnuItem item={item}></CommnuItem>
+            </li>
+          ))}
+        </ul>
+      </article>
+      <PageNation
+        listLength={data ? data.length : 0}
+        postLimit={postLimit}
+        page={page}
+        setPage={setPage}
+      ></PageNation>
+    </div>
+  );
+};
+
+const Button = styled.button`
+  padding: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  color: #efefef;
+  font-weight: 600;
+`;

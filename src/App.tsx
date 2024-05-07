@@ -12,7 +12,7 @@ import { NaviMobileBottom } from "./component/navigtaion/NaviMobileBottom";
 import { ClassDetail } from "./component/class/ClassDetail";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { classProp } from "./component/main/PreviewClass";
-
+import { CommuDetail } from "./component/community/CommuDetail";
 function App() {
   const queryClient = new QueryClient();
   const LayOut = () => {
@@ -35,6 +35,10 @@ function App() {
           <Route
             path="class/:classId"
             element={<ClassDetail></ClassDetail>}
+          ></Route>
+          <Route
+            path="community/:commuId"
+            element={<CommuDetail></CommuDetail>}
           ></Route>
         </Route>
       </Routes>
