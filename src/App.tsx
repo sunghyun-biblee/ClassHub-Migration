@@ -13,6 +13,12 @@ import { ClassDetail } from "./component/class/ClassDetail";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { classProp } from "./component/main/PreviewClass";
 import { CommuDetail } from "./component/community/CommuDetail";
+import { Dashboard } from "./component/mypage/Dashboard";
+import { MypageHome } from "./component/mypage/MypageHome";
+import { Profile } from "./component/mypage/Profile";
+import { ManageMent } from "./component/mypage/ManageMent";
+import { Application } from "./component/mypage/Application";
+import { MyCommu } from "./component/mypage/MyCommu";
 function App() {
   const queryClient = new QueryClient();
   const LayOut = () => {
@@ -29,7 +35,26 @@ function App() {
       <Routes>
         <Route path="/" element={<LayOut />}>
           <Route index element={<MainPage />}></Route>
-          <Route path="mypage" element={<Mypage></Mypage>}></Route>
+          <Route path="mypage" element={<Mypage></Mypage>}>
+            <Route index element={<MypageHome />}></Route>
+            <Route index path="profile" element={<Profile></Profile>}></Route>
+            <Route
+              index
+              path="management"
+              element={<ManageMent></ManageMent>}
+            ></Route>
+            <Route
+              index
+              path="application"
+              element={<Application></Application>}
+            ></Route>
+            <Route
+              index
+              path="dashboard"
+              element={<Dashboard></Dashboard>}
+            ></Route>
+            <Route index path="mycommu" element={<MyCommu></MyCommu>}></Route>
+          </Route>
           <Route path="community" element={<Community></Community>}></Route>
           <Route path="class" element={<Class></Class>}></Route>
           <Route

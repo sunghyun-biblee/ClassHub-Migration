@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import searchICON from "../../assets/img/searchICON.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const NavigationPC = styled.div`
   @media (max-width: 1023px) {
     display: none;
@@ -27,10 +27,19 @@ const SearchButton = styled.button`
   right: 5px;
 `;
 export const NaviPC = () => {
+  const nav = useNavigate();
+  const handleGoindex = (): void => {
+    nav("/");
+  };
   return (
     <NavigationPC>
       <nav className=" lg:flex justify-between items-center py-3 px-3  my-0 mx-auto max-w-[1200px] w-[100vw] h-[64px]">
-        <img src={searchICON} alt="logo-pc" className="w-8" />
+        <img
+          src={searchICON}
+          alt="logo-pc"
+          className="w-8 cursor-pointer"
+          onClick={handleGoindex}
+        />
         <ul className="lg:flex justify-between w-44">
           <li className="px-3 border-solid border-[1px] border-blue-100 rounded-[3px] py-1 cursor-pointer">
             <span>
@@ -53,7 +62,9 @@ export const NaviPC = () => {
         </div>
         <ul className="lg:flex   justify-around w-80">
           <li className="lg:px-3 py-1 border-solid border-[1px] border-green-500 rounded-[3px] cursor-pointer">
-            <span>대시보드</span>
+            <span>
+              <Link to={"mypage/dashboard"}>대시보드</Link>
+            </span>
           </li>
           <li className="lg:px-3 py-1 border-solid border-[1px] border-green-500 rounded-[3px] cursor-pointer">
             <span>장바구니</span>
