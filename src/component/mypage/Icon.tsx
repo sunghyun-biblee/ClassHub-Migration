@@ -1,7 +1,7 @@
 import React from "react";
 
 interface Iiconprop {
-  category: string;
+  category: string | undefined;
   id: string;
 }
 export const Icon = ({ category, id }: Iiconprop) => {

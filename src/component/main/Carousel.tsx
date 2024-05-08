@@ -100,7 +100,7 @@ export const Carousel = ({ carouselList }: CarouselProps) => {
         <Show
           offset={currSlide}
           ref={showRef}
-          className={`min-w-[100%]  flex items-center`}
+          className={`min-w-[100%] h-[200px] flex items-center`}
         >
           {currentList?.map((item, index) => {
             return (
@@ -108,7 +108,7 @@ export const Carousel = ({ carouselList }: CarouselProps) => {
                 key={"carousel" + index}
                 src={item.img}
                 alt="carousel_IMG"
-                className="object-cover"
+                className="object-center "
               />
             );
           })}

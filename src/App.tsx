@@ -13,12 +13,12 @@ import { ClassDetail } from "./component/class/ClassDetail";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { classProp } from "./component/main/PreviewClass";
 import { CommuDetail } from "./component/community/CommuDetail";
-import { Dashboard } from "./component/mypage/Dashboard";
+import { Dashboard } from "./component/mypage/dashboard/Dashboard";
 import { MypageHome } from "./component/mypage/MypageHome";
-import { Profile } from "./component/mypage/Profile";
-import { ManageMent } from "./component/mypage/ManageMent";
-import { Application } from "./component/mypage/Application";
-import { MyCommu } from "./component/mypage/MyCommu";
+import { Profile } from "./component/mypage/profile/Profile";
+import { ManageMent } from "./component/mypage/management/ManageMent";
+import { Application } from "./component/mypage/application/Application";
+import { MyCommu } from "./component/mypage/myCommunity/MyCommu";
 function App() {
   const queryClient = new QueryClient();
   const LayOut = () => {

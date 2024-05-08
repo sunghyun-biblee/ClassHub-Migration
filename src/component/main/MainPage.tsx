@@ -9,7 +9,7 @@ import carousel_three from "../../assets/img/carousel/carousel_three.jpg";
 import preview from "../../assets/img/preview.jpg";
 export const MainPage = () => {
   return (
-    <MainPageContainer className=" flex items-center flex-col lg:max-w-[1200px]  md:max-w-[100vw] mysm:max-w-[100vw pt-[64px]">
+    <MainPageContainer className=" flex items-center flex-col lg:max-w-[1200px]  md:max-w-[100vw] mysm:max-w-[100vw] lg:pt-[84px] md:pt-[72px]">
       <Carousel carouselList={examArr}></Carousel>
       <PreviewClass classList={classArr}></PreviewClass>
 
@@ -80,13 +80,6 @@ const classArr = [
 ];
 
 const commuArr = [
-  {
-    title: "테스트 글제목",
-    overview: "저는 이러이러한 고민이 있습니다. ",
-    name: "TEST1",
-    category: "공부",
-    id: 333,
-  },
   {
     title: "테스트 글제목",
     overview:

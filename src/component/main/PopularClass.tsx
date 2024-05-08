@@ -2,12 +2,17 @@ import React from "react";
 import { classProp } from "./PreviewClass";
 import rightArrow from "../../assets/img/carousel/rigthArrow.svg";
 import { ClassItem } from "../class/ClassItem";
+import star from "../../assets/img/Star.svg";
 
 export const PopularClass = ({ classList }: classProp) => {
   return (
-    <div className=" pt-10 px-5 lg:max-w-[1200px] md:px-3 mysm:px-2">
+    <div className=" py-10 px-5 lg:max-w-[1200px] md:px-3 mysm:px-2">
       <div className="flex justify-between ">
-        <h1 className="lg:pb-3  mysm:pb-2 font-extrabold">⭐ 추천 강의 ⭐ </h1>
+        <div className="lg:pb-3  mysm:pb-2 font-extrabold flex items-center">
+          <img src={star} alt="" className="lg:w-7 md:w-4 mysm:w-4" />{" "}
+          <span className="px-2 lg:text-[18px]">추천 강의</span>
+          <img src={star} alt="" className="lg:w-7 md:w-4 mysm:w-4" />
+        </div>
         <div className="pb-3 flex items-center cursor-pointer">
           <p>더보기</p>
           <img src={rightArrow} alt="" className="w-5 h-auto ml-2" />

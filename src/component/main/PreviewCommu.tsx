@@ -23,7 +23,7 @@ export const PreviewCommu = ({ commnuList }: commnuProp) => {
     return text;
   };
   return (
-    <div className=" pt-10 px-5 lg:max-w-[1200px] md:px-3 mysm:px-2 ">
+    <div className=" py-10 px-5 lg:max-w-[1200px] md:px-3 mysm:px-2 ">
       <div className="flex justify-between lg:pb-2  mysm:pb-1">
         <h1 className=" font-extrabold ">📋 커뮤니티 </h1>
         <div className="pb-3 flex items-center cursor-pointer">
@@ -31,14 +31,14 @@ export const PreviewCommu = ({ commnuList }: commnuProp) => {
           <img src={rightArrow} alt="" className="w-5 h-auto ml-2" />
         </div>
       </div>
-      <section className="grid grid-cols-5 gap-3 pb-5">
+      <section className="grid grid-cols-4 gap-3 pb-5">
         {commnuList.map((item) => (
           <article
             className="flex flex-col "
             key={`${item.title}+${item.name}`}
           >
             <div className="px-[5px]">
-              <h1 className="h-auto font-bold text-sm mysm:text-[12px]">
+              <h1 className="h-auto font-bold lg:text-base md:text-sm mysm:text-[11px]">
                 {item.title}
               </h1>
               <p className="h-20 pt-1  font-medium  md:text-base mysm:text-[11px]  ">

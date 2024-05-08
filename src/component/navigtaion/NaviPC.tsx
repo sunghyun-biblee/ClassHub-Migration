@@ -2,6 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import searchICON from "../../assets/img/searchICON.svg";
 import { Link, useNavigate } from "react-router-dom";
+import logo from "../../assets/img/Logo.png";
+import cart from "../../assets/img/Cart.svg";
+import user from "../../assets/img/Person.svg";
 const NavigationPC = styled.div`
   @media (max-width: 1023px) {
     display: none;
@@ -28,17 +31,18 @@ const SearchButton = styled.button`
 `;
 export const NaviPC = () => {
   const nav = useNavigate();
-  const handleGoindex = (): void => {
-    nav("/");
+
+  const handleNav = (location: string) => {
+    nav(`${location}`);
   };
   return (
     <NavigationPC>
-      <nav className=" lg:flex justify-between items-center py-3 px-3  my-0 mx-auto max-w-[1200px] w-[100vw] h-[64px]">
+      <nav className=" lg:flex justify-between items-center py-3   my-0 mx-auto max-w-[1200px] w-[100vw] h-[64px]">
         <img
-          src={searchICON}
+          src={logo}
           alt="logo-pc"
-          className="w-8 cursor-pointer"
-          onClick={handleGoindex}
+          className="w-20 cursor-pointer object-cover"
+          onClick={() => handleNav("/")}
         />
         <ul className="lg:flex justify-between w-44">
           <li className="px-3 border-solid border-[1px] border-blue-100 rounded-[3px] py-1 cursor-pointer">
@@ -56,23 +60,28 @@ export const NaviPC = () => {
         <div className="lg:flex justify-center items-center relative">
           <input
             type="text"
-            className="border-2 rounded-md w-72 p-1 focus:outline-green-600"
+            placeholder="강의를 검색해보세요"
+            className="border-2 rounded-md w-72 h-[36px] px-2 text-sm py-1 focus:outline-blue-600"
           />
           <SearchButton>{/* <img src={searchICON} alt="" /> */}</SearchButton>
         </div>
-        <ul className="lg:flex   justify-around w-80">
-          <li className="lg:px-3 py-1 border-solid border-[1px] border-green-500 rounded-[3px] cursor-pointer">
+        <ul className="lg:flex  items-center justify-around w-80">
+          <li className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer hover:bg-blue-300 hover:text-white hover:transition-colors">
             <span>
               <Link to={"mypage/dashboard"}>대시보드</Link>
             </span>
           </li>
-          <li className="lg:px-3 py-1 border-solid border-[1px] border-green-500 rounded-[3px] cursor-pointer">
-            <span>장바구니</span>
+          <li
+            className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer"
+            onClick={() => handleNav("/")}
+          >
+            <img src={cart} alt="장바구니" className="w-6" />
           </li>
-          <li className="lg:px-3 py-1 border-solid border-[1px] border-green-500 rounded-[3px] cursor-pointer">
-            <span>
-              <Link to={"mypage"}>마이페이지</Link>
-            </span>
+          <li
+            className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer"
+            onClick={() => handleNav("mypage")}
+          >
+            <img src={user} alt="마이페이지" className="w-6" />
           </li>
         </ul>
       </nav>

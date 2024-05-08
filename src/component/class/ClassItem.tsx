@@ -36,20 +36,24 @@ export const ClassItem = ({ item }: IclassitemProp) => {
         <img src={item.img} alt="classIMG" className="h-auto w-[100%]" />
       </div>
       <div className="h-[100%] flex flex-col justify-between">
-        <div className="flex justify-between pb-3 md:pb-2 mysm:flex-col pb-1">
-          <h1 className="lg:font-bold p-1 md:text-base mysm:text-[11px] font-extrabold p-[1px]">
+        <div className="flex justify-between  md:pb-2 mysm:flex-col pb-1">
+          <h1
+            className="lg:font-bold md:text-base mysm:text-[11px] font-extrabold p-[1px] whitespace-nowrap 
+          lg:max-w-[200px] text-ellipsis overflow-hidden
+          "
+          >
             {item.title}
           </h1>
-          <h3 className="p-1 md:text-base mysm:text-[11px] p-[1px]">
+          <h3 className=" md:text-base mysm:text-[11px] p-[1px]">
             {item.name}
           </h3>
         </div>
 
-        <div className="flex justify-between pt-2 lg:flex-row md:flex-row mysm:flex-col pt-1">
-          <p className="px-1  md:text-base mysm:text-[11px] px-[1px] font-semibold">
+        <div className="flex justify-between pt-2 lg:flex-row md:flex-row mysm:flex-col">
+          <p className="  md:text-base mysm:text-[11px] px-[1px] font-semibold">
             {item.price}
           </p>
-          <p className="px-2 pr-2  md:text-base mysm:text-[11px] px-[1px] font-semibold">
+          <p className=" pr-2  md:text-base mysm:text-[11px] px-[1px] font-semibold">
             {item.score}점
           </p>
         </div>

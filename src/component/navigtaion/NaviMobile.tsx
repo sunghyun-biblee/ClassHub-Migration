@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import searchICON from "../../assets/img/searchICON.svg";
 import MenuBar from "../../assets/img/MenuBar.svg";
+import logo from "../../assets/img/Logo.png";
+import cart from "../../assets/img/Cart.svg";
+import user from "../../assets/img/Person.svg";
+import { useNavigate } from "react-router-dom";
 const NavigationMobile = styled.div`
   position: fixed;
   top: 0;
@@ -64,6 +68,7 @@ const BackPage = styled.div<{ menu?: string }>`
 `;
 
 export const NaviMobile = () => {
+  const nav = useNavigate();
   const [menu, setMenu] = useState("false");
   const handleClick = () => {
     if (menu === "false") {
@@ -72,9 +77,13 @@ export const NaviMobile = () => {
       setMenu("false");
     }
   };
+
+  const handleNav = (location: string) => {
+    nav(`${location}`);
+  };
   return (
     <NavigationMobile className="screen-width lg:hidden z-20">
-      <nav className=" md:flex justify-between items-center py-3 px-5 ">
+      <nav className=" md:flex justify-between items-center py-[4px] md:pl-5 md:pr-2 mysm:pl-2 ">
         <div>
           <img
             src={MenuBar}
@@ -107,16 +116,26 @@ export const NaviMobile = () => {
             onClick={handleClick}
           ></BackPage>
         </div>
-        <div>
-          <img src={searchICON} alt="" className="logo w-10 h-10" />
+        <div
+          onClick={() => handleNav("/")}
+          className="mysm:translate-x-7 md:translate-x-5"
+        >
+          <img src={logo} alt="" className="logo w-[64px] h-13 " />
         </div>
         <div>
-          <ul className="md:flex justify-between  w-42 second-menu font-semibold">
-            <li className="px-2 cursor-pointer">
-              <span onClick={handleClick}>장바구니</span>
+          <ul className="md:flex justify-between  items-center w-42 second-menu font-semibold ">
+            <li className="px-4 cursor-pointer" onClick={() => handleNav("/")}>
+              <div>
+                <img src={cart} alt="장바구니" className="md:w-7 mysm:w-6" />
+              </div>
             </li>
-            <li className="px-2 cursor-pointer">
-              <span>마이페이지</span>
+            <li
+              className="px-3 cursor-pointer"
+              onClick={() => handleNav("mypage")}
+            >
+              <div>
+                <img src={user} alt="마이페이지" className="md:w-7 mysm:w-6" />
+              </div>
             </li>
           </ul>
         </div>

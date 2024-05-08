@@ -36,7 +36,7 @@ export const PageNation = ({
               ? "bg-blue-500/90 text-gray-50 cursor-pointer"
               : "cursor-pointer"
           }
-          // 선택된 페이지네이션이 현재 화면에 출력된 페이지일때 page라는 클래스명을 주어서 스타일링을 함
+          // 선택된 페이지네이션이 현재 화면에 출력된 페이지일때 클래스명을 주어서 스타일링을 함
           onClick={() => {
             setCurrPage(i);
             setPage(i);
@@ -49,7 +49,7 @@ export const PageNation = ({
     return pages;
   };
   return (
-    <div className="flex justify-center items-center pt-14 pb-10 md:pb-24">
+    <div className="flex justify-center items-center pt-14 lg:pb-10 md:pb-18 mysm:pb-14">
       {renderPagenation()}
     </div>
   );

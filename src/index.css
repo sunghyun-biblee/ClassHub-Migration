@@ -14,6 +14,20 @@ html {
   height: 100dvh;
 }
 
+::-webkit-scrollbar {
+  width: 6px;
+  height: 1px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(33, 122, 244, 0.1);
+}
+::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #549bff; /* 스크롤바의 색상 */
+
+  border-radius: 10px;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

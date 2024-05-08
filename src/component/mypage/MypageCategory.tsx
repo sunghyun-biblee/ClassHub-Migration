@@ -3,16 +3,17 @@ import styled from "styled-components";
 import preview from "../../assets/img/preview.jpg";
 import { Icon } from "./Icon";
 import { GradeUpBtn } from "./GradeUpBtn";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import path from "path";
 
-interface ImypageCategory {
-  setCategory: (category: string) => void;
-  category: string;
-}
-export const MypageCategory = ({ setCategory, category }: ImypageCategory) => {
-  const handleCategory = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    setCategory(e.currentTarget.id);
-  };
+export const MypageCategory = () => {
+  const { pathname } = useLocation();
+
+  let stylePath = pathname.split("/")[2];
+  if (stylePath === undefined) {
+    stylePath = "home";
+  }
+
   return (
     <CategoryContainer
       className="lg:px-4 lg:py-3 md:px-2 md:py-2 border-[1px] rounded-lg lg:mr-3 md:mx-1 lg:block md:grid md:grid-cols-[1fr,3fr]  mysm:flex
@@ -35,18 +36,14 @@ export const MypageCategory = ({ setCategory, category }: ImypageCategory) => {
       <ul className="lg:pt-5 lg:pb-5 lg:border-t-[1px] lg:border-b-[1px] lg:block md:flex md:justify-around md:items-center md:pl-2">
         <Li
           className={`lg:mb-1 lg:border-none ${
-            category === "home" ? "md:border-blue-400 md:border-b-[2px]" : ""
+            stylePath === "home" ? "md:border-blue-400 md:border-b-[2px]" : ""
           }`}
         >
-          <button
-            className="flex items-center"
-            id="home"
-            onClick={handleCategory}
-          >
-            <Icon category={category} id="home"></Icon>
+          <button className="flex items-center" id="home">
+            <Icon category={stylePath} id="home"></Icon>
             <p
               className={
-                category === "home" ? "text-blue-500 font-semibold" : ""
+                stylePath === "home" ? "text-blue-500 font-semibold" : ""
               }
             >
               <Link to={"/mypage"}>홈</Link>{" "}
@@ -55,40 +52,34 @@ export const MypageCategory = ({ setCategory, category }: ImypageCategory) => {
         </Li>
         <Li
           className={`lg:mb-1 lg:border-none ${
-            category === "profile" ? "md:border-blue-400 md:border-b-[2px]" : ""
+            stylePath === "profile"
+              ? "md:border-blue-400 md:border-b-[2px]"
+              : ""
           }`}
         >
-          <button
-            className="flex items-center"
-            id="profile"
-            onClick={handleCategory}
-          >
-            <Icon category={category} id="profile"></Icon>
+          <button className="flex items-center" id="profile">
+            <Icon category={stylePath} id="profile"></Icon>
             <p
               className={
-                category === "profile" ? "text-blue-500 font-semibold" : ""
+                stylePath === "profile" ? "text-blue-500 font-semibold" : ""
               }
             >
-              <Link to={"/mypage/profile"}>내 정보</Link>
+              <Link to={"/mypage/profile"}>정보수정</Link>
             </p>
           </button>
         </Li>
         <Li
           className={`lg:mb-1 lg:border-none ${
-            category === "management"
+            stylePath === "management"
               ? "md:border-blue-400 md:border-b-[2px]"
               : ""
           }`}
         >
-          <button
-            className="flex items-center"
-            id="management"
-            onClick={handleCategory}
-          >
-            <Icon category={category} id="management"></Icon>
+          <button className="flex items-center" id="management">
+            <Icon category={stylePath} id="management"></Icon>
             <p
               className={
-                category === "management" ? "text-blue-500 font-semibold" : ""
+                stylePath === "management" ? "text-blue-500 font-semibold" : ""
               }
             >
               <Link to={"/mypage/management"}>학습 관리</Link>
@@ -97,20 +88,16 @@ export const MypageCategory = ({ setCategory, category }: ImypageCategory) => {
         </Li>
         <Li
           className={`lg:mb-1 lg:border-none ${
-            category === "dashboard"
+            stylePath === "dashboard"
               ? "md:border-blue-400 md:border-b-[2px]"
               : ""
           }`}
         >
-          <button
-            className="flex items-center"
-            id="dashboard"
-            onClick={handleCategory}
-          >
-            <Icon category={category} id="dashboard"></Icon>
+          <button className="flex items-center" id="dashboard">
+            <Icon category={stylePath} id="dashboard"></Icon>
             <p
               className={
-                category === "dashboard" ? "text-blue-500 font-semibold" : ""
+                stylePath === "dashboard" ? "text-blue-500 font-semibold" : ""
               }
             >
               <Link to={"/mypage/dashboard"}>대시보드</Link>
@@ -119,20 +106,16 @@ export const MypageCategory = ({ setCategory, category }: ImypageCategory) => {
         </Li>
         <Li
           className={`lg:mb-1 lg:border-none ${
-            category === "community"
+            stylePath === "mycommu"
               ? "md:border-blue-400 md:border-b-[2px]"
               : ""
           }`}
         >
-          <button
-            className="flex items-center"
-            id="community"
-            onClick={handleCategory}
-          >
-            <Icon category={category} id="community"></Icon>
+          <button className="flex items-center" id="mycommu">
+            <Icon category={stylePath} id="mycommu"></Icon>
             <p
               className={
-                category === "community" ? "text-blue-500 font-semibold" : ""
+                stylePath === "mycommu" ? "text-blue-500 font-semibold" : ""
               }
             >
               <Link to={"/mypage/mycommu"}>게시글 관리</Link>
@@ -141,20 +124,16 @@ export const MypageCategory = ({ setCategory, category }: ImypageCategory) => {
         </Li>
         <Li
           className={`lg:mb-1 lg:border-none ${
-            category === "application"
+            stylePath === "application"
               ? "md:border-blue-400 md:border-b-[2px]"
               : ""
           }`}
         >
-          <button
-            className="flex items-center"
-            id="application"
-            onClick={handleCategory}
-          >
-            <Icon category={category} id="application"></Icon>
+          <button className="flex items-center" id="application">
+            <Icon category={stylePath} id="application"></Icon>
             <p
               className={
-                category === "application" ? "text-blue-500 font-semibold" : ""
+                stylePath === "application" ? "text-blue-500 font-semibold" : ""
               }
             >
               <Link to={"/mypage/application"}>수강신청 관리</Link>
