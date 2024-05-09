@@ -49,7 +49,7 @@ export const PageNation = ({
     return pages;
   };
   return (
-    <div className="flex justify-center items-center pt-14 lg:pb-10 md:pb-18 mysm:pb-14">
+    <div className="flex justify-center items-center md:pt-14 mysm:pt-10 lg:pb-10 md:pb-18 mysm:pb-5">
       {renderPagenation()}
     </div>
   );

@@ -5,29 +5,43 @@ interface IheaderProp {
 }
 export const Header = ({ type }: IheaderProp) => {
   return (
-    <header className="flex justify-between md:px-5 mysm:px-2 pt-3 md:pb-5 mysm:pb-3">
-      <h1 className="text-xl font-semibold">
+    <header className="flex justify-between items-center md:px-5 mysm:px-2 pt-3 md:pb-5 mysm:pb-3">
+      <h1 className="md:text-xl font-semibold mysm:text-xl">
         {type === "management" ? "학습관리" : "게시물 관리"}
       </h1>
+      <select
+        id="select"
+        className="md:hidden mysm:block border-[1px] border-solid px-1 py-[1px]
+        rounded-sm 
+        "
+      >
+        <option value="all">전체</option>
+        <option value="qna">질문 & 답변</option>
+        <option value="review">수강평</option>
+        <option value="study">스터디</option>
+      </select>
 
-      <ul className="flex">
-        <li className="md:px-4 mysm:px-2 hover:cursor-pointer text-blue-950 text-md font-semibold">
+      <ul
+        className=" md:text-base md:flex mysm:hidden
+mysm:text-sm"
+      >
+        <li className="md:px-4 mysm:px-[5px] hover:cursor-pointer text-blue-950 text-md font-semibold">
           {type === "management" ? "전체" : "전체"}
         </li>
-        <li className="md:px-4 mysm:px-2 hover:cursor-pointer text-blue-950 text-md font-semibold">
+        <li className="md:px-4 mysm:px-[5px] hover:cursor-pointer text-blue-950 text-md font-semibold">
           {type === "management" ? "강의" : "질문 & 답변"}
         </li>
 
         {type === "management" ? (
-          <li className="md:px-4 mysm:px-2 hover:cursor-no-drop text-gray-400">
+          <li className="md:px-4 mysm:px-[5px] hover:cursor-no-drop text-gray-400">
             멘토링
           </li>
         ) : (
           <>
-            <li className="md:px-4 mysm:px-2 hover:cursor-pointer text-blue-950 text-md font-semibold">
+            <li className="md:px-4 mysm:px-[5px] hover:cursor-pointer text-blue-950 text-md font-semibold">
               수강평{" "}
             </li>
-            <li className="md:px-4 mysm:px-2 hover:cursor-pointer text-blue-950 text-md font-semibold">
+            <li className="md:px-4 mysm:px-[5px] hover:cursor-pointer text-blue-950 text-md font-semibold">
               스터디{" "}
             </li>
           </>

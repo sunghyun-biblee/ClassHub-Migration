@@ -16,30 +16,39 @@ export const MypageCategory = () => {
 
   return (
     <CategoryContainer
-      className="lg:px-4 lg:py-3 md:px-2 md:py-2 border-[1px] rounded-lg lg:mr-3 md:mx-1 lg:block md:grid md:grid-cols-[1fr,3fr]  mysm:flex
+      className="lg:px-4 lg:py-3 md:px-2 md:py-2 border-[1px] rounded-lg lg:mr-3 mysm:mx-1 lg:block mysm:grid md:grid-cols-[1fr,3fr] mysm:grid-cols-[1.6fr,3fr]
+      
     lg:shadow-[0px_8px_24px_rgba(149,157,165,0.3)]
     lg:h-[530px]
     
     "
     >
-      <div className="flex justify-between w-[100%] lg:pb-3  lg:border-none md:border-r-[1px] md:p-2">
-        <div className="flex flex-col justify-between py-1">
+      <div className="flex md:justify-between mysm:justify-between  md:w-[100%] mysm:w-[100%] lg:pb-3  lg:border-none mysm:border-r-[1px] mysm:p-2">
+        <div className="flex flex-col  justify-between py-1">
           <h1 className="font-semibold">Admin</h1>
           <p className="text-gray-400 font-semibold">학생</p>
         </div>
         <img
           src={preview}
           alt=""
-          className="object-cover lg:w-[50%] md:w-[50%]  rounded-2xl shadow-[0px_8px_24px_rgba(149,157,165,0.3)] "
+          className="object-cover md:w-[50%] mysm:w-[50%] rounded-2xl shadow-[0px_8px_24px_rgba(149,157,165,0.3)] "
         />
       </div>
-      <ul className="lg:pt-5 lg:pb-5 lg:border-t-[1px] lg:border-b-[1px] lg:block md:flex md:justify-around md:items-center md:pl-2">
+      <ul
+        className="lg:pt-5 lg:pb-5 lg:border-t-[1px] lg:border-b-[1px] lg:block md:flex md:justify-around md:items-center md:pl-2 w-[100%]
+        mysm:grid mysm:grid-cols-3 
+        
+      "
+      >
         <Li
-          className={`lg:mb-1 lg:border-none ${
+          className={`lg:mb-1 lg:border-none md:block mysm:flex mysm:justify-center ${
             stylePath === "home" ? "md:border-blue-400 md:border-b-[2px]" : ""
           }`}
         >
-          <button className="flex items-center" id="home">
+          <button
+            className="flex items-center md:text-base mysm:text-sm"
+            id="home"
+          >
             <Icon category={stylePath} id="home"></Icon>
             <p
               className={
@@ -51,13 +60,16 @@ export const MypageCategory = () => {
           </button>
         </Li>
         <Li
-          className={`lg:mb-1 lg:border-none ${
+          className={`lg:mb-1 lg:border-none md:block mysm:flex mysm:justify-center ${
             stylePath === "profile"
               ? "md:border-blue-400 md:border-b-[2px]"
               : ""
           }`}
         >
-          <button className="flex items-center" id="profile">
+          <button
+            className="flex items-center md:text-base mysm:text-sm"
+            id="profile"
+          >
             <Icon category={stylePath} id="profile"></Icon>
             <p
               className={
@@ -69,31 +81,16 @@ export const MypageCategory = () => {
           </button>
         </Li>
         <Li
-          className={`lg:mb-1 lg:border-none ${
-            stylePath === "management"
-              ? "md:border-blue-400 md:border-b-[2px]"
-              : ""
-          }`}
-        >
-          <button className="flex items-center" id="management">
-            <Icon category={stylePath} id="management"></Icon>
-            <p
-              className={
-                stylePath === "management" ? "text-blue-500 font-semibold" : ""
-              }
-            >
-              <Link to={"/mypage/management"}>학습 관리</Link>
-            </p>
-          </button>
-        </Li>
-        <Li
-          className={`lg:mb-1 lg:border-none ${
+          className={`lg:mb-1 lg:border-none md:block mysm:flex mysm:justify-center ${
             stylePath === "dashboard"
               ? "md:border-blue-400 md:border-b-[2px]"
               : ""
           }`}
         >
-          <button className="flex items-center" id="dashboard">
+          <button
+            className="flex items-center md:text-base mysm:text-sm"
+            id="dashboard "
+          >
             <Icon category={stylePath} id="dashboard"></Icon>
             <p
               className={
@@ -105,13 +102,38 @@ export const MypageCategory = () => {
           </button>
         </Li>
         <Li
-          className={`lg:mb-1 lg:border-none ${
+          className={`lg:mb-1 lg:border-none md:block mysm:flex mysm:justify-center ${
+            stylePath === "management"
+              ? "md:border-blue-400 md:border-b-[2px]"
+              : ""
+          }`}
+        >
+          <button
+            className="flex items-center md:text-base mysm:text-sm"
+            id="management"
+          >
+            <Icon category={stylePath} id="management"></Icon>
+            <p
+              className={
+                stylePath === "management" ? "text-blue-500 font-semibold" : ""
+              }
+            >
+              <Link to={"/mypage/management"}>학습 관리</Link>
+            </p>
+          </button>
+        </Li>
+
+        <Li
+          className={`lg:mb-1 lg:border-none md:block mysm:flex mysm:justify-center ${
             stylePath === "mycommu"
               ? "md:border-blue-400 md:border-b-[2px]"
               : ""
           }`}
         >
-          <button className="flex items-center" id="mycommu">
+          <button
+            className="flex items-center md:text-base mysm:text-sm"
+            id="mycommu"
+          >
             <Icon category={stylePath} id="mycommu"></Icon>
             <p
               className={
@@ -123,13 +145,16 @@ export const MypageCategory = () => {
           </button>
         </Li>
         <Li
-          className={`lg:mb-1 lg:border-none ${
+          className={`lg:mb-1 lg:border-none md:block mysm:flex mysm:justify-center ${
             stylePath === "application"
               ? "md:border-blue-400 md:border-b-[2px]"
               : ""
           }`}
         >
-          <button className="flex items-center" id="application">
+          <button
+            className="flex items-center md:text-base mysm:text-[13px]"
+            id="application"
+          >
             <Icon category={stylePath} id="application"></Icon>
             <p
               className={

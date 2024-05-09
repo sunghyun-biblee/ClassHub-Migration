@@ -10,7 +10,7 @@ interface IcommuProp {
 export const MyCommuItem = ({ item }: IcommuProp) => {
   return (
     <div className="border-[1px] shadow-[0px_1px_6px_rgba(149,157,165,0.3)] rounded-md">
-      <ul className="grid md:grid-cols-[0.5fr,1fr,1fr,1fr,0.5fr,0.5fr] mysm:grid-cols-[1fr,1fr,1fr,0.5fr,0.5fr] text-center items-center">
+      <ul className="grid md:grid-cols-[0.5fr,1fr,1fr,1fr,0.5fr,0.5fr] mysm:grid-cols-[1fr,1fr,1fr,0.7fr,0.7fr] text-center items-center">
         <li className="py-4 font-semibold text-indigo-950 md:block mysm:hidden">
           {item.id}
         </li>

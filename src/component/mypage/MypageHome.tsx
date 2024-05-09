@@ -3,16 +3,15 @@ import React from "react";
 export const MypageHome = () => {
   return (
     <div
-      className="border-[1px] lg:m-0 md:m-1 shadow-[0px_8px_24px_rgba(149,157,165,0.3)] rounded-lg
+      className="border-[1px] lg:m-0 mysm:m-1 shadow-[0px_8px_24px_rgba(149,157,165,0.3)] rounded-lg
     flex flex-col
-    md:mt-2
     "
     >
-      <div className="flex justify-between items-center lg:px-5 lg:py-4 md:px-4 md:py-3 ">
+      <div className="flex justify-between items-center lg:px-5 lg:py-4 mysm:py-3 mysm:px-4">
         <h1 className="text-xl font-bold">소개</h1>
         <button
           className="border-[1px] rounded-lg lg:px-3 lg:py-2 
-        md:px-2 md:py-2
+        mysm:px-2 mysm:py-2
         text-sm font-semibold"
         >
           작성하기

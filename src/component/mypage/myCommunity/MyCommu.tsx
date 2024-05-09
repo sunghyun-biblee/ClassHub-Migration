@@ -20,7 +20,7 @@ export const MyCommu = () => {
 
   return (
     <div
-      className="border-[1px] lg:m-0 md:m-1 shadow-[0px_8px_24px_rgba(149,157,165,0.3)] rounded-lg
+      className="border-[1px] lg:m-0 mysm:m-1 shadow-[0px_8px_24px_rgba(149,157,165,0.3)] rounded-lg
   flex flex-col
   md:mt-2
   "
@@ -28,18 +28,18 @@ export const MyCommu = () => {
       <section className="p-5">
         <Header type={type}></Header>
         <article>
-          <ul className="grid md:grid-cols-[0.5fr,1fr,1fr,1fr,0.5fr,0.5fr] mysm:grid-cols-[1fr,1fr,1fr,0.5fr,0.5fr] text-center border-[1px] rounded-md my-5 font-semibold md:text-base mysm:text-sm  text-blue-950 ">
+          <ul className="grid md:grid-cols-[0.5fr,1fr,1fr,1fr,0.5fr,0.5fr] mysm:grid-cols-[1fr,1fr,1fr,0.7fr,0.7fr] text-center border-[1px] rounded-md my-5 font-semibold md:text-base mysm:text-sm  text-blue-950 ">
             <li className="py-[5px] md:block mysm:hidden">게시글ID</li>
             <li
               className="py-[5px] md:text-center mysm:text-center 
-            md:pl-0
-            mysm:pl-2"
+            
+          pl-0"
             >
               제목
             </li>
             <li className="py-[5px]">작성자</li>
             <li className="py-[5px]">카테고리</li>
-            <li className="py-[5px]">관리하기</li>
+            <li className="py-[5px] md:text-base mysm:text-sm">관리하기</li>
             <li className="py-[5px]">삭제</li>
           </ul>
           <div className="flex flex-col gap-y-5">

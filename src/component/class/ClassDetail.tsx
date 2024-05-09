@@ -9,12 +9,16 @@ export const ClassDetail = () => {
 
   const { pathname } = useLocation();
   const id = parseInt(pathname.split("/")[2], 10);
-  console.log(id);
+
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["classDeatil", id],
     queryFn: () => selectClassinfo(id),
   });
-  console.log(data);
+
+  if (data && data[0].title) {
+    document.title = data[0]?.title;
+  }
+
   return (
     <ClassDeatilContainer
       className="flex justify-center 
