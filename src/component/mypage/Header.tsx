@@ -5,7 +5,7 @@ interface IheaderProp {
 }
 export const Header = ({ type }: IheaderProp) => {
   return (
-    <header className="flex justify-between items-center md:px-5 mysm:px-2 pt-3 md:pb-5 mysm:pb-3">
+    <header className="flex justify-between items-center md:px-2 mysm:px-0 md:pt-4 mysm:pt-2 md:pb-5 mysm:pb-2">
       <h1 className="md:text-xl font-semibold mysm:text-xl">
         {type === "management" ? "학습관리" : "게시물 관리"}
       </h1>

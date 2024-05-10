@@ -15,9 +15,9 @@ export const ShowCommuList = ({ category }: IshowListprop) => {
   const renderText = () => {
     switch (category) {
       case "qna":
-        return <h1>질문 & 답변</h1>;
+        return <h1 className="text-lg font-semibold ">질문 & 답변</h1>;
       case "study":
-        return <h1>스터디</h1>;
+        return <h1 className="text-lg font-semibold ">스터디</h1>;
       default:
         break;
     }
@@ -32,16 +32,27 @@ export const ShowCommuList = ({ category }: IshowListprop) => {
   const pageOfFirst = pageOfLast - postLimit; // 페이지마다 첫 포스트 위치
 
   return (
-    <div className="md:mr-2">
-      <div className="flex justify-between">
+    <div className="md:mr-3">
+      <div
+        className="flex justify-between items-start md:px-0 mysm:px-3
+      md:pt-0
+      mysm:pt-6
+      
+      "
+      >
         {renderText()}
-        <select id="select" className="border-[1px] border-solid px-1 py-[1px]">
+        <select
+          id="select"
+          className={` border-2 border-solid px-1 py-1
+        rounded-md focus:border-blue-300  outline-blue-400
+        ${category === "study" ? "block" : "hidden"}`}
+        >
           <option value="all">전체</option>
           <option value="unfinish">모집중</option>
           <option value="finish">모집완료</option>
         </select>
       </div>
-      <div className="flex  justify-between mt-3">
+      <div className="flex  justify-between  mysm:mt-4 md:px-0 mysm:px-2">
         <div className="flex w-[88%] ">
           <input
             type="text"
@@ -53,9 +64,9 @@ export const ShowCommuList = ({ category }: IshowListprop) => {
         <Button className="w-20 bg-gray-600">글쓰기</Button>
       </div>
       <article>
-        <ul className="pt-10">
+        <ul className="md:pt-10 mysm:pt-6">
           {data?.slice(pageOfFirst, pageOfLast).map((item) => (
-            <li className="mb-2 p-4 border-b-2 border-solid rounded-md">
+            <li className="my-2 py-4 px-2 border-[1px] border-solid rounded-md mx-1">
               <CommnuItem item={item}></CommnuItem>
             </li>
           ))}

@@ -20,12 +20,16 @@ export const ManageMent = () => {
         <Header type={type}></Header>
 
         <article>
-          <ul className="grid md:grid-cols-5 mysm:grid-cols-4 text-center border-[1px] rounded-md my-5 font-semibold md:text-base mysm:text-sm  text-blue-950 ">
+          <ul
+            className="grid 
+          md:grid-cols-[0.5fr,1fr,0.7fr,0.5fr,0.5fr] 
+          mysm:grid-cols-[1fr,0.7fr,0.5fr,0.5fr] text-center border-[1px] rounded-md my-5 font-semibold md:text-base mysm:text-sm  text-blue-950
+          "
+          >
             <li className="py-[5px] md:block mysm:hidden">강의ID</li>
             <li
-              className="py-[5px] md:text-center mysm:text-left 
-            md:pl-0
-            mysm:pl-2"
+              className="py-[5px] md:text-center 
+            "
             >
               강의 제목
             </li>

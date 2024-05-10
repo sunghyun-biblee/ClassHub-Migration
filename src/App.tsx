@@ -12,7 +12,7 @@ import { NaviMobileBottom } from "./component/navigtaion/NaviMobileBottom";
 import { ClassDetail } from "./component/class/ClassDetail";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { classProp } from "./component/main/PreviewClass";
-import { CommuDetail } from "./component/community/CommuDetail";
+import { CommuDetail } from "./component/community/CommunityDeatil/CommuDetail";
 import { Dashboard } from "./component/mypage/dashboard/Dashboard";
 import { MypageHome } from "./component/mypage/MypageHome";
 import { Profile } from "./component/mypage/profile/Profile";

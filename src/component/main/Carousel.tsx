@@ -93,14 +93,16 @@ export const Carousel = ({ carouselList }: CarouselProps) => {
       </>
     );
   };
-  console.log(currSlide);
+
   return (
     <div className="flex items-center flex-col mt-1 relative ">
-      <div className={`flex overflow-hidden max-w-[100vw]  h-[15dvh]`}>
+      <div
+        className={`flex overflow-hidden max-w-[100vw] lg:h-[300px] md:h-[250px] mysm:h-[180px]`}
+      >
         <Show
           offset={currSlide}
           ref={showRef}
-          className={`min-w-[100%] h-[200px] flex items-center`}
+          className={`min-w-[100%]  flex items-center `}
         >
           {currentList?.map((item, index) => {
             return (
@@ -108,7 +110,7 @@ export const Carousel = ({ carouselList }: CarouselProps) => {
                 key={"carousel" + index}
                 src={item.img}
                 alt="carousel_IMG"
-                className="object-center "
+                className="object-cover  lg:mt-[40px] md:mt-[40px] mysm:mt-[80px]"
               />
             );
           })}

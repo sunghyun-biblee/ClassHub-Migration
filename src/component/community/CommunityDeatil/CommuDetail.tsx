@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { selectCommuinfo } from "./hook/fetchCommuArray";
-import preview from "../../assets/img/preview.jpg";
-import likes from "../../assets/img/likes.svg";
-import comment from "../../assets/img/comment.svg";
+import { selectCommuinfo } from "../hook/fetchCommuArray";
+
+import likes from "../../../assets/img/likes.svg";
+import comment from "../../../assets/img/comment.svg";
 import styled from "styled-components";
+import { DetailProfile } from "./DetailProfile";
 export const CommuDetail = () => {
   const [selectClass, setSelectClass] = useState();
 
@@ -19,6 +20,7 @@ export const CommuDetail = () => {
   if (data && data[0].title) {
     document.title = data[0].title;
   }
+  console.log(data);
 
   return (
     <div
@@ -26,14 +28,31 @@ export const CommuDetail = () => {
   lg:w-[1200px] mysm:w-[100vw]  lg:pt-[90px] md:pt-[80px] mysm:pt-[80px] mx-auto my-0"
     >
       {data && (
-        <section className="grid grid-cols-[4fr,1.5fr] lg:w-[1200px] mysm:w-[100vw]">
-          <div className="border-r-[1px] border-solid border-l-[1px] lg:px-5">
-            <article className="pt-7">
+        <section
+          className="md:grid md:grid-cols-[4fr,1.5fr] lg:w-[1200px] 
+        mysm:flex
+        mysm:flex-col
+        
+        mysm:w-[100vw]"
+        >
+          <div className="lg:border-x-[1px]  md:border-r-[1px] lg:mr-5">
+            <article className="md:pt-5 md:border-0 mysm:border-b-[1px]">
+              <div
+                className="mysm:block md:hidden px-1 md:border-0 mysm:border-b-[1px]
+              
+              
+              "
+              >
+                <DetailProfile
+                  name={data[0].name}
+                  category={data[0].category}
+                ></DetailProfile>
+              </div>
               <h1 className="py-5 px-5 text-2xl font-extrabold">
                 {" "}
                 {data[0].title}
               </h1>
-              <div className="flex justify-between px-5 pb-5 pt-2 text-gray-500 ">
+              <div className="flex justify-between md:px-5 mysm:pl-5 mysm:pr-10  pb-5 pt-2 text-gray-500 ">
                 <p>2024-05-07</p>
                 <div className="flex ">
                   <img src={likes} alt="likes" className="lg:w-5 md:w-5" />
@@ -41,14 +60,15 @@ export const CommuDetail = () => {
                 </div>
               </div>
             </article>
-            <Overview className="p-5 border-t-[1px]  border-b-[1px] border-solid">
+            <Overview className="p-5 md:border-t-[1px]  border-b-[1px] border-solid">
               <div>
                 <p>{data[0].overview}</p>
               </div>
             </Overview>
             <article className="p-5 ">
               <div className="flex items-center">
-                <h4 className="font-semibold text-gray-700 mr-3">댓글</h4>
+                <h4 className="font-semibold text-gray-700">댓글</h4>
+                <img src={comment} alt="" className="w-5  mr-2" />
                 <p className="font-bold text-blue-600 text-lg underline">
                   {/* {data[0].comment} */} 0
                 </p>
@@ -67,7 +87,21 @@ export const CommuDetail = () => {
               </div>
             </article>
           </div>
-          <Profile className="flex  lg:px-5 md:px-2 lg:py-8 md:py-5 flex-col ">
+          <div className="mysm:hidden md:block">
+            <DetailProfile
+              name={data[0].name}
+              category={data[0].category}
+            ></DetailProfile>
+          </div>
+        </section>
+      )}
+    </div>
+  );
+};
+
+const Overview = styled.article``;
+{
+  /* <Profile className="flex  lg:px-5 md:px-2 lg:py-8 md:py-5 flex-col ">
             <div
               className="flex justify-between border-[1px] lg:p-3 md:p-2 rounded-xl
             shadow-[0px_8px_24px_rgba(149,157,165,0.2)]"
@@ -83,12 +117,5 @@ export const CommuDetail = () => {
                h-auto object-cover rounded-2xl"
               />
             </div>
-          </Profile>
-        </section>
-      )}
-    </div>
-  );
-};
-
-const Profile = styled.article``;
-const Overview = styled.article``;
+          </Profile> */
+}

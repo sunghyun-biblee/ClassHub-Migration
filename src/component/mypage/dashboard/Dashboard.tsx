@@ -14,7 +14,7 @@ export const Dashboard = () => {
   "
     >
       <div className="p-5 ">
-        <h1 className="font-extrabold text-2xl px-2">Dashboard</h1>
+        <h1 className="font-extrabold text-2xl md:px-2 mysm:px-0">Dashboard</h1>
         <section className="md:grid md:grid-cols-[1fr,1.5fr] gap-3 pt-3 mysm:flex mysm:flex-col">
           <article className="p-3 border-[1px] rounded-lg">
             <div className=" flex flex-col h-[100%]">

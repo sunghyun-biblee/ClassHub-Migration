@@ -28,7 +28,7 @@ export const MyCommu = () => {
       <section className="p-5">
         <Header type={type}></Header>
         <article>
-          <ul className="grid md:grid-cols-[0.5fr,1fr,1fr,1fr,0.5fr,0.5fr] mysm:grid-cols-[1fr,1fr,1fr,0.7fr,0.7fr] text-center border-[1px] rounded-md my-5 font-semibold md:text-base mysm:text-sm  text-blue-950 ">
+          <ul className="grid md:grid-cols-[0.5fr,1fr,0.6fr,0.5fr,0.5fr,0.5fr] mysm:grid-cols-[1fr,1fr,1fr,0.7fr,0.7fr] text-center border-[1px] rounded-md my-5 font-semibold md:text-base mysm:text-sm  text-blue-950 ">
             <li className="py-[5px] md:block mysm:hidden">게시글ID</li>
             <li
               className="py-[5px] md:text-center mysm:text-center 
