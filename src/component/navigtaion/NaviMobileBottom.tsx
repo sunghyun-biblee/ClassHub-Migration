@@ -8,7 +8,7 @@ export const NaviMobileBottom = () => {
     <NaviBottom>
       <ul className="flex justify-around shadow-[2px_0_1px_1px_rgba(149,157,165,0.5)] items-center w-[100vw] h-10 text-sm bg-[#efefef]  lg:hidden font-semibold ">
         <li>
-          <Link to={"dashboard"}>대시보드</Link>
+          <Link to={"mypage/dashboard"}>대시보드</Link>
         </li>
         <li>
           <Link to={"class"}>강의</Link>

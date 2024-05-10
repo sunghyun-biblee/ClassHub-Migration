@@ -8,7 +8,7 @@ type IShowListProp = {
 };
 export const ShowList = ({ filter }: IShowListProp) => {
   const [propsArray, setPropsArray] = useState(examApp);
-  const [page, setPage] = useState(2);
+  const [page, setPage] = useState(1);
   const postLimit = 5;
   const pageOfLast = page * postLimit; // 페이지마다 마지막 포스트 위치
   const pageOfFirst = pageOfLast - postLimit; // 페이지마다 첫 포스트 위치
