@@ -22,12 +22,12 @@ export const ClassDetail = () => {
   return (
     <ClassDeatilContainer
       className="flex justify-center 
-    lg:w-[1200px] mysm:w-[100vw] h-[100dvh] lg:pt-[110px] md:pt-[80px] mysm:pt-[80px]"
+    lg:max-w-[1200px] mysm:w-[100vw] h-[100dvh] lg:pt-[110px] md:pt-[80px] mysm:pt-[80px]"
     >
       {!isLoading && data ? (
         <section className="md:w-[100vw] lg:max-w-[1200px]">
-          <div className="py-5  bg-[#002333] text-white font-semibold">
-            <div className="flex lg:max-w-[1200px] md:w-[100vw] mysm:w-[100vw] lg:px-10 md:px-7  mysm:px-5 lg:justify-around md:justify-between mysm:justify-between">
+          <div className="  bg-[#002333] text-white font-semibold">
+            <div className="flex lg:max-w-[1200px] md:w-[100vw] mysm:w-[100vw] lg:px-10 md:px-7  mysm:px-3  py-5 lg:justify-around md:justify-between mysm:justify-between md:gap-0 mysm:gap-1">
               <img
                 src={data[0].img}
                 alt="classimg"
