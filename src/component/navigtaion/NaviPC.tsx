@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/img/Logo.png";
 import cart from "../../assets/img/Cart.svg";
 import user from "../../assets/img/Person.svg";
+import { useAuth } from "../../hook/AuthProvider";
 const NavigationPC = styled.div`
   @media (max-width: 1023px) {
     display: none;
@@ -30,6 +31,9 @@ const SearchButton = styled.button`
   right: 5px;
 `;
 export const NaviPC = () => {
+  const getUser = localStorage.getItem("user");
+  const { isLogin } = useAuth();
+
   const nav = useNavigate();
 
   const handleNav = (location: string) => {
@@ -65,25 +69,46 @@ export const NaviPC = () => {
           />
           <SearchButton>{/* <img src={searchICON} alt="" /> */}</SearchButton>
         </div>
-        <ul className="lg:flex  items-center justify-around w-80">
-          <li className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer hover:bg-blue-300 hover:text-white hover:transition-colors">
-            <span>
-              <Link to={"mypage/dashboard"}>대시보드</Link>
-            </span>
-          </li>
-          <li
-            className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer"
-            onClick={() => handleNav("/")}
-          >
-            <img src={cart} alt="장바구니" className="w-6" />
-          </li>
-          <li
-            className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer"
-            onClick={() => handleNav("mypage")}
-          >
-            <img src={user} alt="마이페이지" className="w-6" />
-          </li>
-        </ul>
+        {isLogin ? (
+          <ul className="lg:flex  items-center justify-around w-80">
+            <li className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer hover:bg-blue-300 hover:text-white hover:transition-colors">
+              <span>
+                <Link to={"mypage/dashboard"}>대시보드</Link>
+              </span>
+            </li>
+            <li
+              className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer"
+              onClick={() => handleNav("/")}
+            >
+              <img src={cart} alt="장바구니" className="w-6" />
+            </li>
+            <li
+              className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer"
+              onClick={() => handleNav("mypage")}
+            >
+              <img src={user} alt="마이페이지" className="w-6" />
+            </li>
+          </ul>
+        ) : (
+          <ul className="lg:flex items-center justify-around w-48">
+            <li className="lg:px-2 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer hover:bg-blue-300 hover:text-white hover:transition-colors">
+              <span>
+                <Link to={"signIn"}>로그인</Link>
+              </span>
+            </li>
+            <li
+              className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer
+              hover:bg-blue-300
+              hover:text-white hover:transition-colors
+              "
+              onClick={() => handleNav("/")}
+            >
+              <span>
+                <Link to={"signUp"}>회원가입</Link>
+              </span>
+            </li>
+          </ul>
+        )}
       </nav>
     </NavigationPC>
   );

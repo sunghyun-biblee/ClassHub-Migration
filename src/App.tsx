@@ -19,6 +19,9 @@ import { Profile } from "./component/mypage/profile/Profile";
 import { ManageMent } from "./component/mypage/management/ManageMent";
 import { Application } from "./component/mypage/application/Application";
 import { MyCommu } from "./component/mypage/myCommunity/MyCommu";
+import { AuthProvider } from "./hook/AuthProvider";
+import { LoginPage } from "./component/login/LoginPage";
+
 interface Ipages {
   id: string;
   pathname: string;
@@ -50,44 +53,47 @@ function App() {
     );
   };
   return (
-    <QueryClientProvider client={queryClient}>
-      <Routes>
-        <Route path="/" element={<LayOut />}>
-          <Route index element={<MainPage />}></Route>
-          <Route path="mypage" element={<Mypage></Mypage>}>
-            <Route index element={<MypageHome />}></Route>
-            <Route index path="profile" element={<Profile></Profile>}></Route>
+    <AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <Routes>
+          <Route path="/" element={<LayOut />}>
+            <Route index element={<MainPage />}></Route>
+            <Route path="mypage" element={<Mypage></Mypage>}>
+              <Route index element={<MypageHome />}></Route>
+              <Route index path="profile" element={<Profile></Profile>}></Route>
+              <Route
+                index
+                path="management"
+                element={<ManageMent></ManageMent>}
+              ></Route>
+              <Route
+                index
+                path="application"
+                element={<Application></Application>}
+              ></Route>
+              <Route
+                index
+                path="dashboard"
+                element={<Dashboard></Dashboard>}
+              ></Route>
+              <Route index path="mycommu" element={<MyCommu></MyCommu>}></Route>
+            </Route>
+            <Route path="community" element={<Community></Community>}></Route>
+            <Route path="class" element={<Class></Class>}></Route>
             <Route
-              index
-              path="management"
-              element={<ManageMent></ManageMent>}
+              path="class/:classId"
+              element={<ClassDetail></ClassDetail>}
             ></Route>
             <Route
-              index
-              path="application"
-              element={<Application></Application>}
+              path="community/:commuId"
+              element={<CommuDetail></CommuDetail>}
             ></Route>
-            <Route
-              index
-              path="dashboard"
-              element={<Dashboard></Dashboard>}
-            ></Route>
-            <Route index path="mycommu" element={<MyCommu></MyCommu>}></Route>
+            <Route path="login" element={<LoginPage />}></Route>
           </Route>
-          <Route path="community" element={<Community></Community>}></Route>
-          <Route path="class" element={<Class></Class>}></Route>
-          <Route
-            path="class/:classId"
-            element={<ClassDetail></ClassDetail>}
-          ></Route>
-          <Route
-            path="community/:commuId"
-            element={<CommuDetail></CommuDetail>}
-          ></Route>
-        </Route>
-      </Routes>
-      <ReactQueryDevtools></ReactQueryDevtools>
-    </QueryClientProvider>
+        </Routes>
+        <ReactQueryDevtools></ReactQueryDevtools>
+      </QueryClientProvider>
+    </AuthProvider>
   );
 }
 

@@ -47,7 +47,7 @@ export const PopularClass = ({ classList }: classProp) => {
           //     </div>
           //   </div>
           // </article>
-          <ClassItem item={item}></ClassItem>
+          <ClassItem item={item} key={item.id}></ClassItem>
         ))}
       </section>
     </div>

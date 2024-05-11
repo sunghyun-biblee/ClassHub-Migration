@@ -50,7 +50,7 @@ export const NewClass = ({ classList }: classProp) => {
           //     </div>
           //   </div>
           // </article>
-          <ClassItem item={item}></ClassItem>
+          <ClassItem item={item} key={`exex+${item.id}`}></ClassItem>
         ))}
       </section>
     </div>
