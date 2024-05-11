@@ -9,7 +9,7 @@ import carousel_three from "../../assets/img/carousel/carousel_three.jpg";
 import preview from "../../assets/img/preview.jpg";
 export const MainPage = () => {
   return (
-    <MainPageContainer className=" flex items-center flex-col lg:max-w-[1200px]  md:max-w-[100vw] mysm:max-w-[100vw] lg:pt-[84px] md:pt-[72px]">
+    <MainPageContainer className=" flex items-center flex-col lg:max-w-[1200px]  md:max-w-[100vw] mysm:max-w-[100vw] lg:pt-[84px] mysm:pt-[68px]">
       <Carousel carouselList={examArr}></Carousel>
       <PreviewClass classList={classArr}></PreviewClass>
 

@@ -88,7 +88,7 @@ function App() {
               path="community/:commuId"
               element={<CommuDetail></CommuDetail>}
             ></Route>
-            <Route path="login" element={<LoginPage />}></Route>
+            <Route path="signIn" element={<LoginPage />}></Route>
           </Route>
         </Routes>
         <ReactQueryDevtools></ReactQueryDevtools>

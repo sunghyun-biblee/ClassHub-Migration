@@ -97,7 +97,7 @@ export const Carousel = ({ carouselList }: CarouselProps) => {
   return (
     <div className="flex items-center flex-col mt-1 relative ">
       <div
-        className={`flex overflow-hidden max-w-[100vw] lg:h-[300px] md:h-[250px] mysm:h-[180px]`}
+        className={`flex overflow-hidden max-w-[100vw] lg:h-[300px] md:h-[250px] mysm:h-[120px]`}
       >
         <Show
           offset={currSlide}
@@ -110,7 +110,7 @@ export const Carousel = ({ carouselList }: CarouselProps) => {
                 key={"carousel" + index}
                 src={item.img}
                 alt="carousel_IMG"
-                className="object-cover  lg:mt-[40px] md:mt-[40px] mysm:mt-[80px]"
+                className="block min-w-[100%] lg:h-[300px] md:h-[250px] mysm:h-[120px] object-cover  "
               />
             );
           })}
