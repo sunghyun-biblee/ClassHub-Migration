@@ -82,7 +82,7 @@ export const NaviMobile = () => {
     nav(`${location}`);
   };
   return (
-    <NavigationMobile className="screen-width lg:hidden z-20">
+    <NavigationMobile className="screen-width lg:hidden z-20 h-[72px]">
       <nav className=" md:flex justify-between items-center py-[4px] md:pl-5 md:pr-2 mysm:pl-2 ">
         <div>
           <img

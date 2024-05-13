@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import preview from "../../../assets/img/preview.jpg";
 type IDetailProfileProp = {
   name: string;

@@ -5,15 +5,20 @@ import { CommnuItem } from "./CommnuItem";
 
 import { useQuery } from "@tanstack/react-query";
 import { fetchCommuList } from "./hook/fetchCommuArray";
+import { useLocation, useNavigate } from "react-router-dom";
+import { PopularList } from "./PopularList";
+import { useGetpathname } from "./hook/getPathname";
 
-interface IshowListprop {
-  category: string;
-}
-export const ShowCommuList = ({ category }: IshowListprop) => {
+export const ShowCommuList = () => {
+  const category = useGetpathname();
+
+  const nav = useNavigate();
   const [page, setPage] = useState(1);
   const postLimit = 5;
   const renderText = () => {
     switch (category) {
+      case undefined:
+        return <h1 className="text-lg font-semibold ">질문 & 답변</h1>;
       case "qna":
         return <h1 className="text-lg font-semibold ">질문 & 답변</h1>;
       case "study":
@@ -34,7 +39,7 @@ export const ShowCommuList = ({ category }: IshowListprop) => {
   return (
     <div className="md:mr-3">
       <div
-        className="flex justify-between items-start md:px-0 mysm:px-3
+        className="flex justify-between items-center md:px-0 mysm:px-3
       md:pt-0
       mysm:pt-6
       
@@ -61,17 +66,28 @@ export const ShowCommuList = ({ category }: IshowListprop) => {
           />
           <Button className="w-20 mx-1 bg-blue-400">검색</Button>
         </div>
-        <Button className="w-20 bg-gray-600">글쓰기</Button>
+        <Button
+          className="w-20 bg-gray-600"
+          onClick={() => nav("/community/addpost")}
+        >
+          글쓰기
+        </Button>
       </div>
       <article>
         <ul className="md:pt-10 mysm:pt-6">
           {data?.slice(pageOfFirst, pageOfLast).map((item) => (
-            <li className="my-2 py-4 px-2 border-[1px] border-solid rounded-md mx-1">
+            <li
+              className="my-2 py-4 px-2 border-[1px] border-solid rounded-md mx-1"
+              key={item.id + "A"}
+            >
               <CommnuItem item={item}></CommnuItem>
             </li>
           ))}
         </ul>
       </article>
+      <aside>
+        <PopularList category={category}></PopularList>
+      </aside>
       <PageNation
         listLength={data ? data.length : 0}
         postLimit={postLimit}

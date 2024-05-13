@@ -11,7 +11,7 @@ export const CommuDetail = () => {
   const [selectClass, setSelectClass] = useState();
 
   const { pathname } = useLocation();
-  const id = parseInt(pathname.split("/")[2], 10);
+  const id = parseInt(pathname.split("/")[3], 10);
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["commuDeatil", id],

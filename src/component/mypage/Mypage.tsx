@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { MypageCategory } from "./MypageCategory";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchCommuList } from "../community/hook/fetchCommuArray";
+import { getTeacherData } from "./hook/getTeacherData";
 
 export const Mypage = () => {
   const queryClient = useQueryClient();
@@ -11,6 +12,7 @@ export const Mypage = () => {
     queryKey: ["myCommu"],
     queryFn: fetchCommuList,
   });
+
   return (
     <MypageContainer className="lg:pt-[130px] md:pt-[100px] mysm:pt-[90px] max-w-[100vw] lg:max-w-[1200px] lg:grid lg:grid-cols-[1fr,4fr] md:flex md:flex-col">
       <MypageCategory></MypageCategory>

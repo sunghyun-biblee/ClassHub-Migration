@@ -49,14 +49,20 @@ export const NaviPC = () => {
           onClick={() => handleNav("/")}
         />
         <ul className="lg:flex justify-between w-44">
-          <li className="px-3 border-solid border-[1px] border-blue-100 rounded-[3px] py-1 cursor-pointer">
+          <li
+            className="px-3 border-solid border-[1px] border-blue-100 rounded-[3px] py-1 cursor-pointer"
+            onClick={() => handleNav("/class")}
+          >
             <span>
-              <Link to={"class"}>강의</Link>
+              <span>강의</span>
             </span>
           </li>
-          <li className="px-3 border-solid border-[1px] border-blue-100 rounded-[3px] py-1 cursor-pointer">
+          <li
+            className="px-3 border-solid border-[1px] border-blue-100 rounded-[3px] py-1 cursor-pointer"
+            onClick={() => handleNav("/community")}
+          >
             <span>
-              <Link to={"community"}>커뮤니티</Link>
+              <span>커뮤니티</span>
             </span>
           </li>
           {/* <li>멘토링</li> */}
@@ -101,7 +107,7 @@ export const NaviPC = () => {
               hover:bg-blue-300
               hover:text-white hover:transition-colors
               "
-              onClick={() => handleNav("/")}
+              onClick={() => handleNav("/mypage")}
             >
               <span>
                 <Link to={"signUp"}>회원가입</Link>

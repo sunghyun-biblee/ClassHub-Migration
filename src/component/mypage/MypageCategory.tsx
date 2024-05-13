@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import preview from "../../assets/img/preview.jpg";
 import { Icon } from "./Icon";
 import { GradeUpBtn } from "./GradeUpBtn";
-import { Link, useLocation } from "react-router-dom";
-import path from "path";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { getTeacherData } from "./hook/getTeacherData";
+import { useQuery } from "@tanstack/react-query";
 
 export const MypageCategory = () => {
+  const nav = useNavigate();
   const { pathname } = useLocation();
 
   let stylePath = pathname.split("/")[2];
@@ -14,6 +16,9 @@ export const MypageCategory = () => {
     stylePath = "home";
   }
 
+  const teacherDataString = localStorage.getItem("teacher");
+  const teacherData = teacherDataString ? JSON.parse(teacherDataString) : null;
+  console.log(teacherData);
   return (
     <CategoryContainer
       className="lg:px-4 lg:py-3 md:px-2 md:py-2 border-[1px] rounded-lg lg:mr-3 mysm:mx-1 lg:block mysm:grid md:grid-cols-[1fr,3fr] mysm:grid-cols-[1.6fr,3fr]
@@ -23,7 +28,10 @@ export const MypageCategory = () => {
     
     "
     >
-      <div className="flex md:justify-between mysm:justify-between  md:w-[100%] mysm:w-[100%] lg:pb-3  lg:border-none mysm:border-r-[1px] mysm:p-2">
+      <div
+        className="flex md:justify-between mysm:justify-between  md:w-[100%] mysm:w-[100%] lg:pb-3  lg:border-none mysm:border-r-[1px] mysm:p-2"
+        onClick={() => nav("/mypage")}
+      >
         <div className="flex flex-col  justify-between py-1">
           <h1 className="font-semibold">Admin</h1>
           <p className="text-gray-400 font-semibold">학생</p>
@@ -31,7 +39,8 @@ export const MypageCategory = () => {
         <img
           src={preview}
           alt=""
-          className="object-cover md:w-[50%] mysm:w-[50%] rounded-2xl shadow-[0px_8px_24px_rgba(149,157,165,0.3)] "
+          className="object-cover md:w-[50%] mysm:w-[50%] rounded-2xl shadow-[0px_8px_24px_rgba(149,157,165,0.3)] 
+          "
         />
       </div>
       <ul
@@ -40,25 +49,6 @@ export const MypageCategory = () => {
         
       "
       >
-        <Li
-          className={`lg:mb-1 lg:border-none md:block mysm:flex mysm:justify-center ${
-            stylePath === "home" ? "md:border-blue-400 md:border-b-[2px]" : ""
-          }`}
-        >
-          <button
-            className="flex items-center md:text-base mysm:text-sm"
-            id="home"
-          >
-            <Icon category={stylePath} id="home"></Icon>
-            <p
-              className={
-                stylePath === "home" ? "text-blue-500 font-semibold" : ""
-              }
-            >
-              <Link to={"/mypage"}>홈</Link>{" "}
-            </p>
-          </button>
-        </Li>
         <Li
           className={`lg:mb-1 lg:border-none md:block mysm:flex mysm:justify-center ${
             stylePath === "profile"
@@ -165,6 +155,31 @@ export const MypageCategory = () => {
             </p>
           </button>
         </Li>
+        {teacherData?.type ? (
+          <Li
+            className={`lg:mb-1 lg:border-none md:block mysm:flex mysm:justify-center ${
+              stylePath === "home" ? "md:border-blue-400 md:border-b-[2px]" : ""
+            }`}
+          >
+            <button
+              className="flex items-center md:text-base mysm:text-sm"
+              id="teacherpage"
+            >
+              <Icon category={stylePath} id="teacherpage"></Icon>
+              <p
+                className={
+                  stylePath === "teacherpage"
+                    ? "text-blue-500 font-semibold"
+                    : ""
+                }
+              >
+                <Link to={"teacherpage"}>강의 관리</Link>{" "}
+              </p>
+            </button>
+          </Li>
+        ) : (
+          ""
+        )}
       </ul>
       <div className="lg:block md:hidden mysm:hidden lg:pt-5">
         <GradeUpBtn></GradeUpBtn>

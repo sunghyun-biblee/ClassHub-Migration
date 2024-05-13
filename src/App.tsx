@@ -21,6 +21,9 @@ import { Application } from "./component/mypage/application/Application";
 import { MyCommu } from "./component/mypage/myCommunity/MyCommu";
 import { AuthProvider } from "./hook/AuthProvider";
 import { LoginPage } from "./component/login/LoginPage";
+import { TeacherPage } from "./component/mypage/teacherPage/TeacherPage";
+import { AddPost } from "./component/community/addpost/AddPost";
+import { ShowCommuList } from "./component/community/ShowCommuList";
 
 interface Ipages {
   id: string;
@@ -76,16 +79,25 @@ function App() {
                 path="dashboard"
                 element={<Dashboard></Dashboard>}
               ></Route>
+              <Route
+                index
+                path="teacherpage"
+                element={<TeacherPage></TeacherPage>}
+              ></Route>
               <Route index path="mycommu" element={<MyCommu></MyCommu>}></Route>
             </Route>
-            <Route path="community" element={<Community></Community>}></Route>
+            <Route path="community" element={<Community></Community>}>
+              <Route index element={<ShowCommuList />}></Route>
+              <Route index path=":category" element={<ShowCommuList />}></Route>
+              <Route path="addpost" element={<AddPost></AddPost>}></Route>
+            </Route>
             <Route path="class" element={<Class></Class>}></Route>
             <Route
               path="class/:classId"
               element={<ClassDetail></ClassDetail>}
             ></Route>
             <Route
-              path="community/:commuId"
+              path="community/post/:commuId"
               element={<CommuDetail></CommuDetail>}
             ></Route>
             <Route path="signIn" element={<LoginPage />}></Route>

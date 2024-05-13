@@ -20,7 +20,7 @@ interface ICommnuItemprop {
 export const CommnuItem = ({ item }: ICommnuItemprop) => {
   const nav = useNavigate();
   const handleClick = () => {
-    nav(`/community/${item.id}`);
+    nav(`/community/post/${item.id}`);
   };
   const queryClient = useQueryClient();
   queryClient.prefetchQuery({

@@ -1,12 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 
-export const PopularList = () => {
+type IPopularProp = {
+  category: string;
+};
+
+export const PopularList = ({ category }: IPopularProp) => {
   const title = "인기글 입니다.";
   const title2 = "안녕하세요 전 최근 ^";
   const name = "admin";
   return (
-    <ListContainer className="p-3 absolute right-[1%] top-[11%] lg:block md:hidden mysm:hidden">
+    <ListContainer
+      className={`p-3 absolute right-[1%] top-[11%] lg:block md:hidden mysm:hidden ${
+        category === "addpost" && "lg:hidden"
+      }`}
+    >
       <h1 className="pb-1">인기 게시글</h1>
       <ul>
         <Li>

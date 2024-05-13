@@ -1,16 +1,31 @@
 import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useGetpathname } from "./hook/getPathname";
 
 interface ICommnuprop {
   setCategory: (category: string) => void;
-  category: string;
 }
-export const CommuCategory = ({ setCategory, category }: ICommnuprop) => {
+export const CommuCategory = ({ setCategory }: ICommnuprop) => {
+  const getCategory = useGetpathname();
+  console.log(getCategory);
+  const category = getCategory ? getCategory : "qna";
+  const nav = useNavigate();
+  const handleClickCategory = (category: string) => {
+    setCategory(category);
+    nav(category);
+  };
   const handleChangeCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCategory(e.target.value);
+    nav(`${e.target.value}`);
   };
+
   return (
-    <div className="lg:mr-3 mysm:mr-0 w-[100%] ">
+    <div
+      className={`lg:mr-3 mysm:mr-0 w-[100%] ${
+        category === "addpost" && "hidden"
+      }`}
+    >
       <div
         className="md:block mysm:flex justify-between items-center 
       mysm:border-b-[1px]
@@ -28,6 +43,7 @@ export const CommuCategory = ({ setCategory, category }: ICommnuprop) => {
         <select
           name="category"
           id="categoryfilter"
+          value={category}
           onChange={handleChangeCategory}
           className="md:hidden mysm:block border-2 border-solid px-1 py-1 mr-3
           rounded-md focus:border-blue-300  outline-blue-400"
@@ -37,7 +53,7 @@ export const CommuCategory = ({ setCategory, category }: ICommnuprop) => {
         </select>
       </div>
       <ul className="px-2 md:py-0 mysm:py-2 md:block mysm:hidden">
-        <Li onClick={() => setCategory("qna")}>
+        <Li onClick={() => handleClickCategory("qna")}>
           <span
             className={`cursor-pointer text-sm ${
               category === "qna" && "text-blue-500 font-bold"
@@ -46,7 +62,7 @@ export const CommuCategory = ({ setCategory, category }: ICommnuprop) => {
             질문 & 답변
           </span>
         </Li>
-        <Li onClick={() => setCategory("study")}>
+        <Li onClick={() => handleClickCategory("study")}>
           <span
             className={`cursor-pointer text-sm ${
               category === "study" && "text-blue-500 font-bold"
