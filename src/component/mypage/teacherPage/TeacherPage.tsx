@@ -1,5 +1,6 @@
 import React from "react";
 import { MobileTPage } from "./MobileTPage";
+import { PCTpage } from "./PCTpage";
 
 export const TeacherPage = () => {
   return (
@@ -9,6 +10,7 @@ flex flex-col
 md:mt-2
 "
     >
+      <PCTpage></PCTpage>
       <MobileTPage></MobileTPage>
     </div>
   );

@@ -24,6 +24,7 @@ import { LoginPage } from "./component/login/LoginPage";
 import { TeacherPage } from "./component/mypage/teacherPage/TeacherPage";
 import { AddPost } from "./component/community/addpost/AddPost";
 import { ShowCommuList } from "./component/community/ShowCommuList";
+import { AddClass } from "./component/mypage/teacherPage/addclass/AddClass";
 
 interface Ipages {
   id: string;
@@ -37,8 +38,6 @@ function App() {
     // 현재 경로에 맞는 타이틀 찾기
     const page = pages.find((p) => p.pathname === pathname);
     const subTitle = page ? page.title : ""; // pathname이 정의되지 않았거나 일치하는 페이지가 없을 때는 빈 문자열을 할당
-    console.log(page);
-    console.log(subTitle);
     if (subTitle === "home") {
       document.title = "Classhub";
     } else {
@@ -83,6 +82,11 @@ function App() {
                 index
                 path="teacherpage"
                 element={<TeacherPage></TeacherPage>}
+              ></Route>
+              <Route
+                index
+                path="teacherpage/addClass"
+                element={<AddClass></AddClass>}
               ></Route>
               <Route index path="mycommu" element={<MyCommu></MyCommu>}></Route>
             </Route>

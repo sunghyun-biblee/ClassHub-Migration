@@ -177,7 +177,7 @@ export const MypageCategory = () => {
                     : ""
                 }
               >
-                <Link to={"teacherpage"}>강의 등록</Link>{" "}
+                <Link to={"teacherpage"}>강의 관리</Link>{" "}
               </p>
             </button>
           </Li>
