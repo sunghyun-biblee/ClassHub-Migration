@@ -1,4 +1,5 @@
 import React from "react";
+import { MobileTPage } from "./MobileTPage";
 
 export const TeacherPage = () => {
   return (
@@ -8,7 +9,7 @@ flex flex-col
 md:mt-2
 "
     >
-      TeacherPage
+      <MobileTPage></MobileTPage>
     </div>
   );
 };

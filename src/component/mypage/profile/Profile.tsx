@@ -13,7 +13,7 @@ export const Profile = () => {
   "
     >
       <section className="md:py-10 md:px-5 mysm:py-5 mysm:px-3 flex flex-col gap-y-3">
-        <article className="flex md:flex-row mysm:flex-col md:gap-5 mysm:gap-2 ">
+        <article className="flex md:flex-row mysm:flex-col md:gap-5 mysm:gap-2 relative">
           <img
             src={myIMG}
             alt="profileIMG"
@@ -53,8 +53,10 @@ export const Profile = () => {
                 md:static
                 md:text-base
                 mysm:text-[12px]
-                mysm:absolute mysm:top-[-80px]
-              right-0 "
+                mysm:absolute mysm:top-[-125px]
+              right-0 
+              lg:gap-4
+              "
               >
                 <button
                   className="border-[1px] py-1 px-2.5 rounded-xl
@@ -62,7 +64,19 @@ export const Profile = () => {
                md:max-w-[100%]
                mysm:max-w-26
                md:font-normal
+               mysm:font-semibold"
+                >
+                  수정하기
+                </button>
+                <button
+                  className="border-[1px] py-1 px-2.5 rounded-xl
+                shadow-[0px_1px_10px_rgba(149,157,165,0.3)]
+               md:max-w-[100%]
+               mysm:max-w-26
+               md:font-normal
                mysm:font-semibold
+               md:mt-0
+               mysm:mt-4
              
                 "
                 >
@@ -87,9 +101,6 @@ export const Profile = () => {
           <div className="p-3 mt-3 flex flex-col justify-between">
             <div className="flex justify-between items-center pb-4">
               <h1 className="text-lg font-semibold">소개</h1>
-              <button className="border-[1px] py-1 px-2 rounded-lg text-sm">
-                수정하기
-              </button>
             </div>
             <p className="p-3 border-[1px] lg:min-h-[10dvh] md:min-h-[20dvh] overflow-y-scroll lg:max-h-[15dvh] md:max-h-[30dvh] rounded-l-lg">
               작성된 소개가 없습니다

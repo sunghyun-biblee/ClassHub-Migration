@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import preview from "../../assets/img/preview.jpg";
 import { Icon } from "./Icon";
-import { GradeUpBtn } from "./GradeUpBtn";
+import { GradeUpBtn, handleClick } from "./GradeUpBtn";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getTeacherData } from "./hook/getTeacherData";
 import { useQuery } from "@tanstack/react-query";
@@ -46,6 +46,8 @@ export const MypageCategory = () => {
       <ul
         className="lg:pt-5 lg:pb-5 lg:border-t-[1px] lg:border-b-[1px] lg:block md:flex md:justify-around md:items-center md:pl-2 w-[100%]
         mysm:grid mysm:grid-cols-3 
+        md:gap-0
+        mysm:gap-1
         
       "
       >
@@ -158,7 +160,9 @@ export const MypageCategory = () => {
         {teacherData?.type ? (
           <Li
             className={`lg:mb-1 lg:border-none md:block mysm:flex mysm:justify-center ${
-              stylePath === "home" ? "md:border-blue-400 md:border-b-[2px]" : ""
+              stylePath === "teacherpage"
+                ? "md:border-blue-400 md:border-b-[2px]"
+                : ""
             }`}
           >
             <button
@@ -173,12 +177,29 @@ export const MypageCategory = () => {
                     : ""
                 }
               >
-                <Link to={"teacherpage"}>강의 관리</Link>{" "}
+                <Link to={"teacherpage"}>강의 등록</Link>{" "}
               </p>
             </button>
           </Li>
         ) : (
-          ""
+          <li
+            className={`lg:mb-1 lg:border-none md:block mysm:flex mysm:justify-center ${
+              stylePath === "home" ? "md:border-blue-400 md:border-b-[2px]" : ""
+            }`}
+          >
+            <button
+              className="md:p-2 mysm:px-3 mysm:py-1 mysm:my-1 mysm:flex items-center md:text-base mysm:text-[13px] border-[1px] rounded-lg
+              lg:hidden
+              text-[#efefef]
+              font-extrabold
+              bg-[#3B82F6]
+              "
+              id="teacherpage"
+              onClick={handleClick}
+            >
+              강사신청
+            </button>
+          </li>
         )}
       </ul>
       <div className="lg:block md:hidden mysm:hidden lg:pt-5">

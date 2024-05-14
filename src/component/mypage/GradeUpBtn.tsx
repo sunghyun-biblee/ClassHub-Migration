@@ -2,19 +2,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
 
 export const GradeUpBtn = () => {
-  let newTdata = {
-    id: "teacher1",
-    type: true,
-  };
-  const handleClick = () => {
-    const tdataString = localStorage.getItem("teacher");
-    const tdata = tdataString ? JSON.parse(tdataString) : null;
-    if (tdata) {
-      localStorage.removeItem("teacher");
-    } else {
-      localStorage.setItem("teacher", JSON.stringify(newTdata));
-    }
-  };
   return (
     <div
       className="lg:flex lg:justify-between    lg:flex-row md:flex-col 
@@ -35,4 +22,19 @@ export const GradeUpBtn = () => {
       </button>
     </div>
   );
+};
+
+let newTdata = {
+  id: "teacher1",
+  type: true,
+};
+
+export const handleClick = () => {
+  const tdataString = localStorage.getItem("teacher");
+  const tdata = tdataString ? JSON.parse(tdataString) : null;
+  if (tdata) {
+    localStorage.removeItem("teacher");
+  } else {
+    localStorage.setItem("teacher", JSON.stringify(newTdata));
+  }
 };

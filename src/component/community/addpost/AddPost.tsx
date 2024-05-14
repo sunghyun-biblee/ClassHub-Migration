@@ -61,7 +61,8 @@ export const AddPost = () => {
 
   return (
     <div className="relative">
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} encType="multipart/form-data">
+        {/* encType은 데이터를 백엔드로 보낼때 데이터들을 문자열이 아닌 여러형태의 자료(문자/바이너리)를 전송하기위한 전송 형태이다 */}
         <header className="flex justify-between  flex-col">
           <div className="flex lg:h-[100px]">
             <h1>제목</h1>
