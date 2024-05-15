@@ -9,6 +9,18 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { PopularList } from "./PopularList";
 import { useGetpathname } from "./hook/getPathname";
 
+export interface IcommunityItem {
+  commentCount: number;
+  communityId: number;
+  communityType: string;
+  editDate: string | null;
+  favoriteCount: number;
+  image: string | null;
+  regDate: string;
+  text: string;
+  title: string;
+  userId: number;
+}
 export const ShowCommuList = () => {
   const category = useGetpathname();
 
@@ -29,13 +41,13 @@ export const ShowCommuList = () => {
   };
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["CommnuList", page],
+    queryKey: ["question", page],
     queryFn: fetchCommuList,
   });
 
   const pageOfLast = page * postLimit; // 페이지마다 마지막 포스트 위치
   const pageOfFirst = pageOfLast - postLimit; // 페이지마다 첫 포스트 위치
-
+  console.log(data?.data.data.contents);
   return (
     <div className="md:mr-3">
       <div
@@ -75,25 +87,27 @@ export const ShowCommuList = () => {
       </div>
       <article>
         <ul className="md:pt-10 mysm:pt-6">
-          {data?.slice(pageOfFirst, pageOfLast).map((item) => (
-            <li
-              className="my-2 py-4 px-2 border-[1px] border-solid rounded-md mx-1"
-              key={item.id + "A"}
-            >
-              <CommnuItem item={item}></CommnuItem>
-            </li>
-          ))}
+          {data?.data.data.contents.map(
+            (item: IcommunityItem, index: number) => (
+              <li
+                className="my-2 py-4 px-2 border-[1px] border-solid rounded-md mx-1"
+                key={item.userId + "AZ" + index}
+              >
+                <CommnuItem item={item}></CommnuItem>
+              </li>
+            )
+          )}
         </ul>
       </article>
       <aside>
         <PopularList category={category}></PopularList>
       </aside>
-      <PageNation
-        listLength={data ? data.length : 0}
+      {/* <PageNation
+        // listLength={data ? data.length : 0}
         postLimit={postLimit}
         page={page}
         setPage={setPage}
-      ></PageNation>
+      ></PageNation> */}
     </div>
   );
 };

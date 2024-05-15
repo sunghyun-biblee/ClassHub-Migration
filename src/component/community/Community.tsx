@@ -6,8 +6,19 @@ import { CommunityHeader } from "./CommunityHeader";
 import { Outlet } from "react-router-dom";
 import { useGetpathname } from "./hook/getPathname";
 
+import requests from "../../api/requests";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { fetchCommuList } from "./hook/fetchCommuArray";
+
 export const Community = () => {
   const pathname = useGetpathname();
+  const queryClient = useQueryClient();
+
+  queryClient.prefetchQuery({
+    queryKey: ["question", 1],
+    queryFn: fetchCommuList,
+  });
 
   const [category, setCategory] = useState<string>("qna");
   console.log(pathname);

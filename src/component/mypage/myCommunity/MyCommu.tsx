@@ -42,7 +42,7 @@ export const MyCommu = () => {
             <li className="py-[5px] md:text-base mysm:text-sm">관리하기</li>
             <li className="py-[5px]">삭제</li>
           </ul>
-          <div className="flex flex-col gap-y-5">
+          {/* <div className="flex flex-col gap-y-5">
             {data?.slice(pageOfFirst, pageOfLast).map((item) => (
               <MyCommuItem item={item} key={item.id} />
             ))}
@@ -52,7 +52,7 @@ export const MyCommu = () => {
             postLimit={postLimit}
             page={page}
             setPage={setPage}
-          ></PageNation>
+          ></PageNation> */}
         </article>
       </section>
     </div>

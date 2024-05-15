@@ -12,26 +12,25 @@ interface selectImgType {
   id: string;
   img: string;
 }
-type requestImgType = {
-  img: string;
-};
-// interface requestObject {
-//   userId: number;
-//   communityId: number;
-//   communityType: string;
-//   title: string|undefined;
-//   text: string|undefined;
-// }
+
+interface requestObject {
+  userId: number;
+  communityId: number;
+  communityType: string;
+  title: string | undefined;
+  text: string | undefined;
+}
 
 export const AddPost = () => {
   const [title, setTitle] = useState<string>();
   const [text, setText] = useState<string>();
   const [mainCategory, setMainCategory] = useState<string>();
-  const [subcategory, setSubCategory] = useState<string>();
+  const [requestImgArray, setReqeustImgArray] = useState<File[]>();
   const [previmg, setPrevimg] = useState<selectImgType[] | undefined>();
   const [imgArray, setImgArray] = useState<selectImgType[]>([]);
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const formData = new FormData();
     const customUserId = 515126;
     let customCommunityType = "0";
 
@@ -53,17 +52,17 @@ export const AddPost = () => {
       title: title,
       text: text,
     };
-    const newImgArray = imgArray.map((item) => item.img);
-    const imageFiles = [...newImgArray];
-    console.log(title);
-    console.log(text);
-    console.log(mainCategory);
-    console.log(subcategory);
-    console.log(imageFiles);
+    requestImgArray?.forEach((file) => {
+      formData.append("imageFiles", file);
+    });
+    console.log(formData);
+    // const newImgArray = imgArray.map((item) => item.img);
+    // const imageFiles = [...newImgArray];
+
     await axios
       .post(`${requests.community.addPost}`, {
         communityObject,
-        imageFiles,
+        formData,
       })
       .then((res) => {
         console.log(res);
@@ -97,16 +96,27 @@ export const AddPost = () => {
   const addFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const data = e.target.files as FileList;
     const selectFiles = Array.from(data);
-    if (selectFiles.length >= 4) {
+    if (data.length >= 4) {
       alert("이미지는 최대 3개까지 등록 가능합니다");
       return;
     }
-    const selectFilesArary = selectFiles.map((item) => {
+
+    if (data) {
+      if (requestImgArray && requestImgArray?.length >= 1) {
+        const newArray = [...requestImgArray, ...selectFiles];
+        setReqeustImgArray(newArray);
+      } else {
+        setReqeustImgArray([...selectFiles]);
+      }
+    }
+
+    const selectFilesArray = selectFiles.map((item) => {
       return { id: `addimg${++i}`, img: URL.createObjectURL(item) };
     });
-
-    setImgArray((prev) => [...prev, ...selectFilesArary]);
+    console.log(selectFilesArray);
+    setImgArray((prev) => [...prev, ...selectFilesArray]);
   };
+
   const modifyFile = (e: React.MouseEvent<HTMLButtonElement>) => {
     const target = e.currentTarget.id;
     const newArray = imgArray.filter((item) => item.id !== target);
@@ -119,6 +129,7 @@ export const AddPost = () => {
     console.log(...selectItem);
     console.log(e.currentTarget.id);
   };
+  console.log(requestImgArray);
 
   return (
     <div className="relative">
@@ -141,7 +152,7 @@ export const AddPost = () => {
             <h1 className="mysm:font-semibold md:mr-2">제목</h1>
             <input
               type="text"
-              className="border-[1px] lg:w-[600px] md:w-[350px] mysm:w-[350px]
+              className="border-[1px] lg:w-[550px] md:w-[350px] mysm:w-[350px]
               focus:outline-blue-500
               rounded-md
               lg:px-2 py-1
@@ -155,15 +166,9 @@ export const AddPost = () => {
           <SelectCategory
             mainCategory={mainCategory}
             setMainCategory={setMainCategory}
-            subcategory={subcategory}
-            setSubCategory={setSubCategory}
           ></SelectCategory>
         </header>
-        <main
-          className="flex flex-col justify-center lg:items-baseline mysm:items-center
-          mysm:w-[calc(100%-8px)]
-        "
-        >
+        <main className="flex flex-col justify-center lg:items-baseline mysm:items-center mysm:w-[calc(100%-8px)]">
           <textarea
             name="overview"
             id="overview"

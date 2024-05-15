@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { VideoInsert } from "./VideoInsert";
+import { VideoInsert, formatVideoDuration } from "./VideoInsert";
 import { QueryClient, useQueryClient } from "@tanstack/react-query";
-
+import left from "../../../../assets/img/carousel/leftArrow.svg";
 export interface VideoInfo {
   VideoTitle: string;
   video: string;
+  videoLength: number;
 }
 
 interface SectionInfo {
@@ -15,25 +16,28 @@ interface SectionInfo {
 let i = 0;
 export const AddClass = () => {
   const [isAddSectionOn, setIsAddSectionOn] = useState(true);
-  const [classTitle, setClassTitle] = useState<string>();
-  const [classDescription, setClassDescription] = useState<string>();
-  const [overView, setOverView] = useState<string>();
+  const [classTitle, setClassTitle] = useState<string>("");
+  const [classDescription, setClassDescription] = useState<string>("");
+  const [overView, setOverView] = useState<string>("");
   const [isEditSectionTitle, setIsEditSectionTitle] = useState(true);
   const [completeSectionArray, setCompleteSectionArray] =
     useState<SectionInfo[]>();
   // [{ sectiontitle: "", videos: [] },]
-  const [saveSectionTitle, setSaveSectionTitle] = useState<string>();
+  const [saveSectionTitle, setSaveSectionTitle] = useState<string>("");
   const [sectionArray, setSectionArray] = useState<SectionInfo[]>([]);
   const [uploadVideo, setUploadVideo] = useState<VideoInfo[]>([]);
 
+  const [showTargetSection, setShowTartgetSection] = useState<number | null>(
+    null
+  );
+
+  const [category, SelectCategory] = useState<string>();
+  const [price, setPrice] = useState<number>();
   const addSession = () => {
     if (sectionArray.length === 0) {
-      setSectionArray([
-        ...sectionArray,
-        { sectiontitle: `섹션${i}.`, videos: [] },
-      ]);
+      setSectionArray([...sectionArray, { sectiontitle: ``, videos: [] }]);
     } else {
-      setSectionArray([{ sectiontitle: `섹션${i}.`, videos: [] }]);
+      setSectionArray([{ sectiontitle: ``, videos: [] }]);
     }
     i++;
     setIsAddSectionOn(false);
@@ -71,10 +75,14 @@ export const AddClass = () => {
   };
   console.log(sectionArray);
   console.log(uploadVideo);
+  console.log(showTargetSection);
   const handleSaveSection = (index: number) => {
     const sectionData = [...sectionArray];
     sectionData[index].videos.push(...uploadVideo);
-
+    if (uploadVideo.length === 0) {
+      alert("등록된 영상이 없습니다");
+      return;
+    }
     if (completeSectionArray && completeSectionArray?.length >= 1) {
       setCompleteSectionArray([...completeSectionArray, ...sectionData]);
     } else {
@@ -82,6 +90,8 @@ export const AddClass = () => {
     }
 
     setSectionArray([]);
+    setUploadVideo([]);
+    setIsEditSectionTitle(true);
     setIsAddSectionOn(true);
   };
 
@@ -91,117 +101,226 @@ export const AddClass = () => {
     setSectionArray(newSectionArray);
   };
 
+  const handleChangePrice = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const data = parseInt(e.target.value);
+    setPrice(data);
+  };
+
+  const handleClickShowSection = (index: number) => {
+    if (showTargetSection === index) {
+      setShowTartgetSection(null);
+    } else {
+      setShowTartgetSection(index);
+    }
+  };
+
+  console.log(completeSectionArray);
   return (
     <div
       className="border-[1px] lg:m-0 mysm:m-1 shadow-[0px_8px_24px_rgba(149,157,165,0.3)] rounded-lg
-flex flex-col
+lg:flex flex-col mysm:hidden
 md:mt-2
 "
     >
-      <section>
-        <header>
-          <div>
-            <h1>강의 제목</h1>
-            <input
-              type="text"
-              name=""
-              id=""
-              className="border-[1px]"
-              onChange={handleChangeclassTitle}
-              value={classTitle}
-            />
-          </div>
-        </header>
-        <article>
-          <div>
-            <h1>요약 설명</h1>
-            <textarea
-              name=""
-              id=""
-              className="resize-none border-[1px]"
-              onChange={handleChangeoverView}
-              value={overView}
-            ></textarea>
-          </div>
-          <div>
-            <h1>상세정보</h1>
-            <textarea
-              name=""
-              id=""
-              className="resize-none border-[1px]"
-              onChange={handleChangeclassDescription}
-              value={classDescription}
-            ></textarea>
-          </div>
+      <section className="grid grid-cols-[1.2fr,3fr] h-[100%]  ">
+        <article className="p-3 flex flex-col justify-between">
+          <ul className=" flex flex-col">
+            <li className="py-2">
+              <h1 className="py-[2px]">강의 제목</h1>
+              <input
+                type="text"
+                name=""
+                id=""
+                className="border-[1px] w-[100%] focus:outline-blue-400 rounded-md"
+                onChange={handleChangeclassTitle}
+                value={classTitle}
+              />
+            </li>
+            <li className="py-2">
+              <h1 className="py-[2px]">요약 설명</h1>
+              <textarea
+                name=""
+                id=""
+                className="resize-none border-[1px] w-[100%] focus:outline-blue-400 rounded-md"
+                onChange={handleChangeoverView}
+                value={overView}
+              ></textarea>
+            </li>
+            <li>
+              <h1 className="py-[2px]">상세정보</h1>
+              <textarea
+                name=""
+                id=""
+                className="resize-none border-[1px] w-[100%] min-h-[20dvh] focus:outline-blue-400 rounded-md"
+                onChange={handleChangeclassDescription}
+                value={classDescription}
+              ></textarea>
+            </li>
+          </ul>
+          <ul className="pt-3">
+            <li className="flex justify-between py-2 px-1">
+              <span>카테고리</span>
+              <select name="" id="">
+                <option value="">개발·프로그래밍</option>
+                <option value="">게임 개발</option>
+                <option value="">인공지능</option>
+                <option value="">보안·네트워크</option>
+              </select>
+            </li>
+            <li className="flex justify-between py-2 px-1">
+              <span>가격</span>
+              <input
+                type="text"
+                value={price}
+                onChange={handleChangePrice}
+                className="border-[1px] w-[65%] text-sm pr-2 rounded-md text-right"
+                placeholder="숫자만 입력해주세요"
+                maxLength={6}
+              />
+            </li>
+            <li className="flex justify-center py-2">
+              <button
+                className="py-2 px-5 border-[1px] rounded-lg
+                  shadow-[0px_8px_24px_rgba(149,157,165,0.3)]
+                  bg-[#3B82F6] text-white font-extrabold
+                  "
+              >
+                강의 등록하기
+              </button>
+            </li>
+          </ul>
         </article>
-        <article>
-          {isAddSectionOn ? <button onClick={addSession}>섹션추가</button> : ""}
-          {completeSectionArray?.map((section, index) => (
-            <div>
-              <h1 key={section.sectiontitle + index}>
-                섹션{index}.{section.sectiontitle}
-              </h1>
-              <ul>
-                {section.videos.map((item) => (
-                  <>
-                    <li>{item.VideoTitle}</li>
-                    <li>{item.video}</li>
-                  </>
-                ))}
-              </ul>
-            </div>
-          ))}
-          {sectionArray?.map((section, index) => (
-            <div className="flex" key={`class${section.sectiontitle}`}>
-              <div className="flex flex-col">
-                <div className="flex">
-                  {isEditSectionTitle ? (
-                    <>
-                      <h1>섹션명 :</h1>
-                      <input
-                        type="text"
-                        id={`section${index}`}
-                        className="border-[1px]"
-                        value={saveSectionTitle}
-                        onChange={handleSectionTitleChange}
-                      />
-                      <button onClick={() => handleSaveSectionTitle(index)}>
-                        저장
-                      </button>
-                      <button
-                        onClick={() => {
-                          setIsAddSectionOn(true);
-                          setSectionArray([]);
-                          setSaveSectionTitle("");
-                        }}
-                      >
-                        취소
-                      </button>
-                    </>
-                  ) : (
-                    <div className="flex">
-                      <h1>{section.sectiontitle}</h1>
-                      <button
-                        onClick={() => setIsEditSectionTitle(true)}
-                        className="mx-5"
-                      >
-                        수정하기
-                      </button>
-                    </div>
-                  )}
-                  <button onClick={() => handleSaveSection(index)}>
-                    섹션 저장
+        <article className="h-[100%]">
+          <div className="grid grid-cols-[1.5fr,3fr] h-[100%]">
+            <div className="bg-gray-100 h-[100%]  ">
+              <div className="flex justify-between items-center py-1 px-2 my-2">
+                <h1 className="px-2 py-1 font-extrabold">등록된 강의</h1>
+                {isAddSectionOn && (
+                  <button
+                    onClick={addSession}
+                    className="border-[1px] px-2 py-1
+                    bg-[#3B82F6]
+                    text-white
+                    font-semibold
+                    rounded-md
+                    "
+                  >
+                    섹션추가
                   </button>
-                </div>
-                <VideoInsert
-                  index={index}
-                  setUploadVideo={setUploadVideo}
-                  uploadVideo={uploadVideo}
-                  addVideoToSession={addVideoToSession}
-                ></VideoInsert>
+                )}
               </div>
+              {completeSectionArray?.map((section, index) => (
+                <div className="px-3">
+                  <div
+                    className="flex justify-between py-1 border-[1px] px-2 rounded-sm"
+                    onClick={() => handleClickShowSection(index)}
+                  >
+                    <h1 key={section.sectiontitle + index}>
+                      섹션{index}.{section.sectiontitle}
+                    </h1>
+                    <img
+                      src={left}
+                      alt="dropDown"
+                      className={` w-5 cursor-pointer transition-transform ${
+                        showTargetSection === index ? "rotate-90" : "-rotate-90"
+                      } `}
+                    />
+                  </div>
+                  <ul
+                    className={`px-2 ${
+                      showTargetSection === index ? "block" : "hidden"
+                    } `}
+                  >
+                    {section.videos.map((item) => (
+                      <li className="flex justify-between py-1">
+                        <span className="overflow-hidden whitespace-nowrap text-ellipsis max-w-32">
+                          {item.VideoTitle}
+                        </span>
+                        <span>{formatVideoDuration(item.videoLength)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
-          ))}
+            <div className="h-[100%]">
+              {sectionArray?.map((section, index) => (
+                <div
+                  className="flex px-2 py-1"
+                  key={`class${section.sectiontitle}`}
+                >
+                  <div className="flex flex-col w-[100%]">
+                    <div className="flex p-2 justify-between items-center">
+                      {isEditSectionTitle ? (
+                        <>
+                          <div className="flex items-center">
+                            <h1 className="font-semibold">섹션명</h1>
+                            <input
+                              type="text"
+                              id={`section${index}`}
+                              className="border-[1px] px-1 py-1 ml-2 rounded-md
+                              w-[170px] text-sm
+                              "
+                              value={saveSectionTitle}
+                              onChange={handleSectionTitleChange}
+                              placeholder="섹션명을 입력해주세요"
+                            />
+                          </div>
+                          <div className="flex ">
+                            <button
+                              onClick={() => handleSaveSectionTitle(index)}
+                              className="px-3 py-1 border-[1px] rounded-md mr-2
+                              bg-[#3B82F6] text-white font-semibold"
+                            >
+                              섹션명 저장
+                            </button>
+                            <button
+                              onClick={() => {
+                                setIsAddSectionOn(true);
+                                setSectionArray([]);
+                                setSaveSectionTitle("");
+                              }}
+                              className="px-3 py-1 border-[1px] rounded-md bg-[#B5B8BF] text-black/70 font-semibold"
+                            >
+                              취소
+                            </button>
+                          </div>
+                        </>
+                      ) : (
+                        <div className="flex justify-between items-center w-[100%]">
+                          <h1 className="font-semibold">
+                            섹션명 : {section.sectiontitle}
+                          </h1>
+                          <div>
+                            <button
+                              onClick={() => handleSaveSection(index)}
+                              className="px-3 py-1 border-[1px] rounded-md mr-2 bg-[#3B82F6] text-white font-semibold"
+                            >
+                              섹션 저장
+                            </button>
+                            <button
+                              onClick={() => setIsEditSectionTitle(true)}
+                              className="px-3 py-1 border-[1px] rounded-md 
+                            bg-[#B5B8BF] text-black/70 font-semibold"
+                            >
+                              섹션명 수정
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <VideoInsert
+                      index={index}
+                      setUploadVideo={setUploadVideo}
+                      uploadVideo={uploadVideo}
+                      addVideoToSession={addVideoToSession}
+                    ></VideoInsert>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </article>
       </section>
     </div>

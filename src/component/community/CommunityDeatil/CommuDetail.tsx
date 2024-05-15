@@ -8,8 +8,6 @@ import comment from "../../../assets/img/comment.svg";
 import styled from "styled-components";
 import { DetailProfile } from "./DetailProfile";
 export const CommuDetail = () => {
-  const [selectClass, setSelectClass] = useState();
-
   const { pathname } = useLocation();
   const id = parseInt(pathname.split("/")[3], 10);
 
@@ -17,10 +15,6 @@ export const CommuDetail = () => {
     queryKey: ["commuDeatil", id],
     queryFn: () => selectCommuinfo(id),
   });
-  if (data && data[0].title) {
-    document.title = data[0].title;
-  }
-  console.log(data);
 
   return (
     <div
@@ -43,26 +37,22 @@ export const CommuDetail = () => {
               
               "
               >
-                <DetailProfile
-                  name={data[0].name}
-                  category={data[0].category}
-                ></DetailProfile>
+                <DetailProfile name={"admin"} category={"학생"}></DetailProfile>
               </div>
               <h1 className="py-5 px-5 text-2xl font-extrabold">
-                {" "}
-                {data[0].title}
+                {data.title}
               </h1>
               <div className="flex justify-between md:px-5 mysm:pl-5 mysm:pr-10  pb-5 pt-2 text-gray-500 ">
                 <p>2024-05-07</p>
                 <div className="flex ">
                   <img src={likes} alt="likes" className="lg:w-5 md:w-5" />
-                  <p>{data[0].likes}</p>
+                  <p>{data.likes}</p>
                 </div>
               </div>
             </article>
             <Overview className="p-5 md:border-t-[1px]  border-b-[1px] border-solid">
               <div>
-                <p>{data[0].overview}</p>
+                <p>{data.text}</p>
               </div>
             </Overview>
             <article className="p-5 ">
@@ -70,7 +60,7 @@ export const CommuDetail = () => {
                 <h4 className="font-semibold text-gray-700">댓글</h4>
                 <img src={comment} alt="" className="w-5  mr-2" />
                 <p className="font-bold text-blue-600 text-lg underline">
-                  {/* {data[0].comment} */} 0
+                  {data.comment} 0
                 </p>
               </div>
               <div className="py-5 flex flex-col items-end">
@@ -88,10 +78,7 @@ export const CommuDetail = () => {
             </article>
           </div>
           <div className="mysm:hidden md:block">
-            <DetailProfile
-              name={data[0].name}
-              category={data[0].category}
-            ></DetailProfile>
+            <DetailProfile name={"admin"} category={"학생"}></DetailProfile>
           </div>
         </section>
       )}

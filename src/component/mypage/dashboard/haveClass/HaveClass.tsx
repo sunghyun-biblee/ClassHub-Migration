@@ -12,7 +12,7 @@ export const HaveClass = () => {
     <div className="py-3">
       <div className="grid md:grid-cols-3 mysm:grid-cols-3 md:gap-3 mysm:gap-5">
         {data?.slice(0, 3).map((item) => (
-          <div className="flex flex-col">
+          <div className="flex flex-col" key={item.id + "ABC"}>
             <img src={item.img} alt="" className="w-[100%] rounded-md mb-1" />
             <b className="whitespace-nowrap overflow-hidden text-ellipsis ">
               {item.title}

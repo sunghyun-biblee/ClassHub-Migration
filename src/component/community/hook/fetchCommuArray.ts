@@ -1,3 +1,7 @@
+import axios from "../../../api/axios";
+import requests from "./../../../api/requests";
+import { Community } from "./../Community";
+
 export interface Icommuitem {
   id: number;
   title: string;
@@ -7,15 +11,21 @@ export interface Icommuitem {
   comment: string;
   overview: string;
 }
-export async function fetchCommuList() {
-  let newClassArr: Icommuitem[];
-  newClassArr = commnuArr.slice();
-  return newClassArr;
-}
-export async function selectCommuinfo(id: number) {
-  const newDate = commnuArr.filter((item) => item.id === id);
 
-  return newDate;
+export async function fetchCommuList() {
+  const data = await axios.get(requests.community.getQuestionList, {
+    params: {
+      page: 1,
+    },
+  });
+  return data;
+}
+export async function selectCommuinfo(CommunityId: number) {
+  const data = await axios.get(
+    `${requests.community.getQuestionPost}/${CommunityId}`
+  );
+
+  return data.data.data;
 }
 const commnuArr = [
   {

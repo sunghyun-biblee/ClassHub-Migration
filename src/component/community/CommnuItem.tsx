@@ -5,50 +5,39 @@ import comment from "../../assets/img/comment.svg";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { selectCommuinfo } from "./hook/fetchCommuArray";
+import { IcommunityItem } from "./ShowCommuList";
 
 interface ICommnuItemprop {
-  item: {
-    id: number;
-    title: string;
-    name: string;
-    likes: string;
-    category: string;
-    comment: string;
-    overview: string;
-  };
+  item: IcommunityItem;
 }
 export const CommnuItem = ({ item }: ICommnuItemprop) => {
   const nav = useNavigate();
   const handleClick = () => {
-    nav(`/community/post/${item.id}`);
+    nav(`/community/post/${item.communityId}`);
   };
   const queryClient = useQueryClient();
   queryClient.prefetchQuery({
-    queryKey: ["commuDeatil", item.id],
-    queryFn: () => selectCommuinfo(item.id),
+    queryKey: ["commuDeatil", item.communityId],
+    queryFn: () => selectCommuinfo(item.communityId),
   });
   return (
     <div>
       <div onClick={handleClick}>
         <div className="flex ">
-          <Span className="mr-10">{item.category}</Span>
+          <Span className="mr-10">{item.communityType}</Span>
           <h1 className="font-extrabold">{item.title}</h1>
         </div>
         <div className="flex  pt-5 relative">
-          <span className="mr-10">{item.name}</span>
-          <p>
-            {item.overview?.length > 20
-              ? item.overview.slice(0, 20)
-              : item.overview}
-          </p>
+          <span className="mr-10">{item.userId}</span>
+          <p>{item.text?.length > 20 ? item.text.slice(0, 20) : item.text}</p>
           <div className="flex absolute right-0 items-center">
             <div className="flex mr-3 cursor-pointer">
               <img src={likes} alt="" className="w-[16px] h-auto mr-1" />
-              <p>{item.likes}</p>
+              <p>{item.favoriteCount}</p>
             </div>
             <div className="flex cursor-pointer">
               <img src={comment} alt="" className="w-[16px] h-auto mr-1" />
-              <p>{item.comment}</p>
+              <p>1</p> {/* 댓글 수 수정*/}
             </div>
           </div>
         </div>

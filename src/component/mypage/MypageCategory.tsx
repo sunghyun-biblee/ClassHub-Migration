@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import preview from "../../assets/img/preview.jpg";
 import { Icon } from "./Icon";
 import { GradeUpBtn, handleClick } from "./GradeUpBtn";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { getTeacherData } from "./hook/getTeacherData";
-import { useQuery } from "@tanstack/react-query";
 
 export const MypageCategory = () => {
   const nav = useNavigate();
