@@ -160,11 +160,11 @@ md:mt-2
           <ul className="pt-3">
             <li className="flex justify-between py-2 px-1">
               <span>카테고리</span>
-              <select name="" id="">
-                <option value="">개발·프로그래밍</option>
-                <option value="">게임 개발</option>
-                <option value="">인공지능</option>
-                <option value="">보안·네트워크</option>
+              <select name="category" id="classCategory">
+                <option value="devProgram">개발·프로그래밍</option>
+                <option value="devGame">게임 개발</option>
+                <option value="ai">인공지능</option>
+                <option value="security">보안·네트워크</option>
               </select>
             </li>
             <li className="flex justify-between py-2 px-1">

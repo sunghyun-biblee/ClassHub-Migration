@@ -22,8 +22,11 @@ export const ShowClass = () => {
   return (
     <div>
       <div className="grid grid-cols-3 gap-5 pt-5">
-        {data?.slice(pageOfFirst, pageOfLast)?.map((item) => (
-          <ClassItem item={item}></ClassItem>
+        {data?.slice(pageOfFirst, pageOfLast)?.map((item, index) => (
+          <ClassItem
+            item={item}
+            key={item.id + "showClass" + index}
+          ></ClassItem>
         ))}
       </div>
       <PageNation
