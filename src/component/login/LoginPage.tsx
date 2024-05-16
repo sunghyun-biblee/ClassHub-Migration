@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import logo from "../../assets/img/Logo.png";
+import logo from "assets/img/Logo.png";
 
 import { SignUp } from "./SignUp";
 import { SignIn } from "./SignIn";
@@ -42,7 +42,7 @@ export const LoginPage = () => {
           />
         </article>
         <article
-          className={`flex overflow-hidden  md:w-[100%] mysm:w-[90vw] relative bg-[#1C8DCE] lg:py-5 mysm:py-3 px-3 mb-20  rounded-lg shadow-[0px_8px_24px_rgba(149,157,165,0.3)] text-[#efefef]  ${
+          className={`flex overflow-hidden  md:w-[100%] mysm:w-[90vw] relative bg-[#1C8DCE] lg:py-5 mysm:py-3 px-3   rounded-lg shadow-[0px_8px_24px_rgba(149,157,165,0.3)] text-[#efefef]  ${
             page === 0 ? " lg:h-[300px] " : ""
           }
           `}

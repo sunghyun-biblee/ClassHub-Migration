@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { Carousel } from "./Carousel";
 import { PreviewClass } from "./PreviewClass";
 import { PreviewCommu } from "./PreviewCommu";
-import carousel_one from "../../assets/img/carousel/carousel_one.jpg";
-import carousel_two from "../../assets/img/carousel/carousel_two.jpg";
-import carousel_three from "../../assets/img/carousel/carousel_three.jpg";
-import preview from "../../assets/img/preview.jpg";
+import carousel_one from "assets/img/carousel/carousel_one.jpg";
+import carousel_two from "assets/img/carousel/carousel_two.jpg";
+import carousel_three from "assets/img/carousel/carousel_three.jpg";
+import preview from "assets/img/preview.jpg";
 export const MainPage = () => {
   return (
     <MainPageContainer className=" flex items-center flex-col lg:max-w-[1200px]  md:max-w-[100vw] mysm:max-w-[100vw] lg:pt-[84px] mysm:pt-[68px]">

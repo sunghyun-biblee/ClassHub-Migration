@@ -1,5 +1,5 @@
 import React from "react";
-import google from "../../assets/img/SNSIMG/web_light_sq_na.svg";
+import google from "assets/img/SNSIMG/web_light_sq_na.svg";
 export const GoogleLogin = () => {
   return (
     <div id="google" className="flex rounded-md">

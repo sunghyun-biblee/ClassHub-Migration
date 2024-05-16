@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import searchICON from "../../assets/img/searchICON.svg";
-import MenuBar from "../../assets/img/MenuBar.svg";
-import logo from "../../assets/img/Logo.png";
-import cart from "../../assets/img/Cart.svg";
-import user from "../../assets/img/Person.svg";
+import searchICON from "assets/img/searchICON.svg";
+import MenuBar from "assets/img/MenuBar.svg";
+import logo from "assets/img/Logo.png";
+import cart from "assets/img/Cart.svg";
+import user from "assets/img/Person.svg";
 import { useNavigate } from "react-router-dom";
 const NavigationMobile = styled.div`
   position: fixed;

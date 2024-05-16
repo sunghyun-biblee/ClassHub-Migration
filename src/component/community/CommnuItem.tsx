@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import likes from "../../assets/img/likes.svg";
-import comment from "../../assets/img/comment.svg";
+import likes from "assets/img/likes.svg";
+import comment from "assets/img/comment.svg";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { selectCommuinfo } from "./hook/fetchCommuArray";

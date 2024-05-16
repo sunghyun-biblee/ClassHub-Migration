@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { VideoInfo } from "./AddClass";
-import plus from "../../../../assets/img/Plus.svg";
+import plus from "assets/img/Plus.svg";
 import { PlusIcon } from "./PlusIcon";
 
 interface IvideoProp {

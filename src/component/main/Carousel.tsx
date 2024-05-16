@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import styled from "styled-components";
-import leftArrow from "../../assets/img/carousel/leftArrow.svg";
-import rightArrow from "../../assets/img/carousel/rigthArrow.svg";
+import leftArrow from "assets/img/carousel/leftArrow.svg";
+import rightArrow from "assets/img/carousel/rigthArrow.svg";
 
 interface Icarousel {
   img: string;

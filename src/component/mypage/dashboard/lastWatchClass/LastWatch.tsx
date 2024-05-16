@@ -1,5 +1,5 @@
 import React from "react";
-import preview from "../../../../assets/img/preview.jpg";
+import preview from "assets/img/preview.jpg";
 export const LastWatch = () => {
   return (
     <div className="md:grid md:grid-cols-2 h-[90%] mysm:flex md:gap-0 mysm:gap-1 md:mt-0 mysm:mt-3">

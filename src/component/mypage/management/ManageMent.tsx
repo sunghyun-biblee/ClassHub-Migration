@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import right from "../../../assets/img/carousel/rigthArrow.svg";
+import right from "assets/img/carousel/rigthArrow.svg";
 import { Item } from "./Item";
-import { PageNation } from "../../class/PageNation";
+import { PageNation } from "component/class/PageNation";
 import { Header } from "../Header";
 export const ManageMent = () => {
   const type = "management";

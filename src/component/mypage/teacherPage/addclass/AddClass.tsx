@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { VideoInsert, formatVideoDuration } from "./VideoInsert";
-import { QueryClient, useQueryClient } from "@tanstack/react-query";
-import left from "../../../../assets/img/carousel/leftArrow.svg";
+
+import left from "assets/img/carousel/leftArrow.svg";
 export interface VideoInfo {
   VideoTitle: string;
   video: string;

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import preview from "../../assets/img/preview.jpg";
+import preview from "assets/img/preview.jpg";
 import { Icon } from "./Icon";
 import { GradeUpBtn, handleClick } from "./GradeUpBtn";
 import { Link, useLocation, useNavigate } from "react-router-dom";

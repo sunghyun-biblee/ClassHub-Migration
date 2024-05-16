@@ -1,8 +1,8 @@
 import React from "react";
 import { classProp } from "./PreviewClass";
-import rightArrow from "../../assets/img/carousel/rigthArrow.svg";
-import { ClassItem } from "../class/ClassItem";
-import star from "../../assets/img/Star.svg";
+import rightArrow from "assets/img/carousel/rigthArrow.svg";
+import { ClassItem } from "component/class/ClassItem";
+import star from "assets/img/Star.svg";
 
 export const PopularClass = ({ classList }: classProp) => {
   return (

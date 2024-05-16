@@ -1,6 +1,6 @@
 import React from "react";
 import { WeekItem } from "./WeekItem";
-import check from "../../../../assets/img/Check.svg";
+import check from "assets/img/Check.svg";
 
 export const WeeklyStudy = () => {
   return (

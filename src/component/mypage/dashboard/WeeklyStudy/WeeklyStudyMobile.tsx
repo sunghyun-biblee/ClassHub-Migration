@@ -1,5 +1,5 @@
 import React from "react";
-import check from "../../../../assets/img/Check.svg";
+import check from "assets/img/Check.svg";
 
 export const WeeklyStudyMobile = () => {
   return (

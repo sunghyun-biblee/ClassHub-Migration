@@ -1,11 +1,11 @@
 import React, { useRef, useState } from "react";
 
-import preview from "../../../assets/img/preview.jpg";
+import preview from "assets/img/preview.jpg";
 import styled from "styled-components";
 import { SelectCategory } from "./SelectCategory";
-import axios from "../../../api/axios";
+import axios from "api/axios";
 
-import requests from "../../../api/requests";
+import requests from "api/requests";
 // import axios from "axios";
 
 interface selectImgType {

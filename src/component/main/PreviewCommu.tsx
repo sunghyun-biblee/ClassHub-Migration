@@ -1,5 +1,5 @@
 import React from "react";
-import rightArrow from "../../assets/img/carousel/rigthArrow.svg";
+import rightArrow from "assets/img/carousel/rigthArrow.svg";
 
 interface commnuProp {
   commnuList: {

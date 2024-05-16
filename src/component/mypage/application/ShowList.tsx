@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import right from "../../../assets/img/carousel/rigthArrow.svg";
+import right from "assets/img/carousel/rigthArrow.svg";
 import { ApplicationItem } from "./ApplicationItem";
-import { PageNation } from "../../class/PageNation";
+import { PageNation } from "component/class/PageNation";
 
 type IShowListProp = {
   filter: string;

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import img1 from "../../../assets/img/carousel/carousel_one.jpg";
-import img2 from "../../../assets/img/carousel/carousel_two.jpg";
-import img3 from "../../../assets/img/carousel/carousel_three.jpg";
+import img1 from "assets/img/carousel/carousel_one.jpg";
+import img2 from "assets/img/carousel/carousel_two.jpg";
+import img3 from "assets/img/carousel/carousel_three.jpg";
 import { ApplicationNav } from "./ApplicationNav";
 import { ApplicationFilter } from "./ApplicationFilter";
 import { ShowList } from "./ShowList";

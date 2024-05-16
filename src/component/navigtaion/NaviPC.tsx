@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import searchICON from "../../assets/img/searchICON.svg";
+import searchICON from "assets/img/searchICON.svg";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "../../assets/img/Logo.png";
-import cart from "../../assets/img/Cart.svg";
-import user from "../../assets/img/Person.svg";
-import { useAuth } from "../../hook/AuthProvider";
+import logo from "assets/img/Logo.png";
+
+import cart from "assets/img/Cart.svg";
+import user from "assets/img/Person.svg";
+import { useAuth } from "hook/AuthProvider";
 const NavigationPC = styled.div`
   @media (max-width: 1023px) {
     display: none;

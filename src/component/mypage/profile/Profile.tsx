@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import myIMG from "../../../assets/img/preview.jpg";
-import styled from "styled-components";
+import myIMG from "assets/img/preview.jpg";
+
 export const Profile = () => {
   const [isEdit, setIseEdit] = useState(false);
   const email = "admin20240509@classhub.co.kr123123123123123";

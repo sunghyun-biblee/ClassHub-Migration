@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { PageNation } from "../class/PageNation";
+import { PageNation } from "component/class/PageNation";
 import { CommnuItem } from "./CommnuItem";
 
 import { useQuery } from "@tanstack/react-query";

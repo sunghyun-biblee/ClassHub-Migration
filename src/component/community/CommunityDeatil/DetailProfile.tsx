@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import preview from "../../../assets/img/preview.jpg";
+import preview from "assets/img/preview.jpg";
 type IDetailProfileProp = {
   name: string;
   category: string;
