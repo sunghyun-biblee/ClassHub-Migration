@@ -38,22 +38,22 @@ export const ClassItem = ({ item }: IclassitemProp) => {
       <div className="h-[100%] flex flex-col justify-between">
         <div className="flex justify-between  md:pb-2 mysm:flex-col pb-1">
           <h1
-            className="lg:font-bold md:text-base mysm:text-[11px] font-extrabold p-[1px] whitespace-nowrap 
+            className="lg:font-bold md:text-base mysm:text-[12px] font-extrabold p-[1px] whitespace-nowrap 
           lg:max-w-[200px] text-ellipsis overflow-hidden
           "
           >
             {item.title}
           </h1>
-          <h3 className=" md:text-base mysm:text-[11px] p-[1px]">
+          <h3 className=" md:text-base mysm:text-[13px] p-[1px]">
             {item.name}
           </h3>
         </div>
 
         <div className="flex justify-between pt-2 lg:flex-row md:flex-row mysm:flex-col">
-          <p className="  md:text-base mysm:text-[11px] px-[1px] font-semibold">
+          <p className="  md:text-base mysm:text-[12px] px-[1px] font-semibold">
             {item.price}
           </p>
-          <p className=" pr-2  md:text-base mysm:text-[11px] px-[1px] font-semibold">
+          <p className=" pr-2  md:text-base mysm:text-[12px] px-[1px] font-semibold">
             {item.score}점
           </p>
         </div>

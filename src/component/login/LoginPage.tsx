@@ -1,8 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import logo from "../../assets/img/Logo.png";
-import left from "../../assets/img/carousel/leftArrow.svg";
-import right from "../../assets/img/carousel/rigthArrow.svg";
-import styled from "styled-components";
 
 import { SignUp } from "./SignUp";
 import { SignIn } from "./SignIn";
@@ -12,29 +9,17 @@ export interface ILoginProps {
 }
 export const LoginPage = () => {
   const [page, setPage] = useState(0);
-  const [visibleOne, setVisibleOne] = useState(false);
-  const [visibleTwo, setVisibleTwo] = useState(false);
-  const [visibleThree, setVisibleThree] = useState(false);
-  const [visibleFour, setVisibleFour] = useState(false);
-
   const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setTimeout(() => setVisibleOne(true), 300);
-    setTimeout(() => setVisibleTwo(true), 600);
-    setTimeout(() => setVisibleThree(true), 900);
-    setTimeout(() => setVisibleFour(true), 1300);
-  }, []);
   return (
     <div
       className="lg:mt-[85px] md:mt-[75px] mysm:mt-[75px] max-w-[100vw] 
- flex flex-col md:justify-center items-center h-[80dvh]
- mysm:justify-start
+ flex flex-col md:justify-center items-center h-[90dvh]
+ mysm:justify-center
       "
     >
       <section
-        className="md:grid lg:grid-cols-[1fr,600px] 
-      md:grid-cols-[1fr,500px]
+        className="lg:grid lg:grid-cols-[1fr,600px] 
+    
       mysm:flex
       mysm:flex-col
       lg:gap-0 md:gap-1
@@ -44,9 +29,8 @@ export const LoginPage = () => {
       "
       >
         <article
-          className="flex mysm:justify-center items-center
-          md:h-auto mysm:h-[250px]
-        "
+          className={`flex mysm:justify-center items-center
+          md:h-auto mysm:h-[250px] ${page === 2 && "mysm:hidden lg:block"} `}
         >
           <img
             src={logo}
@@ -58,45 +42,33 @@ export const LoginPage = () => {
           />
         </article>
         <article
-          className={`flex overflow-hidden  md:w-[100%] mysm:w-[90vw] relative bg-[#1C8DCE] lg:py-5 mysm:py-3 px-3 rounded-lg shadow-[0px_8px_24px_rgba(149,157,165,0.3)] text-[#efefef]  ${
+          className={`flex overflow-hidden  md:w-[100%] mysm:w-[90vw] relative bg-[#1C8DCE] lg:py-5 mysm:py-3 px-3 mb-20  rounded-lg shadow-[0px_8px_24px_rgba(149,157,165,0.3)] text-[#efefef]  ${
             page === 0 ? " lg:h-[300px] " : ""
           }
-        `}
+          `}
         >
-          {/* <img
-            src={left}
-            alt=""
-            className={`w-5 absolute left-0 top-[50%] z-10 ${
-              page === 0 ? "hidden" : "block"
-            }`}
-            onClick={prevClick}
-          /> */}
-
           <div className="flex w-[100%]" ref={ref}>
             <div
               className={`relative
             min-w-[100%] ${page === 0 ? "block" : "hidden"}`}
             >
               <h1
-                className={`lg:m-2 lg:text-2xl md:text-xl
-              font-extrabold transition-opacity duration-300 ${
-                visibleOne ? "opacity-100" : "opacity-0"
-              }`}
+                className={`lg:m-2 lg:text-2xl md:text-xl opacity-0 font-extrabold transition-opacity animate-fade-in-1
+              `}
               >
                 ClassHub에 오신걸 환영합니다🎉
               </h1>
               <div className="flex flex-col justify-center lg:mt-14 md:my-7 md:h-auto mysm:h-48">
                 <h2
-                  className={` font-extrabold md:text-lg text-center transition-opacity duration-300 ${
-                    visibleTwo ? "opacity-100" : "opacity-0"
-                  }`}
+                  className={` font-extrabold md:text-lg text-center   opacity-0 transition-opacity animate-fade-in-2`}
                 >
                   아이디가 있으신가요?
                 </h2>
                 <div
                   className={`flex mysm:justify-center lg:p-5 mysm:py-4 transition-opacity
-               duration-700
-               ${visibleThree ? "opacity-100" : "opacity-0"}
+               opacity-0
+               animate-fade-in-3
+              
               `}
                 >
                   <button
@@ -114,9 +86,7 @@ export const LoginPage = () => {
                   </button>
                 </div>
                 <div
-                  className={`absolute bottom-0 w-[100%]
-                  transition-opacity duration-500
-                  ${visibleFour ? "opacity-100" : "opacity-0"}`}
+                  className={`absolute bottom-0 w-[100%] transition-opacity opacity-0 animate-fade-in-4`}
                 >
                   <ul className="flex justify-end md:px-4 mysm:px-2">
                     <li className="text-gray-300/90 cursor-pointer text-sm text-center pr-5">

@@ -18,8 +18,8 @@ export const PopularClass = ({ classList }: classProp) => {
           <img src={rightArrow} alt="" className="w-5 h-auto ml-2" />
         </div>
       </div>
-      <section className="grid grid-cols-5 gap-3">
-        {classList.map((item) => (
+      <section className="grid grid-cols-4 gap-3">
+        {classList.slice(0, 4).map((item) => (
           // <article
           //   className="flex flex-col "
           //   key={`${item.title}+${item.name}`}
