@@ -68,14 +68,16 @@ export const NaviPC = () => {
           </li>
           {/* <li>멘토링</li> */}
         </ul>
-        <div className="lg:flex justify-center items-center relative">
-          <input
-            type="text"
-            placeholder="강의를 검색해보세요"
-            className="border-2 rounded-md w-72 h-[36px] px-2 text-sm py-1 focus:outline-blue-600"
-          />
-          <SearchButton>{/* <img src={searchICON} alt="" /> */}</SearchButton>
-        </div>
+        <form action="">
+          <div className="lg:flex justify-center items-center relative">
+            <input
+              type="text"
+              placeholder="강의를 검색해보세요"
+              className="border-2 rounded-md w-72 h-[36px] px-2 text-sm py-1 focus:outline-blue-600"
+            />
+            <SearchButton>{/* <img src={searchICON} alt="" /> */}</SearchButton>
+          </div>
+        </form>
         {isLogin ? (
           <ul className="lg:flex  items-center justify-around w-80">
             <li className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer hover:bg-blue-300 hover:text-white hover:transition-colors">

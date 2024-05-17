@@ -25,6 +25,7 @@ import { TeacherPage } from "./component/mypage/teacherPage/TeacherPage";
 import { AddPost } from "./component/community/addpost/AddPost";
 import { ShowCommuList } from "./component/community/ShowCommuList";
 import { AddClass } from "./component/mypage/teacherPage/addclass/AddClass";
+import { LearningPage } from "component/learningpage/LearningPage";
 
 interface Ipages {
   id: string;
@@ -105,6 +106,10 @@ function App() {
               element={<CommuDetail></CommuDetail>}
             ></Route>
             <Route path="signIn" element={<LoginPage />}></Route>
+            <Route
+              path="learn/:clasId"
+              element={<LearningPage></LearningPage>}
+            ></Route>
           </Route>
         </Routes>
         <ReactQueryDevtools></ReactQueryDevtools>

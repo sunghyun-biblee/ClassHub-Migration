@@ -3,12 +3,19 @@ import right from "assets/img/carousel/rigthArrow.svg";
 import { Item } from "./Item";
 import { PageNation } from "component/class/PageNation";
 import { Header } from "../Header";
+import { useQuery } from "@tanstack/react-query";
+import { fetchClass } from "component/class/hook/useGetArray";
 export const ManageMent = () => {
   const type = "management";
   const [page, setPage] = useState(1);
   const postLimit = 5;
   const pageOfLast = page * postLimit; // 페이지마다 마지막 포스트 위치
   const pageOfFirst = pageOfLast - postLimit; // 페이지마다 첫 포스트 위치
+
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["classList", page],
+    queryFn: fetchClass,
+  });
   return (
     <div
       className="border-[1px] lg:m-0 mysm:m-1 shadow-[0px_8px_24px_rgba(149,157,165,0.3)] rounded-lg
@@ -38,7 +45,7 @@ export const ManageMent = () => {
             <li className="py-[5px]">바로가기</li>
           </ul>
           <div className="flex flex-col gap-y-5">
-            {examArr.slice(pageOfFirst, pageOfLast).map((item) => (
+            {data?.slice(pageOfFirst, pageOfLast).map((item) => (
               <Item item={item} key={item.id} />
             ))}
           </div>
