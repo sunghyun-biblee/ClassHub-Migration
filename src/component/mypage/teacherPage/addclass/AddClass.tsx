@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { VideoInsert, formatVideoDuration } from "./VideoInsert";
 
 import left from "assets/img/carousel/leftArrow.svg";
+import { URL } from "url";
 export interface VideoInfo {
   VideoTitle: string;
   video: string;
@@ -12,7 +13,10 @@ interface SectionInfo {
   sectiontitle: string;
   videos: VideoInfo[];
 }
-
+interface Thumbnail {
+  preview: string | undefined;
+  fileImg: File | null;
+}
 let i = 0;
 export const AddClass = () => {
   const [isAddSectionOn, setIsAddSectionOn] = useState(true);
@@ -30,7 +34,7 @@ export const AddClass = () => {
   const [showTargetSection, setShowTartgetSection] = useState<number | null>(
     null
   );
-
+  const [thumbnail, setThumbnail] = useState<Thumbnail>();
   const [category, SelectCategory] = useState<string>();
   const [price, setPrice] = useState<number>();
   const addSession = () => {
@@ -113,6 +117,13 @@ export const AddClass = () => {
       setShowTartgetSection(index);
     }
   };
+  const handleChangeThumbnail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const value = e.target.files[0];
+      const previewString = window.URL.createObjectURL(value);
+      setThumbnail({ preview: previewString, fileImg: value });
+    }
+  };
 
   console.log(completeSectionArray);
   return (
@@ -151,10 +162,30 @@ md:mt-2
               <textarea
                 name=""
                 id=""
-                className="resize-none border-[1px] w-[100%] min-h-[20dvh] focus:outline-blue-400 rounded-md"
+                className="resize-none border-[1px] w-[100%] min-h-[15vh] focus:outline-blue-400 rounded-md"
                 onChange={handleChangeclassDescription}
                 value={classDescription}
               ></textarea>
+            </li>
+            <li>
+              <input
+                type="file"
+                id="thumbnail"
+                className="hidden"
+                onChange={handleChangeThumbnail}
+              />
+              <label htmlFor="thumbnail" className="block py-1 ">
+                썸네일 등록
+              </label>
+              {thumbnail && (
+                <div className="py-2">
+                  <img
+                    src={thumbnail.preview}
+                    alt="thumbnail"
+                    className="w-[100%] h-[auto] rounded-lg"
+                  ></img>
+                </div>
+              )}
             </li>
           </ul>
           <ul className="pt-3">
