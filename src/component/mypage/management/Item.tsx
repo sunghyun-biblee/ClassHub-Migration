@@ -6,6 +6,7 @@ import right from "assets/img/carousel/rigthArrow.svg";
 interface ImanageProp {
   item: Iclassitem;
 }
+
 export const Item = ({ item }: ImanageProp) => {
   const nav = useNavigate();
   return (
