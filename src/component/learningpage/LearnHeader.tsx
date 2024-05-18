@@ -9,8 +9,8 @@ type ILearnHeaderProp = {
 export const LearnHeader = ({ data }: ILearnHeaderProp) => {
   return (
     <div>
-      <section className="md:w-[100vw] lg:max-w-[1200px]">
-        <article className="  bg-[#002333] text-white font-semibold">
+      <section className="md:w-[100vw] lg:max-w-[1200px] ">
+        <article className="  bg-[#002333] text-white font-semibold ">
           <div
             className="grid grid-cols-2
           lg:max-w-[1200px] md:w-[100vw] mysm:w-[100vw] lg:px-10 md:px-7  mysm:px-3  py-5  md:gap-5 mysm:gap-2

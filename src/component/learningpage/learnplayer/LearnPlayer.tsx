@@ -4,7 +4,7 @@ import { LearnVideoList } from "./LearnVideoList";
 
 export const LearnPlayer = () => {
   return (
-    <div className="lg:pt-[90px] md:pt-[90px] mysm:pt-[90px] max-w-[100vw] lg:max-w-[1500px] my-0 mx-auto h-[100%] bg-[#2C3539] flex justify-center items-center">
+    <div className="lg:pt-[90px] md:pt-[90px] mysm:pt-[90px] max-w-[100vw] lg:max-w-[1500px] my-0 mx-auto h-[100%] bg-[#2C3539] flex justify-center items-center pb-[40px] lg:h-[100vh] lg:pb-0">
       <div className="w-[100%]">
         <header>안녕하세요</header>
         <section className="lg:grid lg:grid-cols-[4fr,1fr] w-[100%] mysm:flex mysm:flex-col gap-1 relative">
