@@ -12,7 +12,6 @@ const NavigationPC = styled.div`
     display: none;
   }
   padding: 10px 0 10px 0;
-  margin-top: 1px;
   /* border-top: 1px solid rgba(0, 0, 0, 0.1);
   border-bottom: 2px solid rgba(0, 0, 0, 0.1); */
   box-shadow: rgba(149, 157, 165, 0.2) 0px 2px 5px;
@@ -42,7 +41,7 @@ export const NaviPC = () => {
   };
   return (
     <NavigationPC>
-      <nav className=" lg:flex justify-between items-center py-3   my-0 mx-auto max-w-[1200px] w-[100vw] h-[64px]">
+      <nav className=" lg:flex justify-between items-center py-3  my-0 mx-auto max-w-[1200px] w-[100vw] h-[64px]">
         <img
           src={logo}
           alt="logo-pc"

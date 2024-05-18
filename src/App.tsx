@@ -25,10 +25,13 @@ import { ShowCommuList } from "./component/community/ShowCommuList";
 import { AddClass } from "./component/mypage/teacherPage/addclass/AddClass";
 import { LearningPage } from "component/learningpage/LearningPage";
 import { LearnPlayer } from "component/learningpage/learnplayer/LearnPlayer";
+import { Footer } from "component/footer/Footer";
 
 function App() {
   const { pathname } = useLocation();
-
+  const pathData = pathname.split("/")[1];
+  const footerHiddenArray = ["mypage", "signIn", "learnplay"];
+  console.log(pathData);
   useEffect(() => {
     // 현재 경로에 맞는 타이틀 찾기
     const page = pages.find((p) => p.pathname === pathname);
@@ -42,7 +45,7 @@ function App() {
   const queryClient = new QueryClient();
   const LayOut = () => {
     return (
-      <div className="relative ">
+      <div className="relative">
         <Nav />
         <Outlet />
         <NaviMobileBottom />
@@ -52,64 +55,79 @@ function App() {
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
-        <Routes>
-          <Route path="/" element={<LayOut />}>
-            <Route index element={<MainPage />}></Route>
-            <Route path="mypage" element={<Mypage></Mypage>}>
-              <Route index element={<MypageHome />}></Route>
-              <Route index path="profile" element={<Profile></Profile>}></Route>
+        <div className="min-h-[100vh] flex flex-col justify-between">
+          <Routes>
+            <Route path="/" element={<LayOut />}>
+              <Route index element={<MainPage />}></Route>
+              <Route path="mypage" element={<Mypage></Mypage>}>
+                <Route index element={<MypageHome />}></Route>
+                <Route
+                  index
+                  path="profile"
+                  element={<Profile></Profile>}
+                ></Route>
+                <Route
+                  index
+                  path="management"
+                  element={<ManageMent></ManageMent>}
+                ></Route>
+                <Route
+                  index
+                  path="application"
+                  element={<Application></Application>}
+                ></Route>
+                <Route
+                  index
+                  path="dashboard"
+                  element={<Dashboard></Dashboard>}
+                ></Route>
+                <Route
+                  index
+                  path="teacherpage"
+                  element={<TeacherPage></TeacherPage>}
+                ></Route>
+                <Route
+                  index
+                  path="teacherpage/addClass"
+                  element={<AddClass></AddClass>}
+                ></Route>
+                <Route
+                  index
+                  path="mycommu"
+                  element={<MyCommu></MyCommu>}
+                ></Route>
+              </Route>
+              <Route path="community" element={<Community></Community>}>
+                <Route index element={<ShowCommuList />}></Route>
+                <Route
+                  index
+                  path=":category"
+                  element={<ShowCommuList />}
+                ></Route>
+                <Route path="addpost" element={<AddPost></AddPost>}></Route>
+              </Route>
+              <Route path="class" element={<Class></Class>}></Route>
               <Route
-                index
-                path="management"
-                element={<ManageMent></ManageMent>}
+                path="class/:classId"
+                element={<ClassDetail></ClassDetail>}
               ></Route>
               <Route
-                index
-                path="application"
-                element={<Application></Application>}
+                path="community/post/:commuId"
+                element={<CommuDetail></CommuDetail>}
+              ></Route>
+              <Route path="signIn" element={<LoginPage />}></Route>
+              <Route
+                path="learn/:classId"
+                element={<LearningPage></LearningPage>}
               ></Route>
               <Route
-                index
-                path="dashboard"
-                element={<Dashboard></Dashboard>}
+                path="learnplay/:classId/:videoId"
+                element={<LearnPlayer></LearnPlayer>}
               ></Route>
-              <Route
-                index
-                path="teacherpage"
-                element={<TeacherPage></TeacherPage>}
-              ></Route>
-              <Route
-                index
-                path="teacherpage/addClass"
-                element={<AddClass></AddClass>}
-              ></Route>
-              <Route index path="mycommu" element={<MyCommu></MyCommu>}></Route>
             </Route>
-            <Route path="community" element={<Community></Community>}>
-              <Route index element={<ShowCommuList />}></Route>
-              <Route index path=":category" element={<ShowCommuList />}></Route>
-              <Route path="addpost" element={<AddPost></AddPost>}></Route>
-            </Route>
-            <Route path="class" element={<Class></Class>}></Route>
-            <Route
-              path="class/:classId"
-              element={<ClassDetail></ClassDetail>}
-            ></Route>
-            <Route
-              path="community/post/:commuId"
-              element={<CommuDetail></CommuDetail>}
-            ></Route>
-            <Route path="signIn" element={<LoginPage />}></Route>
-            <Route
-              path="learn/:classId"
-              element={<LearningPage></LearningPage>}
-            ></Route>
-            <Route
-              path="learnplay/:classId/:videoId"
-              element={<LearnPlayer></LearnPlayer>}
-            ></Route>
-          </Route>
-        </Routes>
+          </Routes>
+          {!footerHiddenArray.includes(pathData) && <Footer></Footer>}
+        </div>
         <ReactQueryDevtools></ReactQueryDevtools>
       </QueryClientProvider>
     </AuthProvider>

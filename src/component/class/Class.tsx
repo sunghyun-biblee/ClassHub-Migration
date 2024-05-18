@@ -33,8 +33,8 @@ export const Class = () => {
   }
   return (
     <ClassContainer
-      className="lg:pt-[130px] md:pt-[100px] mysm:pt-[90px] max-w-[100vw] lg:max-w-[1200px]
-     lg:grid grid-cols-[1fr,4fr] md:block mysm:block  "
+      className="lg:pt-[100px] md:pt-[100px] mysm:pt-[90px] max-w-[100vw] lg:max-w-[1200px]
+     lg:grid grid-cols-[1fr,4fr] md:block mysm:block "
     >
       <ClassCategory setCategory={setCategory}></ClassCategory>
       <section className="flex flex-col px-5 ">

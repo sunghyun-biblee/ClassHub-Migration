@@ -12,7 +12,7 @@ export const LoginPage = () => {
   const ref = useRef<HTMLDivElement>(null);
   return (
     <div
-      className="lg:mt-[85px] md:mt-[75px] mysm:mt-[75px] max-w-[100vw] 
+      className="lg:pt-[85px] md:pt-[75px] mysm:pt-[75px] max-w-[100vw] 
  flex flex-col md:justify-center items-center h-[90dvh]
  mysm:justify-center
       "

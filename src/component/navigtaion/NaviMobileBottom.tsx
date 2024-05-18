@@ -6,7 +6,7 @@ import styled from "styled-components";
 export const NaviMobileBottom = () => {
   return (
     <NaviBottom>
-      <ul className="flex justify-around shadow-[2px_0_1px_1px_rgba(149,157,165,0.5)] items-center w-[100vw] h-10 text-sm bg-[#efefef]  lg:hidden font-semibold ">
+      <ul className="flex justify-around shadow-[2px_0_1px_1px_rgba(149,157,165,0.5)] items-center w-[100vw] h-10 text-sm bg-[#efefef]  lg:hidden font-semibold text-black">
         <li>
           <Link to={"mypage/dashboard"}>대시보드</Link>
         </li>

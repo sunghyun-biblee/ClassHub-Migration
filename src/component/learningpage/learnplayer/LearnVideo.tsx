@@ -76,6 +76,7 @@ export const LearnVideo = () => {
 // react player의 깃허브 레파지토리의 이슈부분에서 해당 문제 대한 해결법을 찾을 수 있었습니다
 //  config props를 통하여 file 부분의 속성중 controlsList부분을 nodowonload로 지정하면 해당 영상을 다운로드할 수 없도록 설정할 수 있었습니다.
 
+// ---chatGPT---
 //  progressInterval={1000} 은 onProgress 이벤트를 발생시키는 빈도를 설정한다
 //  위와같이 1000으로 설정하면 1000ms 즉, 1초마다 onProgress 이벤트를 발생시킴
 //  onProgress는 비디오 재생중일 때,현재 재생 시간 등의 정보를 제공한다.
