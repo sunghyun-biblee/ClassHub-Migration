@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { VideoInsert, formatVideoDuration } from "./VideoInsert";
 
 import left from "assets/img/carousel/leftArrow.svg";
-import { URL } from "url";
+
 export interface VideoInfo {
   VideoTitle: string;
   video: string;

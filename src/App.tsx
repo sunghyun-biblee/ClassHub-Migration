@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { Outlet, Route, Routes, useLocation } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -11,7 +10,6 @@ import { Class } from "./component/class/Class";
 import { NaviMobileBottom } from "./component/navigtaion/NaviMobileBottom";
 import { ClassDetail } from "./component/class/ClassDetail";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { classProp } from "./component/main/PreviewClass";
 import { CommuDetail } from "./component/community/CommunityDeatil/CommuDetail";
 import { Dashboard } from "./component/mypage/dashboard/Dashboard";
 import { MypageHome } from "./component/mypage/MypageHome";
@@ -26,12 +24,8 @@ import { AddPost } from "./component/community/addpost/AddPost";
 import { ShowCommuList } from "./component/community/ShowCommuList";
 import { AddClass } from "./component/mypage/teacherPage/addclass/AddClass";
 import { LearningPage } from "component/learningpage/LearningPage";
+import { LearnPlayer } from "component/learningpage/learnplayer/LearnPlayer";
 
-interface Ipages {
-  id: string;
-  pathname: string;
-  title: string;
-}
 function App() {
   const { pathname } = useLocation();
 
@@ -107,8 +101,12 @@ function App() {
             ></Route>
             <Route path="signIn" element={<LoginPage />}></Route>
             <Route
-              path="learn/:clasId"
+              path="learn/:classId"
               element={<LearningPage></LearningPage>}
+            ></Route>
+            <Route
+              path="learnplay/:classId/:videoId"
+              element={<LearnPlayer></LearnPlayer>}
             ></Route>
           </Route>
         </Routes>
@@ -164,5 +162,10 @@ const pages = [
     id: "pages9",
     pathname: "/class",
     title: "강의",
+  },
+  {
+    id: "pages9",
+    pathname: "/mypage/teacherpage",
+    title: "강사페이지",
   },
 ];

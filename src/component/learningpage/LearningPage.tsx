@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { selectClassinfo } from "component/class/hook/useGetArray";
 import { useGetpathname } from "component/community/hook/getPathname";
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { LearnHeader } from "./LearnHeader";
@@ -16,7 +16,7 @@ export const LearningPage = () => {
   });
 
   if (data && data[0].title) {
-    document.title = data[0]?.title;
+    document.title = data[0].title;
   }
 
   return (

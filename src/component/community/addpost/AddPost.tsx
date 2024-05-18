@@ -95,6 +95,7 @@ export const AddPost = () => {
 
   const addFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const data = e.target.files as FileList;
+    console.log(data);
     const selectFiles = Array.from(data);
     if (data.length >= 4) {
       alert("이미지는 최대 3개까지 등록 가능합니다");
