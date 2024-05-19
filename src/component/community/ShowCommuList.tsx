@@ -26,7 +26,6 @@ export const ShowCommuList = () => {
 
   const nav = useNavigate();
   const [page, setPage] = useState(1);
-  const postLimit = 5;
   const renderText = () => {
     switch (category) {
       case undefined:
@@ -44,6 +43,8 @@ export const ShowCommuList = () => {
     queryKey: ["question", page],
     queryFn: () => fetchQuestion(page),
   });
+
+  console.log(data);
   const pageNationData = {
     currentPage: data?.data.data.currentPageNum,
     lastPage: data?.data.data.totalNum,

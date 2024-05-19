@@ -15,7 +15,7 @@ export const CommuDetail = () => {
     queryKey: ["commuDeatil", id],
     queryFn: () => selectCommuinfo(id),
   });
-
+  console.log(data);
   return (
     <div
       className="
@@ -45,8 +45,8 @@ export const CommuDetail = () => {
               <div className="flex justify-between md:px-5 mysm:pl-5 mysm:pr-10  pb-5 pt-2 text-gray-500 ">
                 <p>2024-05-07</p>
                 <div className="flex ">
-                  <img src={likes} alt="likes" className="lg:w-5 md:w-5" />
-                  <p>{data.likes}</p>
+                  <img src={likes} alt="likes" className="lg:w-5 md:w-5 mr-1" />
+                  <p>{data.favoriteCount}</p>
                 </div>
               </div>
             </article>
@@ -54,7 +54,16 @@ export const CommuDetail = () => {
               <div>
                 <p>{data.text}</p>
               </div>
+              <div>
+                {data.image.map((item: string) => (
+                  <div>
+                    <img src={item} alt="postImg"></img>
+                    <p>{item}</p>
+                  </div>
+                ))}
+              </div>
             </Overview>
+
             <article className="p-5 ">
               <div className="flex items-center">
                 <h4 className="font-semibold text-gray-700">댓글</h4>

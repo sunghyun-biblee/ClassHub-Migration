@@ -22,22 +22,27 @@ export const CommnuItem = ({ item }: ICommnuItemprop) => {
   });
   return (
     <div>
-      <div onClick={handleClick}>
-        <div className="flex ">
-          <Span className="mr-10">{item.communityType}</Span>
-          <h1 className="font-extrabold">{item.title}</h1>
-        </div>
-        <div className="flex  pt-5 relative">
-          <span className="mr-10">{item.userId}</span>
+      <div onClick={handleClick} className="flex justify-between">
+        <div className="flex flex-col justify-between w-[100%]">
+          <div className="flex ">
+            <Span className="mr-5">{item.communityType}</Span>
+            <h1 className="font-extrabold">{item.title}</h1>
+          </div>
           <p>{item.text?.length > 20 ? item.text.slice(0, 20) : item.text}</p>
-          <div className="flex absolute right-0 items-center">
-            <div className="flex mr-3 cursor-pointer">
-              <img src={likes} alt="" className="w-[16px] h-auto mr-1" />
-              <p>{item.favoriteCount}</p>
-            </div>
-            <div className="flex cursor-pointer">
-              <img src={comment} alt="" className="w-[16px] h-auto mr-1" />
-              <p>1</p> {/* 댓글 수 수정*/}
+        </div>
+
+        <div className="flex">
+          <div className="flex  items-end flex-col justify-between gap-3">
+            <p className="px-1">{item.userId}</p>
+            <div className="flex px-2 pt-2">
+              <div className="flex mr-7 cursor-pointer items-center">
+                <img src={likes} alt="" className="w-[16px] h-auto mr-1" />
+                <p>{item.favoriteCount}</p>
+              </div>
+              <div className="flex cursor-pointer items-center">
+                <img src={comment} alt="" className="w-[16px] h-auto mr-1" />
+                <p>1</p> {/* 댓글 수 수정*/}
+              </div>
             </div>
           </div>
         </div>
