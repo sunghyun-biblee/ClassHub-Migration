@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useGetpathname } from "./hook/getPathname";
+import { useGetpathname } from "./hooks/getPathname";
 
 interface ICommnuprop {
   setCategory: (category: string) => void;

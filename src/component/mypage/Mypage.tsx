@@ -3,8 +3,8 @@ import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { MypageCategory } from "./MypageCategory";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchCommuList } from "../community/hook/fetchCommuArray";
-import { getTeacherData } from "./hook/getTeacherData";
+import { fetchCommuList } from "../community/hooks/fetchCommuArray";
+import { getTeacherData } from "./hooks/getTeacherData";
 
 export const Mypage = () => {
   const queryClient = useQueryClient();

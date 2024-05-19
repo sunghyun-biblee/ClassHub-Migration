@@ -1,5 +1,5 @@
 import React from "react";
-import { Iclassitem } from "./../class/hook/useGetArray";
+import { Iclassitem } from "../class/hooks/useGetArray";
 
 type ILearnHeaderProp = {
   data: Iclassitem;

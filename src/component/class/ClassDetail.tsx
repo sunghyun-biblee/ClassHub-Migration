@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { selectClassinfo } from "./hook/useGetArray";
+import { selectClassinfo } from "./hooks/useGetArray";
 import styled from "styled-components";
 
 export const ClassDetail = () => {

@@ -4,12 +4,12 @@ import { CommuCategory } from "./CommuCategory";
 
 import { CommunityHeader } from "./CommunityHeader";
 import { Outlet } from "react-router-dom";
-import { useGetpathname } from "./hook/getPathname";
+import { useGetpathname } from "./hooks/getPathname";
 
 import requests from "../../api/requests";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { fetchCommuList } from "./hook/fetchCommuArray";
+import { fetchCommuList } from "./hooks/fetchCommuArray";
 
 export const Community = () => {
   const pathname = useGetpathname();

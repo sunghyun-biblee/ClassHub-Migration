@@ -1,5 +1,5 @@
 import React from "react";
-import { Icommuitem } from "../../community/hook/fetchCommuArray";
+import { Icommuitem } from "../../community/hooks/fetchCommuArray";
 import del from "../../../assets/img/Trash.svg";
 import right from "../../../assets/img/carousel/rigthArrow.svg";
 

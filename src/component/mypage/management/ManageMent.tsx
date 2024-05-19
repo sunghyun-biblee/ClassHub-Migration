@@ -4,7 +4,7 @@ import { Item } from "./Item";
 import { PageNation } from "component/class/PageNation";
 import { Header } from "../Header";
 import { useQuery } from "@tanstack/react-query";
-import { fetchClass } from "component/class/hook/useGetArray";
+import { fetchClass } from "component/class/hooks/useGetArray";
 export const ManageMent = () => {
   const type = "management";
   const [page, setPage] = useState(1);
@@ -49,12 +49,12 @@ export const ManageMent = () => {
               <Item item={item} key={item.id} />
             ))}
           </div>
-          <PageNation
+          {/* <PageNation
             listLength={examArr.length}
             postLimit={postLimit}
             page={page}
             setPage={setPage}
-          ></PageNation>
+          ></PageNation> */}
         </article>
       </section>
     </div>

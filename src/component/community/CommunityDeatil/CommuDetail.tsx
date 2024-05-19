@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { selectCommuinfo } from "../hook/fetchCommuArray";
+import { selectCommuinfo } from "../hooks/fetchCommuArray";
 
 import likes from "assets/img/likes.svg";
 import comment from "assets/img/comment.svg";

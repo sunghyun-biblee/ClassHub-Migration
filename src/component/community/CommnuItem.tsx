@@ -4,7 +4,7 @@ import likes from "assets/img/likes.svg";
 import comment from "assets/img/comment.svg";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
-import { selectCommuinfo } from "./hook/fetchCommuArray";
+import { selectCommuinfo } from "./hooks/fetchCommuArray";
 import { IcommunityItem } from "./ShowCommuList";
 
 interface ICommnuItemprop {

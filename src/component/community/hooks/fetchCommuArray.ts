@@ -1,6 +1,6 @@
 import axios from "../../../api/axios";
-import requests from "./../../../api/requests";
-import { Community } from "./../Community";
+import requests from "../../../api/requests";
+import { Community } from "../Community";
 
 export interface Icommuitem {
   id: number;
@@ -20,10 +20,16 @@ export async function fetchCommuList() {
   });
   return data;
 }
+export async function fetchQuestion(pageNumber: number) {
+  const data = await axios.get(requests.community.getQuestionList, {
+    params: {
+      page: pageNumber,
+    },
+  });
+  return data;
+}
 export async function selectCommuinfo(CommunityId: number) {
-  const data = await axios.get(
-    `${requests.community.getQuestionPost}/${CommunityId}`
-  );
+  const data = await axios.get(`/community/question/${CommunityId}`);
 
   return data.data.data;
 }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ClassSearchBar } from "./ClassSearchBar";
 import { classProp } from "component/main/PreviewClass";
 
-import { fetchClass } from "./hook/useGetArray";
+import { fetchClass } from "./hooks/useGetArray";
 import { ClassItem } from "./ClassItem";
 import { PageNation } from "./PageNation";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -29,12 +29,12 @@ export const ShowClass = () => {
           ></ClassItem>
         ))}
       </div>
-      <PageNation
+      {/* <PageNation
         listLength={data ? data.length : 0}
         postLimit={postLimit}
         page={page}
         setPage={setPage}
-      ></PageNation>
+      ></PageNation> */}
     </div>
   );
 };

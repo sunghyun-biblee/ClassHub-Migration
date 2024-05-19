@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Header } from "../Header";
-import { fetchCommuList } from "component/community/hook/fetchCommuArray";
+import { fetchCommuList } from "component/community/hooks/fetchCommuArray";
 import { Item } from "../management/Item";
 import { useQuery } from "@tanstack/react-query";
 import { PageNation } from "component/class/PageNation";

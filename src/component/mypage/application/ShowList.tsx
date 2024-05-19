@@ -42,12 +42,12 @@ export const ShowList = ({ filter }: IShowListProp) => {
           <ApplicationItem item={item} key={item.id}></ApplicationItem>
         ))}
       </div>
-      <PageNation
+      {/* <PageNation
         page={page}
         listLength={propsArray.length}
         setPage={setPage}
         postLimit={postLimit}
-      ></PageNation>
+      ></PageNation> */}
     </div>
   );
 };

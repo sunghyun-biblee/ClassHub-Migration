@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchClass } from "component/class/hook/useGetArray";
+import { fetchClass } from "component/class/hooks/useGetArray";
 import { useQuery } from "@tanstack/react-query";
 
 export const HaveClass = () => {

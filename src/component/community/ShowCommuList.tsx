@@ -4,10 +4,10 @@ import { PageNation } from "component/class/PageNation";
 import { CommnuItem } from "./CommnuItem";
 
 import { useQuery } from "@tanstack/react-query";
-import { fetchCommuList } from "./hook/fetchCommuArray";
+import { fetchCommuList, fetchQuestion } from "./hooks/fetchCommuArray";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PopularList } from "./PopularList";
-import { useGetpathname } from "./hook/getPathname";
+import { useGetpathname } from "./hooks/getPathname";
 
 export interface IcommunityItem {
   commentCount: number;
@@ -42,12 +42,15 @@ export const ShowCommuList = () => {
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["question", page],
-    queryFn: fetchCommuList,
+    queryFn: () => fetchQuestion(page),
   });
+  const pageNationData = {
+    currentPage: data?.data.data.currentPageNum,
+    lastPage: data?.data.data.totalNum,
+    leftPage: data?.data.data.leftEndNum,
+    rightPage: data?.data.data.rightEndNum,
+  };
 
-  const pageOfLast = page * postLimit; // 페이지마다 마지막 포스트 위치
-  const pageOfFirst = pageOfLast - postLimit; // 페이지마다 첫 포스트 위치
-  console.log(data?.data.data.contents);
   return (
     <div className="md:mr-3">
       <div
@@ -102,12 +105,11 @@ export const ShowCommuList = () => {
       <aside>
         <PopularList category={category}></PopularList>
       </aside>
-      {/* <PageNation
-        // listLength={data ? data.length : 0}
-        postLimit={postLimit}
+      <PageNation
+        pageNationData={pageNationData}
         page={page}
         setPage={setPage}
-      ></PageNation> */}
+      ></PageNation>
     </div>
   );
 };

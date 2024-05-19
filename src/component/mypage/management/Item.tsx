@@ -1,4 +1,4 @@
-import { Iclassitem } from "component/class/hook/useGetArray";
+import { Iclassitem } from "component/class/hooks/useGetArray";
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import right from "assets/img/carousel/rigthArrow.svg";

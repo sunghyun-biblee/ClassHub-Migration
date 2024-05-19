@@ -2,7 +2,7 @@ import React from "react";
 import { classProp } from "../main/PreviewClass";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { selectClassinfo } from "./hook/useGetArray";
+import { selectClassinfo } from "./hooks/useGetArray";
 
 interface IclassitemProp {
   item: {

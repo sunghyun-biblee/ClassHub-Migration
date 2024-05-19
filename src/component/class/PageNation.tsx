@@ -1,44 +1,45 @@
 import React, { useState } from "react";
-import { Iclassitem } from "./hook/useGetArray";
+import { Iclassitem } from "./hooks/useGetArray";
 import styled from "styled-components";
 
 interface IPagenationProps {
-  listLength: number;
-  postLimit: number;
+  pageNationData: {
+    currentPage: number;
+    lastPage: number;
+    leftPage: number;
+    rightPage: number;
+  };
   page: number;
-  setPage: (index: number) => void;
+  setPage: (page: number) => void;
 }
 export const PageNation = ({
-  listLength,
-  postLimit,
+  pageNationData,
   page,
   setPage,
 }: IPagenationProps) => {
-  const [currPage, setCurrPage] = useState<number>(page);
-  const totalPages = Math.ceil(listLength / postLimit);
-  console.log(listLength);
-
+  const data = {
+    currentPage: pageNationData.currentPage,
+    lastPage: pageNationData.lastPage,
+    leftPage: pageNationData.leftPage,
+    rightPage: pageNationData.rightPage,
+  };
   const renderPagenation = () => {
-    const PageNationCount = 5;
     let pages = [];
-    let startPage =
-      Math.floor((currPage - 1) / PageNationCount) * PageNationCount + 1;
-
-    let endPage = Math.min(startPage + PageNationCount, totalPages);
+    let startPage = data.leftPage;
+    let endPage = data.rightPage;
 
     for (let i = startPage; i <= endPage; i++) {
       pages.push(
         <Button
           key={i}
-          id={page === i ? "page" : ""}
+          id={data.currentPage === i ? "page" : ""}
           className={
-            page === i
+            data.currentPage === i
               ? "bg-blue-500/90 text-gray-50 cursor-pointer"
               : "cursor-pointer"
           }
           // 선택된 페이지네이션이 현재 화면에 출력된 페이지일때 클래스명을 주어서 스타일링을 함
           onClick={() => {
-            setCurrPage(i);
             setPage(i);
           }}
         >

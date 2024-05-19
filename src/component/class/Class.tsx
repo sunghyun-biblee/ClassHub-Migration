@@ -6,7 +6,7 @@ import { ClassSearchBar } from "./ClassSearchBar";
 import styled from "styled-components";
 
 import { useQuery } from "@tanstack/react-query";
-import { Iclassitem } from "./hook/useGetArray";
+import { Iclassitem } from "./hooks/useGetArray";
 
 export const Class = () => {
   const [category, setCategory] = useState<string>("all");
