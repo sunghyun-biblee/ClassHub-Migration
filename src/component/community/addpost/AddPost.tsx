@@ -6,6 +6,7 @@ import { SelectCategory } from "./SelectCategory";
 import axios from "api/axios";
 
 import requests from "api/requests";
+import { useNavigate } from "react-router-dom";
 // import axios from "axios";
 
 interface selectImgType {
@@ -13,25 +14,20 @@ interface selectImgType {
   img: string;
 }
 
-interface requestObject {
-  userId: number;
-  communityId: number;
-  communityType: string;
-  title: string | undefined;
-  text: string | undefined;
-}
-
 export const AddPost = () => {
+  const nav = useNavigate();
   const [title, setTitle] = useState<string>();
   const [text, setText] = useState<string>();
   const [mainCategory, setMainCategory] = useState<string>();
-  const [requestImgArray, setReqeustImgArray] = useState<File[]>();
+  const [requestImgId, setRequestImgId] = useState<number[]>();
   const [previmg, setPrevimg] = useState<selectImgType[] | undefined>();
   const [imgArray, setImgArray] = useState<selectImgType[]>([]);
+  const ref = useRef<HTMLDivElement>(null);
+  let i = 0;
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    console.log(requestImgId);
     e.preventDefault();
-    const formData = new FormData();
-    const customUserId = 515126;
     let customCommunityType = "0";
 
     switch (mainCategory) {
@@ -45,34 +41,25 @@ export const AddPost = () => {
         console.log("error");
         break;
     }
-    let communityObject = {
-      userId: customUserId,
-      communityId: 0,
+    const communityObject = {
+      userId: 6,
       communityType: customCommunityType,
       title: title,
       text: text,
+      communityImageIds: requestImgId,
     };
-    requestImgArray?.forEach((file) => {
-      formData.append("imageFiles", file);
-    });
-    console.log(formData);
-    // const newImgArray = imgArray.map((item) => item.img);
-    // const imageFiles = [...newImgArray];
 
     await axios
-      .post(`${requests.community.addPost}`, {
-        communityObject,
-        formData,
-      })
+      .post(`${requests.community.addPost}`, communityObject)
       .then((res) => {
         console.log(res);
+        nav("/community");
       })
       .catch((error) => {
         console.log(error);
+        return;
       });
   };
-  const ref = useRef<HTMLDivElement>(null);
-  let i = 0;
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -93,28 +80,40 @@ export const AddPost = () => {
     }
   };
 
-  const addFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const addFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const data = e.target.files as FileList;
-    console.log(data);
+
     const selectFiles = Array.from(data);
-    if (data.length >= 4) {
+    if (selectFiles.length >= 4) {
       alert("이미지는 최대 3개까지 등록 가능합니다");
       return;
     }
 
-    if (data) {
-      if (requestImgArray && requestImgArray?.length >= 1) {
-        const newArray = [...requestImgArray, ...selectFiles];
-        setReqeustImgArray(newArray);
-      } else {
-        setReqeustImgArray([...selectFiles]);
+    const formData = new FormData();
+    selectFiles?.forEach((file) => {
+      formData.append("multipartFiles", file);
+    });
+
+    if (selectFiles) {
+      try {
+        const requestData = await axios.post("/community/postImage", formData);
+        console.log(requestData.data.data);
+
+        if (requestImgId && requestImgId?.length >= 1) {
+          const newArray = [...requestImgId, ...requestData.data.data];
+          setRequestImgId(newArray);
+        } else {
+          setRequestImgId([...requestData.data.data]);
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
 
     const selectFilesArray = selectFiles.map((item) => {
       return { id: `addimg${++i}`, img: URL.createObjectURL(item) };
     });
-    console.log(selectFilesArray);
+
     setImgArray((prev) => [...prev, ...selectFilesArray]);
   };
 
@@ -130,13 +129,11 @@ export const AddPost = () => {
     console.log(...selectItem);
     console.log(e.currentTarget.id);
   };
-  console.log(requestImgArray);
 
   return (
     <div className="relative">
       <form
         onSubmit={onSubmit}
-        encType="multipart/form-data"
         className=" lg:max-w-[1200px]  mysm:w-[100%]
         flex flex-col mysm:items-center lg:items-baseline
         "
@@ -204,15 +201,17 @@ export const AddPost = () => {
               </div>
               <div
                 className="flex overflow-x-scroll overflow-y-hidden lg:w-[600px]  mysm:w-[100%] z-0 py-5  px-10 bg-gray-500/50 rounded-lg
-            shadow-[0px_8px_24px_rgba(149,157,165,0.3)]
-            "
+            shadow-[0px_8px_24px_rgba(149,157,165,0.3)] "
                 ref={ref}
               >
                 <div className="flex w-[600px] md:justify-normal mysm:justify-between ">
-                  {imgArray?.map((item) => (
-                    <div className="relative max-w-[150px] h-[150px] mx-3">
+                  {imgArray?.map((item, index) => (
+                    <div
+                      className="relative max-w-[150px] h-[150px] mx-3"
+                      key={item.id + "@@!!" + index}
+                    >
                       <img
-                        key={item.id}
+                        key={item.id + "!!!!" + index}
                         src={item.img}
                         alt="selectimg"
                         id={item.id}
@@ -228,6 +227,7 @@ export const AddPost = () => {
                       </button>
                     </div>
                   ))}
+
                   <div>
                     <input
                       type="file"
@@ -302,15 +302,15 @@ const Left = () => {
       <svg
         data-slot="icon"
         fill="none"
-        stroke-width="1.5"
+        strokeWidth="1.5"
         stroke="#5c6177"
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
       >
         <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
           d="M15.75 19.5 8.25 12l7.5-7.5"
         ></path>
       </svg>
@@ -324,15 +324,15 @@ const Right = () => {
       <svg
         data-slot="icon"
         fill="none"
-        stroke-width="1.5"
+        strokeWidth="1.5"
         stroke="#5c6177"
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
         aria-hidden="true"
       >
         <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeLinecap="round"
+          strokeLinejoin="round"
           d="m8.25 4.5 7.5 7.5-7.5 7.5"
         ></path>
       </svg>

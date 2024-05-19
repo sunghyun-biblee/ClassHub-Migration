@@ -1,6 +1,7 @@
 const requests = {
   community: {
-    addPost: "/community/post",
+    addPost: "/community/postBoard",
+    addPostImg: "/community/postImage",
     editPost: "/community/modify", //" /community/modify/{communityId}"
     getStudyPost: "/community/study", // "/community/study/{communityId}"
     getStudyList: "/community/studies",
