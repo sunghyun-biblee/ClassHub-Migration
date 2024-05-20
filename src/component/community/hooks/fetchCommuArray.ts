@@ -33,6 +33,14 @@ export async function selectCommuinfo(CommunityId: number) {
 
   return data.data.data;
 }
+export async function selectCommuCommentinfo(CommunityId: number) {
+  const data = await axios.get(requests.comment.getPostComment, {
+    params: {
+      community: CommunityId,
+    },
+  });
+  return data;
+}
 const commnuArr = [
   {
     id: 1,

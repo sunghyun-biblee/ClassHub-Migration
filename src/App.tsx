@@ -30,7 +30,7 @@ import { Footer } from "component/footer/Footer";
 function App() {
   const { pathname } = useLocation();
   const pathData = pathname.split("/")[1];
-  const footerHiddenArray = ["mypage", "signIn", "learnplay"];
+  const footerHiddenArray = ["mypage", "signIn", "learnplay", "community"];
   console.log(pathData);
   useEffect(() => {
     // 현재 경로에 맞는 타이틀 찾기

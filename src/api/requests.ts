@@ -19,7 +19,7 @@ const requests = {
   },
   comment: {
     addComment: "/comment/post",
-    editComment: "/comment/modify", // "/comment/modify/{userid}"
+    updateComment: "/comment/modify", // "/comment/modify/{userid}"
     getPostComment: "/comment/list",
     getTargetComment: "/comment/id", // "/comment/id/${userid}"
     deleteComment: "/comment/delete/id", // "/comment/delete/id/${userid}"
