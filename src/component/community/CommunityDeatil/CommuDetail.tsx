@@ -27,10 +27,11 @@ interface prevData {
 
 export const CommuDetail = () => {
   const queryClient = useQueryClient();
-  const [comment, setComment] = useState<string>("");
   const { pathname } = useLocation();
   const id = parseInt(pathname.split("/")[3], 10);
-
+  const [comment, setComment] = useState<string>("");
+  const [editComment, setEditComment] = useState<string>();
+  const [isEdit, setIsEdit] = useState<boolean>(false);
   const { postData, isPostLoading, isPostError, postError } = useTargetPost(id);
   const { commentData, isCommentLoading, isCommentError, comentError } =
     useTargetPostComment(id);
@@ -105,7 +106,9 @@ export const CommuDetail = () => {
       </div>
     );
   }
-
+  const handleChangeEditComment = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditComment(e.target.value);
+  };
   const handleChangeComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
   };
@@ -122,6 +125,7 @@ export const CommuDetail = () => {
     };
     await addMutation.mutate(commentObj);
   };
+
   return (
     <div
       className="
@@ -208,13 +212,26 @@ export const CommuDetail = () => {
                         </span>
                       </p>
                       <div className="flex justify-between pt-3 pb-1 items-end">
-                        <span className="py-1 w-[75%]">{item.text}</span>
+                        {isEdit ? (
+                          <input
+                            type="text"
+                            value={editComment}
+                            onChange={handleChangeEditComment}
+                            className="border-[1px] py-1 px-2 rounded-md w-[70%]"
+                          />
+                        ) : (
+                          <span className="py-1 w-[75%]">{item.text}</span>
+                        )}
                         <div className="text-gray-500 font-semibold">
                           <button
                             className="text-sm mr-2"
-                            onClick={() => updateComment(item.commentId)}
+                            onClick={() => {
+                              updateComment(item.commentId);
+                              setEditComment(item.text);
+                              setIsEdit((prev) => !prev);
+                            }}
                           >
-                            수정
+                            {isEdit ? "확인" : "수정"}
                           </button>
                           <button
                             className="text-sm"
