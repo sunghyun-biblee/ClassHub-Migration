@@ -35,7 +35,7 @@ export const CommuDetail = () => {
   const { postData, isPostLoading, isPostError, postError } = useTargetPost(id);
   const { commentData, isCommentLoading, isCommentError, comentError } =
     useTargetPostComment(id);
-
+  const userId = 5;
   const deleteMutation = useMutation({
     mutationKey: ["deleteComment"],
     mutationFn: deleteComment,
@@ -119,7 +119,7 @@ export const CommuDetail = () => {
       return;
     }
     const commentObj = {
-      userId: 6,
+      userId: 5,
       text: comment,
       communityId: postData?.communityId,
     };
@@ -212,7 +212,7 @@ export const CommuDetail = () => {
                         </span>
                       </p>
                       <div className="flex justify-between pt-3 pb-1 items-end">
-                        {isEdit ? (
+                        {isEdit && userId === item.userId ? (
                           <input
                             type="text"
                             value={editComment}
@@ -223,24 +223,30 @@ export const CommuDetail = () => {
                           <span className="py-1 w-[75%]">{item.text}</span>
                         )}
                         <div className="text-gray-500 font-semibold">
-                          <button
-                            className="text-sm mr-2"
-                            onClick={() => {
-                              updateComment(item.commentId);
-                              setEditComment(item.text);
-                              setIsEdit((prev) => !prev);
-                            }}
-                          >
-                            {isEdit ? "확인" : "수정"}
-                          </button>
-                          <button
-                            className="text-sm"
-                            onClick={() =>
-                              deleteMutation.mutate(item.commentId)
-                            }
-                          >
-                            삭제
-                          </button>
+                          {userId === item.userId ? (
+                            <>
+                              <button
+                                className="text-sm mr-2"
+                                onClick={() => {
+                                  updateComment(item.commentId);
+                                  setEditComment(item.text);
+                                  setIsEdit((prev) => !prev);
+                                }}
+                              >
+                                {isEdit ? "확인" : "수정"}
+                              </button>
+                              <button
+                                className="text-sm"
+                                onClick={() =>
+                                  deleteMutation.mutate(item.commentId)
+                                }
+                              >
+                                삭제
+                              </button>
+                            </>
+                          ) : (
+                            ""
+                          )}
                         </div>
                       </div>
                     </li>
