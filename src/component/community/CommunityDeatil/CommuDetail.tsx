@@ -10,7 +10,7 @@ import { useTargetPostComment } from "../hooks/useTargetPostComment";
 import { addComment, deleteComment, updateComment } from "../hooks/commentFn";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-interface commentType {
+export interface commentType {
   commentId: number;
   communityId: number;
   editDate: string;
@@ -30,12 +30,51 @@ export const CommuDetail = () => {
   const { pathname } = useLocation();
   const id = parseInt(pathname.split("/")[3], 10);
   const [comment, setComment] = useState<string>("");
-  const [editComment, setEditComment] = useState<string>();
+  const [editComment, setEditComment] = useState<string>("");
+  const [editCommentId, setEditCommentId] = useState<string | number>();
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const { postData, isPostLoading, isPostError, postError } = useTargetPost(id);
   const { commentData, isCommentLoading, isCommentError, comentError } =
     useTargetPostComment(id);
   const userId = 5;
+
+  const updateMutation = useMutation({
+    mutationKey: ["updateComment"],
+    mutationFn: (requestObj: commentType) => updateComment(requestObj),
+    onSettled: () => {
+      return queryClient.invalidateQueries({
+        queryKey: ["commuDetailComment", id],
+      });
+    },
+    onMutate: async (requestObj) => {
+      await queryClient.cancelQueries({
+        queryKey: ["commuDetailComment", id],
+      });
+
+      const prevData: prevData | undefined = queryClient.getQueryData([
+        "commuDetailComment",
+        id,
+      ]);
+      queryClient.setQueryData(
+        ["commuDetailComment", id],
+        (prevData: prevData | undefined) => {
+          console.log(prevData);
+          if (prevData) {
+            const updateData = prevData.data.data.map((item) => {
+              console.log(item);
+              return item.commentId === requestObj.commentId
+                ? { ...item, ...requestObj }
+                : item;
+            });
+            console.log(updateData);
+            queryClient.setQueryData(["commuDetailComment", id], updateData);
+          }
+        }
+      );
+
+      return { prevData };
+    },
+  });
   const deleteMutation = useMutation({
     mutationKey: ["deleteComment"],
     mutationFn: deleteComment,
@@ -48,7 +87,7 @@ export const CommuDetail = () => {
       await queryClient.cancelQueries({
         queryKey: ["commuDetailComment", id],
       });
-      // 낙관적 업데이트: 변경 전 데이터 저장
+
       const prevData: prevData | undefined = queryClient.getQueryData([
         "commuDetailComment",
         id,
@@ -59,7 +98,7 @@ export const CommuDetail = () => {
         );
         queryClient.setQueryData(["commuDetailComment", id], updatedData);
       }
-      // 변경 전 데이터를 반환하여 롤백시 사용
+
       return { prevData };
     },
   });
@@ -85,6 +124,7 @@ export const CommuDetail = () => {
       ]);
       if (prevData) {
         const newData = [...prevData.data.data, commentObj];
+        console.log(newData);
         queryClient.setQueryData(
           ["commuDetailComment", commentObj.communityId],
           newData
@@ -95,6 +135,13 @@ export const CommuDetail = () => {
     },
   });
 
+  const handleUpdateComment = (item: commentType) => {
+    if (editComment) {
+      const requestObj: commentType = { ...item, text: editComment };
+      updateMutation.mutate(requestObj);
+      setIsEdit(false);
+    }
+  };
   if (isPostLoading && isCommentLoading) {
     return <div>Loading...</div>;
   }
@@ -125,7 +172,7 @@ export const CommuDetail = () => {
     };
     await addMutation.mutate(commentObj);
   };
-  console.log(postData);
+  console.log(commentData);
   return (
     <div
       className="
@@ -219,7 +266,9 @@ export const CommuDetail = () => {
                         </span>
                       </p>
                       <div className="flex justify-between pt-3 pb-1 items-end">
-                        {isEdit && userId === item.userId ? (
+                        {isEdit &&
+                        userId === item.userId &&
+                        item.commentId === editCommentId ? (
                           <input
                             type="text"
                             value={editComment}
@@ -232,24 +281,51 @@ export const CommuDetail = () => {
                         <div className="text-gray-500 font-semibold">
                           {userId === item.userId ? (
                             <>
-                              <button
-                                className="text-sm mr-2"
-                                onClick={() => {
-                                  updateComment(item.commentId);
-                                  setEditComment(item.text);
-                                  setIsEdit((prev) => !prev);
-                                }}
-                              >
-                                {isEdit ? "확인" : "수정"}
-                              </button>
-                              <button
-                                className="text-sm"
-                                onClick={() =>
-                                  deleteMutation.mutate(item.commentId)
-                                }
-                              >
-                                삭제
-                              </button>
+                              {isEdit ? (
+                                <>
+                                  <button
+                                    className="text-sm mr-2"
+                                    onClick={() => {
+                                      handleUpdateComment(item);
+                                    }}
+                                  >
+                                    확인
+                                  </button>
+                                  <button
+                                    className="text-sm"
+                                    onClick={() =>
+                                      // deleteMutation.mutate(item.commentId)
+
+                                      setIsEdit(false)
+                                    }
+                                  >
+                                    취소
+                                  </button>
+                                </>
+                              ) : (
+                                <>
+                                  <button
+                                    className="text-sm mr-2"
+                                    onClick={() => {
+                                      setEditCommentId(item.commentId);
+                                      setEditComment(item.text);
+                                      setIsEdit((prev) => !prev);
+                                    }}
+                                  >
+                                    수정
+                                  </button>
+                                  <button
+                                    className="text-sm"
+                                    onClick={
+                                      () =>
+                                        deleteMutation.mutate(item.commentId)
+                                      // console.log("")
+                                    }
+                                  >
+                                    삭제
+                                  </button>
+                                </>
+                              )}
                             </>
                           ) : (
                             ""
