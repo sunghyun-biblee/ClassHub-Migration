@@ -1,5 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
+import requests from "api/requests";
+import axios from "api/axios";
 
 export const GradeUpBtn = () => {
   return (
@@ -29,12 +31,26 @@ let newTdata = {
   type: true,
 };
 
-export const handleClick = () => {
+export const handleClick = async () => {
   const tdataString = localStorage.getItem("teacher");
   const tdata = tdataString ? JSON.parse(tdataString) : null;
   if (tdata) {
     localStorage.removeItem("teacher");
   } else {
     localStorage.setItem("teacher", JSON.stringify(newTdata));
+  }
+  const requestBody = {
+    user_id: 2,
+    name: "성현",
+    field: "개발프로그래밍",
+    text: "해줘",
+    user_type: "1",
+    request_status: "1",
+  };
+  try {
+    const res = await axios.post(requests.lecture.addInstructor, requestBody);
+    console.log(res.data);
+  } catch (error) {
+    console.log(error);
   }
 };

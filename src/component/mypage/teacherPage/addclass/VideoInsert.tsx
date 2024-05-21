@@ -15,7 +15,7 @@ export const VideoInsert = ({
   uploadVideo,
 }: IvideoProp) => {
   const [videoTitle, setVideoTitle] = useState<string>("");
-  const [videoUrl, setVideoUrl] = useState<string>("");
+  const [videoUrl, setVideoUrl] = useState<File | null>(null);
   const [videoLength, setVideoLength] = useState<number | null>();
   const [prevVideoArray, setPrevVideoArray] = useState<VideoInfo[]>([]);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -29,7 +29,7 @@ export const VideoInsert = ({
       const data = e.target.files[0];
       const url = URL.createObjectURL(data);
       console.log(url);
-      setVideoUrl(url);
+      setVideoUrl(data);
     }
   };
   const handleLoadMetaData = () => {
@@ -74,7 +74,7 @@ export const VideoInsert = ({
         ]);
       }
       setVideoTitle("");
-      setVideoUrl("");
+      setVideoUrl(null);
       setVideoLength(null);
     }
   };
@@ -120,7 +120,7 @@ export const VideoInsert = ({
             {videoUrl && (
               <video
                 ref={videoRef}
-                src={videoUrl}
+                src={URL.createObjectURL(videoUrl)}
                 onLoadedMetadata={handleLoadMetaData}
                 controls
                 className="w-[100%] h-[350px]"
@@ -137,7 +137,7 @@ export const VideoInsert = ({
             <button
               className="mt-2 px-2 py-1  bg-[#B5B8BF] text-black/70 font-semibold rounded-md"
               onClick={() => {
-                setVideoUrl("");
+                setVideoUrl(null);
               }}
             >
               재등록
@@ -159,7 +159,9 @@ export const VideoInsert = ({
                     </span>
                     <span>{formatVideoDuration(item.videoLength)}</span>
                   </p>
-                  <video src={item.video}></video>
+                  {item.video && (
+                    <video src={URL.createObjectURL(item.video)}></video>
+                  )}
                 </div>
               ))}
             </div>

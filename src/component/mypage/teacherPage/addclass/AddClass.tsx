@@ -2,14 +2,17 @@ import React, { useState } from "react";
 import { VideoInsert, formatVideoDuration } from "./VideoInsert";
 
 import left from "assets/img/carousel/leftArrow.svg";
+import axios from "api/axios";
+import requests from "api/requests";
 
 export interface VideoInfo {
   VideoTitle: string;
-  video: string;
+  video: File | null;
   videoLength: number;
 }
 
 interface SectionInfo {
+  videosTotalLengths: number;
   sectiontitle: string;
   videos: VideoInfo[];
 }
@@ -20,9 +23,14 @@ interface Thumbnail {
 let i = 0;
 export const AddClass = () => {
   const [isAddSectionOn, setIsAddSectionOn] = useState(true);
+
   const [classTitle, setClassTitle] = useState<string>("");
   const [classDescription, setClassDescription] = useState<string>("");
   const [overView, setOverView] = useState<string>("");
+  const [thumbnail, setThumbnail] = useState<Thumbnail>();
+  const [category, SelectCategory] = useState<string>();
+  const [price, setPrice] = useState<number>();
+
   const [isEditSectionTitle, setIsEditSectionTitle] = useState(true);
   const [completeSectionArray, setCompleteSectionArray] =
     useState<SectionInfo[]>();
@@ -34,14 +42,17 @@ export const AddClass = () => {
   const [showTargetSection, setShowTartgetSection] = useState<number | null>(
     null
   );
-  const [thumbnail, setThumbnail] = useState<Thumbnail>();
-  const [category, SelectCategory] = useState<string>();
-  const [price, setPrice] = useState<number>();
+
   const addSession = () => {
     if (sectionArray.length === 0) {
-      setSectionArray([...sectionArray, { sectiontitle: ``, videos: [] }]);
+      setSectionArray([
+        ...sectionArray,
+        { sectiontitle: ``, videos: [], videosTotalLengths: 0 },
+      ]);
     } else {
-      setSectionArray([{ sectiontitle: ``, videos: [] }]);
+      setSectionArray([
+        { sectiontitle: ``, videos: [], videosTotalLengths: 0 },
+      ]);
     }
     i++;
     setIsAddSectionOn(false);
@@ -127,6 +138,77 @@ export const AddClass = () => {
 
   console.log(completeSectionArray);
   console.log(uploadVideo);
+  const postAddLecture = async () => {
+    type examArr = {
+      title: string;
+      video_length: number;
+      video: string;
+    };
+    const formData = new FormData();
+    let newArray: examArr[] = [];
+    const request = {
+      instructors_id: 6,
+      category_id: 1,
+      thumnail: thumbnail?.preview,
+      class_name: classTitle,
+      description: classDescription,
+      summary: overView,
+      price: price,
+    };
+    console.log(request);
+
+    formData.append(
+      "request",
+      new Blob([JSON.stringify(request)], { type: "application/json" })
+    );
+
+    if (completeSectionArray) {
+      const sectiontitle = completeSectionArray[0].sectiontitle;
+      completeSectionArray[0].videos.map((item) => {
+        if (item.video) {
+          newArray.push({
+            title: item.VideoTitle,
+            video: item.video?.name,
+            video_length: item.videoLength,
+          });
+        }
+      });
+      const sections = {
+        title: sectiontitle,
+        videos: newArray,
+      };
+      console.log(sections);
+      formData.append(
+        "sections",
+        new Blob([JSON.stringify(sections)], { type: "application/json" })
+      );
+
+      completeSectionArray[0].videos.map((item) => {
+        if (item.video !== null) {
+          formData.append("videos", item.video);
+        }
+      });
+    }
+
+    for (let key of formData.keys()) {
+      console.log(key, ":", formData.get(key));
+    }
+    for (let value of formData.values()) {
+      console.log(value);
+    }
+
+    try {
+      const res = await axios.post(requests.lecture.addLecture, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div
       className="border-[1px] lg:m-0 mysm:m-1 shadow-[0px_8px_24px_rgba(149,157,165,0.3)] rounded-lg
@@ -216,6 +298,7 @@ md:mt-2
                   shadow-[0px_8px_24px_rgba(149,157,165,0.3)]
                   bg-[#3B82F6] text-white font-extrabold
                   "
+                onClick={postAddLecture}
               >
                 강의 등록하기
               </button>

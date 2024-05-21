@@ -16,6 +16,8 @@ const requests = {
   lecture: {
     lectureUpLoad: "/lecture/upload",
     lectureEdit: "/lecture/edit",
+    addInstructor: "/lecture/addInstructor",
+    addLecture: "/lecture/uploadClass",
   },
   comment: {
     addComment: "/comment/post",
