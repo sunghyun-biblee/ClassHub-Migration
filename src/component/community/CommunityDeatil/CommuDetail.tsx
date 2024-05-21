@@ -125,7 +125,7 @@ export const CommuDetail = () => {
     };
     await addMutation.mutate(commentObj);
   };
-
+  console.log(postData);
   return (
     <div
       className="
@@ -161,9 +161,16 @@ export const CommuDetail = () => {
               </div>
               <div className="overflow-hidden">
                 {postData.image.map((item: string) => (
-                  <div>
-                    <img src={item} alt="postImg"></img>
-                    <p>{item}</p>
+                  <div className="flex flex-col">
+                    {item !== "null" ? (
+                      <img
+                        src={`https://devproject.store${item}`}
+                        alt="postImg"
+                        className="pt-5"
+                      ></img>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 ))}
               </div>
