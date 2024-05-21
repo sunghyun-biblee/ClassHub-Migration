@@ -135,13 +135,6 @@ export const CommuDetail = () => {
     },
   });
 
-  const handleUpdateComment = (item: commentType) => {
-    if (editComment) {
-      const requestObj: commentType = { ...item, text: editComment };
-      updateMutation.mutate(requestObj);
-      setIsEdit(false);
-    }
-  };
   if (isPostLoading && isCommentLoading) {
     return <div>Loading...</div>;
   }
@@ -153,6 +146,13 @@ export const CommuDetail = () => {
       </div>
     );
   }
+  const handleUpdateComment = (item: commentType) => {
+    if (editComment) {
+      const requestObj: commentType = { ...item, text: editComment };
+      updateMutation.mutate(requestObj);
+      setIsEdit(false);
+    }
+  };
   const handleChangeEditComment = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEditComment(e.target.value);
   };

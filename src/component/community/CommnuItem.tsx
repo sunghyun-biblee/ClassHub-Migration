@@ -57,12 +57,12 @@ export const CommnuItem = ({ item }: ICommnuItemprop) => {
             <p className="px-1">{item.userId}</p>
             <div className="flex px-2 pt-2">
               <div className="flex mr-7 cursor-pointer items-center">
-                <img src={likes} alt="" className="w-[16px] h-auto mr-1" />
-                <p>{item.favoriteCount}</p>
+                <img src={likes} alt="" className="w-[16px] h-auto mr-2" />
+                <strong>{item.favoriteCount}</strong>
               </div>
               <div className="flex cursor-pointer items-center">
-                <img src={comment} alt="" className="w-[16px] h-auto mr-1" />
-                <p>{item.commentCount}</p>
+                <img src={comment} alt="" className="w-[16px] h-auto mr-2" />
+                <strong>{item.commentCount}</strong>
               </div>
             </div>
           </div>
