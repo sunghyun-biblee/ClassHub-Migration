@@ -58,7 +58,6 @@ export const Footer = () => {
                 <ul>
                   <li>전화번호 : 000-0000-0000</li>
                   <li>이메일 : helpClassHub@****.***</li>
-                  <li>카카오톡ID : classhub***</li>
                   <li>상담가능시간 : 오전 00시 ~ 오후 00시</li>
                   <li>점심시간 : 오전 00시 ~ 오후 00시</li>
                 </ul>
