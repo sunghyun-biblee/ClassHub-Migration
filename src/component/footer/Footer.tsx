@@ -7,7 +7,7 @@ export const Footer = () => {
   return (
     <footer
       className="bg-[#36454F] text-[#efefef] w-[100vw] text-sm 
-mt-[50px]
+
       "
     >
       <div className={`p-3 mysm:pb-[40px] lg:pb-0 `}>

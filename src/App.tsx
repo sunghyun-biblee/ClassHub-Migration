@@ -17,7 +17,7 @@ import { Profile } from "./component/mypage/profile/Profile";
 import { ManageMent } from "./component/mypage/management/ManageMent";
 import { Application } from "./component/mypage/application/Application";
 import { MyCommu } from "./component/mypage/myCommunity/MyCommu";
-import { AuthProvider } from "./hook/AuthProvider";
+import { AuthProvider } from "./hooks/AuthProvider";
 import { LoginPage } from "./component/login/LoginPage";
 import { TeacherPage } from "./component/mypage/teacherPage/TeacherPage";
 import { AddPost } from "./component/community/addpost/AddPost";
@@ -26,6 +26,9 @@ import { AddClass } from "./component/mypage/teacherPage/addclass/AddClass";
 import { LearningPage } from "component/learningpage/LearningPage";
 import { LearnPlayer } from "component/learningpage/learnplayer/LearnPlayer";
 import { Footer } from "component/footer/Footer";
+import { Cart } from "component/cart/Cart";
+import { CartList } from "component/cart/CartList";
+import { OrderPage } from "component/cart/OrderPage";
 
 function App() {
   const { pathname } = useLocation();
@@ -55,7 +58,7 @@ function App() {
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
-        <div className="min-h-[100vh] flex flex-col justify-between">
+        <div className="min-h-[100vh] flex flex-col ">
           <Routes>
             <Route path="/" element={<LayOut />}>
               <Route index element={<MainPage />}></Route>
@@ -124,6 +127,15 @@ function App() {
                 path="learnplay/:classId/:videoId"
                 element={<LearnPlayer></LearnPlayer>}
               ></Route>
+              <Route path="cart" element={<Cart></Cart>}>
+                <Route index element={<CartList></CartList>}></Route>
+                <Route
+                  index
+                  path="order"
+                  element={<OrderPage></OrderPage>}
+                ></Route>
+                <Route index path=""></Route>
+              </Route>
             </Route>
           </Routes>
           {!footerHiddenArray.includes(pathData) && <Footer></Footer>}

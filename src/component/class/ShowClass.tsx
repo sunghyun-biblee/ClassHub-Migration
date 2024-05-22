@@ -29,6 +29,9 @@ export const ShowClass = () => {
           ></ClassItem>
         ))}
       </div>
+      <div className="py-[50px] flex justify-center items-center">
+        <p>페이지네이션</p>
+      </div>
       {/* <PageNation
         listLength={data ? data.length : 0}
         postLimit={postLimit}

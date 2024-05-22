@@ -6,7 +6,7 @@ import logo from "assets/img/Logo.png";
 
 import cart from "assets/img/Cart.svg";
 import user from "assets/img/Person.svg";
-import { useAuth } from "hook/AuthProvider";
+import { useAuth } from "hooks/AuthProvider";
 const NavigationPC = styled.div`
   @media (max-width: 1023px) {
     display: none;
@@ -32,7 +32,7 @@ const SearchButton = styled.button`
 `;
 export const NaviPC = () => {
   const getUser = localStorage.getItem("user");
-  const { isLogin } = useAuth();
+  const { isLogin, login, logout } = useAuth();
 
   const nav = useNavigate();
 
@@ -46,7 +46,10 @@ export const NaviPC = () => {
           src={logo}
           alt="logo-pc"
           className="w-20 cursor-pointer object-cover"
-          onClick={() => handleNav("/")}
+          onClick={() => {
+            handleNav("/");
+            login();
+          }}
         />
         <ul className="lg:flex justify-between w-44">
           <li
@@ -86,7 +89,7 @@ export const NaviPC = () => {
             </li>
             <li
               className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer"
-              onClick={() => handleNav("/")}
+              onClick={() => handleNav("/cart")}
             >
               <img src={cart} alt="장바구니" className="w-6" />
             </li>

@@ -3,6 +3,8 @@ import { Link, useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { selectClassinfo } from "./hooks/useGetArray";
 import styled from "styled-components";
+import axios from "api/axios";
+import requests from "./../../api/requests";
 
 export const ClassDetail = () => {
   const [selectClass, setSelectClass] = useState();
@@ -18,6 +20,18 @@ export const ClassDetail = () => {
   if (data && data[0].title) {
     document.title = data[0]?.title;
   }
+  const handleAddCart = async () => {
+    const reqeustBody = {
+      userId: 6,
+      classId: 1,
+    };
+    try {
+      const res = await axios.post(requests.cart.addCartItem, reqeustBody);
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <ClassDeatilContainer
@@ -109,7 +123,10 @@ export const ClassDetail = () => {
                   className="p-2 border-2 border-solid border-gray-400/50 rounded-lg
                       "
                 >
-                  <button className="p-1 mysm:p-0 mysm:w-[100px] text-sm">
+                  <button
+                    className="p-1 mysm:p-0 mysm:w-[100px] text-sm"
+                    onClick={handleAddCart}
+                  >
                     장바구니 담기
                   </button>
                 </li>
