@@ -33,7 +33,7 @@ import { OrderPage } from "component/cart/OrderPage";
 function App() {
   const { pathname } = useLocation();
   const pathData = pathname.split("/")[1];
-  const footerHiddenArray = ["mypage", "signIn", "learnplay", "community"];
+  const footerHiddenArray = ["mypage", "signIn", "learnplay"];
   console.log(pathData);
   useEffect(() => {
     // 현재 경로에 맞는 타이틀 찾기
@@ -50,7 +50,9 @@ function App() {
     return (
       <div className="relative">
         <Nav />
+
         <Outlet />
+
         <NaviMobileBottom />
       </div>
     );
@@ -138,8 +140,8 @@ function App() {
               </Route>
             </Route>
           </Routes>
-          {!footerHiddenArray.includes(pathData) && <Footer></Footer>}
         </div>
+        {!footerHiddenArray.includes(pathData) && <Footer></Footer>}
         <ReactQueryDevtools></ReactQueryDevtools>
       </QueryClientProvider>
     </AuthProvider>

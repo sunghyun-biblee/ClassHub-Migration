@@ -23,7 +23,7 @@ export const Community = () => {
   const [category, setCategory] = useState<string>("qna");
   console.log(pathname);
   return (
-    <div className="mb-[100px]">
+    <div>
       <CommunityHeader></CommunityHeader>
       <div className=" max-w-[100vw] lg:max-w-[1200px] flex flex-col  mx-auto my-0">
         <CommuContainer
