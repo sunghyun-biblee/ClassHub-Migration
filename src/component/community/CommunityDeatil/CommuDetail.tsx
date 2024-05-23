@@ -36,13 +36,12 @@ export const CommuDetail = () => {
   const id = parseInt(pathname.split("/")[3], 10);
   const [comment, setComment] = useState<string>("");
   const [editComment, setEditComment] = useState<string>("");
-  const [editCommentId, setEditCommentId] = useState<string | number>();
+  const [editCommentId, setEditCommentId] = useState<string | number>("");
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const { postData, isPostLoading, isPostError, postError } = useTargetPost(id);
   const { commentData, isCommentLoading, isCommentError, comentError } =
     useTargetPostComment(id);
   const userId = 5;
-  const [isLike, setIsLike] = useState<boolean>(false);
 
   const CommentUpdateMutation = useMutation({
     mutationKey: ["updateComment"],
@@ -108,7 +107,6 @@ export const CommuDetail = () => {
       return { prevData };
     },
   });
-
   const ComentAddMutation = useMutation({
     mutationKey: ["addComment"],
     mutationFn: addComment,
@@ -140,18 +138,6 @@ export const CommuDetail = () => {
       return { prevData };
     },
   });
-  console.log(postData);
-  if (isPostLoading && isCommentLoading) {
-    return <div>Loading...</div>;
-  }
-  if (isPostError && isCommentError) {
-    return (
-      <div className="flex flex-col">
-        <p>{postError?.message}</p>
-        <p>{comentError?.message}</p>
-      </div>
-    );
-  }
   const handleUpdateComment = (item: commentType) => {
     if (editComment) {
       const requestObj: commentType = { ...item, text: editComment };
@@ -196,7 +182,6 @@ export const CommuDetail = () => {
     const isUserLinked = (array: number[], userId: number): boolean => {
       return array.includes(userId);
     };
-
     const result = isUserLinked(postData.likeUsers, userId);
     switch (result) {
       case true:
@@ -220,6 +205,18 @@ export const CommuDetail = () => {
         return "";
     }
   };
+
+  if (isPostLoading && isCommentLoading) {
+    return <div>Loading...</div>;
+  }
+  if (isPostError && isCommentError) {
+    return (
+      <div className="flex flex-col">
+        <p>{postError?.message}</p>
+        <p>{comentError?.message}</p>
+      </div>
+    );
+  }
   return (
     <div
       className="
@@ -255,16 +252,14 @@ export const CommuDetail = () => {
                 <p>{postData.text}</p>
               </div>
               <div className="overflow-hidden">
-                {postData.image.map((item: string) => (
-                  <div className="flex flex-col">
-                    {item !== "null" ? (
+                {postData.image.map((item: string, index: number) => (
+                  <div className="flex flex-col" key={index + "img"}>
+                    {item !== "null" && (
                       <img
                         src={`https://devproject.store${item}`}
                         alt="postImg"
                         className="pt-5"
                       ></img>
-                    ) : (
-                      ""
                     )}
                   </div>
                 ))}
@@ -305,8 +300,11 @@ export const CommuDetail = () => {
               </form>
               <div id="commentList">
                 <ul>
-                  {commentData?.data.map((item: commentType) => (
-                    <li className="border-b-[1px] py-1 px-3 flex flex-col my-1 justify-between">
+                  {commentData?.data.map((item: commentType, index: number) => (
+                    <li
+                      className="border-b-[1px] py-1 px-3 flex flex-col my-1 justify-between"
+                      key={item.commentId + `${index}`}
+                    >
                       <p className="flex items-center justify-between">
                         <strong className="py-2 mr-1">{item.userId}</strong>
                         <span className="text-gray-600 font-semibold">
@@ -389,7 +387,10 @@ export const CommuDetail = () => {
             </article>
           </div>
           <div className="mysm:hidden md:block">
-            <DetailProfile name={"admin"} category={"학생"}></DetailProfile>
+            <DetailProfile
+              name={userData.name}
+              category={"학생"}
+            ></DetailProfile>
           </div>
         </section>
       )}
