@@ -3,7 +3,7 @@ import { ILoginProps } from "./LoginPage";
 import { SNSlogin } from "./SNSlogin";
 import styled from "styled-components";
 import { KakaoLogin } from "./KakaoLogin";
-import { GoogleLogin } from "./GoogleLogin";
+import { GoogleLoginBtn } from "./GoogleLogin";
 
 export const SignUp = ({ setPage }: ILoginProps) => {
   const [userName, setUserName] = useState<string>("");
@@ -123,7 +123,7 @@ export const SignUp = ({ setPage }: ILoginProps) => {
             </div>
             <div className=" w-[100%] lg:flex-col md:flex-row justify-around items-end mysm:hidden md:flex pb-5 lg:pt-0 md:pt-5 lg:border-none md:border-t-2">
               <KakaoLogin></KakaoLogin>
-              <GoogleLogin></GoogleLogin>
+              <GoogleLoginBtn></GoogleLoginBtn>
             </div>
             <div className="flex justify-between px-4">
               <button onClick={() => setPage(0)} className="mr-5">

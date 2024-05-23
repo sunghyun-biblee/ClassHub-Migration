@@ -10,10 +10,10 @@ module.exports = {
         },
       },
       animation: {
-        "fade-in-1": "fade-in 1s forwards 300ms",
-        "fade-in-2": "fade-in 1s forwards 600ms",
-        "fade-in-3": "fade-in 1s forwards 900ms",
-        "fade-in-4": "fade-in 1s forwards 1200ms",
+        "fade-in-1": "fade-in 0.3s forwards 300ms",
+        "fade-in-2": "fade-in 0.5s forwards 500ms",
+        "fade-in-3": "fade-in 0.7s forwards 700ms",
+        "fade-in-4": "fade-in 1s forwards 1000ms",
       },
       screens: {
         mysm: "375px",

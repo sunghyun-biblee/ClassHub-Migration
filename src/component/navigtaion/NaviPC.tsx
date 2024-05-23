@@ -7,6 +7,9 @@ import logo from "assets/img/Logo.png";
 import cart from "assets/img/Cart.svg";
 import user from "assets/img/Person.svg";
 import { useAuth } from "hooks/AuthProvider";
+import { userType } from "hooks/fetchUserData";
+import { fetchUserStorage } from "hooks/fetchUserStorage";
+import { useUserQuery } from "./hooks/useUserQuery";
 const NavigationPC = styled.div`
   @media (max-width: 1023px) {
     display: none;
@@ -30,15 +33,16 @@ const SearchButton = styled.button`
   position: absolute;
   right: 5px;
 `;
-export const NaviPC = () => {
-  const getUser = localStorage.getItem("user");
-  const { isLogin, login, logout } = useAuth();
-
+interface INavProps {
+  userData: userType;
+}
+export const NaviPC = ({ userData }: INavProps) => {
   const nav = useNavigate();
 
   const handleNav = (location: string) => {
     nav(`${location}`);
   };
+
   return (
     <NavigationPC>
       <nav className=" lg:flex justify-between items-center py-3  my-0 mx-auto max-w-[1200px] w-[100vw] h-[64px]">
@@ -48,7 +52,6 @@ export const NaviPC = () => {
           className="w-20 cursor-pointer object-cover"
           onClick={() => {
             handleNav("/");
-            login();
           }}
         />
         <ul className="lg:flex justify-between w-44">
@@ -80,7 +83,7 @@ export const NaviPC = () => {
             <SearchButton>{/* <img src={searchICON} alt="" /> */}</SearchButton>
           </div>
         </form>
-        {isLogin ? (
+        {userData && userData.userId ? (
           <ul className="lg:flex  items-center justify-around w-80">
             <li className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer hover:bg-blue-300 hover:text-white hover:transition-colors">
               <span>
@@ -107,15 +110,9 @@ export const NaviPC = () => {
                 <Link to={"signIn"}>로그인</Link>
               </span>
             </li>
-            <li
-              className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer
-              hover:bg-blue-300
-              hover:text-white hover:transition-colors
-              "
-              onClick={() => handleNav("/mypage")}
-            >
+            <li className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer hover:bg-blue-300 hover:text-white hover:transition-colors">
               <span>
-                <Link to={"signUp"}>회원가입</Link>
+                <Link to={"signIn"}>회원가입</Link>
               </span>
             </li>
           </ul>

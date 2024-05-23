@@ -1,7 +1,7 @@
 import React from "react";
 
 import { KakaoLogin } from "./KakaoLogin";
-import { GoogleLogin } from "./GoogleLogin";
+import { GoogleLoginBtn } from "./GoogleLogin";
 
 export const SNSlogin = () => {
   return (
@@ -23,7 +23,7 @@ export const SNSlogin = () => {
     mysm:py-3 "
       >
         <KakaoLogin></KakaoLogin>
-        <GoogleLogin></GoogleLogin>
+        <GoogleLoginBtn></GoogleLoginBtn>
       </div>
     </div>
   );

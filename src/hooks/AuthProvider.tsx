@@ -1,39 +1,51 @@
-import React, { ReactNode, createContext, useContext, useState } from "react";
+import React, {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { userType } from "./fetchUserData";
+import { fetchUserStorage } from "./fetchUserStorage";
+import { useUserQuery } from "component/navigtaion/hooks/useUserQuery";
 
 // 인터페이스 정의
 interface AuthContextType {
-  isLogin: boolean;
-  login: () => void;
-  logout: () => void;
+  userData: userType;
 }
 
-// 기본 상태값
-const initialState = {
-  isLogin: false,
-  login: () => {},
-  logout: () => {},
+const inistialState: AuthContextType = {
+  userData: {
+    userId: 0,
+    snsId: "",
+    accessToken: "",
+    name: "",
+    nickname: "",
+    email: "",
+    profilePicture: "",
+    platformType: "",
+    introduce: "",
+    regDate: "",
+    exitDate: "",
+  },
 };
 
-// Context 생성
-const AuthContext = createContext<AuthContextType>(initialState);
+const AuthContext = createContext<AuthContextType>(inistialState);
 
 type AuthProviderType = {
   children: ReactNode;
 };
 export const AuthProvider = ({ children }: AuthProviderType) => {
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [user, setUser] = useState<userType>(inistialState.userData);
 
-  // 로그인 함수
-  const login = () => {
-    setIsLogin(true);
-  };
+  const userStore = fetchUserStorage();
+  const { userData } = useUserQuery(userStore.snsId);
+  useEffect(() => {
+    setUser(userData);
+  }, [userData, user, userStore]);
 
-  // 로그아웃 함수
-  const logout = () => {
-    setIsLogin(false);
-  };
   return (
-    <AuthContext.Provider value={{ isLogin, login, logout }}>
+    <AuthContext.Provider value={{ userData: user }}>
       {children}
     </AuthContext.Provider>
   );

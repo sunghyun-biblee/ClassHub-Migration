@@ -6,6 +6,7 @@ import logo from "assets/img/Logo.png";
 import cart from "assets/img/Cart.svg";
 import user from "assets/img/Person.svg";
 import { useNavigate } from "react-router-dom";
+import { userType } from "hooks/fetchUserData";
 const NavigationMobile = styled.div`
   position: fixed;
   top: 0;
@@ -66,8 +67,10 @@ const BackPage = styled.div<{ menu?: string }>`
   left: 0;
   top: 0;
 `;
-
-export const NaviMobile = () => {
+interface INavtype {
+  userData: userType;
+}
+export const NaviMobile = ({ userData }: INavtype) => {
   const nav = useNavigate();
   const [menu, setMenu] = useState("false");
   const handleClick = () => {
@@ -124,7 +127,10 @@ export const NaviMobile = () => {
         </div>
         <div>
           <ul className="md:flex justify-between  items-center w-42 second-menu font-semibold ">
-            <li className="px-4 cursor-pointer" onClick={() => handleNav("/")}>
+            <li
+              className="px-4 cursor-pointer"
+              onClick={() => handleNav("cart")}
+            >
               <div>
                 <img src={cart} alt="장바구니" className="md:w-7 mysm:w-6" />
               </div>

@@ -13,6 +13,7 @@ export interface CommuInfo {
   commentCount: number;
   imageIds: number[];
   image: string[];
+  likeUsers: number[];
 }
 export function useTargetPost(id: number) {
   const { data, isLoading, isError, error } = useQuery<CommuInfo, Error>({

@@ -2,8 +2,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import requests from "api/requests";
 import axios from "api/axios";
+import { useNavigate } from "react-router-dom";
 
 export const GradeUpBtn = () => {
+  const nav = useNavigate();
+  const handleLogOut = () => {
+    localStorage.removeItem("user");
+    nav("/");
+  };
   return (
     <div
       className="lg:flex lg:justify-between    lg:flex-row md:flex-col 
@@ -17,10 +23,10 @@ export const GradeUpBtn = () => {
         강사 신청
       </button>
       <button
-        className=" border-none cursor-no-drop rounded-lg lg:p-2 lg:m-0 md:mt-1 md:p-1 lg:text-sm md:text-[12px]  bg-gray-400 text-gray-300"
-        disabled
+        className=" border-none  rounded-lg lg:p-2 lg:m-0 md:mt-1 md:p-1 lg:text-sm md:text-[12px]  bg-gray-400 text-black-300 font-semibold"
+        onClick={handleLogOut}
       >
-        멘토 신청
+        로그아웃
       </button>
     </div>
   );

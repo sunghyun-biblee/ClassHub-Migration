@@ -4,11 +4,15 @@ import likes from "assets/img/likes.svg";
 import commentImg from "assets/img/comment.svg";
 import styled from "styled-components";
 import { DetailProfile } from "./DetailProfile";
-import { useTargetPost } from "../hooks/useTargetPost";
+import { CommuInfo, useTargetPost } from "../hooks/useTargetPost";
 import { useTargetPostComment } from "../hooks/useTargetPostComment";
 
 import { addComment, deleteComment, updateComment } from "../hooks/commentFn";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Heart } from "./Heart";
+import { useAuth } from "hooks/AuthProvider";
+import axios from "api/axios";
+import requests from "api/requests";
 
 export interface commentType {
   commentId: number;
@@ -26,6 +30,7 @@ interface prevData {
 }
 
 export const CommuDetail = () => {
+  const { userData } = useAuth();
   const queryClient = useQueryClient();
   const { pathname } = useLocation();
   const id = parseInt(pathname.split("/")[3], 10);
@@ -37,8 +42,9 @@ export const CommuDetail = () => {
   const { commentData, isCommentLoading, isCommentError, comentError } =
     useTargetPostComment(id);
   const userId = 5;
+  const [isLike, setIsLike] = useState<boolean>(false);
 
-  const updateMutation = useMutation({
+  const CommentUpdateMutation = useMutation({
     mutationKey: ["updateComment"],
     mutationFn: (requestObj: commentType) => updateComment(requestObj),
     onSettled: () => {
@@ -75,7 +81,7 @@ export const CommuDetail = () => {
       return { prevData };
     },
   });
-  const deleteMutation = useMutation({
+  const CommentDeleteMutation = useMutation({
     mutationKey: ["deleteComment"],
     mutationFn: deleteComment,
     onSettled: () => {
@@ -103,7 +109,7 @@ export const CommuDetail = () => {
     },
   });
 
-  const addMutation = useMutation({
+  const ComentAddMutation = useMutation({
     mutationKey: ["addComment"],
     mutationFn: addComment,
     onSuccess: () => {
@@ -134,7 +140,7 @@ export const CommuDetail = () => {
       return { prevData };
     },
   });
-
+  console.log(postData);
   if (isPostLoading && isCommentLoading) {
     return <div>Loading...</div>;
   }
@@ -149,7 +155,7 @@ export const CommuDetail = () => {
   const handleUpdateComment = (item: commentType) => {
     if (editComment) {
       const requestObj: commentType = { ...item, text: editComment };
-      updateMutation.mutate(requestObj);
+      CommentUpdateMutation.mutate(requestObj);
       setIsEdit(false);
     }
   };
@@ -170,9 +176,50 @@ export const CommuDetail = () => {
       text: comment,
       communityId: postData?.communityId,
     };
-    await addMutation.mutate(commentObj);
+    await ComentAddMutation.mutate(commentObj);
   };
-  console.log(commentData);
+
+  const handleAddLike = async (userid: number, favoritId: number) => {
+    const requstBody = {
+      user_id: userid,
+      favorite_type_id: favoritId,
+    };
+    try {
+      const res = await axios.post(requests.like.postLike, requstBody);
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const compareLike = (postData: CommuInfo, userId: number) => {
+    const isUserLinked = (array: number[], userId: number): boolean => {
+      return array.includes(userId);
+    };
+
+    const result = isUserLinked(postData.likeUsers, userId);
+    switch (result) {
+      case true:
+        return (
+          <div
+            onClick={() => handleAddLike(userData.userId, postData.communityId)}
+          >
+            <Heart></Heart>
+          </div>
+        );
+      case false:
+        return (
+          <img
+            src={likes}
+            alt="like"
+            className="lg:w-5 md:w-5 mr-1 h-5 cursor-pointer"
+            onClick={() => handleAddLike(userData.userId, postData.communityId)}
+          />
+        );
+      default:
+        return "";
+    }
+  };
   return (
     <div
       className="
@@ -196,8 +243,9 @@ export const CommuDetail = () => {
               </h1>
               <div className="flex justify-between md:px-5 mysm:pl-5 mysm:pr-10  pb-5 pt-2 text-gray-500 ">
                 <p>2024-05-07</p>
-                <div className="flex ">
-                  <img src={likes} alt="likes" className="lg:w-5 md:w-5 mr-1" />
+                <div className="flex items-center ">
+                  {userData && compareLike(postData, userData.userId)}
+
                   <p>{postData.favoriteCount}</p>
                 </div>
               </div>
@@ -294,7 +342,7 @@ export const CommuDetail = () => {
                                   <button
                                     className="text-sm"
                                     onClick={() =>
-                                      // deleteMutation.mutate(item.commentId)
+                                      // CommentDeleteMutation.mutate(item.commentId)
 
                                       setIsEdit(false)
                                     }
@@ -318,7 +366,9 @@ export const CommuDetail = () => {
                                     className="text-sm"
                                     onClick={
                                       () =>
-                                        deleteMutation.mutate(item.commentId)
+                                        CommentDeleteMutation.mutate(
+                                          item.commentId
+                                        )
                                       // console.log("")
                                     }
                                   >
@@ -348,22 +398,3 @@ export const CommuDetail = () => {
 };
 
 const Overview = styled.article``;
-{
-  /* <Profile className="flex  lg:px-5 md:px-2 lg:py-8 md:py-5 flex-col ">
-            <div
-              className="flex justify-between border-[1px] lg:p-3 md:p-2 rounded-xl
-            shadow-[0px_8px_24px_rgba(149,157,165,0.2)]"
-            >
-              <div className=" flex flex-col justify-between">
-                <p className="font-bold">{data[0].name}</p>
-                <p className="text-sm text-gray-400">{data[0].category}</p>
-              </div>
-              <img
-                src={preview}
-                alt=""
-                className="lg:w-44 md:w-28
-               h-auto object-cover rounded-2xl"
-              />
-            </div>
-          </Profile> */
-}
