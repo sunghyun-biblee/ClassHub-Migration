@@ -1,18 +1,14 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import likes from "assets/img/likes.svg";
 import commentImg from "assets/img/comment.svg";
-import styled from "styled-components";
 import { DetailProfile } from "./DetailProfile";
-import { CommuInfo, useTargetPost } from "../hooks/useTargetPost";
+import { useTargetPost } from "../hooks/useTargetPost";
 import { useTargetPostComment } from "../hooks/useTargetPostComment";
-
-import { addComment, deleteComment, updateComment } from "../hooks/commentFn";
+import { addComment } from "../hooks/commentFn";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Heart } from "./Heart";
 import { useAuth } from "hooks/AuthProvider";
-import axios from "api/axios";
-import requests from "api/requests";
+import { CommentItem } from "./CommentItem";
+import { CommuPost } from "./CommuPost";
 
 export interface commentType {
   commentId: number;
@@ -23,90 +19,22 @@ export interface commentType {
   text: string;
   userId: number;
 }
-interface prevData {
+export interface prevData {
   data: {
     data: commentType[];
   };
 }
 
 export const CommuDetail = () => {
-  const { userData } = useAuth();
+  const { userData, userIsLoading } = useAuth();
   const queryClient = useQueryClient();
   const { pathname } = useLocation();
   const id = parseInt(pathname.split("/")[3], 10);
   const [comment, setComment] = useState<string>("");
-  const [editComment, setEditComment] = useState<string>("");
-  const [editCommentId, setEditCommentId] = useState<string | number>("");
-  const [isEdit, setIsEdit] = useState<boolean>(false);
+
   const { postData, isPostLoading, isPostError, postError } = useTargetPost(id);
   const { commentData, isCommentLoading, isCommentError, comentError } =
     useTargetPostComment(id);
-  const userId = 5;
-
-  const CommentUpdateMutation = useMutation({
-    mutationKey: ["updateComment"],
-    mutationFn: (requestObj: commentType) => updateComment(requestObj),
-    onSettled: () => {
-      return queryClient.invalidateQueries({
-        queryKey: ["commuDetailComment", id],
-      });
-    },
-    onMutate: async (requestObj) => {
-      await queryClient.cancelQueries({
-        queryKey: ["commuDetailComment", id],
-      });
-
-      const prevData: prevData | undefined = queryClient.getQueryData([
-        "commuDetailComment",
-        id,
-      ]);
-      queryClient.setQueryData(
-        ["commuDetailComment", id],
-        (prevData: prevData | undefined) => {
-          console.log(prevData);
-          if (prevData) {
-            const updateData = prevData.data.data.map((item) => {
-              console.log(item);
-              return item.commentId === requestObj.commentId
-                ? { ...item, ...requestObj }
-                : item;
-            });
-            console.log(updateData);
-            queryClient.setQueryData(["commuDetailComment", id], updateData);
-          }
-        }
-      );
-
-      return { prevData };
-    },
-  });
-  const CommentDeleteMutation = useMutation({
-    mutationKey: ["deleteComment"],
-    mutationFn: deleteComment,
-    onSettled: () => {
-      return queryClient.invalidateQueries({
-        queryKey: ["commuDetailComment", id],
-      });
-    },
-    onMutate: async (commentId) => {
-      await queryClient.cancelQueries({
-        queryKey: ["commuDetailComment", id],
-      });
-
-      const prevData: prevData | undefined = queryClient.getQueryData([
-        "commuDetailComment",
-        id,
-      ]);
-      if (prevData) {
-        const updatedData = prevData.data.data.filter(
-          (item) => item.commentId !== commentId
-        );
-        queryClient.setQueryData(["commuDetailComment", id], updatedData);
-      }
-
-      return { prevData };
-    },
-  });
   const ComentAddMutation = useMutation({
     mutationKey: ["addComment"],
     mutationFn: addComment,
@@ -126,28 +54,22 @@ export const CommuDetail = () => {
         "commuDetailComment",
         id,
       ]);
-      if (prevData) {
-        const newData = [...prevData.data.data, commentObj];
-        console.log(newData);
-        queryClient.setQueryData(
-          ["commuDetailComment", commentObj.communityId],
-          newData
-        );
-      }
+      await queryClient.setQueryData(
+        ["commuDetailComment", commentObj.communityId],
+        (oldData: prevData | undefined) => {
+          if (oldData) {
+            const newData = [...oldData?.data.data, commentObj];
+            console.log(newData);
+            return newData;
+          }
+          return oldData;
+        }
+      );
 
       return { prevData };
     },
   });
-  const handleUpdateComment = (item: commentType) => {
-    if (editComment) {
-      const requestObj: commentType = { ...item, text: editComment };
-      CommentUpdateMutation.mutate(requestObj);
-      setIsEdit(false);
-    }
-  };
-  const handleChangeEditComment = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditComment(e.target.value);
-  };
+
   const handleChangeComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
   };
@@ -158,55 +80,14 @@ export const CommuDetail = () => {
       return;
     }
     const commentObj = {
-      userId: 5,
+      userId: userData.userId,
       text: comment,
       communityId: postData?.communityId,
     };
     await ComentAddMutation.mutate(commentObj);
   };
 
-  const handleAddLike = async (userid: number, favoritId: number) => {
-    const requstBody = {
-      user_id: userid,
-      favorite_type_id: favoritId,
-    };
-    try {
-      const res = await axios.post(requests.like.postLike, requstBody);
-      console.log(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const compareLike = (postData: CommuInfo, userId: number) => {
-    const isUserLinked = (array: number[], userId: number): boolean => {
-      return array.includes(userId);
-    };
-    const result = isUserLinked(postData.likeUsers, userId);
-    switch (result) {
-      case true:
-        return (
-          <div
-            onClick={() => handleAddLike(userData.userId, postData.communityId)}
-          >
-            <Heart></Heart>
-          </div>
-        );
-      case false:
-        return (
-          <img
-            src={likes}
-            alt="like"
-            className="lg:w-5 md:w-5 mr-1 h-5 cursor-pointer"
-            onClick={() => handleAddLike(userData.userId, postData.communityId)}
-          />
-        );
-      default:
-        return "";
-    }
-  };
-
-  if (isPostLoading && isCommentLoading) {
+  if (isPostLoading && isCommentLoading && userIsLoading) {
     return <div>Loading...</div>;
   }
   if (isPostError && isCommentError) {
@@ -223,49 +104,9 @@ export const CommuDetail = () => {
   lg:w-[1200px] mysm:w-[100vw]  lg:pt-[90px] md:pt-[80px] mysm:pt-[80px] mx-auto my-0"
     >
       {postData && (
-        <section
-          className="md:grid md:grid-cols-[4fr,1.5fr] lg:w-[1200px] 
-        mysm:flex
-        mysm:flex-col
-        
-        mysm:w-[100vw]"
-        >
+        <section className="md:grid md:grid-cols-[4fr,1.5fr] lg:w-[1200px] mysm:flex mysm:flex-col mysm:w-[100vw]">
           <div className="lg:border-x-[1px]  md:border-r-[1px] lg:mr-5 mysm:pb-[50px]">
-            <article className="md:pt-5 md:border-0 mysm:border-b-[1px]">
-              <div className="mysm:block md:hidden px-1 md:border-0 mysm:border-b-[1px] ">
-                <DetailProfile name={"admin"} category={"학생"}></DetailProfile>
-              </div>
-              <h1 className="py-5 px-5 text-2xl font-extrabold">
-                {postData.title}
-              </h1>
-              <div className="flex justify-between md:px-5 mysm:pl-5 mysm:pr-10  pb-5 pt-2 text-gray-500 ">
-                <p>2024-05-07</p>
-                <div className="flex items-center ">
-                  {userData && compareLike(postData, userData.userId)}
-
-                  <p>{postData.favoriteCount}</p>
-                </div>
-              </div>
-            </article>
-            <Overview className="p-5 md:border-t-[1px]  border-b-[1px] border-solid">
-              <div>
-                <p>{postData.text}</p>
-              </div>
-              <div className="overflow-hidden">
-                {postData.image.map((item: string, index: number) => (
-                  <div className="flex flex-col" key={index + "img"}>
-                    {item !== "null" && (
-                      <img
-                        src={`https://devproject.store${item}`}
-                        alt="postImg"
-                        className="pt-5"
-                      ></img>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </Overview>
-
+            <CommuPost postData={postData}></CommuPost>
             <article className="md:px-5 mysm:p-3">
               <div className="flex items-center">
                 <h4 className="font-semibold text-gray-700">댓글</h4>
@@ -274,7 +115,6 @@ export const CommuDetail = () => {
                   {commentData?.data.length}
                 </p>
               </div>
-
               <form
                 className="py-5 flex justify-between items-end"
                 onSubmit={handleCommentSubmit}
@@ -301,86 +141,11 @@ export const CommuDetail = () => {
               <div id="commentList">
                 <ul>
                   {commentData?.data.map((item: commentType, index: number) => (
-                    <li
-                      className="border-b-[1px] py-1 px-3 flex flex-col my-1 justify-between"
-                      key={item.commentId + `${index}`}
-                    >
-                      <p className="flex items-center justify-between">
-                        <strong className="py-2 mr-1">{item.userId}</strong>
-                        <span className="text-gray-600 font-semibold">
-                          {item.regDate}
-                        </span>
-                      </p>
-                      <div className="flex justify-between pt-3 pb-1 items-end">
-                        {isEdit &&
-                        userId === item.userId &&
-                        item.commentId === editCommentId ? (
-                          <input
-                            type="text"
-                            value={editComment}
-                            onChange={handleChangeEditComment}
-                            className="border-[1px] py-1 px-2 rounded-md w-[70%]"
-                          />
-                        ) : (
-                          <span className="py-1 w-[75%]">{item.text}</span>
-                        )}
-                        <div className="text-gray-500 font-semibold">
-                          {userId === item.userId ? (
-                            <>
-                              {isEdit ? (
-                                <>
-                                  <button
-                                    className="text-sm mr-2"
-                                    onClick={() => {
-                                      handleUpdateComment(item);
-                                    }}
-                                  >
-                                    확인
-                                  </button>
-                                  <button
-                                    className="text-sm"
-                                    onClick={() =>
-                                      // CommentDeleteMutation.mutate(item.commentId)
-
-                                      setIsEdit(false)
-                                    }
-                                  >
-                                    취소
-                                  </button>
-                                </>
-                              ) : (
-                                <>
-                                  <button
-                                    className="text-sm mr-2"
-                                    onClick={() => {
-                                      setEditCommentId(item.commentId);
-                                      setEditComment(item.text);
-                                      setIsEdit((prev) => !prev);
-                                    }}
-                                  >
-                                    수정
-                                  </button>
-                                  <button
-                                    className="text-sm"
-                                    onClick={
-                                      () =>
-                                        CommentDeleteMutation.mutate(
-                                          item.commentId
-                                        )
-                                      // console.log("")
-                                    }
-                                  >
-                                    삭제
-                                  </button>
-                                </>
-                              )}
-                            </>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                      </div>
-                    </li>
+                    <CommentItem
+                      item={item}
+                      id={id}
+                      key={item.commentId + index}
+                    ></CommentItem>
                   ))}
                 </ul>
               </div>
@@ -398,4 +163,125 @@ export const CommuDetail = () => {
   );
 };
 
-const Overview = styled.article``;
+{
+  /* <li
+className="border-b-[1px] py-1 px-3 flex flex-col my-1 justify-between"
+key={item.commentId + `${index}`}
+>
+<p className="flex items-center justify-between">
+  <strong className="py-2 mr-1">{item.userId}</strong>
+  <span className="text-gray-600 font-semibold">
+    {item.regDate}
+  </span>
+</p>
+<div className="flex justify-between pt-3 pb-1 items-end">
+  {isEdit &&
+  userId === item.userId &&
+  item.commentId === editCommentId ? (
+    <input
+      type="text"
+      value={editComment}
+      onChange={handleChangeEditComment}
+      className="border-[1px] py-1 px-2 rounded-md w-[70%]"
+    />
+  ) : (
+    <span className="py-1 w-[75%]">{item.text}</span>
+  )}
+  <div className="text-gray-500 font-semibold">
+    {userId === item.userId ? (
+      <>
+        {isEdit ? (
+          <>
+            <button
+              className="text-sm mr-2"
+              onClick={() => {
+                handleUpdateComment(item);
+              }}
+            >
+              확인
+            </button>
+            <button
+              className="text-sm"
+              onClick={() =>
+                // CommentDeleteMutation.mutate(item.commentId)
+
+                setIsEdit(false)
+              }
+            >
+              취소
+            </button>
+          </>
+        ) : (
+          <>
+            <button
+              className="text-sm mr-2"
+              onClick={() => {
+                setEditCommentId(item.commentId);
+                setEditComment(item.text);
+                setIsEdit((prev) => !prev);
+              }}
+            >
+              수정
+            </button>
+            <button
+              className="text-sm"
+              onClick={
+                () =>
+                  CommentDeleteMutation.mutate(
+                    item.commentId
+                  )
+                // console.log("")
+              }
+            >
+              삭제
+            </button>
+          </>
+        )}
+      </>
+    ) : (
+      ""
+    )}
+  </div>
+</div>
+</li> */
+}
+
+{
+  /* <article className="md:pt-5 md:border-0 mysm:border-b-[1px]">
+<div className="mysm:block md:hidden px-1 md:border-0 mysm:border-b-[1px] ">
+  <DetailProfile
+    name={userData.name}
+    category={"학생"}
+  ></DetailProfile>
+</div>
+<h1 className="py-5 px-5 text-2xl font-extrabold">
+  {postData.title}
+</h1>
+<div className="flex justify-between md:px-5 mysm:pl-5 mysm:pr-10  pb-5 pt-2 text-gray-500 ">
+  <p>2024-05-07</p>
+  <div className="flex items-center ">
+    {userData && compareLike(postData, userData.userId)}
+
+    <p>{postData.favoriteCount}</p>
+  </div>
+</div>
+</article>
+<article className="p-5 md:border-t-[1px]  border-b-[1px] border-solid">
+<div>
+  <p>{postData.text}</p>
+</div>
+<div className="overflow-hidden">
+  {postData.image.map((item: string, index: number) => (
+    <div className="flex flex-col" key={index + "img"}>
+      {item !== "null" && (
+        <img
+          src={`https://devproject.store${item}`}
+          alt="postImg"
+          className="pt-5"
+        ></img>
+      )}
+    </div>
+  ))}
+</div>
+</article> */
+}

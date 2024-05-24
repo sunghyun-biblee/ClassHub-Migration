@@ -1,35 +1,108 @@
-import React from "react";
-import { commentType } from "./CommuDetail";
+import React, { useState } from "react";
+import { commentType, prevData } from "./CommuDetail";
 import { userType } from "hooks/fetchUserData";
 import { useAuth } from "hooks/AuthProvider";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addComment, deleteComment, updateComment } from "../hooks/commentFn";
 
 interface ICommentProp {
   item: commentType;
-  isEdit: boolean;
-  editComment: string;
-  editCommentId: string | number;
-  handleChangeEditComment: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleUpdateComment: (item: commentType) => void;
-  setEditComment: (value: string) => void;
-  setEditCommentId: (value: string | number) => void;
-  setIsEdit: (value: boolean) => void;
-  handleDeleteComment: (value: number) => void;
+  id: number;
 }
 
-export const CommentItem = ({
-  item,
-
-  isEdit,
-  editComment,
-  editCommentId,
-  handleChangeEditComment,
-  handleUpdateComment,
-  setEditComment,
-  setEditCommentId,
-  handleDeleteComment,
-  setIsEdit,
-}: ICommentProp) => {
+export const CommentItem = ({ item, id }: ICommentProp) => {
   const { userData } = useAuth();
+  const queryClient = useQueryClient();
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [editComment, setEditComment] = useState<string>("");
+  const [editCommentId, setEditCommentId] = useState<string | number>("");
+  const CommentDeleteMutation = useMutation({
+    mutationKey: ["deleteComment"],
+    mutationFn: deleteComment,
+    onSettled: () => {
+      return queryClient.invalidateQueries({
+        queryKey: ["commuDetailComment", id],
+      });
+    },
+    onMutate: async (commentId) => {
+      await queryClient.cancelQueries({
+        queryKey: ["commuDetailComment", id],
+      });
+
+      const prevData: prevData | undefined = queryClient.getQueryData([
+        "commuDetailComment",
+        id,
+      ]);
+      queryClient.setQueryData(
+        ["commuDetailComment", id],
+        (oldData: prevData | undefined) => {
+          if (oldData) {
+            const newData = oldData.data.data.filter(
+              (item) => item.commentId !== commentId
+            );
+            return newData;
+          }
+          return oldData;
+        }
+      );
+      if (prevData) {
+        const updatedData = prevData.data.data.filter(
+          (item) => item.commentId !== commentId
+        );
+        queryClient.setQueryData(["commuDetailComment", id], updatedData);
+      }
+
+      return { prevData };
+    },
+  });
+  const CommentUpdateMutation = useMutation({
+    mutationKey: ["updateComment"],
+    mutationFn: (requestObj: commentType) =>
+      updateComment(requestObj, userData.userId),
+    onSettled: () => {
+      return queryClient.invalidateQueries({
+        queryKey: ["commuDetailComment", id],
+      });
+    },
+    onMutate: async (requestObj) => {
+      await queryClient.cancelQueries({
+        queryKey: ["commuDetailComment", id],
+      });
+
+      const prevData: prevData | undefined = queryClient.getQueryData([
+        "commuDetailComment",
+        id,
+      ]);
+      queryClient.setQueryData(
+        ["commuDetailComment", id],
+        (oldData: prevData | undefined) => {
+          console.log(oldData);
+          if (oldData) {
+            const updateData = oldData.data.data.map((item) =>
+              item.commentId === requestObj.commentId
+                ? { ...item, ...requestObj }
+                : item
+            );
+            console.log(updateData);
+            return updateData;
+          }
+          return oldData;
+        }
+      );
+
+      return { prevData };
+    },
+  });
+  const handleChangeEditComment = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditComment(e.target.value);
+  };
+  const handleUpdateComment = (item: commentType) => {
+    if (editComment) {
+      const requestObj: commentType = { ...item, text: editComment };
+      CommentUpdateMutation.mutate(requestObj);
+      setIsEdit(false);
+    }
+  };
   return (
     <li className="border-b-[1px] py-1 px-3 flex flex-col my-1 justify-between">
       <p className="flex items-center justify-between">
@@ -47,10 +120,12 @@ export const CommentItem = ({
             className="border-[1px] py-1 px-2 rounded-md w-[70%]"
           />
         ) : (
-          <span className="py-1 w-[75%]">{item.text}</span>
+          <span className="py-1 w-[75%]">
+            {CommentUpdateMutation.isPending ? "업데이트중" : item.text}
+          </span>
         )}
         <div className="text-gray-500 font-semibold">
-          {userData.userId === item.userId ? (
+          {userData.userId === item.userId && (
             <>
               {isEdit ? (
                 <>
@@ -62,14 +137,7 @@ export const CommentItem = ({
                   >
                     확인
                   </button>
-                  <button
-                    className="text-sm"
-                    onClick={() =>
-                      // CommentDeleteMutation.mutate(item.commentId)
-
-                      setIsEdit(false)
-                    }
-                  >
+                  <button className="text-sm" onClick={() => setIsEdit(false)}>
                     취소
                   </button>
                 </>
@@ -91,18 +159,13 @@ export const CommentItem = ({
                   </button>
                   <button
                     className="text-sm"
-                    onClick={
-                      () => handleDeleteComment(item.commentId)
-                      // console.log("")
-                    }
+                    onClick={() => CommentDeleteMutation.mutate(item.commentId)}
                   >
                     삭제
                   </button>
                 </>
               )}
             </>
-          ) : (
-            ""
           )}
         </div>
       </div>

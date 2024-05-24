@@ -8,9 +8,12 @@ export type addCommentType = {
   text: string;
   communityId: number | undefined;
 };
-export async function updateComment(targetComment: commentType) {
+export async function updateComment(
+  targetComment: commentType,
+  userId: number
+) {
   const requestBody = {
-    userId: 6,
+    userId: userId,
     text: targetComment.text,
     communityId: targetComment.communityId,
   };

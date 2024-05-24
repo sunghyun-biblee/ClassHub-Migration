@@ -61,7 +61,7 @@ function App() {
     const QueryClient = useQueryClient();
     if (loginuser.snsId) {
       QueryClient.prefetchQuery({
-        queryKey: ["UserData"],
+        queryKey: ["UserData", loginuser.snsId],
         queryFn: () => fetchUserData(loginuser.snsId),
       });
     }
