@@ -17,16 +17,16 @@ export const LastWatch = () => {
             React-Query TanstackQuery
           </h1>
         </li>
-        <div className="flex justify-between md:px-0 mysm:px-1">
-          <li className="lg:text-base md:text-sm">
+        <li className="flex justify-between md:px-0 mysm:px-1">
+          <div className="lg:text-base md:text-sm">
             <strong className="text-sky-700">강사명</strong>
             <h2 className="font-semibold">admin</h2>
-          </li>
-          <li className="lg:text-base md:text-sm">
+          </div>
+          <div className="lg:text-base md:text-sm">
             <strong className="text-sky-700">진행률</strong>
             <h3 className="font-semibold">30%</h3>
-          </li>
-        </div>
+          </div>
+        </li>
       </ul>
     </div>
   );

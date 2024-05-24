@@ -115,7 +115,7 @@ export const CommuPost = ({ postData }: IPostProp) => {
     <>
       <article className="md:pt-5 md:border-0 mysm:border-b-[1px]">
         <div className="mysm:block md:hidden px-1 md:border-0 mysm:border-b-[1px] ">
-          <DetailProfile name={"admin"} category={"학생"}></DetailProfile>
+          <DetailProfile category={"학생"}></DetailProfile>
         </div>
         <h1 className="py-5 px-5 text-2xl font-extrabold">{postData.title}</h1>
         <div className="flex justify-between md:px-5 mysm:pl-5 mysm:pr-10  pb-5 pt-2 text-gray-500 ">

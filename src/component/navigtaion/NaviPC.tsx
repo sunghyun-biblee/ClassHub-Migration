@@ -3,13 +3,10 @@ import styled from "styled-components";
 import searchICON from "assets/img/searchICON.svg";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "assets/img/Logo.png";
-
 import cart from "assets/img/Cart.svg";
 import user from "assets/img/Person.svg";
-import { useAuth } from "hooks/AuthProvider";
 import { userType } from "hooks/fetchUserData";
-import { fetchUserStorage } from "hooks/fetchUserStorage";
-import { useUserQuery } from "./hooks/useUserQuery";
+
 const NavigationPC = styled.div`
   @media (max-width: 1023px) {
     display: none;
@@ -25,7 +22,7 @@ const NavigationPC = styled.div`
   background-color: #fdfdfe;
 `;
 
-const SearchButton = styled.button`
+const SearchButton = styled.input`
   width: 20px;
   height: 20px;
   background-image: url(${searchICON});
@@ -38,7 +35,6 @@ interface INavProps {
 }
 export const NaviPC = ({ userData }: INavProps) => {
   const nav = useNavigate();
-
   const handleNav = (location: string) => {
     nav(`${location}`);
   };
@@ -80,7 +76,10 @@ export const NaviPC = ({ userData }: INavProps) => {
               placeholder="강의를 검색해보세요"
               className="border-2 rounded-md w-72 h-[36px] px-2 text-sm py-1 focus:outline-blue-600"
             />
-            <SearchButton>{/* <img src={searchICON} alt="" /> */}</SearchButton>
+
+            <SearchButton type="button" aria-label="searchBtn">
+              {/* <img src={searchICON} alt="" /> */}
+            </SearchButton>
           </div>
         </form>
         {userData && userData.userId ? (

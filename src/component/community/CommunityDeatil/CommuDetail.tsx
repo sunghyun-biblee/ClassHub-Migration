@@ -152,10 +152,11 @@ export const CommuDetail = () => {
             </article>
           </div>
           <div className="mysm:hidden md:block">
-            <DetailProfile
-              name={userData.name}
-              category={"학생"}
-            ></DetailProfile>
+            {userIsLoading ? (
+              ""
+            ) : (
+              <DetailProfile category={"학생"}></DetailProfile>
+            )}
           </div>
         </section>
       )}
