@@ -45,12 +45,6 @@ export const CommentItem = ({ item, id }: ICommentProp) => {
           return oldData;
         }
       );
-      if (prevData) {
-        const updatedData = prevData.data.data.filter(
-          (item) => item.commentId !== commentId
-        );
-        queryClient.setQueryData(["commuDetailComment", id], updatedData);
-      }
 
       return { prevData };
     },
