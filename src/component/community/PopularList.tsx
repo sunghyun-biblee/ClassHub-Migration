@@ -1,44 +1,39 @@
 import React from "react";
 import styled from "styled-components";
+import { usePopularList } from "./hooks/usePopularList";
+import { Icommuitem } from "./hooks/fetchCommuArray";
+import { IcommunityItem } from "./ShowCommuList";
 
 type IPopularProp = {
   category: string;
 };
 
 export const PopularList = ({ category }: IPopularProp) => {
-  const title = "인기글 입니다.";
-  const title2 = "안녕하세요 전 최근 ^";
-  const name = "admin";
+  const { listData, listIsLoading, listIsError, listError } =
+    usePopularList(category);
+
+  if (listIsLoading) {
+    return <p>로딩즁</p>;
+  }
+  if (listIsError) {
+    return <p>{listError?.message}</p>;
+  }
+  console.log(listData);
   return (
     <ListContainer
       className={`p-3 absolute right-[1%] top-[11%] lg:block md:hidden mysm:hidden ${
         category === "addpost" && "lg:hidden"
       }`}
     >
-      <h1 className="pb-1">인기 게시글</h1>
+      <h1 className="pb-1 font-extrabold">인기 게시글</h1>
       <ul>
-        <Li>
-          <h3 className="text-sm mr-2">{title}1</h3>
-          <p className="text-[14px]">{name}</p>
-        </Li>
-        <Li>
-          <h3 className="text-sm mr-2">{title}2</h3>
-          <p className="text-[14px]">{name}</p>
-        </Li>
-        <Li>
-          <h3 className="text-sm mr-2">
-            {title2.length > 10 ? title2.slice(0, 10) + "..." : title2}
-          </h3>
-          <p className="text-[14px]">{name}</p>
-        </Li>
-        <Li>
-          <h3 className="text-sm mr-2">{title}4</h3>
-          <p className="text-[14px]">{name}</p>
-        </Li>
-        <Li>
-          <h3 className="text-sm mr-2">{title}5</h3>
-          <p className="text-[14px]">{name}</p>
-        </Li>
+        {listData &&
+          listData.contents.map((item: IcommunityItem) => (
+            <Li>
+              <h3 className="text-sm mr-2 font-semibold">{item.title}</h3>
+              <p className="text-[14px]">{"biblee"}</p>
+            </Li>
+          ))}
       </ul>
     </ListContainer>
   );
