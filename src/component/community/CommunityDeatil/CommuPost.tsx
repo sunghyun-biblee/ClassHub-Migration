@@ -9,6 +9,7 @@ import likes from "assets/img/likes.svg";
 import { Heart } from "./Heart";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { prevData } from "./CommuDetail";
+import { Link } from "react-router-dom";
 interface IPostProp {
   postData: CommuInfo;
 }
@@ -111,6 +112,7 @@ export const CommuPost = ({ postData }: IPostProp) => {
     },
   });
   console.log(postData);
+  const handlePostDelete = () => {};
   return (
     <>
       <article className="md:pt-5 md:border-0 mysm:border-b-[1px]">
@@ -123,8 +125,12 @@ export const CommuPost = ({ postData }: IPostProp) => {
           </h1>
           {postData.userId === userData.userId && (
             <div className="text-gray-400 font-semibold">
-              <button>수정</button>
-              <button className="px-3">삭제</button>
+              <Link to={`/community/modifyPost/${postData.communityId}`}>
+                수정
+              </Link>
+              <button className="px-3" onClick={() => handlePostDelete}>
+                삭제
+              </button>
             </div>
           )}
         </div>

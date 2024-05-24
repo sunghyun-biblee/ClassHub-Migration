@@ -36,7 +36,7 @@ export const Community = () => {
         mysm:pb-10
         relative
 ${
-  pathname === "addpost"
+  pathname === "addpost" || pathname === "modifyPost"
     ? "md:flex md:flex-col"
     : "md:grid lg:grid-cols-[1fr,4fr,1.5fr] md:grid-cols-[0.9fr,4fr] mysm:felx mysm:flex-col"
 }

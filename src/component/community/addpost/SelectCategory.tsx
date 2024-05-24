@@ -1,12 +1,13 @@
 import React from "react";
 
 interface ICommuCategory {
-  mainCategory: string | undefined;
+  mainCategory: string | null;
   setMainCategory: (mainCategory: string) => void;
 }
 
 export const SelectCategory = ({
   mainCategory,
+
   setMainCategory,
 }: ICommuCategory) => {
   const changeMainCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -20,11 +21,11 @@ export const SelectCategory = ({
         <select
           name=""
           id=""
-          value={mainCategory === null ? "1" : mainCategory}
+          value={mainCategory === null ? "0" : mainCategory}
           onChange={changeMainCategory}
           className="border-[1px] rounded-md mysm:ml-3"
         >
-          <option value="1">---카테고리---</option>
+          <option value="0">---카테고리---</option>
           <option value="질문답변">질문답변</option>
           <option value="스터디">스터디</option>
         </select>

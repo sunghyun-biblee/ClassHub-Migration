@@ -23,7 +23,7 @@ export const CommuCategory = ({ setCategory }: ICommnuprop) => {
   return (
     <div
       className={`lg:mr-3 mysm:mr-0 w-[100%] ${
-        category === "addpost" && "hidden"
+        category === "addpost" || category === "modifyPost" ? "hidden" : "block"
       }`}
     >
       <div

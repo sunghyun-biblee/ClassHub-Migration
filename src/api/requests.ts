@@ -12,6 +12,7 @@ const requests = {
     getQuestionList: "/community/questions",
     getQuestionOderByFavorite: "/community/questions/orderByFavorite",
     getQuestionOderByComment: "/community/questions/orderByComment",
+    deleteImg: "/community/delete/image",
   },
   lecture: {
     lectureUpLoad: "/lecture/upload",

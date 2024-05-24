@@ -36,6 +36,7 @@ import { CartList } from "component/cart/CartList";
 import { OrderPage } from "component/cart/OrderPage";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { fetchUserData } from "hooks/fetchUserData";
+import { ModifyPost } from "component/community/modifyPost/ModifyPost";
 
 const cliendtId =
   "386437749459-jjvcsk0qiqdg429e7ihbkhu411b21l0c.apps.googleusercontent.com";
@@ -129,6 +130,10 @@ function App() {
                     element={<ShowCommuList />}
                   ></Route>
                   <Route path="addpost" element={<AddPost></AddPost>}></Route>
+                  <Route
+                    path="modifyPost/:postId"
+                    element={<ModifyPost></ModifyPost>}
+                  ></Route>
                 </Route>
                 <Route path="class" element={<Class></Class>}></Route>
                 <Route

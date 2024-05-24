@@ -1,31 +1,50 @@
-import React, { useRef, useState } from "react";
-
-import preview from "assets/img/preview.jpg";
-import styled from "styled-components";
-import { SelectCategory } from "./SelectCategory";
-import axios from "api/axios";
-
-import requests from "api/requests";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { SelectCategory } from "../addpost/SelectCategory";
+import { Left, Right } from "../addpost/AddPost";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "hooks/AuthProvider";
-// import axios from "axios";
-
+import { useQuery } from "@tanstack/react-query";
+import axios from "api/axios";
+import requests from "api/requests";
+import { useTargetPost } from "../hooks/useTargetPost";
 interface selectImgType {
   id: string;
   img: string;
 }
 
-export const AddPost = () => {
+export const ModifyPost = () => {
+  const { pathname } = useLocation();
+  const { postData, isPostLoading, isPostError, postError } = useTargetPost(
+    parseInt(pathname.split("/")[3])
+  );
+
   const nav = useNavigate();
   const { userData } = useAuth();
-  const [title, setTitle] = useState<string>();
-  const [text, setText] = useState<string>();
+  const [title, setTitle] = useState<string>("");
+  const [text, setText] = useState<string>("");
   const [mainCategory, setMainCategory] = useState<string | null>(null);
   const [requestImgId, setRequestImgId] = useState<number[]>([]);
   const [previmg, setPrevimg] = useState<selectImgType[] | undefined>();
   const [imgArray, setImgArray] = useState<selectImgType[]>([]);
   const ref = useRef<HTMLDivElement>(null);
   let i = 0;
+  useEffect(() => {
+    if (postData) {
+      const newImgData = postData.image.map((item, index) => ({
+        id: postData.imageIds[index].toString(),
+        img: item,
+      }));
+      setImgArray([...newImgData]);
+      setTitle(postData.title);
+      setText(postData.text);
+    }
+  }, [postData]);
+  if (isPostLoading) {
+    return <p>로딩중</p>;
+  }
+  if (isPostError) {
+    return <p>{postError?.message}</p>;
+  }
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log(requestImgId);
@@ -124,19 +143,32 @@ export const AddPost = () => {
     setImgArray((prev) => [...prev, ...selectFilesArray]);
   };
 
-  const modifyFile = (e: React.MouseEvent<HTMLDivElement>) => {
-    const target = e.currentTarget.id;
-    const newArray = imgArray.filter((item) => item.id !== target);
-    setImgArray(newArray);
+  const modifyFile = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const target = e.currentTarget.id.toString();
+
+    if (postData?.imageIds.includes(parseInt(target))) {
+      try {
+        const res = await axios.post(`${requests.community.deleteImg}`, null, {
+          params: {
+            removeFileId: parseInt(target),
+          },
+        });
+        console.log(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+      const newArray = imgArray.filter((item) => item.id !== target);
+      setImgArray(newArray);
+    } else {
+      const newArray = imgArray.filter((item) => item.id !== target);
+      setImgArray(newArray);
+    }
   };
   const modalOn = (e: React.MouseEvent<HTMLImageElement>) => {
     const target = e.currentTarget.id;
     const selectItem = imgArray.filter((item) => item.id === target);
     setPrevimg(selectItem);
-    console.log(...selectItem);
-    console.log(e.currentTarget.id);
   };
-
   return (
     <div className="relative">
       <form
@@ -163,7 +195,7 @@ export const AddPost = () => {
               lg:px-2 py-1
               mysm:px-1 
               "
-              placeholder="제목을 입력해주세요"
+              placeholder={postData?.title}
               value={title}
               onChange={handleChangeTitle}
             />
@@ -179,12 +211,7 @@ export const AddPost = () => {
             id="overview"
             className="resize-none border-[1px] lg:max-w-[1150px] mysm:w-[calc(100%-16px)]
           h-[30dvh] outline-blue-500 p-5 rounded-lg overflow-x-hiddenoverflow-y-scroll "
-            placeholder="궁금한 점이나 취미들을 공유해주세요 &#13;
-            -글 작성 시 주의해야할 점
-            -글 내용에 개인정보가 들어나면 안됩니다
-            -개인정보가 포함된 글을 작성 후 문제발생시 모든책임은 글 작성자에게 있습니다
-            -불건전한 게시글은 작성을 금지합니다
-            "
+            placeholder={postData?.text}
             maxLength={3000}
             value={text}
             onChange={handleChangeText}
@@ -212,26 +239,25 @@ export const AddPost = () => {
                 ref={ref}
               >
                 <div className="flex w-[600px] md:justify-normal mysm:justify-between ">
-                  {imgArray?.map((item, index) => (
+                  {imgArray.map((item, index) => (
                     <div
                       className="relative max-w-[150px] h-[150px] mx-3"
-                      key={item.id + "@@!!" + index}
+                      key={`${item} + "@@!!"`}
                     >
                       <img
-                        key={item.id + "!!!!" + index}
-                        src={item.img}
+                        src={`${item.img}`}
                         alt="selectimg"
                         id={item.id}
                         onClick={modalOn}
                         className="min-w-[150px] h-[150px] rounded-lg "
                       />
-                      <div
+                      <button
                         className="absolute top-0 right-2 text-red-600 font-extrabold"
                         onClick={modifyFile}
                         id={item.id}
                       >
                         {"X"}
-                      </div>
+                      </button>
                     </div>
                   ))}
 
@@ -288,7 +314,11 @@ export const AddPost = () => {
             backdrop-blur-sm`}
           >
             <div className="relative">
-              <img src={previmg[0].img} alt="previmg" className="px-2" />
+              <img
+                src={`https://devproject.store${previmg[0].img}`}
+                alt="previmg"
+                className="px-2"
+              />
               <button
                 className="absolute top-[1%] right-[1%] text-white bg-[#1F38A1] w-20 h-8 rounded-lg"
                 onClick={() => setPrevimg(undefined)}
@@ -299,50 +329,6 @@ export const AddPost = () => {
           </div>
         )}
       </form>
-    </div>
-  );
-};
-
-export const Left = () => {
-  return (
-    <div className="w-10">
-      <svg
-        data-slot="icon"
-        fill="none"
-        strokeWidth="1.5"
-        stroke="#5c6177"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="M15.75 19.5 8.25 12l7.5-7.5"
-        ></path>
-      </svg>
-    </div>
-  );
-};
-
-export const Right = () => {
-  return (
-    <div className="w-10">
-      <svg
-        data-slot="icon"
-        fill="none"
-        strokeWidth="1.5"
-        stroke="#5c6177"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          d="m8.25 4.5 7.5 7.5-7.5 7.5"
-        ></path>
-      </svg>
     </div>
   );
 };
