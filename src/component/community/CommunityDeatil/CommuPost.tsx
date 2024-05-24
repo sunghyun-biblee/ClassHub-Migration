@@ -110,16 +110,26 @@ export const CommuPost = ({ postData }: IPostProp) => {
       return { prevData };
     },
   });
-
+  console.log(postData);
   return (
     <>
       <article className="md:pt-5 md:border-0 mysm:border-b-[1px]">
         <div className="mysm:block md:hidden px-1 md:border-0 mysm:border-b-[1px] ">
           <DetailProfile category={"학생"}></DetailProfile>
         </div>
-        <h1 className="py-5 px-5 text-2xl font-extrabold">{postData.title}</h1>
+        <div className="flex justify-between items-center">
+          <h1 className="py-5 px-5 text-2xl font-extrabold">
+            {postData.title}
+          </h1>
+          {postData.userId === userData.userId && (
+            <div className="text-gray-400 font-semibold">
+              <button>수정</button>
+              <button className="px-3">삭제</button>
+            </div>
+          )}
+        </div>
         <div className="flex justify-between md:px-5 mysm:pl-5 mysm:pr-10  pb-5 pt-2 text-gray-500 ">
-          <p>2024-05-07</p>
+          <p>{postData.regDate}</p>
           <div className="flex items-center ">
             {userData && compareLike(postData, userData.userId)}
             <p>{postData.favoriteCount}</p>

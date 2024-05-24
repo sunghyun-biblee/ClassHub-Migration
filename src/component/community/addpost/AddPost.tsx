@@ -7,6 +7,7 @@ import axios from "api/axios";
 
 import requests from "api/requests";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "hooks/AuthProvider";
 // import axios from "axios";
 
 interface selectImgType {
@@ -16,10 +17,11 @@ interface selectImgType {
 
 export const AddPost = () => {
   const nav = useNavigate();
+  const { userData } = useAuth();
   const [title, setTitle] = useState<string>();
   const [text, setText] = useState<string>();
   const [mainCategory, setMainCategory] = useState<string>();
-  const [requestImgId, setRequestImgId] = useState<number[]>();
+  const [requestImgId, setRequestImgId] = useState<number[]>([]);
   const [previmg, setPrevimg] = useState<selectImgType[] | undefined>();
   const [imgArray, setImgArray] = useState<selectImgType[]>([]);
   const ref = useRef<HTMLDivElement>(null);
@@ -41,14 +43,16 @@ export const AddPost = () => {
         console.log("error");
         break;
     }
+
     const communityObject = {
-      userId: 6,
+      userId: userData.userId,
       communityType: customCommunityType,
       title: title,
       text: text,
-      communityImageIds: requestImgId,
+      communityImageIds: requestImgId?.length <= 0 ? [0, 0, 0] : requestImgId,
     };
 
+    console.log(communityObject);
     await axios
       .post(`${requests.community.addPost}`, communityObject)
       .then((res) => {
