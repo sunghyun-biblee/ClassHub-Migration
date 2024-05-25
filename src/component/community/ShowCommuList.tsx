@@ -4,10 +4,11 @@ import { PageNation } from "component/class/PageNation";
 import { CommnuItem } from "./CommnuItem";
 
 import { useQuery } from "@tanstack/react-query";
-import { fetchCommuList, fetchQuestion } from "./hooks/fetchCommuArray";
-import { useLocation, useNavigate } from "react-router-dom";
+import { fetchQuestionList } from "./hooks/fetchCommuArray";
+import { useNavigate } from "react-router-dom";
 import { PopularList } from "./PopularList";
 import { useGetpathname } from "./hooks/getPathname";
+import { useCommuList } from "./hooks/useCommuList";
 
 export interface IcommunityItem {
   commentCount: number;
@@ -21,6 +22,7 @@ export interface IcommunityItem {
   title: string;
   userId: number;
 }
+
 export const ShowCommuList = () => {
   const category = useGetpathname();
 
@@ -39,10 +41,7 @@ export const ShowCommuList = () => {
     }
   };
 
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["question", page],
-    queryFn: () => fetchQuestion(page),
-  });
+  const { data } = useCommuList(category, page);
 
   console.log(data);
   const pageNationData = {

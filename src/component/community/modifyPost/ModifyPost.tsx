@@ -14,8 +14,10 @@ interface selectImgType {
 
 export const ModifyPost = () => {
   const { pathname } = useLocation();
+  const category = pathname.split("/")[2];
   const { postData, isPostLoading, isPostError, postError } = useTargetPost(
-    parseInt(pathname.split("/")[3])
+    parseInt(pathname.split("/")[3]),
+    category
   );
 
   const nav = useNavigate();
@@ -37,6 +39,7 @@ export const ModifyPost = () => {
       setImgArray([...newImgData]);
       setTitle(postData.title);
       setText(postData.text);
+      setRequestImgId([...postData.imageIds]);
     }
   }, [postData]);
   if (isPostLoading) {
@@ -65,26 +68,32 @@ export const ModifyPost = () => {
         console.log("error");
         break;
     }
+    if (postData) {
+      const communityObject = {
+        userId: userData.userId,
+        communityType: customCommunityType,
+        title: title,
+        text: text,
+        communityImageIds: requestImgId,
+        communityId: postData.communityId,
+      };
 
-    const communityObject = {
-      userId: userData.userId,
-      communityType: customCommunityType,
-      title: title,
-      text: text,
-      communityImageIds: requestImgId,
-    };
+      console.log(communityObject);
 
-    console.log(communityObject);
-    await axios
-      .post(`${requests.community.addPost}`, communityObject)
-      .then((res) => {
-        console.log(res);
-        nav("/community");
-      })
-      .catch((error) => {
-        console.log(error);
-        return;
-      });
+      await axios
+        .post(
+          `${requests.community.updatePost}/${postData.communityId}`,
+          communityObject
+        )
+        .then((res) => {
+          console.log(res);
+          nav("/community");
+        })
+        .catch((error) => {
+          console.log(error);
+          return;
+        });
+    }
   };
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -143,7 +152,7 @@ export const ModifyPost = () => {
     setImgArray((prev) => [...prev, ...selectFilesArray]);
   };
 
-  const modifyFile = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const modifyFile = async (e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.currentTarget.id.toString();
 
     if (postData?.imageIds.includes(parseInt(target))) {
@@ -154,6 +163,10 @@ export const ModifyPost = () => {
           },
         });
         console.log(res.data);
+        const newImgid = requestImgId.filter(
+          (item) => item !== parseInt(target)
+        );
+        setRequestImgId(newImgid);
       } catch (error) {
         console.log(error);
       }
@@ -251,13 +264,13 @@ export const ModifyPost = () => {
                         onClick={modalOn}
                         className="min-w-[150px] h-[150px] rounded-lg "
                       />
-                      <button
+                      <div
                         className="absolute top-0 right-2 text-red-600 font-extrabold"
                         onClick={modifyFile}
                         id={item.id}
                       >
                         {"X"}
-                      </button>
+                      </div>
                     </div>
                   ))}
 

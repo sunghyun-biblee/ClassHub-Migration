@@ -18,7 +18,7 @@ interface updateLikeType {
   favorite_type_id: number;
 }
 export const CommuPost = ({ postData }: IPostProp) => {
-  const { userData } = useAuth();
+  const { userData, userIsLoading } = useAuth();
   const queryClient = useQueryClient();
 
   const handleUpdateLike = async (userId: number, favoritId: number) => {
@@ -27,8 +27,7 @@ export const CommuPost = ({ postData }: IPostProp) => {
       favorite_type_id: favoritId,
     };
     try {
-      const res = await axios.post(requests.like.postLike, requstBody);
-      console.log(res.data);
+      await axios.post(requests.like.postLike, requstBody);
     } catch (error) {
       console.log(error);
     }
@@ -111,7 +110,7 @@ export const CommuPost = ({ postData }: IPostProp) => {
       return { prevData };
     },
   });
-  console.log(postData);
+  console.log(postData.image);
   const handlePostDelete = () => {};
   return (
     <>
@@ -123,7 +122,7 @@ export const CommuPost = ({ postData }: IPostProp) => {
           <h1 className="py-5 px-5 text-2xl font-extrabold">
             {postData.title}
           </h1>
-          {postData.userId === userData.userId && (
+          {!userIsLoading && userData && userData.userId && (
             <div className="text-gray-400 font-semibold">
               <Link to={`/community/modifyPost/${postData.communityId}`}>
                 수정
@@ -150,11 +149,7 @@ export const CommuPost = ({ postData }: IPostProp) => {
           {postData.image.map((item: string, index: number) => (
             <div className="flex flex-col" key={index + "img"}>
               {item !== "null" && (
-                <img
-                  src={`https://devproject.store${item}`}
-                  alt="postImg"
-                  className="pt-5"
-                ></img>
+                <img src={item} alt="postImg" className="pt-5"></img>
               )}
             </div>
           ))}

@@ -15,10 +15,10 @@ export interface CommuInfo {
   image: string[];
   likeUsers: number[];
 }
-export function useTargetPost(id: number) {
+export function useTargetPost(id: number, category: string) {
   const { data, isLoading, isError, error } = useQuery<CommuInfo, Error>({
     queryKey: ["commuDetail", id],
-    queryFn: () => selectCommuinfo(id),
+    queryFn: () => selectCommuinfo(id, category),
   });
   return {
     postData: data,

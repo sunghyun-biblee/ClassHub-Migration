@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import { MypageCategory } from "./MypageCategory";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchCommuList } from "../community/hooks/fetchCommuArray";
+import { useQueryClient } from "@tanstack/react-query";
+import { fetchQuestionList } from "../community/hooks/fetchCommuArray";
 import { getTeacherData } from "./hooks/getTeacherData";
 
 export const Mypage = () => {
   const queryClient = useQueryClient();
   queryClient.prefetchQuery({
     queryKey: ["myCommu"],
-    queryFn: fetchCommuList,
+    queryFn: () => fetchQuestionList(1),
   });
 
   return (

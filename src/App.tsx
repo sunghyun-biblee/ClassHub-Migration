@@ -123,7 +123,7 @@ function App() {
                   ></Route>
                 </Route>
                 <Route path="community" element={<Community></Community>}>
-                  <Route index element={<ShowCommuList />}></Route>
+                  {/* <Route index element={<ShowCommuList />}></Route> */}
                   <Route
                     index
                     path=":category"
@@ -141,7 +141,7 @@ function App() {
                   element={<ClassDetail></ClassDetail>}
                 ></Route>
                 <Route
-                  path="community/post/:commuId"
+                  path="community/:category/:commuId"
                   element={<CommuDetail></CommuDetail>}
                 ></Route>
                 <Route path="signIn" element={<LoginPage />}></Route>

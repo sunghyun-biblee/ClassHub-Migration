@@ -61,7 +61,7 @@ export const NaviPC = ({ userData }: INavProps) => {
           </li>
           <li
             className="px-3 border-solid border-[1px] border-blue-100 rounded-[3px] py-1 cursor-pointer"
-            onClick={() => handleNav("/community")}
+            onClick={() => handleNav("/community/qna")}
           >
             <span>
               <span>커뮤니티</span>

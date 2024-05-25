@@ -30,9 +30,13 @@ export const CommuDetail = () => {
   const queryClient = useQueryClient();
   const { pathname } = useLocation();
   const id = parseInt(pathname.split("/")[3], 10);
+  const category = pathname.split("/")[2];
+  console.log("디테일", category);
   const [comment, setComment] = useState<string>("");
-
-  const { postData, isPostLoading, isPostError, postError } = useTargetPost(id);
+  const { postData, isPostLoading, isPostError, postError } = useTargetPost(
+    id,
+    category
+  );
   const { commentData, isCommentLoading, isCommentError, comentError } =
     useTargetPostComment(id);
   const ComentAddMutation = useMutation({

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import likes from "assets/img/likes.svg";
 import comment from "assets/img/comment.svg";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   selectCommuCommentinfo,
@@ -14,14 +14,17 @@ interface ICommnuItemprop {
   item: IcommunityItem;
 }
 export const CommnuItem = ({ item }: ICommnuItemprop) => {
+  const { pathname } = useLocation();
+  const category = pathname.split("/")[2];
+  console.log("여기는", category);
   const nav = useNavigate();
   const handleClick = () => {
-    nav(`/community/post/${item.communityId}`);
+    nav(`/community/${category}/${item.communityId}`);
   };
   const queryClient = useQueryClient();
   queryClient.prefetchQuery({
     queryKey: ["commuDetail", item.communityId],
-    queryFn: () => selectCommuinfo(item.communityId),
+    queryFn: () => selectCommuinfo(item.communityId, category),
   });
   queryClient.prefetchQuery({
     queryKey: ["commuDetailComment", item.communityId],

@@ -9,7 +9,7 @@ import { useGetpathname } from "./hooks/getPathname";
 import requests from "../../api/requests";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { fetchCommuList } from "./hooks/fetchCommuArray";
+import { fetchQuestionList, fetchStudyList } from "./hooks/fetchCommuArray";
 
 export const Community = () => {
   const pathname = useGetpathname();
@@ -17,7 +17,11 @@ export const Community = () => {
 
   queryClient.prefetchQuery({
     queryKey: ["question", 1],
-    queryFn: fetchCommuList,
+    queryFn: () => fetchQuestionList(1),
+  });
+  queryClient.prefetchQuery({
+    queryKey: ["study", 1],
+    queryFn: () => fetchStudyList(1),
   });
 
   const [category, setCategory] = useState<string>("qna");

@@ -11,27 +11,30 @@ export interface Icommuitem {
   comment: string;
   overview: string;
 }
-
-export async function fetchCommuList() {
-  const data = await axios.get(requests.community.getQuestionList, {
-    params: {
-      page: 1,
-    },
-  });
+export async function fetchCommuList(url: string, page: number) {
+  const data = await axios.get(url);
   return data;
 }
-export async function fetchQuestion(pageNumber: number) {
-  const data = await axios.get(requests.community.getQuestionList, {
-    params: {
-      page: pageNumber,
-    },
-  });
+export async function fetchStudyList(page: number) {
+  const data = await axios.get(requests.community.getStudyList);
   return data;
 }
-export async function selectCommuinfo(CommunityId: number) {
-  const data = await axios.get(`/community/question/${CommunityId}`);
+export async function fetchQuestionList(page: number) {
+  const data = await axios.get(requests.community.getQuestionList);
+  return data;
+}
+export async function selectCommuinfo(CommunityId: number, category: string) {
+  if (category === "qna") {
+    console.log("질문 답변 상세조회 진입");
+    const data = await axios.get(`/community/question/${CommunityId}`);
+    return data.data.data;
+  }
 
-  return data.data.data;
+  if (category === "study") {
+    const data = await axios.get(`/community/study/${CommunityId}`);
+    console.log("스터디 상세조회 진입");
+    return data.data.data;
+  }
 }
 export async function selectCommuCommentinfo(CommunityId: number) {
   const data = await axios.get(requests.comment.getPostComment, {
@@ -41,125 +44,3 @@ export async function selectCommuCommentinfo(CommunityId: number) {
   });
   return data;
 }
-const commnuArr = [
-  {
-    id: 1,
-    title: "안녕하세요 테스트 게시글입니다.",
-    name: "admin",
-    likes: "10",
-    category: "공부",
-    comment: "3",
-    overview:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt iste dolor consequuntur ducimus unde minima aliquid. Perferendis, maxime saepe explicabo voluptate numquam error quos tempora, facere distinctio, cumque vel aut.",
-  },
-  {
-    id: 2,
-    title: "안녕하세요 테스트 게시글입니다.",
-    name: "admin",
-    likes: "10",
-    category: "취미",
-    comment: "3",
-    overview:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt iste dolor consequuntur ducimus unde minima aliquid. Perferendis, maxime saepe explicabo voluptate numquam error quos tempora, facere distinctio, cumque vel aut.",
-  },
-  {
-    id: 3,
-    title: "안녕하세요 테스트 게시글입니다.",
-    name: "admin",
-    likes: "10",
-    category: "개인",
-    comment: "3",
-    overview:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt iste dolor consequuntur ducimus unde minima aliquid. Perferendis, maxime saepe explicabo voluptate numquam error quos tempora, facere distinctio, cumque vel aut.",
-  },
-  {
-    id: 4,
-    title: "안녕하세요 테스트 게시글입니다.",
-    name: "admin",
-    likes: "10",
-    category: "공부",
-    comment: "3",
-    overview:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt iste dolor consequuntur ducimus unde minima aliquid. Perferendis, maxime saepe explicabo voluptate numquam error quos tempora, facere distinctio, cumque vel aut.",
-  },
-  {
-    id: 5,
-    title: "안녕하세요 테스트 게시글입니다.",
-    name: "admin",
-    likes: "10",
-    category: "공부",
-    comment: "3",
-    overview:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt iste dolor consequuntur ducimus unde minima aliquid. Perferendis, maxime saepe explicabo voluptate numquam error quos tempora, facere distinctio, cumque vel aut.",
-  },
-  {
-    id: 6,
-    title: "안녕하세요 테스트 게시글입니다.",
-    name: "admin",
-    likes: "10",
-    category: "공부",
-    comment: "3",
-    overview:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt iste dolor consequuntur ducimus unde minima aliquid. Perferendis, maxime saepe explicabo voluptate numquam error quos tempora, facere distinctio, cumque vel aut.",
-  },
-  {
-    id: 7,
-    title: "안녕하세요 테스트 게시글입니다.",
-    name: "admin",
-    likes: "10",
-    category: "공부",
-    comment: "3",
-    overview:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt iste dolor consequuntur ducimus unde minima aliquid. Perferendis, maxime saepe explicabo voluptate numquam error quos tempora, facere distinctio, cumque vel aut.",
-  },
-  {
-    id: 8,
-    title: "안녕하세요 테스트 게시글입니다.",
-    name: "admin",
-    likes: "10",
-    category: "공부",
-    comment: "3",
-    overview:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt iste dolor consequuntur ducimus unde minima aliquid. Perferendis, maxime saepe explicabo voluptate numquam error quos tempora, facere distinctio, cumque vel aut.",
-  },
-  {
-    id: 9,
-    title: "안녕하세요 테스트 게시글입니다.",
-    name: "admin",
-    likes: "10",
-    category: "공부",
-    comment: "3",
-    overview:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt iste dolor consequuntur ducimus unde minima aliquid. Perferendis, maxime saepe explicabo voluptate numquam error quos tempora, facere distinctio, cumque vel aut.",
-  },
-  {
-    id: 10,
-    title: "안녕하세요 테스트 게시글입니다.",
-    name: "admin",
-    likes: "10",
-    category: "공부",
-    comment: "3",
-    overview:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt iste dolor consequuntur ducimus unde minima aliquid. Perferendis, maxime saepe explicabo voluptate numquam error quos tempora, facere distinctio, cumque vel aut.",
-  },
-  {
-    id: 11,
-    title: "안녕하세요 테스트 게시글입니다.",
-    name: "admin",
-    likes: "10",
-    category: "공부",
-    comment: "3",
-    overview:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt iste dolor consequuntur ducimus unde minima aliquid. Perferendis, maxime saepe explicabo voluptate numquam error quos tempora, facere distinctio, cumque vel aut.",
-  },
-  {
-    id: 12,
-    title: "안녕하세요 테스트 게시글입니다.",
-    name: "admin",
-    likes: "10",
-    category: "공부",
-    comment: "3",
-    overview:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt iste dolor consequuntur ducimus unde minima aliquid. Perferendis, maxime saepe explicabo voluptate numquam error quos tempora, facere distinctio, cumque vel aut.",
-  },
-];

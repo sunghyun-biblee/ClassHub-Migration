@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Header } from "../Header";
-import { fetchCommuList } from "component/community/hooks/fetchCommuArray";
+import { fetchQuestionList } from "component/community/hooks/fetchCommuArray";
 import { Item } from "../management/Item";
 import { useQuery } from "@tanstack/react-query";
 import { PageNation } from "component/class/PageNation";
@@ -15,7 +15,7 @@ export const MyCommu = () => {
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["myCommu"],
-    queryFn: fetchCommuList,
+    queryFn: () => fetchQuestionList(1),
   });
 
   return (
