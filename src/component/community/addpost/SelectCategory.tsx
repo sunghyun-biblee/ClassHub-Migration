@@ -12,6 +12,7 @@ export const SelectCategory = ({
 }: ICommuCategory) => {
   const changeMainCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const data = e.currentTarget.value;
+    console.log(data);
     setMainCategory(data);
   };
   return (
@@ -26,8 +27,8 @@ export const SelectCategory = ({
           className="border-[1px] rounded-md mysm:ml-3"
         >
           <option value="0">---카테고리---</option>
-          <option value="질문답변">질문답변</option>
-          <option value="스터디">스터디</option>
+          <option value="1">질문답변</option>
+          <option value="2">스터디</option>
         </select>
       </div>
     </div>

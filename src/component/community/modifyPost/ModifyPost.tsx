@@ -15,12 +15,12 @@ interface selectImgType {
 export const ModifyPost = () => {
   const { pathname } = useLocation();
   const category = pathname.split("/")[3];
-  console.log(category);
+
   const { postData, isPostLoading, isPostError, postError } = useTargetPost(
     parseInt(pathname.split("/")[4]),
     category
   );
-
+  console.log(postData);
   const nav = useNavigate();
   const { userData } = useAuth();
   const [title, setTitle] = useState<string>("");
@@ -41,6 +41,7 @@ export const ModifyPost = () => {
       setTitle(postData.title);
       setText(postData.text);
       setRequestImgId([...postData.imageIds]);
+      setMainCategory(postData.communityType);
     }
   }, [postData]);
   if (isPostLoading) {
@@ -55,24 +56,24 @@ export const ModifyPost = () => {
     e.preventDefault();
     let customCommunityType;
 
-    switch (mainCategory) {
-      case "질문답변":
-        customCommunityType = "1";
-        break;
-      case "스터디":
-        customCommunityType = "2";
-        break;
-      case null:
-        alert("카테고리를 지정해주세요");
-        return;
-      default:
-        console.log("error");
-        break;
-    }
+    // switch (mainCategory) {
+    //   case "질문답변":
+    //     customCommunityType = "1";
+    //     break;
+    //   case "스터디":
+    //     customCommunityType = "2";
+    //     break;
+    //   case null:
+    //     alert("카테고리를 지정해주세요");
+    //     return;
+    //   default:
+    //     console.log("error");
+    //     break;
+    // }
     if (postData) {
       const communityObject = {
         userId: userData.userId,
-        communityType: customCommunityType,
+        communityType: mainCategory,
         title: title,
         text: text,
         communityImageIds: requestImgId,
@@ -88,7 +89,7 @@ export const ModifyPost = () => {
         )
         .then((res) => {
           console.log(res);
-          nav("/community");
+          nav(`/community/${category}`);
         })
         .catch((error) => {
           console.log(error);

@@ -30,26 +30,10 @@ export const AddPost = () => {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log(requestImgId);
     e.preventDefault();
-    let customCommunityType;
-
-    switch (mainCategory) {
-      case "질문답변":
-        customCommunityType = "1";
-        break;
-      case "스터디":
-        customCommunityType = "2";
-        break;
-      case null:
-        alert("카테고리를 지정해주세요");
-        return;
-      default:
-        console.log("error");
-        break;
-    }
 
     const communityObject = {
       userId: userData.userId,
-      communityType: customCommunityType,
+      communityType: mainCategory,
       title: title,
       text: text,
       communityImageIds: requestImgId,
@@ -60,7 +44,7 @@ export const AddPost = () => {
       .post(`${requests.community.addPost}`, communityObject)
       .then((res) => {
         console.log(res);
-        nav("/community");
+        nav("/community/qna");
       })
       .catch((error) => {
         console.log(error);
