@@ -7,6 +7,8 @@ import cart from "assets/img/Cart.svg";
 import user from "assets/img/Person.svg";
 import { useNavigate } from "react-router-dom";
 import { userType } from "hooks/fetchUserData";
+import { useQuery } from "@tanstack/react-query";
+import { getCartItemList } from "component/cart/hooks/getCartItemList";
 const NavigationMobile = styled.div`
   position: fixed;
   top: 0;
@@ -84,6 +86,13 @@ export const NaviMobile = ({ userData }: INavtype) => {
   const handleNav = (location: string) => {
     nav(`${location}`);
   };
+
+  const { data } = useQuery({
+    queryKey: ["cartItemList"],
+    queryFn: () => getCartItemList(userData.userId),
+  });
+  console.log(typeof data);
+
   return (
     <NavigationMobile className="screen-width lg:hidden z-20 h-[72px]">
       <nav className=" md:flex justify-between items-center py-[4px] md:pl-5 md:pr-2 mysm:pl-2 ">
@@ -131,8 +140,13 @@ export const NaviMobile = ({ userData }: INavtype) => {
               className="px-4 cursor-pointer"
               onClick={() => handleNav("cart")}
             >
-              <div>
+              <div className="relative">
                 <img src={cart} alt="장바구니" className="md:w-7 mysm:w-6" />
+                {data?.length >= 1 && (
+                  <div className="absolute bg-red-500 rounded-[50%] -top-[30%] -right-[40%] w-5 h-5 flex justify-center items-center">
+                    <p className="text-white">1</p>
+                  </div>
+                )}
               </div>
             </li>
             <li

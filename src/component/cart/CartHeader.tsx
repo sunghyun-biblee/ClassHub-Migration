@@ -2,10 +2,9 @@ import React from "react";
 import logo from "assets/img/Logo.png";
 interface ICartHeader {
   progress: string;
-  setProgress: (currProgress: string) => void;
 }
 
-export const CartHeader = ({ progress, setProgress }: ICartHeader) => {
+export const CartHeader = ({ progress }: ICartHeader) => {
   return (
     <div className="w-[100%] md:text-base mysm:text-sm">
       <ul className="grid grid-cols-3  text-center gap-5 mx-1">

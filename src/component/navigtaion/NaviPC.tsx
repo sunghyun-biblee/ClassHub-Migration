@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import searchICON from "assets/img/searchICON.svg";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,6 +6,8 @@ import logo from "assets/img/Logo.png";
 import cart from "assets/img/Cart.svg";
 import user from "assets/img/Person.svg";
 import { userType } from "hooks/fetchUserData";
+import { useQuery } from "@tanstack/react-query";
+import { getCartItemList } from "component/cart/hooks/getCartItemList";
 
 const NavigationPC = styled.div`
   @media (max-width: 1023px) {
@@ -34,11 +36,35 @@ interface INavProps {
   userData: userType;
 }
 export const NaviPC = ({ userData }: INavProps) => {
+  const [isMyMenu, setIsMyMenu] = useState(false);
   const nav = useNavigate();
+  const myPageRef = useRef(null);
   const handleNav = (location: string) => {
     nav(`${location}`);
   };
 
+  const { data } = useQuery({
+    queryKey: ["cartItemList"],
+    queryFn: () => getCartItemList(userData.userId),
+  });
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      myPageRef.current &&
+      !(myPageRef.current as HTMLElement).contains(event.target as Node)
+    ) {
+      setIsMyMenu(false);
+    }
+  };
+  const handleLogOut = () => {
+    localStorage.removeItem("user");
+    window.location.reload();
+  };
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <NavigationPC>
       <nav className=" lg:flex justify-between items-center py-3  my-0 mx-auto max-w-[1200px] w-[100vw] h-[64px]">
@@ -90,16 +116,38 @@ export const NaviPC = ({ userData }: INavProps) => {
               </span>
             </li>
             <li
-              className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer"
+              className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer relative"
               onClick={() => handleNav("/cart")}
             >
               <img src={cart} alt="장바구니" className="w-6" />
+              {data?.length >= 1 && (
+                <div className="absolute bg-red-500 rounded-[50%] -top-[30%] -right-[10%] w-5 h-5 flex justify-center items-center">
+                  <p className="text-white">1</p>
+                </div>
+              )}
             </li>
-            <li
-              className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer"
-              onClick={() => handleNav("mypage")}
-            >
-              <img src={user} alt="마이페이지" className="w-6" />
+            <li className=" flex items-center justify-center z-20 ">
+              <div
+                className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer"
+                onClick={(prev) => setIsMyMenu((prev) => !prev)}
+                ref={myPageRef}
+              >
+                <img src={user} alt="마이페이지" className="w-6" />
+              </div>
+
+              {isMyMenu && (
+                <ul
+                  className="absolute animate-drop-down mt-5  bg-white   border-[1px] border-[#67A3F9] top-[50px] z-0 rounded-md"
+                  ref={myPageRef}
+                >
+                  <li className="border-b-[1px] border-[#67A3F9] p-3 font-semibold ">
+                    <button onClick={() => handleNav("mypage")}>MyHub</button>
+                  </li>
+                  <li className=" p-3 font-semibold ">
+                    <button onClick={handleLogOut}>LogOut</button>
+                  </li>
+                </ul>
+              )}
             </li>
           </ul>
         ) : (

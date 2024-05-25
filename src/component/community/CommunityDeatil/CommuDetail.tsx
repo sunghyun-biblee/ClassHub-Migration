@@ -79,10 +79,16 @@ export const CommuDetail = () => {
   };
   const handleCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!userData) {
+      alert("로그인이 필요한 서비스 입니다");
+      return;
+    }
+
     if (comment.length < 1) {
       alert("댓글 내용이 없습니다");
       return;
     }
+
     const commentObj = {
       userId: userData.userId,
       text: comment,
@@ -102,6 +108,7 @@ export const CommuDetail = () => {
       </div>
     );
   }
+
   return (
     <div
       className="

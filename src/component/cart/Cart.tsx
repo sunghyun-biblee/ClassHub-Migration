@@ -10,7 +10,7 @@ export const Cart = () => {
   return (
     <CartProvider>
       <div className="lg:pt-[90px] md:pt-[90px] mysm:pt-[90px] max-w-[100vw] lg:max-w-[1500px] my-0 md:mx-auto  mysm:mx-1 min-h-[100vh] flex flex-col  lg:h-[100vh] lg:pb-0">
-        <CartHeader progress={progress} setProgress={setProgress} />
+        <CartHeader progress={progress} />
         <Outlet></Outlet>
       </div>
     </CartProvider>

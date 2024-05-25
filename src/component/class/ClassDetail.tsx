@@ -5,31 +5,29 @@ import { selectClassinfo } from "./hooks/useGetArray";
 import styled from "styled-components";
 import axios from "api/axios";
 import requests from "./../../api/requests";
+import { useAuth } from "hooks/AuthProvider";
+import { addCartItem } from "component/cart/hooks/addCartItem";
 
 export const ClassDetail = () => {
+  const { userData } = useAuth();
   const [selectClass, setSelectClass] = useState();
-
   const { pathname } = useLocation();
   const id = parseInt(pathname.split("/")[2], 10);
-
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["classDeatil", id],
     queryFn: () => selectClassinfo(id),
   });
 
+  console.log(data);
   if (data && data[0].title) {
     document.title = data[0]?.title;
   }
-  const handleAddCart = async () => {
-    const reqeustBody = {
-      userId: 6,
-      classId: 1,
-    };
-    try {
-      const res = await axios.post(requests.cart.addCartItem, reqeustBody);
-      console.log(res.data);
-    } catch (error) {
-      console.log(error);
+  const handleAddCart = (classId: number) => {
+    if (!userData) {
+      alert("로그인 후 이용가능합니다");
+      return;
+    } else {
+      addCartItem(classId, userData.userId);
     }
   };
 
@@ -75,20 +73,25 @@ export const ClassDetail = () => {
                   <li className="pt-1 pb-3  px-3 text-2xl">
                     <p>{data[0].price}</p>
                   </li>
-                  <div className="flex justify-between pt-3 px-2 w-[100%] ">
-                    <li
+                  <li className="flex justify-between pt-3 px-2 w-[100%] ">
+                    <div
                       className="p-2 border-2 border-solid border-gray-400/50 rounded-lg
                     "
                     >
-                      <button className="p-1">장바구니 담기</button>
-                    </li>
-                    <li
+                      <button
+                        className="p-1"
+                        onClick={() => handleAddCart(data[0].id)}
+                      >
+                        장바구니 담기
+                      </button>
+                    </div>
+                    <div
                       className="p-2 border-2 border-solid border-gray-400/50 rounded-lg bg-blue-500 text-white
                     "
                     >
                       <button className="p-1 ">강의 신청하기</button>
-                    </li>
-                  </div>
+                    </div>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -125,7 +128,7 @@ export const ClassDetail = () => {
                 >
                   <button
                     className="p-1 mysm:p-0 mysm:w-[100px] text-sm"
-                    onClick={handleAddCart}
+                    onClick={() => handleAddCart(data[0].id)}
                   >
                     장바구니 담기
                   </button>

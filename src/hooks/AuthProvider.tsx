@@ -48,8 +48,26 @@ export const AuthProvider = ({ children }: AuthProviderType) => {
   const { userData, userIsLoading, userIsError, userError } = useUserQuery(
     userStore.snsId
   );
+  console.log(userStore);
   useEffect(() => {
-    setUser(userData);
+    if (!userStore) {
+      const guest = {
+        userId: 0,
+        snsId: "",
+        accessToken: "",
+        name: "",
+        nickname: "",
+        email: "",
+        profilePicture: "",
+        platformType: "",
+        introduce: "",
+        regDate: "",
+        exitDate: "",
+      };
+      setUser(guest);
+    } else {
+      setUser(userData);
+    }
   }, [userData, user, userStore]);
 
   return (
