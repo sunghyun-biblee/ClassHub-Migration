@@ -14,9 +14,10 @@ interface selectImgType {
 
 export const ModifyPost = () => {
   const { pathname } = useLocation();
-  const category = pathname.split("/")[2];
+  const category = pathname.split("/")[3];
+  console.log(category);
   const { postData, isPostLoading, isPostError, postError } = useTargetPost(
-    parseInt(pathname.split("/")[3]),
+    parseInt(pathname.split("/")[4]),
     category
   );
 

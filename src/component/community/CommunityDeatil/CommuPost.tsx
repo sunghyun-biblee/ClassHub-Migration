@@ -9,7 +9,7 @@ import likes from "assets/img/likes.svg";
 import { Heart } from "./Heart";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { prevData } from "./CommuDetail";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 interface IPostProp {
   postData: CommuInfo;
 }
@@ -20,6 +20,8 @@ interface updateLikeType {
 export const CommuPost = ({ postData }: IPostProp) => {
   const { userData, userIsLoading } = useAuth();
   const queryClient = useQueryClient();
+  const { pathname } = useLocation();
+  const category = pathname.split("/")[2];
 
   const handleUpdateLike = async (userId: number, favoritId: number) => {
     const requstBody: updateLikeType = {
@@ -124,7 +126,9 @@ export const CommuPost = ({ postData }: IPostProp) => {
           </h1>
           {!userIsLoading && userData && userData.userId && (
             <div className="text-gray-400 font-semibold">
-              <Link to={`/community/modifyPost/${postData.communityId}`}>
+              <Link
+                to={`/community/modifyPost/${category}/${postData.communityId}`}
+              >
                 수정
               </Link>
               <button className="px-3" onClick={() => handlePostDelete}>

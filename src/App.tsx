@@ -131,7 +131,7 @@ function App() {
                   ></Route>
                   <Route path="addpost" element={<AddPost></AddPost>}></Route>
                   <Route
-                    path="modifyPost/:postId"
+                    path="modifyPost/:category/:postId"
                     element={<ModifyPost></ModifyPost>}
                   ></Route>
                 </Route>
