@@ -3,7 +3,7 @@ import { classProp } from "./PreviewClass";
 import rightArrow from "assets/img/carousel/rigthArrow.svg";
 import { ClassItem } from "component/class/ClassItem";
 import New from "assets/img/Newclass.svg";
-export const NewClass = ({ classList }: classProp) => {
+export const NewClass = ({ data }: classProp) => {
   return (
     <div
       className="max-w-[100vw] py-10 px-5 lg:max-w-[1200px] md:px-3 mysm:px-2 md:border-t-[1px] mysm:border-t-[1px]
@@ -21,8 +21,8 @@ export const NewClass = ({ classList }: classProp) => {
         </div>
       </div>
       <section className="grid grid-cols-4 gap-3">
-        {classList.slice(0, 4).map((item) => (
-          <ClassItem item={item} key={`exex+${item.id}`}></ClassItem>
+        {data.data.slice(0, 4).map((item) => (
+          <ClassItem item={item} key={`exex+${item.classId}`}></ClassItem>
         ))}
       </section>
     </div>

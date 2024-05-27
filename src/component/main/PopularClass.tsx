@@ -4,7 +4,10 @@ import rightArrow from "assets/img/carousel/rigthArrow.svg";
 import { ClassItem } from "component/class/ClassItem";
 import star from "assets/img/Star.svg";
 
-export const PopularClass = ({ classList }: classProp) => {
+export const PopularClass = ({ data }: classProp) => {
+  console.log(data);
+  const newData = data.data.slice(0, 4);
+  console.log(newData);
   return (
     <div className=" py-10 px-5 lg:max-w-[1200px] md:px-3 mysm:px-2">
       <div className="flex justify-between ">
@@ -19,7 +22,7 @@ export const PopularClass = ({ classList }: classProp) => {
         </div>
       </div>
       <section className="grid grid-cols-4 gap-3">
-        {classList.slice(0, 4).map((item) => (
+        {data.data.slice(0, 4).map((item) => (
           // <article
           //   className="flex flex-col "
           //   key={`${item.title}+${item.name}`}
@@ -47,7 +50,7 @@ export const PopularClass = ({ classList }: classProp) => {
           //     </div>
           //   </div>
           // </article>
-          <ClassItem item={item} key={item.id}></ClassItem>
+          <ClassItem item={item} key={item.classId}></ClassItem>
         ))}
       </section>
     </div>

@@ -7,11 +7,21 @@ import carousel_one from "assets/img/carousel/carousel_one.jpg";
 import carousel_two from "assets/img/carousel/carousel_two.jpg";
 import carousel_three from "assets/img/carousel/carousel_three.jpg";
 import preview from "assets/img/preview.jpg";
+import { fetchClassList } from "component/class/hooks/useGetArray";
+import { useQuery } from "@tanstack/react-query";
 export const MainPage = () => {
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["classListAll"],
+    queryFn: fetchClassList,
+  });
+  if (isLoading) {
+    return <div>로딩중</div>;
+  }
+
   return (
     <MainPageContainer className=" flex items-center flex-col lg:max-w-[1200px]  md:max-w-[100vw] mysm:max-w-[100vw] lg:pt-[84px] mysm:pt-[68px]">
       <Carousel carouselList={examArr}></Carousel>
-      <PreviewClass classList={classArr}></PreviewClass>
+      <PreviewClass data={data}></PreviewClass>
 
       <PreviewCommu commnuList={commuArr}></PreviewCommu>
     </MainPageContainer>

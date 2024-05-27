@@ -1,39 +1,28 @@
-import React from "react";
+import React, { ClassType } from "react";
 import { classProp } from "../main/PreviewClass";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { selectClassinfo } from "./hooks/useGetArray";
-
+import { IClassType } from "./ShowClass";
+import preview from "assets/img/preview.jpg";
 interface IclassitemProp {
-  item: {
-    img: string;
-    title: string;
-    name: string;
-    price: string;
-    score: string;
-    id: number;
-    overview: string;
-  };
+  item: IClassType;
 }
 export const ClassItem = ({ item }: IclassitemProp) => {
   const nav = useNavigate();
   const handleClick = () => {
-    nav(`/class/${item.id}`);
+    nav(`/class/${item.classId}`);
   };
   const queryClient = useQueryClient();
   queryClient.prefetchQuery({
-    queryKey: ["classDeatil", item.id],
-    queryFn: () => selectClassinfo(item.id),
+    queryKey: ["classDeatil", item.classId],
+    queryFn: () => selectClassinfo(item.classId),
   });
 
   return (
-    <article
-      className="flex flex-col "
-      key={`${item.title}+${item.name}`}
-      onClick={handleClick}
-    >
+    <article className="flex flex-col " onClick={handleClick}>
       <div>
-        <img src={item.img} alt="classIMG" className="h-auto w-[100%]" />
+        <img src={preview} alt="classIMG" className="h-auto w-[100%]" />
       </div>
       <div className="h-[100%] flex flex-col justify-between">
         <div className="flex justify-between  md:pb-2 mysm:flex-col pb-1">
@@ -42,10 +31,10 @@ export const ClassItem = ({ item }: IclassitemProp) => {
           lg:max-w-[200px] text-ellipsis overflow-hidden
           "
           >
-            {item.title}
+            {item.className}
           </h1>
           <h3 className=" md:text-base mysm:text-[13px] p-[1px]">
-            {item.name}
+            {item.instructorsId}
           </h3>
         </div>
 
@@ -54,7 +43,7 @@ export const ClassItem = ({ item }: IclassitemProp) => {
             {item.price}
           </p>
           <p className=" pr-2  md:text-base mysm:text-[12px] px-[1px] font-semibold">
-            {item.score}점
+            {item.classId}점
           </p>
         </div>
       </div>
