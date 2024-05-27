@@ -57,7 +57,7 @@ export const CommnuItem = ({ item }: ICommnuItemprop) => {
 
         <div className="flex">
           <div className="flex  items-end flex-col justify-between gap-3">
-            <p className="px-1">{item.userId}</p>
+            <p className="px-1">{item.nickname}</p>
             <div className="flex px-2 pt-2">
               <div className="flex mr-7 cursor-pointer items-center">
                 <img src={likes} alt="" className="w-[16px] h-auto mr-2" />

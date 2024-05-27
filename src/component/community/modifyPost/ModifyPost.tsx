@@ -134,13 +134,13 @@ export const ModifyPost = () => {
     if (selectFiles) {
       try {
         const requestData = await axios.post("/community/postImage", formData);
-        console.log(requestData.data.data);
+        console.log(requestData.data);
 
         if (requestImgId && requestImgId?.length >= 1) {
-          const newArray = [...requestImgId, ...requestData.data.data];
+          const newArray = [...requestImgId, ...requestData.data];
           setRequestImgId(newArray);
         } else {
-          setRequestImgId([...requestData.data.data]);
+          setRequestImgId([...requestData.data]);
         }
       } catch (error) {
         console.log(error);

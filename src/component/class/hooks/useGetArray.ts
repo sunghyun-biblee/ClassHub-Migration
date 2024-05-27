@@ -1,4 +1,6 @@
+import requests from "api/requests";
 import preview from "../../../assets/img/preview.jpg";
+import axios from "api/axios";
 
 export interface Iclassitem {
   img: string;
@@ -13,6 +15,15 @@ export async function fetchClass() {
   let newClassArr: Iclassitem[];
   newClassArr = classArr.slice();
   return newClassArr;
+}
+export async function fetchClassList() {
+  try {
+    const res = await axios.get(requests.lecture.getAllLecture);
+    console.log(res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
 }
 export async function selectClassinfo(id: number) {
   const newDate = classArr.filter((item) => item.id === id);

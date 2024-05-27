@@ -45,6 +45,7 @@ export async function fetchQuestionList(page: number) {
 export async function selectCommuinfo(CommunityId: number, category: string) {
   if (category === "qna") {
     const data = await axios.get(`/community/question/${CommunityId}`);
+
     return data.data;
   }
 

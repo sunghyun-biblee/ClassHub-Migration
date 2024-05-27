@@ -5,8 +5,8 @@ import { ShowClass } from "./ShowClass";
 import { ClassSearchBar } from "./ClassSearchBar";
 import styled from "styled-components";
 
-import { useQuery } from "@tanstack/react-query";
-import { Iclassitem } from "./hooks/useGetArray";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Iclassitem, fetchClassList } from "./hooks/useGetArray";
 
 export const Class = () => {
   const [category, setCategory] = useState<string>("all");
@@ -31,7 +31,11 @@ export const Class = () => {
       window.alert("오류");
       break;
   }
-
+  const queryClient = useQueryClient();
+  queryClient.prefetchQuery({
+    queryKey: ["classListAll"],
+    queryFn: fetchClassList,
+  });
   return (
     <ClassContainer
       className="lg:pt-[100px] md:pt-[100px] mysm:pt-[90px] max-w-[100vw] lg:max-w-[1200px]
