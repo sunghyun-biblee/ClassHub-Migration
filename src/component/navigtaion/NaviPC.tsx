@@ -120,7 +120,7 @@ export const NaviPC = ({ userData }: INavProps) => {
               onClick={() => handleNav("/cart")}
             >
               <img src={cart} alt="장바구니" className="w-6" />
-              {data?.length >= 1 && (
+              {data?.length >= 0 && (
                 <div className="absolute bg-red-500 rounded-[50%] -top-[30%] -right-[10%] w-5 h-5 flex justify-center items-center">
                   <p className="text-white">1</p>
                 </div>

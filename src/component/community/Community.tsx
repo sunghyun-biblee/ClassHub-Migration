@@ -1,37 +1,32 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { CommuCategory } from "./CommuCategory";
-
 import { CommunityHeader } from "./CommunityHeader";
 import { Outlet } from "react-router-dom";
 import { useGetpathname } from "./hooks/getPathname";
-
-import requests from "../../api/requests";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   fetchPopularList,
   fetchQuestionList,
   fetchStudyList,
 } from "./hooks/fetchCommuArray";
-import { usePopularList } from "./hooks/usePopularList";
 
 export const Community = () => {
   const pathname = useGetpathname();
   const queryClient = useQueryClient();
 
-  queryClient.prefetchQuery({
-    queryKey: ["question", 1],
-    queryFn: () => fetchQuestionList(1),
-  });
-  queryClient.prefetchQuery({
-    queryKey: ["study", 1],
-    queryFn: () => fetchStudyList(1),
-  });
-  queryClient.prefetchQuery({
-    queryKey: [`popular_${pathname}`],
-    queryFn: () => fetchPopularList(pathname),
-  });
+  // queryClient.prefetchQuery({
+  //   queryKey: ["qna", 1],
+  //   queryFn: () => fetchQuestionList(1),
+  // });
+  // queryClient.prefetchQuery({
+  //   queryKey: ["study", 1],
+  //   queryFn: () => fetchStudyList(1),
+  // });
+  // queryClient.prefetchQuery({
+  //   queryKey: [`popular_${pathname}`],
+  //   queryFn: () => fetchPopularList(pathname),
+  // });
   const [category, setCategory] = useState<string>("qna");
 
   return (

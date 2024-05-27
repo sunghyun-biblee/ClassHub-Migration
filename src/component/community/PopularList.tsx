@@ -31,7 +31,7 @@ export const PopularList = ({ category }: IPopularProp) => {
       <ul>
         {listData &&
           listData.contents.map((item: IcommunityItem, index: number) => (
-            <Li key={item.communityId + index}>
+            <Li key={item.title + index}>
               <PopularListItem
                 item={item}
                 category={category}

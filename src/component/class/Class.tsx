@@ -31,6 +31,7 @@ export const Class = () => {
       window.alert("오류");
       break;
   }
+
   return (
     <ClassContainer
       className="lg:pt-[100px] md:pt-[100px] mysm:pt-[90px] max-w-[100vw] lg:max-w-[1200px]

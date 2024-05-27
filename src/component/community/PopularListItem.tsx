@@ -27,7 +27,9 @@ export const PopularListItem = ({ item, category }: IpopListItem) => {
   });
   return (
     <div className="flex justify-between w-[100%]" onClick={handleClick}>
-      <h3 className="text-sm mr-2 font-semibold">{item.title}</h3>
+      <h3 className="text-sm mr-2 font-semibold w-[140px] overflow-hidden whitespace-nowrap text-ellipsis">
+        {item.title}
+      </h3>
       <p className="text-[14px] w-[50px] overflow-hidden whitespace-nowrap text-ellipsis">
         {item.nickname}
       </p>

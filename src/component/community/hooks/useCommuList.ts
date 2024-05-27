@@ -12,21 +12,13 @@ interface CommuListType {
     rightEndNum: number;
   };
 }
-export function useCommuList(category: string, page: number) {
-  let type;
-  let url: string;
-  if (category === "qna") {
-    type = "question";
-    url = requests.community.getQuestionList;
-  } else {
-    type = "study";
-    url = requests.community.getStudyList;
-  }
-  console.log(type);
-  console.log(url);
-  const { data, isLoading, isError, error } = useQuery<CommuListType, Error>({
-    queryKey: [type, page],
-    queryFn: () => fetchCommuList(url, page),
+export function useCommuList(category: string, page: number, search: string) {
+  const { data, isLoading, isError, error, refetch } = useQuery<
+    CommuListType,
+    Error
+  >({
+    queryKey: [category, page],
+    queryFn: () => fetchCommuList(category, page, search),
   });
-  return { data, isLoading, isError, error };
+  return { data, isLoading, isError, error, refetch };
 }

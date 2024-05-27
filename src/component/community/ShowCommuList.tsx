@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { PageNation } from "component/class/PageNation";
 import { CommnuItem } from "./CommnuItem";
 
-import { useQuery } from "@tanstack/react-query";
-import { fetchQuestionList } from "./hooks/fetchCommuArray";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { fetchCommuList, fetchQuestionList } from "./hooks/fetchCommuArray";
 import { useNavigate } from "react-router-dom";
 import { PopularList } from "./PopularList";
 import { useGetpathname } from "./hooks/getPathname";
@@ -28,27 +28,29 @@ export interface IcommunityItem {
 
 export const ShowCommuList = () => {
   const category = useGetpathname();
-
+  const queryClient = useQueryClient();
   const nav = useNavigate();
   const [page, setPage] = useState(1);
-  const renderText = () => {
-    switch (category) {
-      case undefined:
-        return <h1 className="text-lg font-semibold ">질문 & 답변</h1>;
-      case "qna":
-        return <h1 className="text-lg font-semibold ">질문 & 답변</h1>;
-      case "study":
-        return <h1 className="text-lg font-semibold ">스터디</h1>;
-      default:
-        break;
-    }
-  };
+  const [search, setSearch] = useState<string>("");
+  // const [searchType, setSearchType] = useState<string>("");
 
-  const { data, isLoading, isError, error } = useCommuList(category, page);
-
-  if (data) {
-    console.log(data.data.currentPageNum);
-  }
+  const { data, isLoading, isError, error } = useCommuList(
+    category,
+    page,
+    search
+  );
+  console.log(category);
+  const updateMutation = useMutation({
+    mutationFn: () => fetchCommuList(category, page, search),
+    onSettled: () => {
+      return queryClient.invalidateQueries({
+        queryKey: [category, page],
+      });
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData([category, page], data);
+    },
+  });
   if (isLoading) {
     return <div>로딩중</div>;
   }
@@ -56,6 +58,7 @@ export const ShowCommuList = () => {
     return <div>{error?.message}</div>;
   }
 
+  console.log(data);
   const renderPageNation = () => {
     if (data) {
       const pageNationData = {
@@ -73,7 +76,30 @@ export const ShowCommuList = () => {
       );
     }
   };
+  const renderText = () => {
+    switch (category) {
+      case undefined:
+        return <h1 className="text-lg font-semibold ">질문 & 답변</h1>;
+      case "qna":
+        return <h1 className="text-lg font-semibold ">질문 & 답변</h1>;
+      case "study":
+        return <h1 className="text-lg font-semibold ">스터디</h1>;
+      default:
+        break;
+    }
+  };
 
+  const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+  const handleChangeSearchType = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    // setSearchType(e.target.value);
+  };
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    console.log("hello");
+    e.preventDefault();
+    updateMutation.mutate();
+  };
   return (
     <div className="md:mr-3">
       <div
@@ -83,24 +109,29 @@ export const ShowCommuList = () => {
         {renderText()}
         <select
           id="select"
+          onChange={handleChangeSearchType}
           className={` border-2 border-solid px-1 py-1
     rounded-md focus:border-blue-300  outline-blue-400
     ${category === "study" ? "block" : "hidden"}`}
         >
-          <option value="all">전체</option>
-          <option value="unfinish">모집중</option>
-          <option value="finish">모집완료</option>
+          <option value="">전체</option>
+          <option value="2">모집중</option>
+          <option value="3">모집완료</option>
         </select>
       </div>
       <div className="flex  justify-between  mysm:mt-4 md:px-0 mysm:px-2">
-        <div className="flex w-[88%] ">
+        <form className="flex w-[88%]" onSubmit={handleSubmit}>
           <input
             type="text"
             className="rounded-lg border-[1px] border-solid w-[100%] text-sm pl-3 py-3 focus:outline-blue-400"
             placeholder="검색어를 입력해주세요"
+            value={search}
+            onChange={handleChangeSearch}
           />
-          <Button className="w-20 mx-1 bg-blue-400">검색</Button>
-        </div>
+          <Button className="w-20 mx-1 bg-blue-400" type="submit">
+            검색
+          </Button>
+        </form>
         <Button
           className="w-20 bg-gray-600"
           onClick={() => nav("/community/addpost")}
@@ -113,7 +144,7 @@ export const ShowCommuList = () => {
           {data?.data.contents.map((item: IcommunityItem, index: number) => (
             <li
               className="my-2 py-4 px-2 border-[1px] border-solid rounded-md mx-1"
-              key={item.userId + "AZ" + index}
+              key={item.communityId}
             >
               <CommnuItem item={item}></CommnuItem>
             </li>

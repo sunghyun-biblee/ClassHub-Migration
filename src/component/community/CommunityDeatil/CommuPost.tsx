@@ -6,10 +6,12 @@ import { useAuth } from "hooks/AuthProvider";
 import axios from "api/axios";
 import requests from "api/requests";
 import likes from "assets/img/likes.svg";
-import { Heart } from "./Heart";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { prevData } from "./CommuDetail";
 import { Link, useLocation } from "react-router-dom";
+import { Heart } from "./Heart";
+
 export interface IPostProp {
   postData: CommuInfo;
 }
@@ -41,7 +43,7 @@ export const CommuPost = ({ postData }: IPostProp) => {
     };
     const result = isUserLinked(postData.likeUsers, userId);
     switch (result) {
-      case true:
+      case false:
         return (
           <div
             onClick={() =>
@@ -54,7 +56,7 @@ export const CommuPost = ({ postData }: IPostProp) => {
             <Heart></Heart>
           </div>
         );
-      case false:
+      case true:
         return (
           <img
             src={likes}

@@ -5,7 +5,7 @@ export const Heart = () => {
     <div className="lg:w-5 md:w-5 mr-1 h-5 cursor-pointer">
       <svg
         data-slot="icon"
-        fill="#D00058"
+        fill="none"
         strokeWidth="1.5"
         stroke="#D00058"
         viewBox="0 0 24 24"
