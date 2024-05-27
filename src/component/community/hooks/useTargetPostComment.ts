@@ -6,6 +6,7 @@ export function useTargetPostComment(id: number) {
     queryKey: ["commuDetailComment", id],
     queryFn: () => selectCommuCommentinfo(id),
   });
+
   return {
     commentData: data?.data,
     isCommentLoading: isLoading,

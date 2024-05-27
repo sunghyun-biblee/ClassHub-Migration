@@ -3,6 +3,7 @@ import { selectCommuinfo } from "./fetchCommuArray";
 
 export interface CommuInfo {
   userId: number;
+  nickname: string;
   communityId: number;
   communityType: string;
   title: string;
@@ -20,6 +21,7 @@ export function useTargetPost(id: number, category: string) {
     queryKey: ["commuDetail", id],
     queryFn: () => selectCommuinfo(id, category),
   });
+
   return {
     postData: data,
     isPostLoading: isLoading,

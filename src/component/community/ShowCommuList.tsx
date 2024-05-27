@@ -17,6 +17,9 @@ export interface IcommunityItem {
   editDate: string | null;
   favoriteCount: number;
   image: string | null;
+  imageIds: number[];
+  likeUsers: number[];
+  nickname: string;
   regDate: string;
   text: string;
   title: string;
@@ -41,31 +44,48 @@ export const ShowCommuList = () => {
     }
   };
 
-  const { data } = useCommuList(category, page);
+  const { data, isLoading, isError, error } = useCommuList(category, page);
 
-  console.log(data);
-  const pageNationData = {
-    currentPage: data?.data.data.currentPageNum,
-    lastPage: data?.data.data.totalNum,
-    leftPage: data?.data.data.leftEndNum,
-    rightPage: data?.data.data.rightEndNum,
+  if (data) {
+    console.log(data.data.currentPageNum);
+  }
+  if (isLoading) {
+    return <div>로딩중</div>;
+  }
+  if (isError) {
+    return <div>{error?.message}</div>;
+  }
+
+  const renderPageNation = () => {
+    if (data) {
+      const pageNationData = {
+        currentPage: data?.data.currentPageNum,
+        lastPage: data?.data.totalNum,
+        leftPage: data?.data.leftEndNum,
+        rightPage: data?.data.rightEndNum,
+      };
+      return (
+        <PageNation
+          pageNationData={pageNationData}
+          page={page}
+          setPage={setPage}
+        ></PageNation>
+      );
+    }
   };
 
   return (
     <div className="md:mr-3">
       <div
-        className="flex justify-between items-center md:px-0 mysm:px-3
-      md:pt-0
-      mysm:pt-6
-      
-      "
+        className="flex justify-between items-center md:px-0 mysm:px-3 md:pt-0
+  mysm:pt-6"
       >
         {renderText()}
         <select
           id="select"
           className={` border-2 border-solid px-1 py-1
-        rounded-md focus:border-blue-300  outline-blue-400
-        ${category === "study" ? "block" : "hidden"}`}
+    rounded-md focus:border-blue-300  outline-blue-400
+    ${category === "study" ? "block" : "hidden"}`}
         >
           <option value="all">전체</option>
           <option value="unfinish">모집중</option>
@@ -90,26 +110,20 @@ export const ShowCommuList = () => {
       </div>
       <article>
         <ul className="md:pt-10 mysm:pt-6">
-          {data?.data.data.contents.map(
-            (item: IcommunityItem, index: number) => (
-              <li
-                className="my-2 py-4 px-2 border-[1px] border-solid rounded-md mx-1"
-                key={item.userId + "AZ" + index}
-              >
-                <CommnuItem item={item}></CommnuItem>
-              </li>
-            )
-          )}
+          {data?.data.contents.map((item: IcommunityItem, index: number) => (
+            <li
+              className="my-2 py-4 px-2 border-[1px] border-solid rounded-md mx-1"
+              key={item.userId + "AZ" + index}
+            >
+              <CommnuItem item={item}></CommnuItem>
+            </li>
+          ))}
         </ul>
       </article>
       <aside>
         <PopularList category={category}></PopularList>
       </aside>
-      <PageNation
-        pageNationData={pageNationData}
-        page={page}
-        setPage={setPage}
-      ></PageNation>
+      {renderPageNation()}
     </div>
   );
 };

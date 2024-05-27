@@ -18,11 +18,10 @@ export interface commentType {
   regDate: string;
   text: string;
   userId: number;
+  nickname: string;
 }
 export interface prevData {
-  data: {
-    data: commentType[];
-  };
+  data: commentType[];
 }
 
 export const CommuDetail = () => {
@@ -62,7 +61,7 @@ export const CommuDetail = () => {
         ["commuDetailComment", commentObj.communityId],
         (oldData: prevData | undefined) => {
           if (oldData) {
-            const newData = [...oldData?.data.data, commentObj];
+            const newData = [...oldData?.data, commentObj];
             console.log(newData);
             return newData;
           }
@@ -73,7 +72,9 @@ export const CommuDetail = () => {
       return { prevData };
     },
   });
-
+  if (postData) {
+    console.log(postData);
+  }
   const handleChangeComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
   };
@@ -123,7 +124,7 @@ export const CommuDetail = () => {
                 <h4 className="font-semibold text-gray-700">댓글</h4>
                 <img src={commentImg} alt="comment" className="w-5  mr-2" />
                 <p className="font-bold text-blue-600 text-lg border-b-2 border-blue-600 ">
-                  {commentData?.data.length}
+                  {commentData?.length}
                 </p>
               </div>
               <form
@@ -151,11 +152,12 @@ export const CommuDetail = () => {
               </form>
               <div id="commentList">
                 <ul>
-                  {commentData?.data.map((item: commentType, index: number) => (
+                  {commentData?.map((item: commentType, index: number) => (
                     <CommentItem
                       item={item}
                       id={id}
                       key={item.commentId + index}
+                      postUserId={postData.userId}
                     ></CommentItem>
                   ))}
                 </ul>
@@ -166,7 +168,10 @@ export const CommuDetail = () => {
             {userIsLoading ? (
               ""
             ) : (
-              <DetailProfile category={"학생"}></DetailProfile>
+              <DetailProfile
+                category={"학생"}
+                postData={postData}
+              ></DetailProfile>
             )}
           </div>
         </section>

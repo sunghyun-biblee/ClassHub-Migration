@@ -9,7 +9,12 @@ import { useGetpathname } from "./hooks/getPathname";
 import requests from "../../api/requests";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { fetchQuestionList, fetchStudyList } from "./hooks/fetchCommuArray";
+import {
+  fetchPopularList,
+  fetchQuestionList,
+  fetchStudyList,
+} from "./hooks/fetchCommuArray";
+import { usePopularList } from "./hooks/usePopularList";
 
 export const Community = () => {
   const pathname = useGetpathname();
@@ -23,9 +28,12 @@ export const Community = () => {
     queryKey: ["study", 1],
     queryFn: () => fetchStudyList(1),
   });
-
+  queryClient.prefetchQuery({
+    queryKey: [`popular_${pathname}`],
+    queryFn: () => fetchPopularList(pathname),
+  });
   const [category, setCategory] = useState<string>("qna");
-  console.log(pathname);
+
   return (
     <div>
       <CommunityHeader></CommunityHeader>

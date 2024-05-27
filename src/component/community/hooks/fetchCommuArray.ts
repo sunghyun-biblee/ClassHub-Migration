@@ -12,7 +12,12 @@ export interface Icommuitem {
   overview: string;
 }
 export async function fetchCommuList(url: string, page: number) {
-  const data = await axios.get(url);
+  const data = await axios.get(url, {
+    params: {
+      page: page,
+    },
+  });
+  console.log(data);
   return data;
 }
 export async function fetchStudyList(page: number) {
@@ -27,13 +32,13 @@ export async function selectCommuinfo(CommunityId: number, category: string) {
   if (category === "qna") {
     console.log("질문 답변 상세조회 진입");
     const data = await axios.get(`/community/question/${CommunityId}`);
-    return data.data.data;
+    return data.data;
   }
 
   if (category === "study") {
     const data = await axios.get(`/community/study/${CommunityId}`);
     console.log("스터디 상세조회 진입");
-    return data.data.data;
+    return data.data;
   }
 }
 export async function selectCommuCommentinfo(CommunityId: number) {
@@ -44,3 +49,14 @@ export async function selectCommuCommentinfo(CommunityId: number) {
   });
   return data;
 }
+export const fetchPopularList = async (category: string) => {
+  if (category === "qna") {
+    const res = await axios.get(requests.community.getQuestionOderByFavorite);
+    console.log(res);
+    return res;
+  } else {
+    const res = await axios.get(requests.community.getStudyOderByFavorite);
+    console.log(res);
+    return res;
+  }
+};

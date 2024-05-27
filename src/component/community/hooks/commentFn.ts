@@ -38,6 +38,7 @@ export async function deleteComment(commentId: number) {
 }
 
 export async function addComment(commentObj: addCommentType) {
+  console.log(":진입");
   try {
     const res = await axios.post(requests.comment.addComment, commentObj);
     console.log(res.data);

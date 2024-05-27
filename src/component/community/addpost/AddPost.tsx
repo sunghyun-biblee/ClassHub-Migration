@@ -88,13 +88,11 @@ export const AddPost = () => {
     if (selectFiles) {
       try {
         const requestData = await axios.post("/community/postImage", formData);
-        console.log(requestData.data.data);
-
         if (requestImgId && requestImgId?.length >= 1) {
-          const newArray = [...requestImgId, ...requestData.data.data];
+          const newArray = [...requestImgId, ...requestData.data];
           setRequestImgId(newArray);
         } else {
-          setRequestImgId([...requestData.data.data]);
+          setRequestImgId([...requestData.data]);
         }
       } catch (error) {
         console.log(error);
@@ -117,10 +115,8 @@ export const AddPost = () => {
     const target = e.currentTarget.id;
     const selectItem = imgArray.filter((item) => item.id === target);
     setPrevimg(selectItem);
-    console.log(...selectItem);
-    console.log(e.currentTarget.id);
   };
-
+  console.log(requestImgId);
   return (
     <div className="relative">
       <form

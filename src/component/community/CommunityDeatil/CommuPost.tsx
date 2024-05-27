@@ -10,7 +10,7 @@ import { Heart } from "./Heart";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { prevData } from "./CommuDetail";
 import { Link, useLocation } from "react-router-dom";
-interface IPostProp {
+export interface IPostProp {
   postData: CommuInfo;
 }
 interface updateLikeType {
@@ -112,13 +112,13 @@ export const CommuPost = ({ postData }: IPostProp) => {
       return { prevData };
     },
   });
-  console.log(postData.image);
+
   const handlePostDelete = () => {};
   return (
     <>
       <article className="md:pt-5 md:border-0 mysm:border-b-[1px]">
         <div className="mysm:block md:hidden px-1 md:border-0 mysm:border-b-[1px] ">
-          <DetailProfile category={"학생"}></DetailProfile>
+          <DetailProfile category={"학생"} postData={postData}></DetailProfile>
         </div>
         <div className="flex justify-between items-center">
           <h1 className="py-5 px-5 text-2xl font-extrabold">

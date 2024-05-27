@@ -23,6 +23,7 @@ export const PageNation = ({
     leftPage: pageNationData.leftPage,
     rightPage: pageNationData.rightPage,
   };
+
   const renderPagenation = () => {
     let pages = [];
     let startPage = data.leftPage;
@@ -51,7 +52,7 @@ export const PageNation = ({
   };
   return (
     <div className="flex justify-center items-center md:pt-14 mysm:pt-10 lg:pb-10 md:pb-18 mysm:pb-5">
-      {renderPagenation()}
+      {pageNationData && renderPagenation()}
     </div>
   );
 };

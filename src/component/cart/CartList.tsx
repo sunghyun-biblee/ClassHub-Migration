@@ -1,9 +1,10 @@
 import { CartItemType, useCart } from "hooks/CartProvider";
 import React, { useContext, useState } from "react";
 import exThumnail from "assets/img/preview.jpg";
+import { useNavigate } from "react-router-dom";
 export const CartList = () => {
   const [selectItem, setSelectItem] = useState<CartItemType[]>([]);
-
+  const nav = useNavigate();
   const { cartList, orderList, addItemOrderList } = useCart();
   // const arr=useContext("")
   const renderCategortText = (categoryId: number) => {
@@ -121,6 +122,7 @@ export const CartList = () => {
               className="p-3 text-center w-[100%] border-[1px] rounded-lg
             bg-blue-500/80 text-white font-semibold md:mt-10 mysm:mt-6
             "
+              onClick={() => nav("order")}
             >
               주문 하기
             </button>

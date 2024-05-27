@@ -8,6 +8,9 @@ import requests from "./../../api/requests";
 import { useAuth } from "hooks/AuthProvider";
 import { addCartItem } from "component/cart/hooks/addCartItem";
 
+interface Window {
+  IMP: any;
+}
 export const ClassDetail = () => {
   const { userData } = useAuth();
   const [selectClass, setSelectClass] = useState();
@@ -30,7 +33,35 @@ export const ClassDetail = () => {
       addCartItem(classId, userData.userId);
     }
   };
+  const handlePayMent = () => {
+    console.log("heelo");
 
+    let paymentNumber;
+
+    if (data && data[0].id) {
+      const IMP = window.IMP;
+      IMP.init("imp85855442");
+      paymentNumber = data[0].id;
+
+      const callback = () => {};
+      IMP.request_pay(
+        {
+          // param
+          pg: "html5_inicis", //pg사
+          pay_method: "card", //결제수단
+          merchant_uid: `${paymentNumber}_${new Date().getTime()}`, // 주문번호
+          name: data[0].title, //주문명
+          amount: 100, //결제금액
+          buyer_email: "gildong@gmail.com", //구매자 이메일
+          buyer_name: "홍길동", // 구매자 이름
+          buyer_tel: "010-4242-4242", // 구매자 번호
+          buyer_addr: "서울특별시 강남구 신사동", // 구매자 주소
+          buyer_postcode: "01181", // 구매자 우편번호
+        },
+        callback
+      );
+    }
+  };
   return (
     <ClassDeatilContainer
       className="flex justify-center 
@@ -89,7 +120,9 @@ export const ClassDetail = () => {
                       className="p-2 border-2 border-solid border-gray-400/50 rounded-lg bg-blue-500 text-white
                     "
                     >
-                      <button className="p-1 ">강의 신청하기</button>
+                      <button className="p-1 " onClick={() => handlePayMent()}>
+                        강의 신청하기
+                      </button>
                     </div>
                   </li>
                 </ul>
@@ -137,7 +170,10 @@ export const ClassDetail = () => {
                   className="p-2 border-2 border-solid border-gray-400/50 rounded-lg bg-blue-500 text-white
                       "
                 >
-                  <button className="p-1 mysm:p-0 mysm:w-[100px] text-sm">
+                  <button
+                    className="p-1 mysm:p-0 mysm:w-[100px] text-sm"
+                    onClick={() => handlePayMent()}
+                  >
                     강의 신청하기
                   </button>
                 </li>

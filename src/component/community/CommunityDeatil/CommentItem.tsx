@@ -4,13 +4,15 @@ import { userType } from "hooks/fetchUserData";
 import { useAuth } from "hooks/AuthProvider";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addComment, deleteComment, updateComment } from "../hooks/commentFn";
+import { CommuInfo } from "../hooks/useTargetPost";
 
 interface ICommentProp {
   item: commentType;
   id: number;
+  postUserId: number;
 }
 
-export const CommentItem = ({ item, id }: ICommentProp) => {
+export const CommentItem = ({ item, id, postUserId }: ICommentProp) => {
   const { userData } = useAuth();
   const queryClient = useQueryClient();
   const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -37,7 +39,7 @@ export const CommentItem = ({ item, id }: ICommentProp) => {
         ["commuDetailComment", id],
         (oldData: prevData | undefined) => {
           if (oldData) {
-            const newData = oldData.data.data.filter(
+            const newData = oldData.data.filter(
               (item) => item.commentId !== commentId
             );
             return newData;
@@ -72,7 +74,7 @@ export const CommentItem = ({ item, id }: ICommentProp) => {
         (oldData: prevData | undefined) => {
           console.log(oldData);
           if (oldData) {
-            const updateData = oldData.data.data.map((item) =>
+            const updateData = oldData.data.map((item) =>
               item.commentId === requestObj.commentId
                 ? { ...item, ...requestObj }
                 : item
@@ -97,10 +99,19 @@ export const CommentItem = ({ item, id }: ICommentProp) => {
       setIsEdit(false);
     }
   };
+  console.log(userData.userId);
+  console.log(item.userId);
   return (
     <li className="border-b-[1px] py-1 px-3 flex flex-col my-1 justify-between">
       <p className="flex items-center justify-between">
-        <strong className="py-2 mr-1">{item.userId}</strong>
+        <div>
+          <strong className="py-2 mr-1">{item.nickname}</strong>
+          {userData.userId === postUserId && (
+            <span className="text-[10px] text-gray-400 border-[1px] rounded-lg px-1 bg-gray-500/30">
+              작성자
+            </span>
+          )}
+        </div>
         <span className="text-gray-600 font-semibold">{item.regDate}</span>
       </p>
       <div className="flex justify-between pt-3 pb-1 items-end">

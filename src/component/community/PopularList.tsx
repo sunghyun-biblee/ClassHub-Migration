@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { usePopularList } from "./hooks/usePopularList";
 import { Icommuitem } from "./hooks/fetchCommuArray";
 import { IcommunityItem } from "./ShowCommuList";
+import { PopularListItem } from "./PopularListItem";
+import { usePopularList } from "./hooks/usePopularList";
+import { useNavigate } from "react-router-dom";
 
 type IPopularProp = {
   category: string;
@@ -18,7 +20,7 @@ export const PopularList = ({ category }: IPopularProp) => {
   if (listIsError) {
     return <p>{listError?.message}</p>;
   }
-  console.log(listData);
+
   return (
     <ListContainer
       className={`p-3 absolute right-[1%] top-[11%] lg:block md:hidden mysm:hidden ${
@@ -28,10 +30,12 @@ export const PopularList = ({ category }: IPopularProp) => {
       <h1 className="pb-1 font-extrabold">인기 게시글</h1>
       <ul>
         {listData &&
-          listData.contents.map((item: IcommunityItem) => (
-            <Li>
-              <h3 className="text-sm mr-2 font-semibold">{item.title}</h3>
-              <p className="text-[14px]">{"biblee"}</p>
+          listData.contents.map((item: IcommunityItem, index: number) => (
+            <Li key={item.communityId + index}>
+              <PopularListItem
+                item={item}
+                category={category}
+              ></PopularListItem>
             </Li>
           ))}
       </ul>
