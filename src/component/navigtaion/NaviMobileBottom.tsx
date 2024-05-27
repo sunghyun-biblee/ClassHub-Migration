@@ -17,7 +17,7 @@ export const NaviMobileBottom = () => {
           <Link to={"/"}>메인페이지</Link>
         </li>
         <li>
-          <Link to={"community"}>커뮤니티</Link>
+          <Link to={"community/qna"}>커뮤니티</Link>
         </li>
         <li>
           <Link to={"mypage"}>마이페이지</Link>
