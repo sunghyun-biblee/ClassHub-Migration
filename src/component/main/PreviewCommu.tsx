@@ -8,9 +8,17 @@ import { selectCommuinfo } from "component/community/hooks/fetchCommuArray";
 
 interface commnuProp {
   mainCommuList: IcommunityItem[];
+  MCommuIsLoading: boolean;
+  MCommuIsError: boolean;
+  MCommuError: Error | null;
 }
 
-export const PreviewCommu = ({ mainCommuList }: commnuProp) => {
+export const PreviewCommu = ({
+  mainCommuList,
+  MCommuIsLoading,
+  MCommuIsError,
+  MCommuError,
+}: commnuProp) => {
   const nav = useNavigate();
   let category: string;
   const queryClient = useQueryClient();
@@ -59,6 +67,12 @@ export const PreviewCommu = ({ mainCommuList }: commnuProp) => {
       nav(`/community/${category}/${CommunityId}`);
     }
   };
+  if (MCommuIsLoading) {
+    return <span>로딩중</span>;
+  }
+  if (MCommuIsError) {
+    return <span>{MCommuError?.message}</span>;
+  }
 
   return (
     <div className="w-[100vw]">

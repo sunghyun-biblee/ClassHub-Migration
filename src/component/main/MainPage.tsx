@@ -45,7 +45,12 @@ export const MainPage = () => {
         mainClassError={mainClassError}
       ></PreviewClass>
 
-      <PreviewCommu mainCommuList={mainCommuList}></PreviewCommu>
+      <PreviewCommu
+        mainCommuList={mainCommuList}
+        MCommuIsLoading={MCommuIsLoading}
+        MCommuIsError={MCommuIsError}
+        MCommuError={MCommuError}
+      ></PreviewCommu>
     </MainPageContainer>
   );
 };
