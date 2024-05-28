@@ -14,6 +14,8 @@ const requests = {
     getQuestionOderByComment: "/community/questions/orderByComment",
     deleteImg: "/community/delete/image",
     updatePost: "/community/modify/board",
+    mainPageCommunity: "/community/mainpage",
+    mypageCommunity: "/community/quest",
   },
   lecture: {
     addLectureMaterial: "/lecture/uploadMaterial",

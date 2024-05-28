@@ -9,21 +9,36 @@ import carousel_three from "assets/img/carousel/carousel_three.jpg";
 import preview from "assets/img/preview.jpg";
 import { fetchClassList } from "component/class/hooks/useGetArray";
 import { useQuery } from "@tanstack/react-query";
+import { useClassList } from "./hooks/useClassList";
+import { useMainCommuList } from "./hooks/useMainCommuList";
 export const MainPage = () => {
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["classListAll"],
-    queryFn: fetchClassList,
-  });
-  if (isLoading) {
+  const {
+    mainClassList,
+    mainClassIsLoading,
+    mainClassIsError,
+    mainClassError,
+  } = useClassList();
+  const { mainCommuList, MCommuIsLoading, MCommuIsError, MCommuError } =
+    useMainCommuList();
+  if (mainClassIsLoading && MCommuIsLoading) {
     return <div>로딩중</div>;
   }
-
+  if (mainClassIsError && MCommuIsError) {
+    return (
+      <div>
+        <p>
+          {mainClassError?.message}
+          {MCommuError?.message}
+        </p>
+      </div>
+    );
+  }
   return (
     <MainPageContainer className=" flex items-center flex-col lg:max-w-[1200px]  md:max-w-[100vw] mysm:max-w-[100vw] lg:pt-[84px] mysm:pt-[68px]">
       <Carousel carouselList={examArr}></Carousel>
-      <PreviewClass data={data}></PreviewClass>
+      <PreviewClass data={mainClassList}></PreviewClass>
 
-      <PreviewCommu commnuList={commuArr}></PreviewCommu>
+      <PreviewCommu mainCommuList={mainCommuList}></PreviewCommu>
     </MainPageContainer>
   );
 };

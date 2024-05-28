@@ -4,11 +4,7 @@ import { NewClass } from "./NewClass";
 import { IClassType } from "component/class/ShowClass";
 
 export interface classProp {
-  data: {
-    data: IClassType[];
-    responseMessage: string;
-    statusCode: number;
-  };
+  data: IClassType[];
 }
 
 export const PreviewClass = ({ data }: classProp) => {

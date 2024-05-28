@@ -6,8 +6,8 @@ import star from "assets/img/Star.svg";
 
 export const PopularClass = ({ data }: classProp) => {
   console.log(data);
-  const newData = data.data.slice(0, 4);
-  console.log(newData);
+  // const newData = data.data.slice(0, 4);
+  // console.log(newData);
   return (
     <div className=" py-10 px-5 lg:max-w-[1200px] md:px-3 mysm:px-2">
       <div className="flex justify-between ">
@@ -22,7 +22,7 @@ export const PopularClass = ({ data }: classProp) => {
         </div>
       </div>
       <section className="grid grid-cols-4 gap-3">
-        {data.data.slice(0, 4).map((item) => (
+        {data.slice(0, 4).map((item) => (
           // <article
           //   className="flex flex-col "
           //   key={`${item.title}+${item.name}`}

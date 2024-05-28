@@ -21,7 +21,7 @@ export const NewClass = ({ data }: classProp) => {
         </div>
       </div>
       <section className="grid grid-cols-4 gap-3">
-        {data.data.slice(0, 4).map((item) => (
+        {data.slice(0, 4).map((item) => (
           <ClassItem item={item} key={`exex+${item.classId}`}></ClassItem>
         ))}
       </section>
