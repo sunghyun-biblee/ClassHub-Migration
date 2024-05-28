@@ -2,12 +2,18 @@ import React from "react";
 import rightArrow from "assets/img/carousel/rigthArrow.svg";
 
 import { IcommunityItem } from "component/community/ShowCommuList";
+import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
+import { selectCommuinfo } from "component/community/hooks/fetchCommuArray";
 
 interface commnuProp {
   mainCommuList: IcommunityItem[];
 }
 
 export const PreviewCommu = ({ mainCommuList }: commnuProp) => {
+  const nav = useNavigate();
+  let category: string;
+  const queryClient = useQueryClient();
   const renderData = mainCommuList.slice(0, 3);
   const renderText = (overview: string) => {
     const text = overview;
@@ -32,6 +38,28 @@ export const PreviewCommu = ({ mainCommuList }: commnuProp) => {
         return "없음";
     }
   };
+  const handleShowDetail = (communityType: string, CommunityId: number) => {
+    switch (communityType) {
+      case "1":
+        category = "qna";
+        break;
+      case "2" || "3":
+        category = "study";
+        break;
+      default:
+        break;
+    }
+
+    if (category) {
+      queryClient.prefetchQuery({
+        queryKey: ["commuDetail", CommunityId],
+        queryFn: () => selectCommuinfo(CommunityId, category),
+      });
+
+      nav(`/community/${category}/${CommunityId}`);
+    }
+  };
+
   return (
     <div className="w-[100vw]">
       <div className=" py-10 px-5 max-w-[1200px] md:px-3 mysm:px-2 ">
@@ -47,6 +75,9 @@ export const PreviewCommu = ({ mainCommuList }: commnuProp) => {
             <article
               className="flex flex-col justify-between border-[1px] p-2 rounded-md"
               key={`${item.title}+${item.nickname}`}
+              onClick={() =>
+                handleShowDetail(item.communityType, item.communityId)
+              }
             >
               <div className="md:px-2">
                 <h1

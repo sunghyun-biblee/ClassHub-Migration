@@ -18,8 +18,10 @@ export const MainPage = () => {
     mainClassIsError,
     mainClassError,
   } = useClassList();
+
   const { mainCommuList, MCommuIsLoading, MCommuIsError, MCommuError } =
     useMainCommuList();
+
   if (mainClassIsLoading && MCommuIsLoading) {
     return <div>로딩중</div>;
   }
@@ -36,7 +38,12 @@ export const MainPage = () => {
   return (
     <MainPageContainer className=" flex items-center flex-col lg:max-w-[1200px]  md:max-w-[100vw] mysm:max-w-[100vw] lg:pt-[84px] mysm:pt-[68px]">
       <Carousel carouselList={examArr}></Carousel>
-      <PreviewClass data={mainClassList}></PreviewClass>
+      <PreviewClass
+        data={mainClassList}
+        mainClassIsLoading={mainClassIsLoading}
+        mainClassIsError={mainClassIsError}
+        mainClassError={mainClassError}
+      ></PreviewClass>
 
       <PreviewCommu mainCommuList={mainCommuList}></PreviewCommu>
     </MainPageContainer>

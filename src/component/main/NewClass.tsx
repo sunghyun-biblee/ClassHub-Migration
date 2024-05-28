@@ -3,7 +3,19 @@ import { classProp } from "./PreviewClass";
 import rightArrow from "assets/img/carousel/rigthArrow.svg";
 import { ClassItem } from "component/class/ClassItem";
 import New from "assets/img/Newclass.svg";
-export const NewClass = ({ data }: classProp) => {
+export const NewClass = ({
+  data,
+  mainClassIsLoading,
+  mainClassIsError,
+  mainClassError,
+}: classProp) => {
+  if (mainClassIsLoading) {
+    return <div>로딩중</div>;
+  }
+  if (mainClassIsError) {
+    return <span>{mainClassError?.message}</span>;
+  }
+
   return (
     <div
       className="max-w-[100vw] py-10 px-5 lg:max-w-[1200px] md:px-3 mysm:px-2 md:border-t-[1px] mysm:border-t-[1px]

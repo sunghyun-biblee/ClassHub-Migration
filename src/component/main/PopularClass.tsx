@@ -4,10 +4,18 @@ import rightArrow from "assets/img/carousel/rigthArrow.svg";
 import { ClassItem } from "component/class/ClassItem";
 import star from "assets/img/Star.svg";
 
-export const PopularClass = ({ data }: classProp) => {
-  console.log(data);
-  // const newData = data.data.slice(0, 4);
-  // console.log(newData);
+export const PopularClass = ({
+  data,
+  mainClassIsLoading,
+  mainClassIsError,
+  mainClassError,
+}: classProp) => {
+  if (mainClassIsLoading) {
+    return <div>로딩중</div>;
+  }
+  if (mainClassIsError) {
+    return <span>{mainClassError?.message}</span>;
+  }
   return (
     <div className=" py-10 px-5 lg:max-w-[1200px] md:px-3 mysm:px-2">
       <div className="flex justify-between ">
