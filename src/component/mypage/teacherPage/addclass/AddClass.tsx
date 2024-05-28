@@ -61,20 +61,18 @@ export const AddClass = () => {
   const handleChangeclassTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setClassTitle(e.target.value);
   };
-
   const handleChangeclassDescription = (
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     setClassDescription(e.target.value);
   };
-
   const handleChangeoverView = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setOverView(e.target.value);
   };
-
   const handleSectionTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSaveSectionTitle(e.target.value);
   };
+
   const handleSaveSectionTitle = (index: number) => {
     if (sectionArray) {
       const value = saveSectionTitle;
@@ -139,13 +137,18 @@ export const AddClass = () => {
   console.log(completeSectionArray);
   console.log(uploadVideo);
   const postAddLecture = async () => {
-    type examArr = {
+    type sectionvideoArraytype = {
       title: string;
-      video_length: number;
+      videoLength: number;
       video: string;
     };
+    type sectionstype = {
+      sectionTitle: string;
+      videos: sectionvideoArraytype[];
+    };
     const formData = new FormData();
-    let newArray: examArr[] = [];
+    let reqeustSections: sectionstype[] = [];
+
     const request = {
       instructors_id: 6,
       category_id: 1,
@@ -163,31 +166,57 @@ export const AddClass = () => {
     );
 
     if (completeSectionArray) {
-      const sectiontitle = completeSectionArray[0].sectiontitle;
-      completeSectionArray[0].videos.map((item) => {
-        if (item.video) {
-          newArray.push({
-            title: item.VideoTitle,
-            video: item.video?.name,
-            video_length: item.videoLength,
-          });
-        }
+      completeSectionArray.map((item) => {
+        let sectionArray: sectionvideoArraytype[] = [];
+        const sectiontitle = item.sectiontitle;
+        item.videos.map((item) => {
+          if (item.video) {
+            sectionArray.push({
+              title: item.VideoTitle,
+              video: item.video?.name,
+              videoLength: item.videoLength,
+            });
+          }
+        });
+        reqeustSections.push({
+          sectionTitle: sectiontitle,
+          videos: sectionArray,
+        });
       });
-      const sections = {
-        title: sectiontitle,
-        videos: newArray,
+      // const sectiontitle = completeSectionArray[0].sectiontitle;
+      // completeSectionArray[0].videos.map((item) => {
+      //   if (item.video) {
+      //     sectionArray.push({
+      //       title: item.VideoTitle,
+      //       video: item.video?.name,
+      //       video_length: item.videoLength,
+      //     });
+      //   }
+      // });
+
+      // const sections = {
+      //   title: sectiontitle,
+      //   videos: newArray,
+      // };
+
+      const sectionsArray = {
+        title: classTitle,
+        sections: reqeustSections,
       };
-      console.log(sections);
+
+      console.log(sectionsArray);
       formData.append(
         "sections",
-        new Blob([JSON.stringify(sections)], { type: "application/json" })
+        new Blob([JSON.stringify(sectionsArray)], { type: "application/json" })
       );
-
-      completeSectionArray[0].videos.map((item) => {
-        if (item.video !== null) {
-          formData.append("videos", item.video);
-        }
-      });
+      completeSectionArray.map((item) =>
+        item.videos.map((item) => {
+          if (item.video !== null) {
+            console.log(item.video);
+            formData.append("videos", item.video);
+          }
+        })
+      );
     }
 
     for (let key of formData.keys()) {
