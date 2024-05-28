@@ -34,16 +34,16 @@ export const ClassItem = ({ item }: IclassitemProp) => {
             {item.className}
           </h1>
           <h3 className=" md:text-base mysm:text-[13px] p-[1px]">
-            {item.instructorsId}
+            {item.name}
           </h3>
         </div>
 
         <div className="flex justify-between pt-2 lg:flex-row md:flex-row mysm:flex-col">
           <p className="  md:text-base mysm:text-[12px] px-[1px] font-semibold">
-            {item.price}
+            {item.price.toLocaleString()}원
           </p>
           <p className=" pr-2  md:text-base mysm:text-[12px] px-[1px] font-semibold">
-            {item.classId}점
+            {item.reviewScore}점
           </p>
         </div>
       </div>

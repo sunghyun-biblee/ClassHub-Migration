@@ -19,6 +19,8 @@ export interface IClassType {
   totalVideoLength: number;
   regdate: string;
   editDate: null | string;
+  reviewScore: number | undefined;
+  name: string;
 }
 
 export const ShowClass = () => {
