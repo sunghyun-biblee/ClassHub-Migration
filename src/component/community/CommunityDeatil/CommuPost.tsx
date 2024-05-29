@@ -115,7 +115,6 @@ export const CommuPost = ({ postData }: IPostProp) => {
     },
   });
 
-  const handlePostDelete = () => {};
   return (
     <>
       <article className="md:pt-5 md:border-0 mysm:border-b-[1px]">
@@ -126,18 +125,16 @@ export const CommuPost = ({ postData }: IPostProp) => {
           <h1 className="py-5 px-5 text-2xl font-extrabold">
             {postData.title}
           </h1>
-          {!userIsLoading && userData && userData.userId && (
-            <div className="text-gray-400 font-semibold">
+          {!userIsLoading &&
+            userData &&
+            userData.userId === postData.userId && (
               <Link
                 to={`/community/modifyPost/${category}/${postData.communityId}`}
+                className="text-gray-400 font-semibold pr-5"
               >
                 수정
               </Link>
-              <button className="px-3" onClick={() => handlePostDelete}>
-                삭제
-              </button>
-            </div>
-          )}
+            )}
         </div>
         <div className="flex justify-between md:px-5 mysm:pl-5 mysm:pr-10  pb-5 pt-2 text-gray-500 ">
           <p>{postData.regDate}</p>

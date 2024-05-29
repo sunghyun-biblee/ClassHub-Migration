@@ -43,15 +43,17 @@ export const NaviPC = ({ userData }: INavProps) => {
     nav(`${location}`);
   };
 
-  const { data } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ["cartItemList"],
     queryFn: () => getCartItemList(userData.userId),
   });
   const handleClickOutside = (event: MouseEvent) => {
     if (
       myPageRef.current &&
-      !(myPageRef.current as HTMLElement).contains(event.target as Node)
+      (myPageRef.current as HTMLElement).contains(event.target as Node)
     ) {
+      setIsMyMenu((prev) => !prev);
+    } else {
       setIsMyMenu(false);
     }
   };
@@ -65,6 +67,12 @@ export const NaviPC = ({ userData }: INavProps) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  if (isLoading) {
+    return <div>로딩중</div>;
+  }
+  if (isError) {
+    return <span>{error.message}</span>;
+  }
   return (
     <NavigationPC>
       <nav className=" lg:flex justify-between items-center py-3  my-0 mx-auto max-w-[1200px] w-[100vw] h-[64px]">
@@ -126,10 +134,10 @@ export const NaviPC = ({ userData }: INavProps) => {
                 </div>
               )}
             </li>
-            <li className=" flex items-center justify-center z-20 ">
+            <li className=" flex items-center justify-center z-20 relative ">
               <div
                 className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer"
-                onClick={(prev) => setIsMyMenu((prev) => !prev)}
+                onClick={() => setIsMyMenu((prev) => !prev)}
                 ref={myPageRef}
               >
                 <img src={user} alt="마이페이지" className="w-6" />
@@ -137,7 +145,7 @@ export const NaviPC = ({ userData }: INavProps) => {
 
               {isMyMenu && (
                 <ul
-                  className="absolute animate-drop-down mt-5  bg-white   border-[1px] border-[#67A3F9] top-[50px] z-0 rounded-md"
+                  className="absolute animate-drop-down mt-5  bg-white   border-[1px] border-[#67A3F9] top-[25px] z-0 rounded-md"
                   ref={myPageRef}
                 >
                   <li className="border-b-[1px] border-[#67A3F9] p-3 font-semibold ">

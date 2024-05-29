@@ -150,10 +150,10 @@ export const AddClass = () => {
     let reqeustSections: sectionstype[] = [];
 
     const request = {
-      instructors_id: 6,
-      category_id: 1,
+      instructorsId: 6,
+      categoryId: 1,
       thumnail: thumbnail?.preview,
-      class_name: classTitle,
+      className: classTitle,
       description: classDescription,
       summary: overView,
       price: price,
@@ -232,7 +232,7 @@ export const AddClass = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(res.data);
+      console.log(res);
     } catch (error) {
       console.log(error);
     }

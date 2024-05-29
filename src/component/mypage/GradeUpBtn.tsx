@@ -46,12 +46,12 @@ export const handleClick = async () => {
     localStorage.setItem("teacher", JSON.stringify(newTdata));
   }
   const requestBody = {
-    user_id: 2,
+    userId: 2,
     name: "성현",
     field: "개발프로그래밍",
     text: "해줘",
-    user_type: "1",
-    request_status: "1",
+    userType: "1",
+    requestStatus: "1",
   };
   try {
     const res = await axios.post(requests.lecture.addInstructor, requestBody);

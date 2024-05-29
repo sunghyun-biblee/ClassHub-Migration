@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import searchICON from "assets/img/searchICON.svg";
 import MenuBar from "assets/img/MenuBar.svg";
 import logo from "assets/img/Logo.png";
 import cart from "assets/img/Cart.svg";
 import user from "assets/img/Person.svg";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { userType } from "hooks/fetchUserData";
 import { useQuery } from "@tanstack/react-query";
 import { getCartItemList } from "component/cart/hooks/getCartItemList";
@@ -73,6 +73,9 @@ interface INavtype {
   userData: userType;
 }
 export const NaviMobile = ({ userData }: INavtype) => {
+  const [isMyMenu, setIsMyMenu] = useState(false);
+  const myPageRef = useRef(null);
+  const buttonRef = useRef(null);
   const nav = useNavigate();
   const [menu, setMenu] = useState("false");
   const handleClick = () => {
@@ -86,12 +89,32 @@ export const NaviMobile = ({ userData }: INavtype) => {
   const handleNav = (location: string) => {
     nav(`${location}`);
   };
+  const handleLogOut = () => {
+    localStorage.removeItem("user");
+    window.location.reload();
+  };
 
-  const { data } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ["cartItemList"],
     queryFn: () => getCartItemList(userData.userId),
   });
-  console.log(typeof data);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      myPageRef.current &&
+      !(myPageRef.current as HTMLElement).contains(event.target as Node) &&
+      buttonRef.current !== event.target
+    ) {
+      setIsMyMenu(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <NavigationMobile className="screen-width lg:hidden z-20 h-[72px]">
@@ -135,29 +158,61 @@ export const NaviMobile = ({ userData }: INavtype) => {
           <img src={logo} alt="" className="logo w-[64px] h-13 " />
         </div>
         <div>
-          <ul className="md:flex justify-between  items-center w-42 second-menu font-semibold ">
-            <li
-              className="px-4 cursor-pointer"
-              onClick={() => handleNav("cart")}
-            >
-              <div className="relative">
-                <img src={cart} alt="장바구니" className="md:w-7 mysm:w-6" />
-                {data?.length >= 1 && (
-                  <div className="absolute bg-red-500 rounded-[50%] -top-[30%] -right-[40%] w-5 h-5 flex justify-center items-center">
-                    <p className="text-white">1</p>
-                  </div>
+          {userData && userData.userId ? (
+            <ul className="md:flex justify-between  items-center w-42 second-menu font-semibold ">
+              <li
+                className="px-4 cursor-pointer"
+                onClick={() => handleNav("cart")}
+              >
+                <div className="relative">
+                  <img src={cart} alt="장바구니" className="md:w-7 mysm:w-6" />
+                  {data?.length >= 0 && (
+                    <div className="absolute bg-red-500 rounded-[50%] -top-[30%] -right-[40%] w-5 h-5 flex justify-center items-center">
+                      <p className="text-white">1</p>
+                    </div>
+                  )}
+                </div>
+              </li>
+              <li className="px-3 cursor-pointer relative ">
+                <div
+                  onClick={(prev) => setIsMyMenu((prev) => !prev)}
+                  ref={myPageRef}
+                >
+                  <img
+                    src={user}
+                    alt="마이페이지"
+                    className="md:w-7 mysm:w-6"
+                  />
+                </div>
+                {isMyMenu && (
+                  <ul
+                    className="absolute animate-drop-down mt-5  bg-white   border-[1px] border-[#67A3F9] top-[25px] md:-right-[8px]  mysm:right-0 rounded-md"
+                    ref={buttonRef}
+                  >
+                    <li className="border-b-[1px] border-[#67A3F9] p-3 font-semibold ">
+                      <button onClick={() => handleNav("mypage")}>MyHub</button>
+                    </li>
+                    <li className=" p-3 font-semibold ">
+                      <button onClick={handleLogOut}>LogOut</button>
+                    </li>
+                  </ul>
                 )}
-              </div>
-            </li>
-            <li
-              className="px-3 cursor-pointer"
-              onClick={() => handleNav("mypage")}
-            >
-              <div>
-                <img src={user} alt="마이페이지" className="md:w-7 mysm:w-6" />
-              </div>
-            </li>
-          </ul>
+              </li>
+            </ul>
+          ) : (
+            <ul className="flex justify-between  items-center w-42 second-menu font-semibold ">
+              <li
+                className=" border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer hover:bg-blue-300 hover:text-white hover:transition-colors
+              mr-3 p-1
+              text-sm
+              "
+              >
+                <span>
+                  <Link to={"signIn"}>로그인</Link>
+                </span>
+              </li>
+            </ul>
+          )}
         </div>
       </nav>
     </NavigationMobile>

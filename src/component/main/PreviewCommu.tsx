@@ -22,7 +22,7 @@ export const PreviewCommu = ({
   const nav = useNavigate();
   let category: string;
   const queryClient = useQueryClient();
-  const renderData = mainCommuList.slice(0, 3);
+
   const renderText = (overview: string) => {
     const text = overview;
     let newText;
@@ -85,7 +85,7 @@ export const PreviewCommu = ({
           </div>
         </div>
         <section className="grid grid-cols-3 gap-3 py-3">
-          {renderData.map((item) => (
+          {mainCommuList.slice(0, 3).map((item) => (
             <article
               className="flex flex-col justify-between border-[1px] p-2 rounded-md"
               key={`${item.title}+${item.nickname}`}
