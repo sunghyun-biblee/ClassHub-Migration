@@ -2,12 +2,14 @@ import { CartItemType, useCart } from "hooks/CartProvider";
 import React, { useContext, useState } from "react";
 import exThumnail from "assets/img/preview.jpg";
 import { useNavigate } from "react-router-dom";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "hooks/AuthProvider";
 import { getCartItemList } from "./hooks/getCartItemList";
-import { EachDeleteCart } from "./hooks/fetchCartItem";
+
 import { addOrder } from "./hooks/addOrder";
+import { deleteCartItem } from "./hooks/deleteCartItem";
 export const CartList = () => {
+  const queryClient = useQueryClient();
   const { userData, userIsLoading, userIsError, userError } = useAuth();
   const [selectItem, setSelectItem] = useState<CartItemType[]>([]);
   const [selectItemId, setSelectItemId] = useState<number[]>([]);
@@ -40,11 +42,11 @@ export const CartList = () => {
     if (selectItem.includes(item)) {
       // 이미 체크된 아이템일 경우 제거
       setSelectItem(selectItem.filter((selectedItem) => selectedItem !== item));
-      setSelectItemId(selectItemId.filter((id) => id !== item.cartId));
+      setSelectItemId(selectItemId.filter((id) => id !== item.classId));
     } else {
       // 체크되지 않은 아이템일 경우 추가
       setSelectItem([...selectItem, item]);
-      setSelectItemId([...selectItemId, item.cartId]);
+      setSelectItemId([...selectItemId, item.classId]);
     }
   };
   const selectItemTotalPrice = () => {
@@ -55,8 +57,28 @@ export const CartList = () => {
     return totalPrice.toLocaleString();
   };
 
-  const EachDeleteMutation = useMutation({
-    mutationFn: () => EachDeleteCart(),
+  const DeleteMutation = useMutation({
+    mutationFn: deleteCartItem,
+    onSettled: () => {
+      return queryClient.invalidateQueries({
+        queryKey: ["cartItemList"],
+      });
+    },
+    onMutate: async (cartid) => {
+      await queryClient.cancelQueries({
+        queryKey: ["cartItemList"],
+      });
+      const prevData = queryClient.getQueryData(["cartItemList"]);
+      queryClient.setQueryData(["cartItemList"], (oldData: CartItemType[]) => {
+        if (oldData) {
+          const newData = oldData.filter((item) => item.cartId !== cartid);
+          console.log(newData);
+          return newData;
+        }
+        return oldData;
+      });
+      return { prevData };
+    },
   });
   if (isError) {
     return <span>{error.message}</span>;
@@ -65,7 +87,7 @@ export const CartList = () => {
     if (!isAllSelect && data) {
       setSelectItem([...data]);
       data.map((item: CartItemType) => {
-        setSelectItemId((prev) => [...prev, item.cartId]);
+        setSelectItemId((prev) => [...prev, item.classId]);
       });
       setIsAllSelect(true);
     } else {
@@ -73,6 +95,9 @@ export const CartList = () => {
       setSelectItemId([]);
       setIsAllSelect(false);
     }
+  };
+  const handleDeleteItem = (cartid: number) => {
+    DeleteMutation.mutate(cartid);
   };
   const handleOrderClick = () => {
     if (selectItemId.length < 1) {
@@ -100,9 +125,6 @@ export const CartList = () => {
         </button>
         <button className="px-5  hover:text-black transition-all">
           전체 삭제
-        </button>
-        <button className="hover:text-black transition-all">
-          선택목록 삭제
         </button>
       </div>
 
@@ -142,8 +164,14 @@ export const CartList = () => {
                       />
                     </div>
                     <ul className="flex flex-col justify-between p-3 w-[50%] ">
-                      <li className="text-[#959595] font-semibold py-1">
-                        주문번호 &nbsp;{item.cartId}
+                      <li className="text-[#959595] font-semibold py-1 flex justify-between">
+                        <span>주문번호 &nbsp;{item.cartId}</span>
+                        <button
+                          className="text-red-700/70 font-semibold"
+                          onClick={() => handleDeleteItem(item.cartId)}
+                        >
+                          삭제
+                        </button>
                       </li>
                       <li className="font-semibold py-1">
                         강의명:&nbsp;{item.classResponseDTO.className}
