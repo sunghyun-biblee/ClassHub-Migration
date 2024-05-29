@@ -7,7 +7,7 @@ import { useAuth } from "hooks/AuthProvider";
 import { getCartItemList } from "./hooks/getCartItemList";
 
 import { addOrder } from "./hooks/addOrder";
-import { deleteCartItem } from "./hooks/deleteCartItem";
+import { cartClear, deleteCartItem } from "./hooks/deleteCartItem";
 export const CartList = () => {
   const queryClient = useQueryClient();
   const { userData, userIsLoading, userIsError, userError } = useAuth();
@@ -57,7 +57,34 @@ export const CartList = () => {
     return totalPrice.toLocaleString();
   };
 
-  const DeleteMutation = useMutation({
+  const CartClearMutation = useMutation({
+    mutationFn: cartClear,
+    onSettled: () => {
+      return queryClient.invalidateQueries({
+        queryKey: ["cartItemList"],
+      });
+    },
+    onMutate: async (cartid) => {
+      await queryClient.cancelQueries({
+        queryKey: ["cartItemList"],
+      });
+      const prevData = queryClient.getQueryData(["cartItemList"]);
+      queryClient.setQueryData(["cartItemList"], (oldData: CartItemType[]) => {
+        if (oldData) {
+          const newData: CartItemType[] = [];
+          console.log(newData);
+          return newData;
+        }
+        return oldData;
+      });
+      return { prevData };
+    },
+    onSuccess: () => {
+      setSelectItem([]);
+      setSelectItemId([]);
+    },
+  });
+  const EachDeleteMutation = useMutation({
     mutationFn: deleteCartItem,
     onSettled: () => {
       return queryClient.invalidateQueries({
@@ -79,6 +106,10 @@ export const CartList = () => {
       });
       return { prevData };
     },
+    onSuccess: () => {
+      setSelectItem([]);
+      setSelectItemId([]);
+    },
   });
   if (isError) {
     return <span>{error.message}</span>;
@@ -97,7 +128,10 @@ export const CartList = () => {
     }
   };
   const handleDeleteItem = (cartid: number) => {
-    DeleteMutation.mutate(cartid);
+    EachDeleteMutation.mutate(cartid);
+  };
+  const handleCartClear = (userid: number) => {
+    CartClearMutation.mutate(userid);
   };
   const handleOrderClick = () => {
     if (selectItemId.length < 1) {
@@ -113,6 +147,9 @@ export const CartList = () => {
     }
   };
   console.log(selectItemId);
+  if (userIsLoading) {
+    return <div>로딩중</div>;
+  }
   return (
     <div>
       <h1 className="text-center text-3xl md:p-10 mysm:p-7 font-extrabold">
@@ -123,7 +160,10 @@ export const CartList = () => {
         <button onClick={allSelect} className="hover:text-black transition-all">
           전체 선택
         </button>
-        <button className="px-5  hover:text-black transition-all">
+        <button
+          className="px-5  hover:text-black transition-all"
+          onClick={() => handleCartClear(userData.userId)}
+        >
           전체 삭제
         </button>
       </div>
