@@ -26,9 +26,13 @@ export async function fetchClassList() {
   }
 }
 export async function selectClassinfo(id: number) {
-  const newDate = classArr.filter((item) => item.id === id);
-
-  return newDate;
+  try {
+    const res = await axios.get(`${requests.lecture.getTargetLecture}/${id}`);
+    console.log(res.data);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
 }
 const classArr = [
   {

@@ -37,18 +37,16 @@ export const ShowClass = () => {
   if (isLoading) {
     return <div>로딩중</div>;
   }
-  console.log(data.data);
+  console.log(data);
   return (
     <div>
       <div className="grid grid-cols-3 gap-5 pt-5">
-        {data?.data
-          .slice(pageOfFirst, pageOfLast)
-          ?.map((item: IClassType, index: number) => (
-            <ClassItem
-              item={item}
-              key={item.classId + "showClass" + index}
-            ></ClassItem>
-          ))}
+        {data.slice(0, 9)?.map((item: IClassType, index: number) => (
+          <ClassItem
+            item={item}
+            key={item.classId + "showClass" + index}
+          ></ClassItem>
+        ))}
       </div>
       <div className="py-[50px] flex justify-center items-center">
         <p>페이지네이션</p>

@@ -29,6 +29,10 @@ const requests = {
     getLectureMaterial: "/lecture/selectMaterial",
     getCategoryLecture: "/lecture/selectByCategory",
     getAllLecture: "/lecture/selectAll",
+    getTargetLecture: "/lecture/selectById",
+    getTargetLectureDetail: "/lecture/selectClassDetail",
+    getTargetLectureLearningData: "/lecture/selectLearningDasta",
+    getLectureListCategory: "/lecture/selectByCategory",
   },
   comment: {
     addComment: "/comment/post",
@@ -42,6 +46,21 @@ const requests = {
     deleteCartItem: "/cart/delete",
     clearCart: "/cart/clear",
     getCartList: "/cart/list",
+  },
+  order: {
+    addOrder: "/order/add",
+    deletOrder: "/order/delete",
+    getOrderList: "/order/list",
+    getOrderProgressList: "/order/in-progress",
+    getTargetOrderItem: "/order/detail",
+  },
+  payment: {
+    prepare: "/payments/prepare",
+    cancel: "/payments/cancel",
+    addPaymentInfo: "/payments/add",
+    getPaymentItem: "/payments", //imp_uid
+    getPaymentPrepare: "/payments/prepare", //  merchant_uid
+    getPortOneToken: "/access-token",
   },
   like: {
     postLike: "/favorite/community",

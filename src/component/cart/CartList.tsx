@@ -2,11 +2,22 @@ import { CartItemType, useCart } from "hooks/CartProvider";
 import React, { useContext, useState } from "react";
 import exThumnail from "assets/img/preview.jpg";
 import { useNavigate } from "react-router-dom";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { useAuth } from "hooks/AuthProvider";
+import { getCartItemList } from "./hooks/getCartItemList";
+import { EachDeleteCart } from "./hooks/fetchCartItem";
+import { addOrder } from "./hooks/addOrder";
 export const CartList = () => {
+  const { userData, userIsLoading, userIsError, userError } = useAuth();
   const [selectItem, setSelectItem] = useState<CartItemType[]>([]);
+  const [selectItemId, setSelectItemId] = useState<number[]>([]);
+  const [isAllSelect, setIsAllSelect] = useState(false);
   const nav = useNavigate();
-  const { cartList, orderList, addItemOrderList } = useCart();
-  // const arr=useContext("")
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["cartItemList"],
+    queryFn: () => getCartItemList(userData.userId),
+  });
+  console.log(data);
   const renderCategortText = (categoryId: number) => {
     switch (categoryId) {
       case 1:
@@ -29,9 +40,11 @@ export const CartList = () => {
     if (selectItem.includes(item)) {
       // 이미 체크된 아이템일 경우 제거
       setSelectItem(selectItem.filter((selectedItem) => selectedItem !== item));
+      setSelectItemId(selectItemId.filter((id) => id !== item.cartId));
     } else {
       // 체크되지 않은 아이템일 경우 추가
       setSelectItem([...selectItem, item]);
+      setSelectItemId([...selectItemId, item.cartId]);
     }
   };
   const selectItemTotalPrice = () => {
@@ -41,67 +54,127 @@ export const CartList = () => {
     );
     return totalPrice.toLocaleString();
   };
+
+  const EachDeleteMutation = useMutation({
+    mutationFn: () => EachDeleteCart(),
+  });
+  if (isError) {
+    return <span>{error.message}</span>;
+  }
+  const allSelect = () => {
+    if (!isAllSelect && data) {
+      setSelectItem([...data]);
+      data.map((item: CartItemType) => {
+        setSelectItemId((prev) => [...prev, item.cartId]);
+      });
+      setIsAllSelect(true);
+    } else {
+      setSelectItem([]);
+      setSelectItemId([]);
+      setIsAllSelect(false);
+    }
+  };
+  const handleOrderClick = () => {
+    if (selectItemId.length < 1) {
+      alert("선택된 강의가 없습니다");
+      return;
+    }
+    try {
+      addOrder(selectItemId, userData.userId);
+      nav("order");
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  };
+  console.log(selectItemId);
   return (
     <div>
       <h1 className="text-center text-3xl md:p-10 mysm:p-7 font-extrabold">
         장바구니
       </h1>
+
+      <div className="lg:px-8 md:px-5 mysm:px-3 pb-2 font-semibold text-gray-500">
+        <button onClick={allSelect} className="hover:text-black transition-all">
+          전체 선택
+        </button>
+        <button className="px-5  hover:text-black transition-all">
+          전체 삭제
+        </button>
+        <button className="hover:text-black transition-all">
+          선택목록 삭제
+        </button>
+      </div>
+
       <div className="flex md:flex-row mysm:flex-col justify-around">
         <ul className="lg:w-[65%] md:w-[70%] md:h-[70vh] mysm:h-[50vh] border-t-[1px] pt-2 overflow-scroll">
-          {examCartList.map((item) => (
-            <li className="flex flex-col  items-start mb-10 md:p-0 md:mx-1 border-2 rounded-md shadow-[0px_1px_1px_rgba(149,157,165,0.3)]">
-              <div className="flex md:flex-row mysm:flex-col w-[100%] h-[100%] ">
-                <div className="lg:w-[100px]  md:w-[70px]  mysm:w-[100%] py-3  md:px-0 mysm:px-3 flex mysm:justify-start md:justify-center items-center bg-[#F8F8F8]">
-                  <input
-                    type="checkbox"
-                    onChange={() => handleToggleCheckbox(item)}
-                    checked={selectItem.includes(item)}
-                  />
-                </div>
-                <div id="lectureInfo" className="flex justify-between w-[100%]">
-                  <div className="flex items-center justify-center">
-                    <img
-                      src={exThumnail}
-                      alt="lectrueImg"
-                      className=" lg:h-[200px] 
-                    md:h-[130px]
-                    mysm:h-[100px]
-                    p-2  rounded-xl"
+          {isLoading ? (
+            <div>
+              <h1 className="text-9xl">로딩중</h1>
+            </div>
+          ) : (
+            data &&
+            data.map((item: CartItemType) => (
+              <li
+                className="flex flex-col  items-start mb-10 md:p-0 md:mx-1 border-2 rounded-md shadow-[0px_1px_1px_rgba(149,157,165,0.3)]"
+                key={item.cartId + item.userId}
+              >
+                <div className="flex md:flex-row mysm:flex-col w-[100%] h-[100%] ">
+                  <div className="lg:w-[100px]  md:w-[70px]  mysm:w-[100%] py-3  md:px-0 mysm:px-3 flex mysm:justify-start md:justify-center items-center bg-[#F8F8F8]">
+                    <input
+                      type="checkbox"
+                      onChange={() => handleToggleCheckbox(item)}
+                      checked={selectItem.includes(item)}
                     />
                   </div>
-                  <ul className="flex flex-col justify-between p-3 w-[50%] ">
-                    <li className="text-[#959595] font-semibold py-1">
-                      주문번호 &nbsp;{item.cartId}
-                    </li>
-                    <li className="font-semibold py-1">
-                      강의명:&nbsp;{item.classResponseDTO.className}
-                    </li>
-                    <li className="text-[#959595] font-semibold py-1">
-                      {renderCategortText(item.classResponseDTO.categoryId)}
-                    </li>
-                  </ul>
-                  <ul
-                    className=" border-l-[1px] py-1 px-1 flex flex-col justify-center items-center 
-                  lg:w-[110px]
-                  md:w-[100px]
-                  mysm:w-[100px]
-                  "
+                  <div
+                    id="lectureInfo"
+                    className="flex justify-between w-[100%]"
                   >
-                    <li>
-                      <span className="font-semibold text-[#858585]">
-                        강의 가격
-                      </span>
-                    </li>
-                    <li className="mt-2">
-                      <strong className="min-w-[80px]  md:p-2 mysm:p-0">
-                        {item.classResponseDTO.price.toLocaleString()}원
-                      </strong>
-                    </li>
-                  </ul>
+                    <div className="flex items-center justify-center">
+                      <img
+                        src={exThumnail}
+                        alt="lectrueImg"
+                        className=" lg:h-[200px] 
+        md:h-[130px]
+        mysm:h-[100px]
+        p-2  rounded-xl"
+                      />
+                    </div>
+                    <ul className="flex flex-col justify-between p-3 w-[50%] ">
+                      <li className="text-[#959595] font-semibold py-1">
+                        주문번호 &nbsp;{item.cartId}
+                      </li>
+                      <li className="font-semibold py-1">
+                        강의명:&nbsp;{item.classResponseDTO.className}
+                      </li>
+                      <li className="text-[#959595] font-semibold py-1">
+                        {renderCategortText(item.classResponseDTO.categoryId)}
+                      </li>
+                    </ul>
+                    <ul
+                      className=" border-l-[1px] py-1 px-1 flex flex-col justify-center items-center 
+      lg:w-[110px]
+      md:w-[100px]
+      mysm:w-[100px]
+      "
+                    >
+                      <li>
+                        <span className="font-semibold text-[#858585]">
+                          강의 가격
+                        </span>
+                      </li>
+                      <li className="mt-2">
+                        <strong className="min-w-[80px]  md:p-2 mysm:p-0">
+                          {item.classResponseDTO.price.toLocaleString()}원
+                        </strong>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-              </div>
-            </li>
-          ))}
+              </li>
+            ))
+          )}
         </ul>
 
         <ul
@@ -122,7 +195,7 @@ export const CartList = () => {
               className="p-3 text-center w-[100%] border-[1px] rounded-lg
             bg-blue-500/80 text-white font-semibold md:mt-10 mysm:mt-6
             "
-              onClick={() => nav("order")}
+              onClick={handleOrderClick}
             >
               주문 하기
             </button>
@@ -132,106 +205,3 @@ export const CartList = () => {
     </div>
   );
 };
-
-const examCartList = [
-  {
-    cartId: 1,
-    userId: 6,
-    classId: 100,
-    regdate: "2024-05-22T13:51:53.379Z",
-    orderStatus: "2",
-    classResponseDTO: {
-      classId: 100,
-      instructorsId: 200,
-      categoryId: 1,
-      className: "react",
-      description: "string",
-      summary: "string",
-      price: 1000,
-      thumnail: "string",
-      totalVideoLength: 0,
-      regdate: "2024-05-22T13:51:53.379Z",
-      editDate: "2024-05-22T13:51:53.379Z",
-    },
-  },
-  {
-    cartId: 2,
-    userId: 6,
-    classId: 101,
-    regdate: "2024-05-22T13:51:53.379Z",
-    orderStatus: "2",
-    classResponseDTO: {
-      classId: 101,
-      instructorsId: 201,
-      categoryId: 2,
-      className: "redux",
-      description: "string",
-      summary: "string",
-      price: 10000,
-      thumnail: "string",
-      totalVideoLength: 0,
-      regdate: "2024-05-22T13:51:53.379Z",
-      editDate: "2024-05-22T13:51:53.379Z",
-    },
-  },
-  {
-    cartId: 3,
-    userId: 6,
-    classId: 102,
-    regdate: "2024-05-22T13:51:53.379Z",
-    orderStatus: "2",
-    classResponseDTO: {
-      classId: 102,
-      instructorsId: 202,
-      categoryId: 3,
-      className: "recoil",
-      description: "string",
-      summary: "string",
-      price: 2000,
-      thumnail: "string",
-      totalVideoLength: 0,
-      regdate: "2024-05-22T13:51:53.379Z",
-      editDate: "2024-05-22T13:51:53.379Z",
-    },
-  },
-  {
-    cartId: 4,
-    userId: 6,
-    classId: 103,
-    regdate: "2024-05-22T13:51:53.379Z",
-    orderStatus: "2",
-    classResponseDTO: {
-      classId: 103,
-      instructorsId: 203,
-      categoryId: 4,
-      className: "react-query",
-      description: "string",
-      summary: "string",
-      price: 3000,
-      thumnail: "string",
-      totalVideoLength: 0,
-      regdate: "2024-05-22T13:51:53.379Z",
-      editDate: "2024-05-22T13:51:53.379Z",
-    },
-  },
-  {
-    cartId: 5,
-    userId: 6,
-    classId: 104,
-    regdate: "2024-05-22T13:51:53.379Z",
-    orderStatus: "2",
-    classResponseDTO: {
-      classId: 104,
-      instructorsId: 204,
-      categoryId: 1,
-      className: "typeScript",
-      description: "string",
-      summary: "string",
-      price: 4000,
-      thumnail: "string",
-      totalVideoLength: 0,
-      regdate: "2024-05-22T13:51:53.379Z",
-      editDate: "2024-05-22T13:51:53.379Z",
-    },
-  },
-];

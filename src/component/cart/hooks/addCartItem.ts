@@ -9,6 +9,7 @@ export async function addCartItem(classId: number, userId: number) {
   try {
     const res = await axios.post(requests.cart.addCartItem, reuqestBody);
     console.log(res.data);
+    alert("장바구니에 추가되었습니다");
     return res.data;
   } catch (error) {
     console.log(error);
