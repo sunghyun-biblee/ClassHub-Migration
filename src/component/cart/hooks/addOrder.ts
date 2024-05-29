@@ -12,7 +12,7 @@ export async function addOrder(orderItemIdList: number[], userId: number) {
     const res = await axios.post(requests.order.addOrder, orderItemIdList);
     console.log(res);
 
-    return res.data;
+    return res;
   } catch (error) {
     console.log(error);
   }
