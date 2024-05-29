@@ -30,6 +30,7 @@ const inistialState: AuthContextType = {
     introduce: "",
     regDate: "",
     exitDate: "",
+    role: "",
   },
   userIsLoading: null,
   userIsError: null,
@@ -63,6 +64,7 @@ export const AuthProvider = ({ children }: AuthProviderType) => {
         introduce: "",
         regDate: "",
         exitDate: "",
+        role: "",
       };
       setUser(guest);
     } else {

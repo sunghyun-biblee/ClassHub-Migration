@@ -12,6 +12,7 @@ export interface userType {
   introduce: string | null;
   regDate: string;
   exitDate: string | null;
+  role: string | null;
 }
 export const fetchUserData = async (userSnsId: string) => {
   if (userSnsId) {
@@ -25,9 +26,24 @@ export const fetchUserData = async (userSnsId: string) => {
       return data.data.data;
     } catch (error) {
       console.log(error);
+
       return null;
     }
   } else {
-    return null;
+    const guest = {
+      userId: "",
+      snsId: "",
+      accessToken: "",
+      name: "",
+      nickname: "",
+      email: "",
+      profilePicture: "",
+      platformType: "",
+      introduce: "",
+      regDate: "",
+      exitDate: "",
+      role: "",
+    };
+    return guest;
   }
 };

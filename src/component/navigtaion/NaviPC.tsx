@@ -50,10 +50,8 @@ export const NaviPC = ({ userData }: INavProps) => {
   const handleClickOutside = (event: MouseEvent) => {
     if (
       myPageRef.current &&
-      (myPageRef.current as HTMLElement).contains(event.target as Node)
+      !(myPageRef.current as HTMLElement).contains(event.target as Node)
     ) {
-      setIsMyMenu((prev) => !prev);
-    } else {
       setIsMyMenu(false);
     }
   };
