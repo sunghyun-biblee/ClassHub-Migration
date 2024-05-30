@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { userType } from "hooks/fetchUserData";
 import { useQuery } from "@tanstack/react-query";
 import { getCartItemList } from "component/cart/hooks/getCartItemList";
+import { NaviMobileCategory } from "./NaviMobileCategory";
 const NavigationMobile = styled.div`
   position: fixed;
   top: 0;
@@ -38,7 +39,7 @@ const NavigationMobile = styled.div`
 
   box-shadow: rgba(149, 157, 165, 0.2) 0px 2px 5px;
 `;
-const SearchButton = styled.button`
+export const SearchButton = styled.button`
   width: 20px;
   height: 20px;
   background-image: url(${searchICON});
@@ -127,23 +128,7 @@ export const NaviMobile = ({ userData }: INavtype) => {
             onClick={handleClick}
           />
           <SideMenu menu={menu.toString()} className="side-menu">
-            <div className=" relative md:flex justify-center items-center p-3">
-              <input
-                placeholder="검색어를 입력해주세요"
-                type="text"
-                className="border-2 rounded-md w-[280px] py-1 pl-[8px] text-[14px] focus:outline-green-600"
-              />
-              <SearchButton className="button"></SearchButton>
-            </div>
-            <ul>
-              <li></li>
-              <li className="mysm:text-blue-600">2</li>
-              <li className="sm:text-blue-100">3</li>
-              <li className="sm:text-red-500">4</li>
-              <li>
-                <p onClick={handleClick}>닫기</p>
-              </li>
-            </ul>
+            <NaviMobileCategory handleClick={handleClick}></NaviMobileCategory>
           </SideMenu>
           <BackPage
             menu={menu.toString()}

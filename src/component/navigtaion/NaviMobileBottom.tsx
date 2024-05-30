@@ -11,7 +11,7 @@ export const NaviMobileBottom = () => {
           <Link to={"mypage/dashboard"}>대시보드</Link>
         </li>
         <li>
-          <Link to={"class"}>강의</Link>
+          <Link to={"class/0"}>강의</Link>
         </li>
         <li>
           <Link to={"/"}>메인페이지</Link>

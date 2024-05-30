@@ -6,8 +6,9 @@ import logo from "assets/img/Logo.png";
 import cart from "assets/img/Cart.svg";
 import user from "assets/img/Person.svg";
 import { userType } from "hooks/fetchUserData";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getCartItemList } from "component/cart/hooks/getCartItemList";
+import { fetchsearchKeyWord } from "./hooks/fetchsearchKeyWord";
 
 const NavigationPC = styled.div`
   @media (max-width: 1023px) {
@@ -37,6 +38,8 @@ interface INavProps {
 }
 export const NaviPC = ({ userData }: INavProps) => {
   const [isMyMenu, setIsMyMenu] = useState(false);
+  const [searchKeyWord, setSearchKeyWord] = useState<string>("");
+  const queryClient = useQueryClient();
   const nav = useNavigate();
   const myPageRef = useRef(null);
   const handleNav = (location: string) => {
@@ -71,6 +74,14 @@ export const NaviPC = ({ userData }: INavProps) => {
   if (isError) {
     return <span>{error.message}</span>;
   }
+  const handleSubmitSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    nav(`/class/${searchKeyWord}`);
+    queryClient.prefetchQuery({
+      queryKey: ["searchList"],
+      queryFn: () => fetchsearchKeyWord(searchKeyWord),
+    });
+  };
   return (
     <NavigationPC>
       <nav className=" lg:flex justify-between items-center py-3  my-0 mx-auto max-w-[1200px] w-[100vw] h-[64px]">
@@ -101,12 +112,14 @@ export const NaviPC = ({ userData }: INavProps) => {
           </li>
           {/* <li>멘토링</li> */}
         </ul>
-        <form action="">
+        <form action="" onSubmit={handleSubmitSearch}>
           <div className="lg:flex justify-center items-center relative">
             <input
               type="text"
               placeholder="강의를 검색해보세요"
               className="border-2 rounded-md w-72 h-[36px] px-2 text-sm py-1 focus:outline-blue-600"
+              value={searchKeyWord}
+              onChange={(e) => setSearchKeyWord(e.target.value)}
             />
 
             <SearchButton type="button" aria-label="searchBtn">
@@ -128,7 +141,7 @@ export const NaviPC = ({ userData }: INavProps) => {
               <img src={cart} alt="장바구니" className="w-6" />
               {data?.length >= 0 && (
                 <div className="absolute bg-red-500 rounded-[50%] -top-[30%] -right-[10%] w-5 h-5 flex justify-center items-center">
-                  <p className="text-white">1</p>
+                  <p className="text-white">{data.length}</p>
                 </div>
               )}
             </li>
