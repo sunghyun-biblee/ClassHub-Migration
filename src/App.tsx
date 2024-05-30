@@ -144,7 +144,7 @@ function App() {
                     element={<SearchPage></SearchPage>}
                   ></Route>
                   <Route
-                    path="class/:classId"
+                    path="classDetail/:classId"
                     element={<ClassDetail></ClassDetail>}
                   ></Route>
                   <Route

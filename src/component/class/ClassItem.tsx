@@ -11,7 +11,7 @@ interface IclassitemProp {
 export const ClassItem = ({ item }: IclassitemProp) => {
   const nav = useNavigate();
   const handleClick = () => {
-    nav(`/class/${item.classId}`);
+    nav(`/classDetail/${item.classId}`);
   };
   const queryClient = useQueryClient();
   queryClient.prefetchQuery({
