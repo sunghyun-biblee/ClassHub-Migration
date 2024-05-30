@@ -7,7 +7,7 @@ export interface userType {
   name: string;
   nickname: string | null;
   email: string;
-  profilePicture: string | null;
+  profilePicture: string;
   platformType: string;
   introduce: string | null;
   regDate: string;
