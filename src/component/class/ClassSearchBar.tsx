@@ -1,14 +1,29 @@
+import { useClassCategory } from "hooks/ClassTypeProvider";
 import React from "react";
 import styled from "styled-components";
 
-interface IcategoryProp {
-  category: string;
-}
-export const ClassSearchBar = ({ category }: IcategoryProp) => {
+export const ClassSearchBar = () => {
+  const classType = useClassCategory();
+  const renderCategory = () => {
+    switch (classType.classCategoryType) {
+      case 0:
+        return "전체강의";
+      case 1:
+        return "개발·프로그래밍";
+      case 2:
+        return "게임 개발";
+      case 3:
+        return "인공지능";
+      case 4:
+        return "보안·네트워크";
+      default:
+        return "오류";
+    }
+  };
   return (
     <div className="py-2">
       <div className="flex justify-between  items-center">
-        <h1 className="font-extrabold text-lg">{category}</h1>
+        <h1 className="font-extrabold text-lg">{renderCategory()}</h1>
         <div className="flex">
           <Input
             type="text"

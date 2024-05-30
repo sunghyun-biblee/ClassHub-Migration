@@ -3,25 +3,22 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-interface ICategorySet {
-  categoryType: number;
-}
-
-export const ClassCategory = ({ categoryType }: ICategorySet) => {
-  const classtype = useClassCategory();
-
+export const SearchPageCategory = () => {
+  const nav = useNavigate();
+  const classType = useClassCategory();
   return (
     <div className="lg:block md:hidden mysm:hidden">
       <ul className="mx-5">
         <Li>
           <span
             className={` ${
-              classtype.classCategoryType === 0
+              classType.classCategoryType === 0
                 ? "text-[#1386e5] font-extrabold"
                 : "text-zinc-600"
             }`}
             onClick={() => {
-              classtype.updateCategory(0);
+              classType.updateCategory(0);
+              nav("/class");
             }}
           >
             전체강의
@@ -30,12 +27,13 @@ export const ClassCategory = ({ categoryType }: ICategorySet) => {
         <Li>
           <span
             className={` ${
-              classtype.classCategoryType === 1
+              classType.classCategoryType === 1
                 ? "text-[#1386e5] font-extrabold"
                 : "text-zinc-600"
             }`}
             onClick={() => {
-              classtype.updateCategory(1);
+              classType.updateCategory(1);
+              nav("/class");
             }}
           >
             개발·프로그래밍
@@ -44,12 +42,13 @@ export const ClassCategory = ({ categoryType }: ICategorySet) => {
         <Li>
           <span
             className={` ${
-              classtype.classCategoryType === 2
+              classType.classCategoryType === 2
                 ? "text-[#1386e5] font-extrabold"
                 : "text-zinc-600"
             }`}
             onClick={() => {
-              classtype.updateCategory(2);
+              classType.updateCategory(2);
+              nav("/class");
             }}
           >
             게임 개발
@@ -58,12 +57,13 @@ export const ClassCategory = ({ categoryType }: ICategorySet) => {
         <Li>
           <span
             className={` ${
-              classtype.classCategoryType === 3
+              classType.classCategoryType === 3
                 ? "text-[#1386e5] font-extrabold"
                 : "text-zinc-600"
             }`}
             onClick={() => {
-              classtype.updateCategory(3);
+              classType.updateCategory(3);
+              nav("/class");
             }}
           >
             인공지능
@@ -72,12 +72,13 @@ export const ClassCategory = ({ categoryType }: ICategorySet) => {
         <Li>
           <span
             className={` ${
-              classtype.classCategoryType === 4
+              classType.classCategoryType === 4
                 ? "text-[#1386e5] font-extrabold"
                 : "text-zinc-600"
             }`}
             onClick={() => {
-              classtype.updateCategory(4);
+              classType.updateCategory(4);
+              nav("/class");
             }}
           >
             보안·네트워크
@@ -87,7 +88,6 @@ export const ClassCategory = ({ categoryType }: ICategorySet) => {
     </div>
   );
 };
-
 const Li = styled.li`
   padding: 15px 10px;
   cursor: pointer;

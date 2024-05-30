@@ -6,6 +6,7 @@ import { fetchClass, fetchClassList } from "./hooks/useGetArray";
 import { ClassItem } from "./ClassItem";
 import { PageNation } from "./PageNation";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useClassCategory } from "hooks/ClassTypeProvider";
 
 export interface IClassType {
   classId: number;
@@ -22,22 +23,24 @@ export interface IClassType {
   reviewScore: number | undefined;
   name: string;
 }
-
-export const ShowClass = () => {
-  const postLimit = 9;
-  const [page, setPage] = useState(1);
-
-  const pageOfLast = page * postLimit; // 페이지마다 마지막 포스트 위치
-  const pageOfFirst = pageOfLast - postLimit; // 페이지마다 첫 포스트 위치
+interface IShowClass {
+  categoryType: number;
+}
+export const ShowClass = ({ categoryType }: IShowClass) => {
+  // const postLimit = 9;
+  // const [page, setPage] = useState(1);
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["classListAll"],
-    queryFn: fetchClassList,
+    queryFn: () => fetchClassList(categoryType),
   });
   if (isLoading) {
     return <div>로딩중</div>;
   }
-  console.log(data);
+  if (isError) {
+    return <span>{error.message}</span>;
+  }
+
   return (
     <div>
       <div className="grid grid-cols-3 gap-5 pt-5">

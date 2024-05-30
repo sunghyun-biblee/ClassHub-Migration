@@ -4,7 +4,7 @@ import { fetchClassList } from "component/class/hooks/useGetArray";
 export function useClassList() {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["classListAll"],
-    queryFn: fetchClassList,
+    queryFn: () => fetchClassList(0),
   });
   console.log(data);
   return {
