@@ -66,6 +66,10 @@ const requests = {
     postLike: "/favorite/community",
     commentLike: "/favorite/comment",
   },
+  user: {
+    updateUser: "/updateUserInfo",
+    updateUserImg: "/updateUserImage",
+  },
 };
 
 export default requests;

@@ -33,7 +33,6 @@ export const OrderPage = () => {
     queryKey: ["orderList"],
     queryFn: () => getOrderList(userData.userId),
   });
-  console.log(data);
 
   if (isLoading) {
     return <div>로딩중</div>;
@@ -55,8 +54,9 @@ export const OrderPage = () => {
       alert("로그인 후 이용가능합니다");
       return;
     }
+    console.log(data);
 
-    if (data && data.length <= 1) {
+    if (data && data.length >= 1) {
       const IMP = window.IMP;
       IMP.init(impCode);
       const TestPrice = 100;
@@ -64,8 +64,8 @@ export const OrderPage = () => {
         (total, item) => total + item.classResponseDTO.price,
         0
       );
-      const paymentNumber = data[0].classResponseDTO.className;
-      const merchantUid = `${paymentNumber}_${new Date().getTime()}`;
+      // const paymentNumber = data[0].classResponseDTO.className;
+      const merchantUid = `${new Date().getTime()}+1`;
       const requestName =
         data && data.length === 1
           ? data[0].classResponseDTO.className
@@ -105,7 +105,7 @@ export const OrderPage = () => {
               pay_method: "card", //결제수단
               merchant_uid: merchantUid, // 주문번호
               name: requestName, //주문명
-              amount: TestPrice, //결제금액
+              amount: payPrice, //결제금액
               buyer_email: userData.email, //구매자 이메일
               buyer_name: userData.name, // 구매자 이름
               buyer_tel: "010-0000-0000", // 구매자 번호
@@ -128,13 +128,16 @@ export const OrderPage = () => {
       border-dashed py-5 px-3 shadow-md"
       >
         <article className="flex flex-col ">
-          <b className="pb-5 ">주문자명 : {userData.name}</b>
-          <strong className="mb-2 py-2 bg-blue-400/30 rounded-md px-2 shadow-sm">
+          <b className="pb-5 ">주문자명 : {userData && userData.name}</b>
+          <strong className=" py-2 bg-blue-400/30 rounded-md px-2 shadow-sm">
             주문 상품
           </strong>
           <div className="max-h-[50dvh]">
             {data?.map((item) => (
-              <div className="border-[1px] p-2 shadow-md rounded-md">
+              <div
+                className="border-[1px] p-2 shadow-md rounded-md mt-3"
+                key={item.orderDetailId + item.classResponseDTO.className}
+              >
                 <div className="flex justify-between">
                   <img
                     src={preview}
@@ -144,7 +147,7 @@ export const OrderPage = () => {
                   <ul className="text-right">
                     <li className="py-1">
                       <span className="text-gray-400 font-semibold">
-                        주문번호 &nbsp;{item.ordersId}
+                        주문번호 &nbsp;{item.orderDetailId}
                       </span>
                     </li>
                     <li className="py-1">
@@ -164,7 +167,8 @@ export const OrderPage = () => {
             <li className="flex justify-between py-1">
               <b>주문명</b>
               <strong>
-                {data && data[0].classResponseDTO.className} 외 {data?.length}건
+                {data && data[0].classResponseDTO.className} 외{" "}
+                {data && data?.length - 1}건
               </strong>
             </li>
             <li className="flex justify-between py-1">
