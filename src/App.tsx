@@ -37,6 +37,8 @@ import { OrderPage } from "component/cart/OrderPage";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { fetchUserData } from "hooks/fetchUserData";
 import { ModifyPost } from "component/community/modifyPost/ModifyPost";
+import { ClassTypeProvider } from "hooks/ClassTypeProvider";
+import { SearchPage } from "component/class/searchpage/SearchPage";
 
 const cliendtId =
   "386437749459-jjvcsk0qiqdg429e7ihbkhu411b21l0c.apps.googleusercontent.com";
@@ -80,93 +82,99 @@ function App() {
     <GoogleOAuthProvider clientId={cliendtId}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <div className="min-h-[100vh] flex flex-col ">
-            <Routes>
-              <Route path="/" element={<LayOut />}>
-                <Route index element={<MainPage />}></Route>
-                <Route path="mypage" element={<Mypage></Mypage>}>
-                  <Route index element={<MypageHome />}></Route>
+          <ClassTypeProvider>
+            <div className="min-h-[100vh] flex flex-col ">
+              <Routes>
+                <Route path="/" element={<LayOut />}>
+                  <Route index element={<MainPage />}></Route>
+                  <Route path="mypage" element={<Mypage></Mypage>}>
+                    <Route index element={<MypageHome />}></Route>
+                    <Route
+                      index
+                      path="profile"
+                      element={<Profile></Profile>}
+                    ></Route>
+                    <Route
+                      index
+                      path="management"
+                      element={<ManageMent></ManageMent>}
+                    ></Route>
+                    <Route
+                      index
+                      path="application"
+                      element={<Application></Application>}
+                    ></Route>
+                    <Route
+                      index
+                      path="dashboard"
+                      element={<Dashboard></Dashboard>}
+                    ></Route>
+                    <Route
+                      index
+                      path="teacherpage"
+                      element={<TeacherPage></TeacherPage>}
+                    ></Route>
+                    <Route
+                      index
+                      path="teacherpage/addClass"
+                      element={<AddClass></AddClass>}
+                    ></Route>
+                    <Route
+                      index
+                      path="mycommu"
+                      element={<MyCommu></MyCommu>}
+                    ></Route>
+                  </Route>
+                  <Route path="community" element={<Community></Community>}>
+                    {/* <Route index element={<ShowCommuList />}></Route> */}
+                    <Route
+                      index
+                      path=":category"
+                      element={<ShowCommuList />}
+                    ></Route>
+                    <Route path="addpost" element={<AddPost></AddPost>}></Route>
+                    <Route
+                      path="modifyPost/:category/:postId"
+                      element={<ModifyPost></ModifyPost>}
+                    ></Route>
+                  </Route>
+                  <Route path="class" element={<Class></Class>}></Route>
                   <Route
-                    index
-                    path="profile"
-                    element={<Profile></Profile>}
+                    path="class/:search"
+                    element={<SearchPage></SearchPage>}
                   ></Route>
                   <Route
-                    index
-                    path="management"
-                    element={<ManageMent></ManageMent>}
+                    path="class/:classId"
+                    element={<ClassDetail></ClassDetail>}
                   ></Route>
                   <Route
-                    index
-                    path="application"
-                    element={<Application></Application>}
+                    path="community/:category/:commuId"
+                    element={<CommuDetail></CommuDetail>}
+                  ></Route>
+                  <Route path="signIn" element={<LoginPage />}></Route>
+                  <Route
+                    path="learn/:classId"
+                    element={<LearningPage></LearningPage>}
                   ></Route>
                   <Route
-                    index
-                    path="dashboard"
-                    element={<Dashboard></Dashboard>}
+                    path="learnplay/:classId/:videoId"
+                    element={<LearnPlayer></LearnPlayer>}
                   ></Route>
-                  <Route
-                    index
-                    path="teacherpage"
-                    element={<TeacherPage></TeacherPage>}
-                  ></Route>
-                  <Route
-                    index
-                    path="teacherpage/addClass"
-                    element={<AddClass></AddClass>}
-                  ></Route>
-                  <Route
-                    index
-                    path="mycommu"
-                    element={<MyCommu></MyCommu>}
-                  ></Route>
+                  <Route path="cart" element={<Cart></Cart>}>
+                    <Route index element={<CartList></CartList>}></Route>
+                    <Route
+                      index
+                      path="order"
+                      element={<OrderPage></OrderPage>}
+                    ></Route>
+                    <Route index path=""></Route>
+                  </Route>
                 </Route>
-                <Route path="community" element={<Community></Community>}>
-                  {/* <Route index element={<ShowCommuList />}></Route> */}
-                  <Route
-                    index
-                    path=":category"
-                    element={<ShowCommuList />}
-                  ></Route>
-                  <Route path="addpost" element={<AddPost></AddPost>}></Route>
-                  <Route
-                    path="modifyPost/:category/:postId"
-                    element={<ModifyPost></ModifyPost>}
-                  ></Route>
-                </Route>
-                <Route path="class" element={<Class></Class>}></Route>
-                <Route
-                  path="class/:classId"
-                  element={<ClassDetail></ClassDetail>}
-                ></Route>
-                <Route
-                  path="community/:category/:commuId"
-                  element={<CommuDetail></CommuDetail>}
-                ></Route>
-                <Route path="signIn" element={<LoginPage />}></Route>
-                <Route
-                  path="learn/:classId"
-                  element={<LearningPage></LearningPage>}
-                ></Route>
-                <Route
-                  path="learnplay/:classId/:videoId"
-                  element={<LearnPlayer></LearnPlayer>}
-                ></Route>
-                <Route path="cart" element={<Cart></Cart>}>
-                  <Route index element={<CartList></CartList>}></Route>
-                  <Route
-                    index
-                    path="order"
-                    element={<OrderPage></OrderPage>}
-                  ></Route>
-                  <Route index path=""></Route>
-                </Route>
-              </Route>
-            </Routes>
-          </div>
-          {!footerHiddenArray.includes(pathData) && <Footer></Footer>}
-          <ReactQueryDevtools></ReactQueryDevtools>
+              </Routes>
+            </div>
+            {!footerHiddenArray.includes(pathData) && <Footer></Footer>}
+            <ReactQueryDevtools></ReactQueryDevtools>
+          </ClassTypeProvider>
         </AuthProvider>
       </QueryClientProvider>
     </GoogleOAuthProvider>
