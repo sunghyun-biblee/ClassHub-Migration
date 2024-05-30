@@ -16,11 +16,21 @@ export async function fetchClass() {
   newClassArr = classArr.slice();
   return newClassArr;
 }
-export async function fetchClassList() {
+export async function fetchClassList(categoryType: number) {
   try {
-    const res = await axios.get(requests.lecture.getAllLecture);
-    console.log(res.data);
-    return res.data;
+    if (categoryType === 0) {
+      const res = await axios.get(requests.lecture.getAllLecture);
+      console.log(res.data);
+      return res.data;
+    } else {
+      const res = await axios.get(requests.lecture.getLectureListCategory, {
+        params: {
+          categoryId: categoryType,
+        },
+      });
+      console.log(res);
+      return res.data;
+    }
   } catch (error) {
     console.log(error);
   }
