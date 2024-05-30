@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import myIMG from "assets/img/preview.jpg";
 
 export const Profile = () => {
-  const [isEdit, setIseEdit] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [editName, setEditName] = useState("");
+
   const email = "admin20240509@classhub.co.kr123123123123123";
 
   return (
@@ -45,9 +47,24 @@ export const Profile = () => {
                 </span>
               </li>
             </ul>
-            <li>
-              <div
-                className="justify-between mysm:flex 
+            {isEdit ? (
+              <li className="flex">
+                <button
+                  className="border-[1px] py-1 px-2.5 rounded-xl
+                shadow-[0px_1px_10px_rgba(149,157,165,0.3)]
+               md:max-w-[100%]
+               mysm:max-w-26
+               md:font-normal
+               mysm:font-semibold"
+                  onClick={() => setIsEdit((prev) => !prev)}
+                >
+                  수정완료
+                </button>
+              </li>
+            ) : (
+              <li>
+                <div
+                  className="justify-between mysm:flex 
                 md:flex-row
                 mysm:flex-col
                 md:static
@@ -57,19 +74,20 @@ export const Profile = () => {
               right-0 
               lg:gap-4
               "
-              >
-                <button
-                  className="border-[1px] py-1 px-2.5 rounded-xl
+                >
+                  <button
+                    className="border-[1px] py-1 px-2.5 rounded-xl
                 shadow-[0px_1px_10px_rgba(149,157,165,0.3)]
                md:max-w-[100%]
                mysm:max-w-26
                md:font-normal
                mysm:font-semibold"
-                >
-                  수정하기
-                </button>
-                <button
-                  className="border-[1px] py-1 px-2.5 rounded-xl
+                    onClick={() => setIsEdit((prev) => !prev)}
+                  >
+                    수정하기
+                  </button>
+                  <button
+                    className="border-[1px] py-1 px-2.5 rounded-xl
                 shadow-[0px_1px_10px_rgba(149,157,165,0.3)]
                md:max-w-[100%]
                mysm:max-w-26
@@ -79,22 +97,23 @@ export const Profile = () => {
                mysm:mt-4
              
                 "
-                >
-                  비밀번호 수정 및 찾기
-                </button>
-                <button
-                  className="border-[1px] py-1 px-2.5 rounded-xl
+                  >
+                    비밀번호 수정 및 찾기
+                  </button>
+                  <button
+                    className="border-[1px] py-1 px-2.5 rounded-xl
                 shadow-[0px_1px_10px_rgba(149,157,165,0.3)] bg-red-300 font-semibold
                 md:max-w-[100%]
                mysm:max-w-26
                md:mt-0
                mysm:mt-4
                 "
-                >
-                  회원탈퇴
-                </button>
-              </div>
-            </li>
+                  >
+                    회원탈퇴
+                  </button>
+                </div>
+              </li>
+            )}
           </ul>
         </article>
         <article>

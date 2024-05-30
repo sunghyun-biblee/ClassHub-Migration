@@ -3,6 +3,10 @@ import React from "react";
 import { getOrderList } from "./hooks/getOrderList";
 import { useAuth } from "hooks/AuthProvider";
 import preview from "assets/img/preview.jpg";
+import { RequestPayResponse, impCode } from "api/payment";
+import axios from "api/axios";
+import requests from "api/requests";
+
 interface orderItemType {
   orderDetailId: number;
   ordersId: number;
@@ -46,13 +50,82 @@ export const OrderPage = () => {
       return totalPrice.toLocaleString();
     }
   };
+  const handlePayMent = async () => {
+    if (!userData.userId) {
+      alert("로그인 후 이용가능합니다");
+      return;
+    }
+
+    if (data && data.length <= 1) {
+      const IMP = window.IMP;
+      IMP.init(impCode);
+      const TestPrice = 100;
+      const payPrice = data.reduce(
+        (total, item) => total + item.classResponseDTO.price,
+        0
+      );
+      const paymentNumber = data[0].classResponseDTO.className;
+      const merchantUid = `${paymentNumber}_${new Date().getTime()}`;
+      const requestName =
+        data && data.length === 1
+          ? data[0].classResponseDTO.className
+          : data[0].classResponseDTO.className + `외 ${data.length - 1} 건`;
+
+      const callback = async (res: RequestPayResponse) => {
+        if (res.success) {
+          // 결제 성공시 처리
+          try {
+            const { imp_uid, merchant_uid } = res;
+            console.log(imp_uid);
+            const completePayment = await axios.post(
+              requests.payment.addPaymentInfo,
+              { imp_uid: imp_uid }
+            );
+            console.log(completePayment);
+            alert("결제가 완료되었습니다.");
+          } catch (error) {
+            console.log(error);
+          }
+        } else {
+          // 결제 실패시 처리
+        }
+      };
+
+      try {
+        const prePareResponse = await axios.post(requests.payment.prepare, {
+          merchantUid: merchantUid,
+          amount: TestPrice,
+        });
+
+        if (prePareResponse.status === 200) {
+          IMP.request_pay(
+            {
+              // param
+              pg: "html5_inicis", //pg사
+              pay_method: "card", //결제수단
+              merchant_uid: merchantUid, // 주문번호
+              name: requestName, //주문명
+              amount: TestPrice, //결제금액
+              buyer_email: userData.email, //구매자 이메일
+              buyer_name: userData.name, // 구매자 이름
+              buyer_tel: "010-0000-0000", // 구매자 번호
+            },
+            callback
+          );
+        }
+      } catch (error) {
+        console.log("결제 시도중 오류 발생", error);
+        alert("결제 시도시 문제가 발생하였습니다.");
+      }
+    } else {
+      alert("IMP.init 초기화 과정에서 오류가 발생하였습니다.");
+    }
+  };
   return (
     <div className="flex justify-center items-center mt-10">
       <section
-        className=" border-[1px] w-[50%]
-      border-dashed py-5 px-3
-     
-      "
+        className=" border-2 w-[50%]
+      border-dashed py-5 px-3 shadow-md"
       >
         <article className="flex flex-col ">
           <b className="pb-5 ">주문자명 : {userData.name}</b>
@@ -99,7 +172,10 @@ export const OrderPage = () => {
               <strong>{renderTotalPrice()}원</strong>
             </li>
           </ul>
-          <button className="text-center w-[100%]  py-3 bg-blue-400 rounded-b-lg text-black/80 font-semibold text-lg">
+          <button
+            className="text-center w-[100%]  py-3 bg-blue-400 rounded-b-lg text-black/80 font-semibold text-lg"
+            onClick={handlePayMent}
+          >
             결제하기
           </button>
         </article>
