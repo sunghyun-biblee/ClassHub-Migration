@@ -5,7 +5,7 @@ import axios from "api/axios";
 import requests from "api/requests";
 import styled from "styled-components";
 
-interface paymentResType {
+export interface paymentResType {
   code: number;
   message: string | null;
   response: {
@@ -124,7 +124,7 @@ border-dashed py-5 px-3 shadow-md"
                     <Span>{data.response.cardNumber}</Span>
                   </Li>
                   <Li>
-                    <strong>결제일시:</strong>
+                    <strong>결제승인:</strong>
                     <Span>
                       {data.response.paidAt.split("T")[0]}&nbsp;:&nbsp;
                       {data.response.paidAt.split("T")[1].split(".")[0]}
