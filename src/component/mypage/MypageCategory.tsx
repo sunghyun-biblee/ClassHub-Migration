@@ -4,11 +4,16 @@ import preview from "assets/img/preview.jpg";
 import { Icon } from "./Icon";
 import { GradeUpBtn, handleClick } from "./GradeUpBtn";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { userType } from "hooks/fetchUserData";
 
-export const MypageCategory = () => {
+interface IMyCategoryType {
+  userData: userType;
+}
+
+export const MypageCategory = ({ userData }: IMyCategoryType) => {
   const nav = useNavigate();
   const { pathname } = useLocation();
-
+  console.log(userData);
   let stylePath = pathname.split("/")[2];
   if (stylePath === undefined) {
     stylePath = "home";
@@ -16,7 +21,18 @@ export const MypageCategory = () => {
 
   const teacherDataString = localStorage.getItem("teacher");
   const teacherData = teacherDataString ? JSON.parse(teacherDataString) : null;
-  console.log(teacherData);
+  const renderUserType = () => {
+    if (userData) {
+      switch (userData.role) {
+        case "1":
+          return "학생";
+        case "2":
+          return "강사";
+        default:
+          break;
+      }
+    }
+  };
   return (
     <CategoryContainer
       className="lg:px-4 lg:py-3 md:px-2 md:py-2 border-[1px] rounded-lg lg:mr-3 mysm:mx-1 lg:block mysm:grid md:grid-cols-[1fr,3fr] mysm:grid-cols-[1.6fr,3fr]
@@ -31,8 +47,8 @@ export const MypageCategory = () => {
         onClick={() => nav("/mypage")}
       >
         <div className="flex flex-col  justify-between py-1">
-          <h1 className="font-semibold">Admin</h1>
-          <p className="text-gray-400 font-semibold">학생</p>
+          <h1 className="font-semibold">{userData && userData.name}</h1>
+          <p className="text-gray-400 font-semibold">{renderUserType()}</p>
         </div>
         <img
           src={preview}
