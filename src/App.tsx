@@ -102,7 +102,7 @@ function App() {
                     ></Route>
                     <Route
                       index
-                      path="application"
+                      path="paymented"
                       element={<Application></Application>}
                     ></Route>
                     <Route

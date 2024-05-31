@@ -159,15 +159,15 @@ export const MypageCategory = ({ userData }: IMyCategoryType) => {
         >
           <button
             className="flex items-center md:text-base mysm:text-[13px]"
-            id="application"
+            id="paymented"
           >
-            <Icon category={stylePath} id="application"></Icon>
+            <Icon category={stylePath} id="paymented"></Icon>
             <p
               className={
-                stylePath === "application" ? "text-blue-500 font-semibold" : ""
+                stylePath === "paymented" ? "text-blue-500 font-semibold" : ""
               }
             >
-              <Link to={"/mypage/application"}>수강신청 관리</Link>
+              <Link to={"/mypage/paymented"}>구매내역</Link>
             </p>
           </button>
         </Li>

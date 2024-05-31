@@ -1,3 +1,4 @@
+import { fetchPaymentedList } from "component/community/hooks/fetchCommuArray";
 import React from "react";
 
 export const ApplicationNav = () => {
@@ -10,9 +11,9 @@ export const ApplicationNav = () => {
       mysm:grid-cols-[0.5fr,1.3fr,0.7fr,0.7fr,0.5fr,0.8fr]
        py-[5px] text-center text-blue-950 font-semibold md:text-base mysm:text-sm"
       >
-        <li className="px-[5px]">관심</li>
-        <li className="px-[5px]">강의 이름</li>
-        <li className="px-[5px]">강사명</li>
+        <li className="px-[5px]">주문번호</li>
+        <li className="px-[5px]">결제 상품</li>
+        <li className="px-[5px]">결제 월일</li>
         <li className="px-[5px]">가격</li>
         <li className="px-[5px] md:block mysm:hidden">구매여부</li>
         <li className="px-[5px] md:hidden mysm:block">구매</li>

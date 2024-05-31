@@ -2,44 +2,36 @@ import React, { useEffect, useState } from "react";
 import right from "assets/img/carousel/rigthArrow.svg";
 import { ApplicationItem } from "./ApplicationItem";
 import { PageNation } from "component/class/PageNation";
+import { useQuery } from "@tanstack/react-query";
+import { fetchPaymentedList } from "component/community/hooks/fetchCommuArray";
+import { useAuth } from "hooks/AuthProvider";
+import { paymentResType } from "component/cart/PaymentedPage";
 
-type IShowListProp = {
-  filter: string;
+export type paymentedItemType = {
+  ordersId: number;
+  userId: number;
+  orderName: string;
+  totalPrice: number;
+  finalOrderStatus: number;
+  regdate: string;
 };
-export const ShowList = ({ filter }: IShowListProp) => {
+export type paymentedListType = {
+  data: paymentedItemType[];
+};
+export const ShowList = () => {
+  const { userData } = useAuth();
   const [propsArray, setPropsArray] = useState(examApp);
-  const [page, setPage] = useState(1);
-  const postLimit = 5;
-  const pageOfLast = page * postLimit; // 페이지마다 마지막 포스트 위치
-  const pageOfFirst = pageOfLast - postLimit; // 페이지마다 첫 포스트 위치
 
-  useEffect(() => {
-    switch (filter) {
-      case "all":
-        setPropsArray(examApp);
-        break;
-      case "cart":
-        break;
-      case "likeClass":
-        const likeFilterArray = examApp.filter((app) => app.likes === true);
-        setPropsArray(likeFilterArray);
-        break;
-      case "paymented":
-        const paymentFilterArray = examApp.filter(
-          (app) => app.payment === true
-        );
-        setPropsArray(paymentFilterArray);
-        break;
-      default:
-        console.log("Error");
-        break;
-    }
-  }, [filter]);
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["paymentedList"],
+    queryFn: () => fetchPaymentedList(userData.userId),
+  });
+  console.log(data);
   return (
     <div>
       <div>
-        {propsArray.slice(pageOfFirst, pageOfLast).map((item) => (
-          <ApplicationItem item={item} key={item.id}></ApplicationItem>
+        {data?.data.map((item: paymentedItemType) => (
+          <ApplicationItem data={item} key={item.ordersId}></ApplicationItem>
         ))}
       </div>
       {/* <PageNation

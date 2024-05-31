@@ -1,18 +1,20 @@
 import React from "react";
 import { HeartSVG } from "./HeartSVG";
+import { paymentResType } from "component/cart/PaymentedPage";
+import { paymentedItemType } from "./ShowList";
+import { useQueryClient } from "@tanstack/react-query";
 interface IApplicationItemProp {
-  item: {
-    id: string;
-    likes: boolean;
-    title: string;
-    name: string;
-    price: string;
-    payment: boolean;
-    detail: string;
-  };
+  data: paymentedItemType;
 }
 
-export const ApplicationItem = ({ item }: IApplicationItemProp) => {
+export const ApplicationItem = ({ data }: IApplicationItemProp) => {
+  const queryClient = useQueryClient();
+
+  queryClient.prefetchQuery({
+    queryKey: ["paymented"],
+    // queryFn: () => PaymentedItem(id),
+  });
+
   return (
     <div className=" border-[1px] py-2 px-1 mb-3 rounded-md ">
       <ul
@@ -23,22 +25,22 @@ export const ApplicationItem = ({ item }: IApplicationItemProp) => {
        text-center"
       >
         <li className="px-[5px] flex justify-center">
-          <HeartSVG likes={item.likes}></HeartSVG>
+          <span>{data.ordersId}</span>
         </li>
         <li className="whitespace-nowrap overflow-hidden text-ellipsis px-[5px]">
-          <span>{item.title}</span>
+          <span>{data.orderName}</span>
         </li>
         <li className="px-[5px] flex justify-center items-center">
-          <p>{item.name}</p>
+          <p>{data.regdate.split("T")[0]}</p>
         </li>
         <li className="px-[5px] md:text-base mysm:text-sm flex justify-center items-center">
-          <p>{item.price}원</p>
+          <p>{data.totalPrice}원</p>
         </li>
         <li className="px-[5px] flex justify-center items-center">
-          <p>{item.payment ? "✅" : "❌"}</p>
+          <p>{data.finalOrderStatus === 1 ? "✅" : "❌"}</p>
         </li>
         <li className="px-[5px] flex justify-center items-center cursor-pointer">
-          <img src={item.detail} alt="" className="w-5" />
+          <p>{">"}</p>
         </li>
       </ul>
     </div>

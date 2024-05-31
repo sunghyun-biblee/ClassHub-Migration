@@ -34,6 +34,10 @@ export async function fetchCommuList(
 
   return data;
 }
+export async function fetchPaymentedList(userid: number) {
+  const data = await axios.get(`${requests.order.getOrderList}/${userid}`);
+  return data;
+}
 export async function fetchStudyList(page: number) {
   const data = await axios.get(requests.community.getStudyList);
   return data;
