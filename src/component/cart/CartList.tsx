@@ -8,6 +8,7 @@ import { getCartItemList } from "./hooks/getCartItemList";
 
 import { addOrder } from "./hooks/addOrder";
 import { cartClear, deleteCartItem } from "./hooks/deleteCartItem";
+import { deleteOrder } from "./hooks/deleteOrder";
 export const CartList = () => {
   const queryClient = useQueryClient();
   const { userData, userIsLoading, userIsError, userError } = useAuth();
@@ -41,10 +42,13 @@ export const CartList = () => {
   const handleToggleCheckbox = (item: CartItemType) => {
     if (selectItem.includes(item)) {
       // 이미 체크된 아이템일 경우 제거
+      deleteOrder(item.classId, userData.userId);
       setSelectItem(selectItem.filter((selectedItem) => selectedItem !== item));
       setSelectItemId(selectItemId.filter((id) => id !== item.classId));
     } else {
       // 체크되지 않은 아이템일 경우 추가
+
+      addOrder([...selectItemId, item.classId], userData.userId);
       setSelectItem([...selectItem, item]);
       setSelectItemId([...selectItemId, item.classId]);
     }
@@ -117,9 +121,12 @@ export const CartList = () => {
   const allSelect = () => {
     if (!isAllSelect && data) {
       setSelectItem([...data]);
+      let classids: number[] = [];
       data.map((item: CartItemType) => {
-        setSelectItemId((prev) => [...prev, item.classId]);
+        classids.push(item.classId);
       });
+      addOrder(classids, userData.userId);
+      setSelectItemId(classids);
       setIsAllSelect(true);
     } else {
       setSelectItem([]);
@@ -139,7 +146,7 @@ export const CartList = () => {
       return;
     }
     try {
-      addOrder(selectItemId, userData.userId);
+      // addOrder(selectItemId, userData.userId);
       nav("order");
     } catch (error) {
       console.log(error);

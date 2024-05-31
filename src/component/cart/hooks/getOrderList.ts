@@ -5,7 +5,9 @@ export async function getOrderList(userId: number) {
   console.log(userId);
   console.log(`${requests.order.getOrderProgressList}/${userId}`);
   try {
-    const res = await axios.get(`${requests.order.getOrderProgressList}/3`);
+    const res = await axios.get(
+      `${requests.order.getOrderProgressList}/${userId}`
+    );
     console.log(res);
 
     return res.data;

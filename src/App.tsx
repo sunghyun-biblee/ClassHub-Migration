@@ -121,6 +121,11 @@ function App() {
                     ></Route>
                     <Route
                       index
+                      path="teacherpage/editClass/:classid"
+                      element={<AddClass></AddClass>}
+                    ></Route>
+                    <Route
+                      index
                       path="mycommu"
                       element={<MyCommu></MyCommu>}
                     ></Route>

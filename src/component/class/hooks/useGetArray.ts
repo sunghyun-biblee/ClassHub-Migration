@@ -20,7 +20,6 @@ export async function fetchClassList(categoryType: number) {
   try {
     if (categoryType === 0) {
       const res = await axios.get(requests.lecture.getAllLecture);
-      console.log(res.data);
       return res.data;
     } else {
       const res = await axios.get(requests.lecture.getLectureListCategory, {
@@ -28,7 +27,6 @@ export async function fetchClassList(categoryType: number) {
           categoryId: categoryType,
         },
       });
-      console.log(res);
       return res.data;
     }
   } catch (error) {

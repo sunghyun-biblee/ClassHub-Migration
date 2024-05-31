@@ -24,7 +24,9 @@ mysm:grid-cols-[1fr,0.7fr,0.5fr,0.5fr] text-center items-center font-semibold te
           {item.title}
         </li>
         <li className="py-4">{item.registDate}</li>
-        <li className="py-4">{item.price}원</li>
+        <li className="py-4">
+          <Link to={`/mypage/teacherpage/editClass/${item.id}`}>{">"}</Link>
+        </li>
         <li className="flex justify-center py-4 cursor-pointer">
           <Link to={`/learn/${1}`} className="w-[100%] flex justify-center">
             {">"}

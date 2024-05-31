@@ -34,7 +34,7 @@ export const PCTpage = () => {
                 강의 제목
               </li>
               <li className="py-[5px]">날짜</li>
-              <li className="py-[5px]">가격</li>
+              <li className="py-[5px]">수정하기</li>
               <li className="py-[5px]">바로가기</li>
             </ul>
             <div className="flex flex-col gap-y-5">

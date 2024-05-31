@@ -65,21 +65,25 @@ export const OrderPage = () => {
         0
       );
       // const paymentNumber = data[0].classResponseDTO.className;
-      const merchantUid = `${new Date().getTime()}+1`;
+      const merchantUid = `${new Date().getTime()}+${data[0].classId}`;
       const requestName =
-        data && data.length === 1
-          ? data[0].classResponseDTO.className
-          : data[0].classResponseDTO.className + `외 ${data.length - 1} 건`;
+        data && data.length >= 2
+          ? data[0].classResponseDTO.className + `외 ${data.length - 1} 건`
+          : data[0].classResponseDTO.className;
 
       const callback = async (res: RequestPayResponse) => {
-        if (res.success) {
+        console.log(res);
+        if (res.success && userData.userId) {
           // 결제 성공시 처리
           try {
             const { imp_uid, merchant_uid } = res;
-            console.log(imp_uid);
+            const reqeustBody = {
+              userId: userData.userId,
+              impUid: imp_uid,
+            };
             const completePayment = await axios.post(
               requests.payment.addPaymentInfo,
-              { imp_uid: imp_uid }
+              reqeustBody
             );
             console.log(completePayment);
             alert("결제가 완료되었습니다.");
@@ -94,9 +98,9 @@ export const OrderPage = () => {
       try {
         const prePareResponse = await axios.post(requests.payment.prepare, {
           merchantUid: merchantUid,
-          amount: TestPrice,
+          amount: payPrice,
         });
-
+        console.log(prePareResponse);
         if (prePareResponse.status === 200) {
           IMP.request_pay(
             {
@@ -167,8 +171,11 @@ export const OrderPage = () => {
             <li className="flex justify-between py-1">
               <b>주문명</b>
               <strong>
-                {data && data[0].classResponseDTO.className} 외{" "}
-                {data && data?.length - 1}건
+                {data && data.length >= 2
+                  ? data[0].classResponseDTO.className +
+                    `외 ${data.length - 1} 건`
+                  : data && data[0].classResponseDTO.className}
+                건
               </strong>
             </li>
             <li className="flex justify-between py-1">
