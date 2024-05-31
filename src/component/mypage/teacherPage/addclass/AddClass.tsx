@@ -20,25 +20,40 @@ interface Thumbnail {
   preview: string | undefined;
   fileImg: File | null;
 }
+interface Material {
+  id: string;
+  material: File | null;
+}
+
+type sectionvideoArraytype = {
+  title: string;
+  videoLength: number;
+  video: string;
+};
+type sectionstype = {
+  sectionTitle: string;
+  videos: sectionvideoArraytype[];
+};
+
+let reqeustSections: sectionstype[] = [];
+
 let i = 0;
 export const AddClass = () => {
   const [isAddSectionOn, setIsAddSectionOn] = useState(true);
-
   const [classTitle, setClassTitle] = useState<string>("");
   const [classDescription, setClassDescription] = useState<string>("");
   const [overView, setOverView] = useState<string>("");
   const [thumbnail, setThumbnail] = useState<Thumbnail>();
-  const [category, SelectCategory] = useState<string>();
+  const [category, setCategory] = useState<number>();
   const [price, setPrice] = useState<number>();
-
   const [isEditSectionTitle, setIsEditSectionTitle] = useState(true);
   const [completeSectionArray, setCompleteSectionArray] =
     useState<SectionInfo[]>();
-  // [{ sectiontitle: "", videos: [] },]
+  const [isAddMaterial, setIsAddMaterial] = useState<boolean>(false);
   const [saveSectionTitle, setSaveSectionTitle] = useState<string>("");
   const [sectionArray, setSectionArray] = useState<SectionInfo[]>([]);
   const [uploadVideo, setUploadVideo] = useState<VideoInfo[]>([]);
-
+  const [materialArray, setMaterialArray] = useState<Material[]>([]);
   const [showTargetSection, setShowTartgetSection] = useState<number | null>(
     null
   );
@@ -137,21 +152,14 @@ export const AddClass = () => {
   console.log(completeSectionArray);
   console.log(uploadVideo);
   const postAddLecture = async () => {
-    type sectionvideoArraytype = {
-      title: string;
-      videoLength: number;
-      video: string;
-    };
-    type sectionstype = {
-      sectionTitle: string;
-      videos: sectionvideoArraytype[];
-    };
     const formData = new FormData();
-    let reqeustSections: sectionstype[] = [];
-
+    const requestMaterial = {
+      id: 123,
+      files: [...materialArray],
+    };
     const request = {
       instructorsId: 6,
-      categoryId: 1,
+      categoryId: category,
       thumnail: thumbnail?.preview,
       className: classTitle,
       description: classDescription,
@@ -183,21 +191,6 @@ export const AddClass = () => {
           videos: sectionArray,
         });
       });
-      // const sectiontitle = completeSectionArray[0].sectiontitle;
-      // completeSectionArray[0].videos.map((item) => {
-      //   if (item.video) {
-      //     sectionArray.push({
-      //       title: item.VideoTitle,
-      //       video: item.video?.name,
-      //       video_length: item.videoLength,
-      //     });
-      //   }
-      // });
-
-      // const sections = {
-      //   title: sectiontitle,
-      //   videos: newArray,
-      // };
 
       const sectionsArray = {
         title: classTitle,
@@ -209,6 +202,7 @@ export const AddClass = () => {
         "sections",
         new Blob([JSON.stringify(sectionsArray)], { type: "application/json" })
       );
+
       completeSectionArray.map((item) =>
         item.videos.map((item) => {
           if (item.video !== null) {
@@ -232,12 +226,38 @@ export const AddClass = () => {
           "Content-Type": "multipart/form-data",
         },
       });
+      const materialRes = await axios.post(
+        requests.lecture.addLectureMaterial,
+        requestMaterial
+      );
+
       console.log(res);
+      console.log(materialRes);
     } catch (error) {
       console.log(error);
     }
   };
-
+  const handleChangeCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCategory(parseInt(e.target.value));
+  };
+  const changeChangeMaterial = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const value = {
+        id: `material${new Date().getTime()}${i}`,
+        material: e.target.files[0],
+      };
+      setMaterialArray((prev) => [...prev, value]);
+      i++;
+    }
+  };
+  const handleDeleteMaterial = (materialId: string) => {
+    if (materialId) {
+      const newMaterialArr = materialArray.filter(
+        (item) => item.id !== materialId
+      );
+      setMaterialArray(newMaterialArr);
+    }
+  };
   return (
     <div
       className="border-[1px] lg:m-0 mysm:m-1 shadow-[0px_8px_24px_rgba(149,157,165,0.3)] rounded-lg
@@ -249,7 +269,7 @@ md:mt-2
         <article className="p-3 flex flex-col justify-between">
           <ul className=" flex flex-col">
             <li className="py-2">
-              <h1 className="py-[2px]">강의 제목</h1>
+              <h1 className="py-[2px] font-extrabold">강의 제목</h1>
               <input
                 type="text"
                 name=""
@@ -260,7 +280,7 @@ md:mt-2
               />
             </li>
             <li className="py-2">
-              <h1 className="py-[2px]">요약 설명</h1>
+              <h1 className="py-[2px] font-extrabold">요약 설명</h1>
               <textarea
                 name=""
                 id=""
@@ -270,7 +290,7 @@ md:mt-2
               ></textarea>
             </li>
             <li>
-              <h1 className="py-[2px]">상세정보</h1>
+              <h1 className="py-[2px] font-extrabold">상세정보</h1>
               <textarea
                 name=""
                 id=""
@@ -286,11 +306,23 @@ md:mt-2
                 className="hidden"
                 onChange={handleChangeThumbnail}
               />
-              <label htmlFor="thumbnail" className="block py-1 ">
-                썸네일 등록
-              </label>
+              <div className="flex justify-between items-center my-1">
+                <h1 className="font-extrabold">썸네일 등록</h1>
+                <label
+                  htmlFor="thumbnail"
+                  className="block py-1 border-[1px] px-2
+                    bg-[#3B82F6]
+                    text-white
+                    text-sm
+                    font-semibold
+                    rounded-md
+                     "
+                >
+                  {thumbnail ? "재등록" : "추가"}
+                </label>
+              </div>
               {thumbnail && (
-                <div className="py-2">
+                <div className="border-[1px] rounded-lg">
                   <img
                     src={thumbnail.preview}
                     alt="thumbnail"
@@ -303,11 +335,15 @@ md:mt-2
           <ul className="pt-3">
             <li className="flex justify-between py-2 px-1">
               <span>카테고리</span>
-              <select name="category" id="classCategory">
-                <option value="devProgram">개발·프로그래밍</option>
-                <option value="devGame">게임 개발</option>
-                <option value="ai">인공지능</option>
-                <option value="security">보안·네트워크</option>
+              <select
+                name="category"
+                id="classCategory"
+                onChange={handleChangeCategory}
+              >
+                <option value="1">개발·프로그래밍</option>
+                <option value="2">게임 개발</option>
+                <option value="3">인공지능</option>
+                <option value="4">보안·네트워크</option>
               </select>
             </li>
             <li className="flex justify-between py-2 px-1">
@@ -353,116 +389,162 @@ md:mt-2
                   </button>
                 )}
               </div>
-              {completeSectionArray?.map((section, index) => (
-                <div className="px-3">
-                  <div
-                    className="flex justify-between py-1 border-[1px] px-2 rounded-sm"
-                    onClick={() => handleClickShowSection(index)}
-                  >
-                    <h1 key={section.sectiontitle + index}>
-                      섹션{index}.{section.sectiontitle}
-                    </h1>
-                    <img
-                      src={left}
-                      alt="dropDown"
-                      className={` w-5 cursor-pointer transition-transform ${
-                        showTargetSection === index ? "rotate-90" : "-rotate-90"
-                      } `}
-                    />
-                  </div>
-                  <ul
-                    className={`px-2 ${
-                      showTargetSection === index ? "block" : "hidden"
-                    } `}
-                  >
-                    {section.videos.map((item) => (
-                      <li className="flex justify-between py-1">
-                        <span className="overflow-hidden whitespace-nowrap text-ellipsis max-w-32">
-                          {item.VideoTitle}
-                        </span>
-                        <span>{formatVideoDuration(item.videoLength)}</span>
-                      </li>
-                    ))}
-                  </ul>
+              <div id="completeLecture" className="h-[90%]">
+                <div
+                  id="completeSectionArray"
+                  className="h-[55%] border-b-[1px]"
+                >
+                  {completeSectionArray?.map((section, index) => (
+                    <div className="px-3">
+                      <div
+                        className="flex justify-between py-1 border-[1px] px-2 rounded-sm"
+                        onClick={() => handleClickShowSection(index)}
+                      >
+                        <h1 key={section.sectiontitle + index}>
+                          섹션{index}.{section.sectiontitle}
+                        </h1>
+                        <img
+                          src={left}
+                          alt="dropDown"
+                          className={` w-5 cursor-pointer transition-transform ${
+                            showTargetSection === index
+                              ? "rotate-90"
+                              : "-rotate-90"
+                          } `}
+                        />
+                      </div>
+                      <ul
+                        className={`px-2 ${
+                          showTargetSection === index ? "block" : "hidden"
+                        } `}
+                      >
+                        {section.videos.map((item) => (
+                          <li className="flex justify-between py-1">
+                            <span className="overflow-hidden whitespace-nowrap text-ellipsis max-w-32">
+                              {item.VideoTitle}
+                            </span>
+                            <span>{formatVideoDuration(item.videoLength)}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
                 </div>
-              ))}
+                <div id="completeMaterial">
+                  <div className="px-4 py-2 flex flex-col justify-between">
+                    <div className="flex items-center justify-between">
+                      <h1 className="font-extrabold">등록된 강의 자료</h1>
+                      <input
+                        type="file"
+                        id="material"
+                        className="hidden"
+                        onChange={changeChangeMaterial}
+                      />
+                      <label
+                        onClick={addSession}
+                        htmlFor="material"
+                        className="border-[1px] px-2 py-1 bg-[#3B82F6] text-white font-semibold rounded-md
+                    "
+                      >
+                        추가
+                      </label>
+                    </div>
+                    <ul className="mt-1">
+                      {materialArray?.map((item) => (
+                        <li className="py-1 flex justify-between items-center border-b-[1px]">
+                          <span className="w-[150px] overflow-hidden whitespace-nowrap text-ellipsis">
+                            {item.material?.name}
+                          </span>
+                          <button
+                            className="font-extrabold text-red-500"
+                            onClick={() => handleDeleteMaterial(item.id)}
+                          >
+                            {"X"}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
             <div className="h-[100%]">
-              {sectionArray?.map((section, index) => (
-                <div
-                  className="flex px-2 py-1"
-                  key={`class${section.sectiontitle}`}
-                >
-                  <div className="flex flex-col w-[100%]">
-                    <div className="flex p-2 justify-between items-center">
-                      {isEditSectionTitle ? (
-                        <>
-                          <div className="flex items-center">
-                            <h1 className="font-semibold">섹션명</h1>
-                            <input
-                              type="text"
-                              id={`section${index}`}
-                              className="border-[1px] px-1 py-1 ml-2 rounded-md
+              {!isAddSectionOn &&
+                sectionArray?.map((section, index) => (
+                  <div
+                    className="flex px-2 py-1 h-[100%]"
+                    key={`class${section.sectiontitle}`}
+                  >
+                    <div className="flex flex-col w-[100%]">
+                      <div className="flex p-2 justify-between items-center">
+                        {isEditSectionTitle ? (
+                          <>
+                            <div className="flex items-center">
+                              <h1 className="font-semibold">섹션명</h1>
+                              <input
+                                type="text"
+                                id={`section${index}`}
+                                className="border-[1px] px-1 py-1 ml-2 rounded-md
                               w-[170px] text-sm
                               "
-                              value={saveSectionTitle}
-                              onChange={handleSectionTitleChange}
-                              placeholder="섹션명을 입력해주세요"
-                            />
-                          </div>
-                          <div className="flex ">
-                            <button
-                              onClick={() => handleSaveSectionTitle(index)}
-                              className="px-3 py-1 border-[1px] rounded-md mr-2
+                                value={saveSectionTitle}
+                                onChange={handleSectionTitleChange}
+                                placeholder="섹션명을 입력해주세요"
+                              />
+                            </div>
+                            <div className="flex ">
+                              <button
+                                onClick={() => handleSaveSectionTitle(index)}
+                                className="px-3 py-1 border-[1px] rounded-md mr-2
                               bg-[#3B82F6] text-white font-semibold"
-                            >
-                              섹션명 저장
-                            </button>
-                            <button
-                              onClick={() => {
-                                setIsAddSectionOn(true);
-                                setSectionArray([]);
-                                setSaveSectionTitle("");
-                              }}
-                              className="px-3 py-1 border-[1px] rounded-md bg-[#B5B8BF] text-black/70 font-semibold"
-                            >
-                              취소
-                            </button>
-                          </div>
-                        </>
-                      ) : (
-                        <div className="flex justify-between items-center w-[100%]">
-                          <h1 className="font-semibold">
-                            섹션명 : {section.sectiontitle}
-                          </h1>
-                          <div>
-                            <button
-                              onClick={() => handleSaveSection(index)}
-                              className="px-3 py-1 border-[1px] rounded-md mr-2 bg-[#3B82F6] text-white font-semibold"
-                            >
-                              섹션 저장
-                            </button>
-                            <button
-                              onClick={() => setIsEditSectionTitle(true)}
-                              className="px-3 py-1 border-[1px] rounded-md 
+                              >
+                                섹션명 저장
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setIsAddSectionOn(true);
+                                  setSectionArray([]);
+                                  setSaveSectionTitle("");
+                                }}
+                                className="px-3 py-1 border-[1px] rounded-md bg-[#B5B8BF] text-black/70 font-semibold"
+                              >
+                                취소
+                              </button>
+                            </div>
+                          </>
+                        ) : (
+                          <div className="flex justify-between items-center w-[100%]">
+                            <h1 className="font-semibold">
+                              섹션명 : {section.sectiontitle}
+                            </h1>
+                            <div>
+                              <button
+                                onClick={() => handleSaveSection(index)}
+                                className="px-3 py-1 border-[1px] rounded-md mr-2 bg-[#3B82F6] text-white font-semibold"
+                              >
+                                섹션 저장
+                              </button>
+                              <button
+                                onClick={() => setIsEditSectionTitle(true)}
+                                className="px-3 py-1 border-[1px] rounded-md 
                             bg-[#B5B8BF] text-black/70 font-semibold"
-                            >
-                              섹션명 수정
-                            </button>
+                              >
+                                섹션명 수정
+                              </button>
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
+                        )}
+                      </div>
 
-                    <VideoInsert
-                      index={index}
-                      setUploadVideo={setUploadVideo}
-                      uploadVideo={uploadVideo}
-                      addVideoToSession={addVideoToSession}
-                    ></VideoInsert>
+                      <VideoInsert
+                        index={index}
+                        setUploadVideo={setUploadVideo}
+                        uploadVideo={uploadVideo}
+                        addVideoToSession={addVideoToSession}
+                      ></VideoInsert>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         </article>
