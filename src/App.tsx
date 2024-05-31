@@ -39,6 +39,7 @@ import { fetchUserData } from "hooks/fetchUserData";
 import { ModifyPost } from "component/community/modifyPost/ModifyPost";
 import { ClassTypeProvider } from "hooks/ClassTypeProvider";
 import { SearchPage } from "component/class/searchpage/SearchPage";
+import { PaymentedPage } from "component/cart/PaymentedPage";
 
 const cliendtId =
   "386437749459-jjvcsk0qiqdg429e7ihbkhu411b21l0c.apps.googleusercontent.com";
@@ -171,6 +172,11 @@ function App() {
                       index
                       path="order"
                       element={<OrderPage></OrderPage>}
+                    ></Route>
+                    <Route
+                      index
+                      path="order/paymented/:ordersId"
+                      element={<PaymentedPage></PaymentedPage>}
                     ></Route>
                     <Route index path=""></Route>
                   </Route>

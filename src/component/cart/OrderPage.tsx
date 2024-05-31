@@ -6,6 +6,7 @@ import preview from "assets/img/preview.jpg";
 import { RequestPayResponse, impCode } from "api/payment";
 import axios from "api/axios";
 import requests from "api/requests";
+import { useNavigate } from "react-router-dom";
 
 interface orderItemType {
   orderDetailId: number;
@@ -28,6 +29,7 @@ interface orderItemType {
   };
 }
 export const OrderPage = () => {
+  const nav = useNavigate();
   const { userData } = useAuth();
   const { data, isLoading, isError, error } = useQuery<orderItemType[], Error>({
     queryKey: ["orderList"],
@@ -59,7 +61,7 @@ export const OrderPage = () => {
     if (data && data.length >= 1) {
       const IMP = window.IMP;
       IMP.init(impCode);
-      const TestPrice = 100;
+
       const payPrice = data.reduce(
         (total, item) => total + item.classResponseDTO.price,
         0
@@ -87,6 +89,7 @@ export const OrderPage = () => {
             );
             console.log(completePayment);
             alert("결제가 완료되었습니다.");
+            nav(`paymented/${imp_uid}`);
           } catch (error) {
             console.log(error);
           }
