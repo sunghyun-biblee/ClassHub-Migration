@@ -51,8 +51,8 @@ export const MypageCategory = ({ userData }: IMyCategoryType) => {
           <p className="text-gray-400 font-semibold">{renderUserType()}</p>
         </div>
         <img
-          src={preview}
-          alt=""
+          src={userData && userData.profilePicture}
+          alt="userImg"
           className="object-cover md:w-[50%] mysm:w-[50%] rounded-2xl shadow-[0px_8px_24px_rgba(149,157,165,0.3)] 
           "
         />

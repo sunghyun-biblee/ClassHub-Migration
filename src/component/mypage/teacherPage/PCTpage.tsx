@@ -4,10 +4,33 @@ import { Header } from "../Header";
 import { TeacherHeader } from "./TeacherHeader";
 import { Item } from "../management/Item";
 import { RegistClassItem } from "./RegistClassItem";
+import { useQuery } from "@tanstack/react-query";
+import axios from "api/axios";
+import requests from "api/requests";
 
 export const PCTpage = () => {
-  const type = "management";
-
+  async function fetchLectureList(classid: number) {
+    try {
+      const res = await axios.get(
+        `${requests.lecture.getTargetLecture}/${classid}`
+      );
+      console.log(res);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["myLectureList"],
+    queryFn: () => fetchLectureList(2),
+  });
+  console.log(data);
+  if (isLoading) {
+    return <div>로딩중</div>;
+  }
+  if (isError) {
+    return <span>{error.message}</span>;
+  }
   return (
     <div className="mysm:hidden lg:block">
       <div
@@ -38,9 +61,7 @@ export const PCTpage = () => {
               <li className="py-[5px]">바로가기</li>
             </ul>
             <div className="flex flex-col gap-y-5">
-              {RegistItemArray.map((item) => (
-                <RegistClassItem item={item} key={item.id} />
-              ))}
+              {data && <RegistClassItem data={data} />}
             </div>
           </article>
         </section>
