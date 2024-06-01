@@ -7,29 +7,17 @@ import { RegistClassItem } from "./RegistClassItem";
 import { useQuery } from "@tanstack/react-query";
 import axios from "api/axios";
 import requests from "api/requests";
+import { useTargetLectureData } from "../hooks/useTargetLectureData";
 
 export const PCTpage = () => {
-  async function fetchLectureList(classid: number) {
-    try {
-      const res = await axios.get(
-        `${requests.lecture.getTargetLecture}/${classid}`
-      );
-      console.log(res);
-      return res.data;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["myLectureList"],
-    queryFn: () => fetchLectureList(2),
-  });
-  console.log(data);
-  if (isLoading) {
+  const { lectureData, lectureIsLoading, lectureIsError, lectureError } =
+    useTargetLectureData(120);
+  console.log(lectureData);
+  if (lectureIsLoading) {
     return <div>로딩중</div>;
   }
-  if (isError) {
-    return <span>{error.message}</span>;
+  if (lectureIsError) {
+    return <span>{lectureError?.message}</span>;
   }
   return (
     <div className="mysm:hidden lg:block">
@@ -56,12 +44,12 @@ export const PCTpage = () => {
               >
                 강의 제목
               </li>
-              <li className="py-[5px]">날짜</li>
+              <li className="py-[5px]">등록날짜</li>
+              <li className="py-[5px]">평점</li>
               <li className="py-[5px]">수정하기</li>
-              <li className="py-[5px]">바로가기</li>
             </ul>
             <div className="flex flex-col gap-y-5">
-              {data && <RegistClassItem data={data} />}
+              {lectureData && <RegistClassItem data={lectureData} />}
             </div>
           </article>
         </section>

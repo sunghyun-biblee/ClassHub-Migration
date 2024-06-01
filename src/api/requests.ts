@@ -33,6 +33,7 @@ const requests = {
     getTargetLectureDetail: "/lecture/selectClassDetail",
     getTargetLectureLearningData: "/lecture/selectLearningDasta",
     getLectureListCategory: "/lecture/selectByCategory",
+    getUpdateLectrueData: "/lecture/responseForUpdateVideo", //${classid}
   },
   comment: {
     addComment: "/comment/post",

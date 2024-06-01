@@ -16,7 +16,7 @@ type IclassInfo = {
   price: number;
   regdate: string | null;
   reviewScore: number;
-  summary: string | null;
+  summary: string;
   thumnail: File | null;
   totalVideoLength: number;
 };
@@ -30,7 +30,7 @@ type IClassDetail = {
   video: File | null;
   videoLenght: number;
 };
-interface IRegistClassProp {
+export interface IRegistClassProp {
   data: {
     classDetail: IClassDetail[][];
     classInfo: IclassInfo;
@@ -70,13 +70,11 @@ mysm:grid-cols-[1fr,0.7fr,0.5fr,0.5fr] text-center items-center font-semibold te
           {data.classInfo.className}
         </li>
         <li className="py-4">{data.classInfo.regdate?.split("T")[0]}</li>
-        <li className="py-4">
-          <Link to={`/mypage/teacherpage/editClass/${data.classInfo.classId}`}>
-            {">"}
-          </Link>
-        </li>
+        <li className="py-4">{data.classInfo.reviewScore}점</li>
         <li className="flex justify-center py-4 cursor-pointer">
-          <Link to={`/learn/${1}`} className="w-[100%] flex justify-center">
+          <Link
+            to={`/mypage/teacherpage/editClass/${data.classInfo.reviewScore}`}
+          >
             {">"}
           </Link>
         </li>

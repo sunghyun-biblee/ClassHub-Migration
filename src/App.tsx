@@ -40,6 +40,7 @@ import { ModifyPost } from "component/community/modifyPost/ModifyPost";
 import { ClassTypeProvider } from "hooks/ClassTypeProvider";
 import { SearchPage } from "component/class/searchpage/SearchPage";
 import { PaymentedPage } from "component/cart/PaymentedPage";
+import { EditClass } from "component/mypage/teacherPage/editClass/EditClass";
 
 const cliendtId =
   "386437749459-jjvcsk0qiqdg429e7ihbkhu411b21l0c.apps.googleusercontent.com";
@@ -115,6 +116,7 @@ function App() {
                       path="teacherpage"
                       element={<TeacherPage></TeacherPage>}
                     ></Route>
+
                     <Route
                       index
                       path="teacherpage/addClass"
@@ -123,7 +125,7 @@ function App() {
                     <Route
                       index
                       path="teacherpage/editClass/:classid"
-                      element={<AddClass></AddClass>}
+                      element={<EditClass></EditClass>}
                     ></Route>
                     <Route
                       index

@@ -11,31 +11,31 @@ export interface VideoInfo {
   videoLength: number;
 }
 
-interface SectionInfo {
+export interface SectionInfo {
   videosTotalLengths: number;
   sectiontitle: string;
   videos: VideoInfo[];
 }
-interface Thumbnail {
+export interface Thumbnail {
   preview: string | undefined;
   fileImg: File | null;
 }
-interface Material {
+export interface Material {
   id: string;
   material: File | null;
 }
 
-type sectionvideoArraytype = {
+export type sectionvideoArraytype = {
   title: string;
   videoLength: number;
   video: string;
 };
-type sectionstype = {
+export type sectionstype = {
   sectionTitle: string;
   videos: sectionvideoArraytype[];
 };
 
-let reqeustSections: sectionstype[] = [];
+export let reqeustSections: sectionstype[] = [];
 
 let i = 0;
 export const AddClass = () => {

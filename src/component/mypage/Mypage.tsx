@@ -24,10 +24,10 @@ export const Mypage = () => {
       queryKey: ["myCommu"],
       queryFn: () => fetchQuestionList(1),
     });
-    queryClient.prefetchQuery({
-      queryKey: ["myLectureList"],
-      queryFn: () => fetchMyLectureList(),
-    });
+    // queryClient.prefetchQuery({
+    //   queryKey: ["myLectureList"],
+    //   queryFn: () => fetchMyLectureList(),
+    // });
   }, [userData, queryClient]);
 
   return (
