@@ -11,13 +11,21 @@ import { formatVideoDuration } from "../addclass/VideoInsert";
 
 interface IUpdateVideo {
   seletedSection: editSectionInfo;
+  seledtEditSectionIndex: number;
   completeSectionArray: editSectionInfo[];
   setCompleteSectionArray: Dispatch<SetStateAction<editSectionInfo[]>>;
+  setSelectEditSection: (value: editSectionInfo) => void;
+  setSelectEditSectionIndex: (value: number) => void;
+  setIsEditSectionOn: (value: boolean) => void;
 }
 export const UpdateVideo = ({
   seletedSection,
+  seledtEditSectionIndex,
   completeSectionArray,
   setCompleteSectionArray,
+  setSelectEditSection,
+  setSelectEditSectionIndex,
+  setIsEditSectionOn,
 }: IUpdateVideo) => {
   const [editSectionTitle, setEditSectionTitle] = useState("");
   const [editSectionVideos, setEditSEctionVideos] = useState<resVideoInfo[]>(
@@ -31,14 +39,139 @@ export const UpdateVideo = ({
   const [isEditSectionTitle, setIsEditSectionTitle] = useState(true);
   console.log(seletedSection);
   console.log(completeSectionArray);
+  console.log(editSectionVideos);
   useEffect(() => {
     setEditSectionTitle(seletedSection.sectionTitle);
     setEditSEctionVideos([...seletedSection.videos]);
     setPrevVideoArray(seletedSection.videos);
   }, []);
-  console.log(editSectionVideos);
-  console.log(editSectionTitle);
-  console.log(isEditSectionTitle);
+  const handleLoadMetaData = () => {
+    if (videoRef.current) {
+      console.log("영상의 길이(초):", videoRef.current.duration);
+      setVideoLength(Math.round(videoRef.current.duration));
+    }
+  };
+  const handleVideoTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setVideoTitle(e.target.value);
+  };
+  const handleChangeVideoUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (editSectionVideos.length >= 3) {
+      alert("섹션당 최대 3개까지 등록가능합니다");
+      return;
+    }
+    if (e.target.files) {
+      const data = e.target.files[0];
+      const url = URL.createObjectURL(data);
+      console.log(url);
+      setVideoUrl(data);
+    }
+  };
+  const saveVideo = () => {
+    if (prevVideoArray.length >= 3) {
+      alert("섹션당 최대 3개까지 등록가능합니다");
+      return;
+    }
+    if (!videoTitle) {
+      alert("영상제목을 입력해주세요");
+      return;
+    }
+    if (!videoUrl) {
+      alert("영상을 선택해주세요");
+      return;
+    }
+    console.log(videoTitle);
+    console.log(videoUrl);
+    console.log(videoLength);
+    if (videoTitle && videoUrl && videoLength) {
+      if (editSectionVideos.length >= 1) {
+        setEditSEctionVideos([
+          ...editSectionVideos,
+          {
+            title: videoTitle,
+            video: videoUrl,
+            videoLength: videoLength,
+            classDetailId: 0,
+            classId: 0,
+            sectionTitle: "",
+            regdate: "",
+            editDate: "",
+          },
+        ]);
+      } else {
+        setEditSEctionVideos([
+          {
+            title: videoTitle,
+            video: videoUrl,
+            videoLength: videoLength,
+            classDetailId: 0,
+            classId: 0,
+            sectionTitle: "",
+            regdate: "",
+            editDate: "",
+          },
+        ]);
+      }
+      if (prevVideoArray.length >= 1) {
+        setPrevVideoArray([
+          ...prevVideoArray,
+          {
+            title: videoTitle,
+            video: videoUrl,
+            videoLength: videoLength,
+            classDetailId: 0,
+            classId: 0,
+            sectionTitle: "",
+            regdate: "",
+            editDate: "",
+          },
+        ]);
+      } else {
+        setPrevVideoArray([
+          {
+            title: videoTitle,
+            video: videoUrl,
+            videoLength: videoLength,
+            classDetailId: 0,
+            classId: 0,
+            sectionTitle: "",
+            regdate: "",
+            editDate: "",
+          },
+        ]);
+      }
+      setVideoTitle("");
+      setVideoUrl(null);
+      setVideoLength(null);
+    }
+  };
+  const handleDeleteVideo = (targetId: number) => {
+    if (editSectionVideos.length > 1) {
+      const newData = [...editSectionVideos].filter(
+        (item) => item.classDetailId !== targetId
+      );
+      setEditSEctionVideos(newData);
+      setPrevVideoArray(newData);
+    }
+  };
+  const handleSaveSection = (seledtEditSectionIndex: number) => {
+    const editSectionData = {
+      sectionTitle: editSectionTitle + "!!!",
+      videos: editSectionVideos,
+    };
+    const ChangeData = [...completeSectionArray].map((item, index) =>
+      index === seledtEditSectionIndex ? editSectionData : item
+    );
+    console.log(editSectionData);
+    console.log(ChangeData);
+    setCompleteSectionArray(ChangeData);
+
+    setSelectEditSection({
+      sectionTitle: "",
+      videos: [],
+    });
+    setSelectEditSectionIndex(0);
+    setIsEditSectionOn(false);
+  };
   return (
     <div>
       <div
@@ -87,7 +220,7 @@ export const UpdateVideo = ({
                 <h1 className="font-semibold">섹션명 : {editSectionTitle}</h1>
                 <div>
                   <button
-                    //   onClick={() => handleSaveSection(index)}
+                    onClick={() => handleSaveSection(seledtEditSectionIndex)}
                     className="px-3 py-1 border-[1px] rounded-md mr-2 bg-[#3B82F6] text-white font-semibold"
                   >
                     섹션 저장
@@ -112,7 +245,7 @@ export const UpdateVideo = ({
                 <input
                   type="text"
                   value={videoTitle}
-                  // onChange={handleVideoTitle}
+                  onChange={handleVideoTitle}
                   placeholder="영상제목을 입력해주세요"
                   className="text-black px-2 py-1 rounded-md
               w-[60%]
@@ -125,7 +258,7 @@ export const UpdateVideo = ({
                 id="imgAdd"
                 multiple
                 className="hidden"
-                //   onChange={handleChangeVideoUrl}
+                onChange={handleChangeVideoUrl}
               />
 
               <label
@@ -142,7 +275,7 @@ export const UpdateVideo = ({
                   <video
                     ref={videoRef}
                     src={URL.createObjectURL(videoUrl)}
-                    //   onLoadedMetadata={handleLoadMetaData}
+                    onLoadedMetadata={handleLoadMetaData}
                     controls
                     className="w-[100%] h-[350px]"
                   ></video>
@@ -150,7 +283,7 @@ export const UpdateVideo = ({
               </div>
               <div className="flex justify-end">
                 <button
-                  // onClick={saveVideo}
+                  onClick={saveVideo}
                   className="mt-2 px-2 py-1 bg-[#3B82F6] text-white font-semibold rounded-md mr-3"
                 >
                   섹션에 영상추가
@@ -184,6 +317,12 @@ export const UpdateVideo = ({
                         // <video src={URL.createObjectURL(item.video)}></video>
                         <p>{item.title}</p>
                       )}
+                      <p
+                        className="text-center"
+                        onClick={() => handleDeleteVideo(item.classDetailId)}
+                      >
+                        삭제
+                      </p>
                     </div>
                   ))}
                 </div>

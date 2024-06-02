@@ -30,6 +30,8 @@ export const EditClass = () => {
     sectionTitle: "",
     videos: [],
   });
+  const [seledtEditSectionIndex, setSelectEditSectionIndex] =
+    useState<number>(0);
   const [isAddSectionOn, setIsAddSectionOn] = useState(true);
   const [isEditSectionOn, setIsEditSectionOn] = useState(false);
   const [isEditSectionTitle, setIsEditSectionTitle] = useState(true);
@@ -224,6 +226,7 @@ export const EditClass = () => {
                           onClick={() => {
                             handleClickShowSection(index);
                             setSelectEditSection(section);
+                            setSelectEditSectionIndex(index);
                             setIsEditSectionOn(true);
                           }}
                         >
@@ -375,9 +378,13 @@ export const EditClass = () => {
                   ))}
                 {isEditSectionOn && (
                   <UpdateVideo
-                    seletedSection={selectEditSection}
                     completeSectionArray={completeSectionArray}
-                    setCompleteSectionArray={setSectionArray}
+                    setCompleteSectionArray={setCompleteSectionArray}
+                    seletedSection={selectEditSection}
+                    setSelectEditSection={setSelectEditSection}
+                    seledtEditSectionIndex={seledtEditSectionIndex}
+                    setSelectEditSectionIndex={setSelectEditSectionIndex}
+                    setIsEditSectionOn={setIsEditSectionOn}
                   ></UpdateVideo>
                 )}
               </div>
