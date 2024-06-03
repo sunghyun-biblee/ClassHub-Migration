@@ -18,7 +18,7 @@ const requests = {
     mypageCommunity: "/community/quest",
   },
   lecture: {
-    addLectureMaterial: "/lecture/uploadMaterial",
+    addLectureMaterial: "/lecture/uploadAndSyncMaterials",
     addLecture: "/lecture/uploadClass",
     addFavoriteLecture: "/lecture/favoriteLecture",
     editLectureMaterial: "/lecture/editMaterial",

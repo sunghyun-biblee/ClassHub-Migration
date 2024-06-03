@@ -135,7 +135,7 @@ export const LectureInfo = ({
         <li className="flex justify-between py-2 px-1">
           <span>가격</span>
           <input
-            type="text"
+            type="number"
             value={price}
             onChange={handleChangePrice}
             className="border-[1px] w-[65%] text-sm pr-2 rounded-md text-right"

@@ -349,7 +349,7 @@ md:mt-2
             <li className="flex justify-between py-2 px-1">
               <span>가격</span>
               <input
-                type="text"
+                type="number"
                 value={price}
                 onChange={handleChangePrice}
                 className="border-[1px] w-[65%] text-sm pr-2 rounded-md text-right"
@@ -441,7 +441,7 @@ md:mt-2
                         onChange={changeChangeMaterial}
                       />
                       <label
-                        onClick={addSession}
+                        // onClick={addSession}
                         htmlFor="material"
                         className="border-[1px] px-2 py-1 bg-[#3B82F6] text-white font-semibold rounded-md
                     "

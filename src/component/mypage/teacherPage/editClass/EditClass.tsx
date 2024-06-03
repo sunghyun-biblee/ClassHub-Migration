@@ -3,11 +3,17 @@ import { useUpdateLectureVideo } from "component/mypage/hooks/useUpdateLectureDa
 import React, { useEffect, useState } from "react";
 import { LectureInfo } from "./LectureInfo";
 import { useTargetLectureData } from "component/mypage/hooks/useTargetLectureData";
-import { Material } from "../addclass/AddClass";
+import {
+  Material,
+  sectionstype,
+  sectionvideoArraytype,
+} from "../addclass/AddClass";
 import left from "assets/img/carousel/leftArrow.svg";
 import { VideoInsert, formatVideoDuration } from "../addclass/VideoInsert";
 import { EditVideoInsert } from "./EditVideoInsert";
 import { UpdateVideo } from "./UpdateVideo";
+import requests from "api/requests";
+import axios from "api/axios";
 
 let i = 0;
 export interface resVideoInfo {
@@ -152,6 +158,92 @@ export const EditClass = () => {
     }
   };
 
+  const postUpdateLecture = async () => {
+    const formData = new FormData();
+    let reqeustSections: sectionstype[] = [];
+    const requestMaterial = {
+      id: 123,
+      files: [...materialArray],
+    };
+    const editDate = new Date();
+    console.log(editDate);
+    if (lectureData && lectureVideoData) {
+      const request = {
+        classId: lectureData?.classInfo.classId,
+        instructorsId: 6,
+        categoryId: editCategory,
+        thumnail: editThumbnail,
+        className: editTitle,
+        description: editText,
+        summary: editSummary,
+        price: editPrice,
+        // editDate:
+      };
+
+      formData.append(
+        "request",
+        new Blob([JSON.stringify(request)], { type: "application/json" })
+      );
+      if (completeSectionArray) {
+        completeSectionArray.map((item) => {
+          let sectionArray: sectionvideoArraytype[] = [];
+
+          const sectiontitle = item.sectionTitle;
+          item.videos.map((item) => {
+            if (item.video) {
+              sectionArray.push({
+                title: item.title,
+                video: item.video?.name,
+                videoLength: item.videoLength,
+              });
+            }
+          });
+          reqeustSections.push({
+            sectionTitle: sectiontitle,
+            videos: sectionArray,
+          });
+        });
+
+        const sectionsArray = {
+          title: editTitle,
+          sections: reqeustSections,
+        };
+        console.log(requestMaterial);
+        console.log(request);
+        console.log(sectionsArray);
+        formData.append(
+          "sections",
+          new Blob([JSON.stringify(sectionsArray)], {
+            type: "application/json",
+          })
+        );
+
+        completeSectionArray.map((item) =>
+          item.videos.map((item) => {
+            if (item.video !== null) {
+              console.log(item.video);
+              formData.append("videos", item.video);
+            }
+          })
+        );
+      }
+      try {
+        const res = await axios.post(requests.lecture.addLecture, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        const materialRes = await axios.post(
+          requests.lecture.addLectureMaterial,
+          requestMaterial
+        );
+        console.log(res);
+        console.log(materialRes);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
   if (VideoDataIsLoading || lectureIsLoading) {
     return <div>로딩중</div>;
   }
@@ -189,7 +281,7 @@ export const EditClass = () => {
           shadow-[0px_8px_24px_rgba(149,157,165,0.3)]
           bg-[#3B82F6] text-white font-extrabold
           "
-                // onClick={postAddLecture}
+                onClick={postUpdateLecture}
               >
                 강의 수정하기
               </button>
@@ -273,7 +365,6 @@ export const EditClass = () => {
                           onChange={changeChangeMaterial}
                         />
                         <label
-                          onClick={addSession}
                           htmlFor="material"
                           className="border-[1px] px-2 py-1 bg-[#3B82F6] text-white font-semibold rounded-md
                     "
