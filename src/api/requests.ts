@@ -68,6 +68,7 @@ const requests = {
     commentLike: "/favorite/comment",
   },
   user: {
+    getUserData: "/selectUser",
     updateUser: "/updateUserInfo",
     updateUserImg: "/updateUserImage",
   },

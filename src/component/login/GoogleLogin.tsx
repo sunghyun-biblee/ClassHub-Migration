@@ -6,6 +6,10 @@ import axios from "axios";
 
 export const GoogleLoginBtn = () => {
   const nav = useNavigate();
+  const Login = () => {
+    window.location.href =
+      "https://api.devproject.store/oauth2/authorization/google";
+  };
   const googleLoginFn = useGoogleLogin({
     onSuccess: async (res) => {
       if (res) {
@@ -43,16 +47,8 @@ export const GoogleLoginBtn = () => {
     <div id="google" className="flex rounded-md">
       <img src={google} alt="" className="lg:my-1 h-[40px]" />
       <button
-        className=" z-10 bg-[#FFFFFF] px-2
-      border-y-[1px] border-r-[1px] border-[#747775] rounded-r-[4px]
-      text-gray-500 translate-x-[-5px]
-      font-semibold
-      text-[12px]
-      lg:my-1
-      w-[8.1rem]
-      max-h-[40px]
-      "
-        onClick={() => googleLoginFn()}
+        className=" z-10 bg-[#FFFFFF] px-2 border-y-[1px] border-r-[1px] border-[#747775] rounded-r-[4px] text-gray-500 translate-x-[-5px] font-semibold text-[12px] lg:my-1 w-[8.1rem] max-h-[40px]"
+        onClick={() => Login()}
       >
         Google 로그인
       </button>

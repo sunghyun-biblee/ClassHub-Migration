@@ -6,11 +6,27 @@ import { fetchUserStorage } from "hooks/fetchUserStorage";
 import { useAuth } from "hooks/AuthProvider";
 import { useQueryClient } from "@tanstack/react-query";
 import { getCartItemList } from "component/cart/hooks/getCartItemList";
+import { getCookie } from "hooks/CustomCookie";
+import axios from "api/axios";
+import requests from "api/requests";
 
 export const Nav = () => {
   const { userData, userIsLoading, userIsError, userError } = useAuth();
   const queryClient = useQueryClient();
+  const value = getCookie("Authorization");
 
+  const fetchData = async () => {
+    try {
+      console.log(value);
+      const res = await axios.get(requests.user.getUserData, {
+        withCredentials: true,
+      });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  fetchData();
   useEffect(() => {
     queryClient.prefetchQuery({
       queryKey: ["cartItemList"],

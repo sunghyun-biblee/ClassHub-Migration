@@ -8,6 +8,9 @@ import React, {
 import { userType } from "./fetchUserData";
 import { fetchUserStorage } from "./fetchUserStorage";
 import { useUserQuery } from "component/navigtaion/hooks/useUserQuery";
+import { getCookie } from "./CustomCookie";
+import axios from "axios";
+import requests from "api/requests";
 
 // 인터페이스 정의
 interface AuthContextType {
@@ -43,38 +46,26 @@ type AuthProviderType = {
   children: ReactNode;
 };
 export const AuthProvider = ({ children }: AuthProviderType) => {
-  const [user, setUser] = useState<userType>(inistialState.userData);
+  // const [user, setUser] = useState<userType>(inistialState.userData);
 
-  const userStore = fetchUserStorage();
-  const { userData, userIsLoading, userIsError, userError } = useUserQuery(
-    userStore.snsId
-  );
-  console.log(userStore);
-  useEffect(() => {
-    if (!userStore) {
-      const guest = {
-        userId: 0,
-        snsId: "",
-        accessToken: "",
-        name: "",
-        nickname: "",
-        email: "",
-        profilePicture: "",
-        platformType: "",
-        introduce: "",
-        regDate: "",
-        exitDate: "",
-        role: "",
-      };
-      setUser(guest);
-    } else {
-      setUser(userData);
-    }
-  }, [userData, user, userStore]);
+  const userCookie = getCookie("Authorization");
+
+  // if (userCookie) {
+  //   try {
+  //     const res = axios.get(requests.user.getUserData, {
+  //       withCredentials: true,
+  //     });
+  //     console.log(res);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+  const { userData, userIsLoading, userIsError, userError } =
+    useUserQuery(userCookie);
 
   return (
     <AuthContext.Provider
-      value={{ userData: user, userIsLoading, userIsError, userError }}
+      value={{ userData: userData, userIsLoading, userIsError, userError }}
     >
       {children}
     </AuthContext.Provider>

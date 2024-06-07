@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios from "api/axios";
+import requests from "api/requests";
 
 export interface userType {
   userId: number;
@@ -14,13 +15,11 @@ export interface userType {
   exitDate: string | null;
   role: string | null;
 }
-export const fetchUserData = async (userSnsId: string) => {
-  if (userSnsId) {
+export const fetchUserData = async (userCookie: string) => {
+  if (userCookie) {
     try {
-      const data = await axios.get("https://devproject.store/selectUser", {
-        params: {
-          snsId: userSnsId,
-        },
+      const data = await axios.get(requests.user.getUserData, {
+        withCredentials: true,
       });
       console.log(data.data.data);
       return data.data.data;
