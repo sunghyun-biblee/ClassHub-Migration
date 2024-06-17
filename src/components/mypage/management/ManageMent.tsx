@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import right from "assets/img/carousel/rigthArrow.svg";
 import { Item } from "./Item";
-import { PageNation } from "component/class/PageNation";
+import { PageNation } from "components/class/PageNation";
 import { Header } from "../Header";
 import { useQuery } from "@tanstack/react-query";
-import { fetchClass } from "component/class/hooks/useGetArray";
+import { fetchClass } from "components/class/hooks/useGetArray";
 export const ManageMent = () => {
   const type = "management";
   const [page, setPage] = useState(1);

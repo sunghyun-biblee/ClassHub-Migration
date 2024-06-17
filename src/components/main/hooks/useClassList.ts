@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchClassList } from "component/class/hooks/useGetArray";
+import { fetchClassList } from "components/class/hooks/useGetArray";
 
 export function useClassList() {
   const { data, isLoading, isError, error } = useQuery({

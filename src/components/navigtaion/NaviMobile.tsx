@@ -8,7 +8,7 @@ import user from "assets/img/Person.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { userType } from "hooks/fetchUserData";
 import { useQuery } from "@tanstack/react-query";
-import { getCartItemList } from "component/cart/hooks/getCartItemList";
+import { getCartItemList } from "components/cart/hooks/getCartItemList";
 import { NaviMobileCategory } from "./NaviMobileCategory";
 const NavigationMobile = styled.div`
   position: fixed;

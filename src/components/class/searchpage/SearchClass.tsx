@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchsearchKeyWord } from "component/navigtaion/hooks/fetchsearchKeyWord";
+import { fetchsearchKeyWord } from "components/navigtaion/hooks/fetchsearchKeyWord";
 
 import React from "react";
 import { useLocation } from "react-router-dom";

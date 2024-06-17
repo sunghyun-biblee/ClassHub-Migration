@@ -1,8 +1,7 @@
 import React from "react";
 
 import logo from "assets/img/Logo.png";
-import { NaviMobileBottom } from "component/navigtaion/NaviMobileBottom";
-import { useLocation } from "react-router-dom";
+
 export const Footer = () => {
   return (
     <footer

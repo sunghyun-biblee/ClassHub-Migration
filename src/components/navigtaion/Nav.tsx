@@ -5,7 +5,7 @@ import { NaviMobile } from "./NaviMobile";
 import { fetchUserStorage } from "hooks/fetchUserStorage";
 import { useAuth } from "hooks/AuthProvider";
 import { useQueryClient } from "@tanstack/react-query";
-import { getCartItemList } from "component/cart/hooks/getCartItemList";
+import { getCartItemList } from "components/cart/hooks/getCartItemList";
 import { getCookie } from "hooks/CustomCookie";
 import axios from "api/axios";
 import requests from "api/requests";

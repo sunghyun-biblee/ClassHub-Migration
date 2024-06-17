@@ -6,7 +6,7 @@ import styled from "styled-components";
 import axios from "api/axios";
 import requests from "./../../api/requests";
 import { useAuth } from "hooks/AuthProvider";
-import { addCartItem } from "component/cart/hooks/addCartItem";
+import { addCartItem } from "components/cart/hooks/addCartItem";
 import { impCode } from "api/payment";
 
 interface ClassDetailData {

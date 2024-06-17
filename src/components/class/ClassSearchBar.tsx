@@ -1,5 +1,5 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { fetchsearchKeyWord } from "component/navigtaion/hooks/fetchsearchKeyWord";
+import { fetchsearchKeyWord } from "components/navigtaion/hooks/fetchsearchKeyWord";
 import { useClassCategory } from "hooks/ClassTypeProvider";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";

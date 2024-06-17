@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { selectClassinfo } from "component/class/hooks/useGetArray";
-import { useGetpathname } from "component/community/hooks/getPathname";
+import { selectClassinfo } from "components/class/hooks/useGetArray";
+import { useGetpathname } from "components/community/hooks/getPathname";
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";

@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import { userType } from "./fetchUserData";
 import { fetchUserStorage } from "./fetchUserStorage";
-import { useUserQuery } from "component/navigtaion/hooks/useUserQuery";
+import { useUserQuery } from "components/navigtaion/hooks/useUserQuery";
 import { getCookie } from "./CustomCookie";
 import axios from "axios";
 import requests from "api/requests";

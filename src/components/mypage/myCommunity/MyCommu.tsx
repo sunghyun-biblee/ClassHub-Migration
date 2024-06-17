@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Header } from "../Header";
-import { fetchQuestionList } from "component/community/hooks/fetchCommuArray";
+import { fetchQuestionList } from "components/community/hooks/fetchCommuArray";
 import { Item } from "../management/Item";
 import { useQuery } from "@tanstack/react-query";
-import { PageNation } from "component/class/PageNation";
+import { PageNation } from "components/class/PageNation";
 import { MyCommuItem } from "./MyCommuItem";
 
 export const MyCommu = () => {

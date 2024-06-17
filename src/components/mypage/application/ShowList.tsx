@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import right from "assets/img/carousel/rigthArrow.svg";
 import { ApplicationItem } from "./ApplicationItem";
-import { PageNation } from "component/class/PageNation";
+import { PageNation } from "components/class/PageNation";
 import { useQuery } from "@tanstack/react-query";
-import { fetchPaymentedList } from "component/community/hooks/fetchCommuArray";
+import { fetchPaymentedList } from "components/community/hooks/fetchCommuArray";
 import { useAuth } from "hooks/AuthProvider";
-import { paymentResType } from "component/cart/PaymentedPage";
+import { paymentResType } from "components/cart/PaymentedPage";
 
 export type paymentedItemType = {
   ordersId: number;

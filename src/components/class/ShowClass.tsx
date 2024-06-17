@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ClassSearchBar } from "./ClassSearchBar";
-import { classProp } from "component/main/PreviewClass";
+import { classProp } from "components/main/PreviewClass";
 
 import { fetchClass, fetchClassList } from "./hooks/useGetArray";
 import { ClassItem } from "./ClassItem";

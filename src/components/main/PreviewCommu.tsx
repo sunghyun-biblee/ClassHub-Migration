@@ -1,10 +1,10 @@
 import React from "react";
 import rightArrow from "assets/img/carousel/rigthArrow.svg";
 
-import { IcommunityItem } from "component/community/ShowCommuList";
+import { IcommunityItem } from "components/community/ShowCommuList";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
-import { selectCommuinfo } from "component/community/hooks/fetchCommuArray";
+import { selectCommuinfo } from "components/community/hooks/fetchCommuArray";
 
 interface commnuProp {
   mainCommuList: IcommunityItem[];

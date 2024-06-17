@@ -1,7 +1,7 @@
 import React from "react";
 import { classProp } from "./PreviewClass";
 import rightArrow from "assets/img/carousel/rigthArrow.svg";
-import { ClassItem } from "component/class/ClassItem";
+import { ClassItem } from "components/class/ClassItem";
 import star from "assets/img/Star.svg";
 
 export const PopularClass = ({

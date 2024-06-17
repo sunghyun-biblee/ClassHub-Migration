@@ -7,7 +7,7 @@ import cart from "assets/img/Cart.svg";
 import user from "assets/img/Person.svg";
 import { userType } from "hooks/fetchUserData";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getCartItemList } from "component/cart/hooks/getCartItemList";
+import { getCartItemList } from "components/cart/hooks/getCartItemList";
 import { fetchsearchKeyWord } from "./hooks/fetchsearchKeyWord";
 
 const NavigationPC = styled.div`

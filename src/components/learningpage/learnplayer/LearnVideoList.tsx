@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { formatVideoDuration } from "component/mypage/teacherPage/addclass/VideoInsert";
+import { formatVideoDuration } from "components/mypage/teacherPage/addclass/VideoInsert";
 import left from "assets/img/carousel/leftArrow.svg";
 
 export const LearnVideoList = () => {

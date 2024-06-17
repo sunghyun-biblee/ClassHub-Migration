@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { useUpdateLectureVideo } from "component/mypage/hooks/useUpdateLectureData";
+import { useUpdateLectureVideo } from "components/mypage/hooks/useUpdateLectureData";
 import React, { useEffect, useState } from "react";
 import { LectureInfo } from "./LectureInfo";
-import { useTargetLectureData } from "component/mypage/hooks/useTargetLectureData";
+import { useTargetLectureData } from "components/mypage/hooks/useTargetLectureData";
 import {
   Material,
   sectionstype,

@@ -1,4 +1,4 @@
-import { fetchPaymentedList } from "component/community/hooks/fetchCommuArray";
+import { fetchPaymentedList } from "components/community/hooks/fetchCommuArray";
 import React from "react";
 
 export const ApplicationNav = () => {

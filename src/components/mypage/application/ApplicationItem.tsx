@@ -1,6 +1,6 @@
 import React from "react";
 import { HeartSVG } from "./HeartSVG";
-import { paymentResType } from "component/cart/PaymentedPage";
+import { paymentResType } from "components/cart/PaymentedPage";
 import { paymentedItemType } from "./ShowList";
 import { useQueryClient } from "@tanstack/react-query";
 interface IApplicationItemProp {
