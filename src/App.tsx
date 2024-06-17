@@ -42,9 +42,20 @@ import { SearchPage } from "components/class/searchpage/SearchPage";
 import { PaymentedPage } from "components/cart/PaymentedPage";
 import { EditClass } from "components/mypage/teacherPage/editClass/EditClass";
 import { CookiesProvider } from "react-cookie";
+import axios from "axios";
+
 const cliendtId =
   "386437749459-jjvcsk0qiqdg429e7ihbkhu411b21l0c.apps.googleusercontent.com";
 function App() {
+  const text = async () => {
+    try {
+      const res = await axios.get("/api/community/mainpage");
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const { pathname } = useLocation();
   const pathData = pathname.split("/")[1];
   const footerHiddenArray = ["mypage", "signIn", "learnplay"];
@@ -72,14 +83,14 @@ function App() {
     }
 
     return (
-      <div className="relative">
+      <div>
         <Nav />
         <Outlet />
         <NaviMobileBottom />
       </div>
     );
   };
-
+  text();
   return (
     <CookiesProvider>
       <GoogleOAuthProvider clientId={cliendtId}>

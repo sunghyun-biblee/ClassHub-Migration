@@ -1,8 +1,12 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 
 const instance = axios.create({
-  baseURL: "https://api.devproject.store",
-  withCredentials: true,
+  baseURL: "/api",
+  // withCredentials: true,
 });
+// https://api.devproject.store
+// const instance: AxiosInstance = axios.create({
+//   baseURL: "/api",
+// });
 
 export default instance;

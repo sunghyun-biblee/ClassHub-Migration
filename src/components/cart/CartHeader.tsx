@@ -1,5 +1,6 @@
 import React from "react";
 import logo from "assets/img/Logo.png";
+
 interface ICartHeader {
   progress: string;
 }
