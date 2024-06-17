@@ -9,6 +9,8 @@ import { userType } from "hooks/fetchUserData";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getCartItemList } from "components/cart/hooks/getCartItemList";
 import { fetchsearchKeyWord } from "./hooks/fetchsearchKeyWord";
+import { getCookie, removeCookie, setCookie } from "hooks/CustomCookie";
+import path from "path";
 
 const NavigationPC = styled.div`
   @media (max-width: 1023px) {
@@ -37,30 +39,44 @@ interface INavProps {
   userData: userType;
 }
 export const NaviPC = ({ userData }: INavProps) => {
-  const [isMyMenu, setIsMyMenu] = useState(false);
+  const AuthCookie = getCookie("Authorization");
+  const [isMyMenuOpen, setIsMyMenuOpen] = useState(false);
   const [searchKeyWord, setSearchKeyWord] = useState<string>("");
   const queryClient = useQueryClient();
   const nav = useNavigate();
-  const myPageRef = useRef(null);
+  const myPageRef = useRef<HTMLLIElement>(null);
   const handleNav = (location: string) => {
     nav(`${location}`);
   };
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["cartItemList"],
-    queryFn: () => getCartItemList(userData.userId),
+    queryFn: () => {
+      if (userData) {
+        getCartItemList(userData.userId);
+      } else {
+        return [];
+      }
+    },
   });
+
   const handleClickOutside = (event: MouseEvent) => {
     if (
       myPageRef.current &&
-      !(myPageRef.current as HTMLElement).contains(event.target as Node)
+      !myPageRef.current.contains(event.target as Node)
     ) {
-      setIsMyMenu(false);
+      setIsMyMenuOpen(false);
     }
   };
   const handleLogOut = () => {
-    localStorage.removeItem("user");
-    window.location.reload();
+    if (AuthCookie) {
+      console.log(AuthCookie);
+
+      removeCookie("Authorization");
+
+      console.log("쿠키 삭제 완료");
+      // window.location.reload();
+    }
   };
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -68,20 +84,20 @@ export const NaviPC = ({ userData }: INavProps) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  if (isLoading) {
-    return <div>로딩중</div>;
-  }
-  if (isError) {
-    return <span>{error.message}</span>;
-  }
+
   const handleSubmitSearch = (e: React.FormEvent) => {
     e.preventDefault();
     nav(`/class/${searchKeyWord}`);
     queryClient.prefetchQuery({
       queryKey: ["searchList"],
-      queryFn: () => fetchsearchKeyWord(searchKeyWord),
+      queryFn: () => fetchsearchKeyWord(searchKeyWord, 1),
     });
   };
+  const handleToogleMenu = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    setIsMyMenuOpen((prev) => !prev);
+  };
+
   return (
     <NavigationPC>
       <nav className=" lg:flex justify-between items-center py-3  my-0 mx-auto max-w-[1200px] w-[100vw] h-[64px]">
@@ -139,26 +155,25 @@ export const NaviPC = ({ userData }: INavProps) => {
               onClick={() => handleNav("/cart")}
             >
               <img src={cart} alt="장바구니" className="w-6" />
-              {data?.length >= 0 && (
+              {data && data?.length >= 0 && (
                 <div className="absolute bg-red-500 rounded-[50%] -top-[30%] -right-[10%] w-5 h-5 flex justify-center items-center">
                   <p className="text-white">{data.length}</p>
                 </div>
               )}
             </li>
-            <li className=" flex items-center justify-center z-20 relative ">
+            <li
+              className=" flex items-center justify-center z-20 relative "
+              ref={myPageRef}
+            >
               <div
                 className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer"
-                onClick={() => setIsMyMenu((prev) => !prev)}
-                ref={myPageRef}
+                onClick={handleToogleMenu}
               >
                 <img src={user} alt="마이페이지" className="w-6" />
               </div>
 
-              {isMyMenu && (
-                <ul
-                  className="absolute animate-drop-down mt-5  bg-white   border-[1px] border-[#67A3F9] top-[25px] z-0 rounded-md"
-                  ref={myPageRef}
-                >
+              {isMyMenuOpen && (
+                <ul className="absolute animate-drop-down mt-5  bg-white   border-[1px] border-[#67A3F9] top-[25px] z-0 rounded-md">
                   <li className="border-b-[1px] border-[#67A3F9] p-3 font-semibold ">
                     <button onClick={() => handleNav("mypage")}>MyHub</button>
                   </li>

@@ -16,14 +16,16 @@ export const Nav = () => {
   const value = getCookie("Authorization");
 
   const fetchData = async () => {
-    try {
-      console.log(value);
-      const res = await axios.get(requests.user.getUserData, {
-        withCredentials: true,
-      });
-      console.log(res);
-    } catch (error) {
-      console.log(error);
+    if (userData) {
+      try {
+        console.log(value);
+        const res = await axios.get(requests.user.getUserData, {
+          withCredentials: true,
+        });
+        console.log(res);
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
   fetchData();
@@ -34,12 +36,6 @@ export const Nav = () => {
     });
   }, [queryClient, userData]);
 
-  if (userIsLoading) {
-    return <div></div>;
-  }
-  if (userIsError) {
-    return <div>{userError?.message}</div>;
-  }
   return (
     <>
       <NaviPC userData={userData}></NaviPC>

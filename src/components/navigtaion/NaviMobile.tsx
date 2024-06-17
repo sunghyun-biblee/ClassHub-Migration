@@ -76,9 +76,9 @@ interface INavtype {
 export const NaviMobile = ({ userData }: INavtype) => {
   const [isMyMenu, setIsMyMenu] = useState(false);
   const myPageRef = useRef(null);
-  const buttonRef = useRef(null);
   const nav = useNavigate();
   const [menu, setMenu] = useState("false");
+
   const handleClick = () => {
     if (menu === "false") {
       setMenu("true");
@@ -103,8 +103,7 @@ export const NaviMobile = ({ userData }: INavtype) => {
   const handleClickOutside = (event: MouseEvent) => {
     if (
       myPageRef.current &&
-      !(myPageRef.current as HTMLElement).contains(event.target as Node) &&
-      buttonRef.current !== event.target
+      !(myPageRef.current as HTMLElement).contains(event.target as Node)
     ) {
       setIsMyMenu(false);
     }
@@ -158,11 +157,8 @@ export const NaviMobile = ({ userData }: INavtype) => {
                   )}
                 </div>
               </li>
-              <li className="px-3 cursor-pointer relative ">
-                <div
-                  onClick={(prev) => setIsMyMenu((prev) => !prev)}
-                  ref={myPageRef}
-                >
+              <li className="px-3 cursor-pointer relative " ref={myPageRef}>
+                <div onClick={() => setIsMyMenu((prev) => !prev)}>
                   <img
                     src={user}
                     alt="마이페이지"
@@ -170,10 +166,7 @@ export const NaviMobile = ({ userData }: INavtype) => {
                   />
                 </div>
                 {isMyMenu && (
-                  <ul
-                    className="absolute animate-drop-down mt-5  bg-white   border-[1px] border-[#67A3F9] top-[25px] md:-right-[8px]  mysm:right-0 rounded-md"
-                    ref={buttonRef}
-                  >
+                  <ul className="absolute animate-drop-down mt-5  bg-white   border-[1px] border-[#67A3F9] top-[25px] md:-right-[8px]  mysm:right-0 rounded-md">
                     <li className="border-b-[1px] border-[#67A3F9] p-3 font-semibold ">
                       <button onClick={() => handleNav("mypage")}>MyHub</button>
                     </li>
