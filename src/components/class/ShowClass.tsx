@@ -10,29 +10,28 @@ import { useClassCategory } from "hooks/ClassTypeProvider";
 
 export interface IClassType {
   classId: number;
-  instructorsId: number;
   categoryId: number;
+  instructorsId: number;
   className: string;
   description: string;
-  summary: string;
+  summary: string | null;
   price: number;
-  thumnail: File;
-  totalVideoLength: number;
-  regdate: string;
-  editDate: null | string;
-  reviewScore: number | undefined;
+  thumnail: string;
+  editDate: string | null;
+  regdate: string | null;
   name: string;
+  reviewScore: number | null;
+  totalVideoLength: number;
 }
 interface IShowClass {
   categoryType: number;
 }
 export const ShowClass = ({ categoryType }: IShowClass) => {
-  // const postLimit = 9;
-  // const [page, setPage] = useState(1);
+  const [page, setPage] = useState(1);
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["classListAll"],
-    queryFn: () => fetchClassList(categoryType),
+    queryFn: () => fetchClassList(categoryType, page),
   });
   if (isLoading) {
     return <div>로딩중</div>;
@@ -40,11 +39,28 @@ export const ShowClass = ({ categoryType }: IShowClass) => {
   if (isError) {
     return <span>{error.message}</span>;
   }
+  const renderPageNation = () => {
+    if (data) {
+      const pageNationData = {
+        currentPage: data?.currentPageNum,
+        lastPage: data?.totalNum,
+        leftPage: data?.leftEndNum,
+        rightPage: data?.rightEndNum,
+      };
+      return (
+        <PageNation
+          pageNationData={pageNationData}
+          page={page}
+          setPage={setPage}
+        ></PageNation>
+      );
+    }
+  };
 
   return (
     <div>
       <div className="grid grid-cols-3 gap-5 pt-5">
-        {data.slice(0, 9)?.map((item: IClassType, index: number) => (
+        {data.contents?.map((item: IClassType, index: number) => (
           <ClassItem
             item={item}
             key={item.classId + "showClass" + index}
@@ -52,14 +68,8 @@ export const ShowClass = ({ categoryType }: IShowClass) => {
         ))}
       </div>
       <div className="py-[50px] flex justify-center items-center">
-        <p>페이지네이션</p>
+        {renderPageNation()}
       </div>
-      {/* <PageNation
-        listLength={data ? data.length : 0}
-        postLimit={postLimit}
-        page={page}
-        setPage={setPage}
-      ></PageNation> */}
     </div>
   );
 };

@@ -160,11 +160,11 @@ export const AddClass = () => {
     const request = {
       instructorsId: 6,
       categoryId: category,
-      thumnail: thumbnail?.preview,
       className: classTitle,
       description: classDescription,
       summary: overView,
       price: price,
+      thumnail: thumbnail?.preview,
     };
     console.log(request);
 

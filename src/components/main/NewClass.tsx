@@ -3,12 +3,14 @@ import { classProp } from "./PreviewClass";
 import rightArrow from "assets/img/carousel/rigthArrow.svg";
 import { ClassItem } from "components/class/ClassItem";
 import New from "assets/img/Newclass.svg";
+import { useNavigate } from "react-router-dom";
 export const NewClass = ({
   data,
   mainClassIsLoading,
   mainClassIsError,
   mainClassError,
 }: classProp) => {
+  const nav = useNavigate();
   if (mainClassIsLoading) {
     return <div>로딩중</div>;
   }
@@ -27,13 +29,16 @@ export const NewClass = ({
           <span className="px-2 lg:text-[18px]">신규 강의</span>
           <img src={New} alt="" className="lg:w-7 md:w-4 mysm:w-4" />
         </div>
-        <div className="pb-3 flex items-center cursor-pointer">
+        <div
+          className="pb-3 flex items-center cursor-pointer"
+          onClick={() => nav("/class")}
+        >
           <p>더보기</p>
           <img src={rightArrow} alt="" className="w-5 h-auto ml-2" />
         </div>
       </div>
       <section className="grid grid-cols-4 gap-3">
-        {data.slice(0, 4).map((item) => (
+        {data.contents.slice(0, 4).map((item) => (
           <ClassItem item={item} key={`exex+${item.classId}`}></ClassItem>
         ))}
       </section>

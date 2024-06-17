@@ -3,8 +3,15 @@ import { PopularClass } from "./PopularClass";
 import { NewClass } from "./NewClass";
 import { IClassType } from "components/class/ShowClass";
 
+type ClassData = {
+  contents: IClassType[];
+  currentPageNum: number;
+  leftEndNum: number;
+  rightEndNum: number;
+  totalNum: number;
+};
 export interface classProp {
-  data: IClassType[];
+  data: ClassData;
   mainClassIsLoading: boolean;
   mainClassIsError: boolean;
   mainClassError: Error | null;
@@ -22,6 +29,7 @@ export const PreviewClass = ({
   if (mainClassIsError) {
     return <span>{mainClassError?.message}</span>;
   }
+  console.log(data);
   return (
     <div>
       <PopularClass

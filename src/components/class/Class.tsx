@@ -37,7 +37,7 @@ export const Class = () => {
   const queryClient = useQueryClient();
   queryClient.prefetchQuery({
     queryKey: ["classListAll"],
-    queryFn: () => fetchClassList(classType.classCategoryType),
+    queryFn: () => fetchClassList(classType.classCategoryType, 1),
   });
 
   return (

@@ -2,7 +2,7 @@ import React from "react";
 import rightArrow from "assets/img/carousel/rigthArrow.svg";
 
 import { IcommunityItem } from "components/community/ShowCommuList";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { selectCommuinfo } from "components/community/hooks/fetchCommuArray";
 
@@ -79,7 +79,7 @@ export const PreviewCommu = ({
       <div className="flex justify-between lg:pb-2  mysm:pb-1">
         <h1 className=" font-extrabold ">📋 커뮤니티 </h1>
         <div className="pb-3 flex items-center cursor-pointer">
-          <p>더보기</p>
+          <Link to={"/community/qna"}>더보기</Link>
           <img src={rightArrow} alt="" className="w-5 h-auto ml-2" />
         </div>
       </div>

@@ -2,28 +2,34 @@ import { useQueryClient } from "@tanstack/react-query";
 import { fetchsearchKeyWord } from "components/navigtaion/hooks/fetchsearchKeyWord";
 import { useClassCategory } from "hooks/ClassTypeProvider";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 export const ClassSearchBar = () => {
   const [searchKeyWord, setSearchKeyWord] = useState("");
   const queryClient = useQueryClient();
+  const res = useLocation().pathname.split("/")[2];
+
   const nav = useNavigate();
   const classType = useClassCategory();
   const renderCategory = () => {
-    switch (classType.classCategoryType) {
-      case 0:
-        return "전체강의";
-      case 1:
-        return "개발·프로그래밍";
-      case 2:
-        return "게임 개발";
-      case 3:
-        return "인공지능";
-      case 4:
-        return "보안·네트워크";
-      default:
-        return "오류";
+    if (res) {
+      return "검색 결과";
+    } else {
+      switch (classType.classCategoryType) {
+        case 0:
+          return "전체강의";
+        case 1:
+          return "개발·프로그래밍";
+        case 2:
+          return "게임 개발";
+        case 3:
+          return "인공지능";
+        case 4:
+          return "보안·네트워크";
+        default:
+          return "오류";
+      }
     }
   };
   const handleSubmitSearch = (e: React.FormEvent) => {
@@ -31,13 +37,13 @@ export const ClassSearchBar = () => {
     nav(`/class/${searchKeyWord}`);
     queryClient.prefetchQuery({
       queryKey: ["searchList"],
-      queryFn: () => fetchsearchKeyWord(searchKeyWord),
+      queryFn: () => fetchsearchKeyWord(searchKeyWord, 1),
     });
   };
   return (
     <div className="py-2">
       <div className="flex justify-between  items-center">
-        <h1 className="font-extrabold text-lg">{renderCategory()}</h1>
+        <h1 className="font-extrabold text-xl">{renderCategory()}</h1>
         <form className="flex" onSubmit={handleSubmitSearch}>
           <Input
             type="text"

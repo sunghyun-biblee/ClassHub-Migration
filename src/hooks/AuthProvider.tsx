@@ -11,6 +11,7 @@ import { useUserQuery } from "components/navigtaion/hooks/useUserQuery";
 import { getCookie } from "./CustomCookie";
 import axios from "axios";
 import requests from "api/requests";
+import { useCookies } from "react-cookie";
 
 // 인터페이스 정의
 interface AuthContextType {
@@ -46,10 +47,10 @@ type AuthProviderType = {
   children: ReactNode;
 };
 export const AuthProvider = ({ children }: AuthProviderType) => {
-  // const [user, setUser] = useState<userType>(inistialState.userData);
+  const [user, setUser] = useState<userType>(inistialState.userData);
 
   const userCookie = getCookie("Authorization");
-
+  console.log(userCookie);
   // if (userCookie) {
   //   try {
   //     const res = axios.get(requests.user.getUserData, {

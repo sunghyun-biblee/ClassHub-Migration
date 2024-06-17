@@ -16,15 +16,21 @@ export async function fetchClass() {
   newClassArr = classArr.slice();
   return newClassArr;
 }
-export async function fetchClassList(categoryType: number) {
+export async function fetchClassList(categoryType: number, page: number) {
   try {
     if (categoryType === 0) {
-      const res = await axios.get(requests.lecture.getAllLecture);
+      const res = await axios.get(requests.lecture.getAllLecture, {
+        params: {
+          page: page,
+        },
+      });
+      console.log(res.data.contents);
       return res.data;
     } else {
       const res = await axios.get(requests.lecture.getLectureListCategory, {
         params: {
           categoryId: categoryType,
+          page: page,
         },
       });
       return res.data;
