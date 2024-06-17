@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchClassList } from "components/class/hooks/useGetArray";
 
-export function useClassList() {
+export function useMainClassList() {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["classListAll"],
-    queryFn: () => fetchClassList(0),
+    queryFn: () => fetchClassList(0, 1),
   });
   console.log(data);
   return {
