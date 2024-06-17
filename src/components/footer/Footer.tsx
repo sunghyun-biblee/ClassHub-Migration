@@ -6,10 +6,10 @@ export const Footer = () => {
   return (
     <footer
       className="bg-[#36454F] text-[#efefef] w-[100vw] text-sm 
-
+mt-10
       "
     >
-      <div className={`p-3 mysm:pb-[40px] lg:pb-0 `}>
+      <div className={`p-3 mysm:pb-[60px] lg:pb-0 `}>
         <ul className="lg:max-w-[1200px] mx-auto my-0 flex justify-between ">
           <li>
             <ul className="flex items-center ">
