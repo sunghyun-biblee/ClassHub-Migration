@@ -29,20 +29,21 @@ export const fetchUserData = async (userCookie: string) => {
       return null;
     }
   } else {
-    const guest = {
-      userId: "",
-      snsId: "",
-      accessToken: "",
-      name: "",
-      nickname: "",
-      email: "",
-      profilePicture: "",
-      platformType: "",
-      introduce: "",
-      regDate: "",
-      exitDate: "",
-      role: "",
-    };
-    return guest;
+    return null;
+    // const guest = {
+    //   userId: "",
+    //   snsId: "",
+    //   accessToken: "",
+    //   name: "",
+    //   nickname: "",
+    //   email: "",
+    //   profilePicture: "",
+    //   platformType: "",
+    //   introduce: "",
+    //   regDate: "",
+    //   exitDate: "",
+    //   role: "",
+    // };
+    // return guest;
   }
 };
