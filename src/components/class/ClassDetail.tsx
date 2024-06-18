@@ -23,11 +23,11 @@ interface ClassDetailData {
   videoLength: number;
 }
 
-interface ClassDataType {
+export interface ClassDataType {
   classDetail: ClassDetailData[][];
   classInfo: IClassType;
   learningData: [];
-  laarningTime: number;
+  learningTime: number;
   percentage: number;
 }
 export const ClassDetail = () => {
@@ -81,14 +81,7 @@ export const ClassDetail = () => {
       );
     }
   };
-  const getToSectionVideoTotalLength = (section: ClassDetailData[]): string => {
-    let totalLength = 0;
-    section.forEach((item) => {
-      totalLength += item.videoLength;
-    });
-    const res = formatVideoDuration(totalLength);
-    return res;
-  };
+
   const renderCategory = (value: number) => {
     switch (value) {
       case 1:
@@ -129,7 +122,7 @@ export const ClassDetail = () => {
               "
               >
                 <div
-                  className="   flex justify-center items-center w-[100%] 
+                  className="flex justify-center items-center w-[100%] md:mb-0 mysm:mb-2 
                  "
                 >
                   <img
@@ -140,35 +133,35 @@ export const ClassDetail = () => {
                 </div>
                 <div className="flex justify-between flex-col lg:px-10 md:px-6 mysm:px-2 min-w-[50%] mysm:max-w-[100%] ">
                   <ul className="md:flex md:justify-between mysm:justify-between flex-col h-[100%] w-[100%]">
-                    <div>
-                      <li className="lg:text-3xl  py-2 md:text-2xl mysm:text-xl">
+                    <li>
+                      <div className="lg:text-3xl  py-2 md:text-2xl mysm:text-xl">
                         <p className=" break-words">
                           {data.classInfo.className} 반갑습니다[JS] Phaser 게임
                           제작 - 뱀파이어 서바이벌 클론
                         </p>
-                      </li>
-                      <li className="py-2 lg:text-xl md:text-lg mysm:text-md">
+                      </div>
+                      <div className="py-2 lg:text-xl md:text-lg mysm:text-md">
                         <span className="text-gray-400">
-                          {data.classInfo.summary}
+                          요약:&nbsp; {data.classInfo.summary}
                         </span>
-                      </li>
-                      <li className="lg:text-xl md:text-xl mysm:text-sm py-2">
+                      </div>
+                      <div className="lg:text-xl md:text-xl mysm:text-sm py-2">
                         <span className="text-gray-300">
                           {data.classInfo.name ? data.classInfo.name : "biblee"}
                         </span>
-                      </li>
-                    </div>
-                    <div className="flex justify-between lg:pt-20 md:pt-10 mysm:pt-5 pb-3 lg:flex-row md:flex-row mysm:flex-col">
-                      <li className="py-2 lg:px-2 md:px-2 mysm:px-0 lg:text-lg md:text-lg mysm:text-[sm]">
+                      </div>
+                    </li>
+                    <li className="flex justify-between items-center lg:pt-20 md:pt-10 mysm:pt-5 flex-row ">
+                      <div className="py-2 lg:px-2 md:px-2 mysm:px-0 lg:text-lg md:text-lg mysm:text-sm">
                         <span>
-                          카테고리 : {renderCategory(data.classInfo.categoryId)}{" "}
+                          카테고리 : {renderCategory(data.classInfo.categoryId)}
                         </span>
-                      </li>
+                      </div>
 
-                      <li className="py-2 lg:px-2 md:px-2 mysm:px-0 lg:text-lg md:text-lg mysm:text-sm">
-                        <span>수강평 : {data.classInfo.reviewScore} </span>
-                      </li>
-                    </div>
+                      <div className="py-2 lg:px-2 md:px-2 mysm:px-0 lg:text-lg md:text-lg mysm:text-md">
+                        <span>수강평 : {data.classInfo.reviewScore}</span>
+                      </div>
+                    </li>
                   </ul>
                   <ul className="bg-gray-600 p-5 rounded-md lg:block md:hidden  mysm:hidden">
                     <li className="pt-1 pb-3  px-3 text-2xl">
@@ -204,29 +197,29 @@ export const ClassDetail = () => {
             </div>
             <div>
               <div className="lg:max-w-[1200px] mysm:w-[100vw] pt-3">
-                <h1 className="text-3xl py-3 lg:font-extrabold md:font-bold mysm:font-semibold">
+                <h1 className="text-3xl py-3 px-2 lg:font-extrabold md:font-bold mysm:font-semibold">
                   강의 상세 정보
                 </h1>
                 <p className="text-3xl p-3">{data.classInfo.description}</p>
               </div>
               <div className="lg:pb-0 mysm:pb-40 md:pb-40 mysm:pt-10  flex justify-center flex-col items-center">
-                <h1 className="text-3xl py-5  lg:font-extrabold md:font-bold mysm:font-semibold text-left w-[100%]">
+                <h1 className="text-3xl py-5 px-2 lg:font-extrabold md:font-bold mysm:font-semibold text-left w-[100%]">
                   커리큘럼
                 </h1>
                 <div
                   className=" flex 
             lg:max-w-[1200px] w-[calc(100vw-1.25rem)]
-            items-center justify-center text-center rounded-md "
+            items-center justify-center  rounded-md "
                 >
                   <ul className="w-[100%] ">
                     {data.classDetail.map((section, index) => (
-                      <li>
-                        <ul className="bg-gray-400 w-[100%] flex justify-between items-center p-3">
+                      <li className="border-[1px] rounded-lg overflow-hidden mb-5 shadow-md">
+                        <ul className="bg-[#F5F5F5] w-[100%] flex justify-between items-center p-3  ">
                           <li>
-                            <h1 className=" text-left  font-semibold text-xl ">
+                            <h1 className=" text-left  font-semibold text-lg">
                               섹션{index}.
                               <span className="px-2">
-                                {section[index].classDeatilId
+                                {section[index].sectionTitle
                                   ? section[index].sectionTitle
                                   : " N번째"}
                               </span>
@@ -241,11 +234,11 @@ export const ClassDetail = () => {
                         </ul>
                         <ul>
                           {section.map((item) => (
-                            <li className="flex justify-between p-3 border-2">
-                              <span className="text-lg font-semibold">
-                                {item.classId}
+                            <li className="flex justify-between p-3  font-medium border-b-[1px] cursor-pointer">
+                              <span className="text-gray-600">
+                                {item.title}
                               </span>
-                              <span className="text-lg font-semibold text-gray-500">
+                              <span className=" text-gray-400">
                                 {formatVideoDuration(item.videoLength)}
                               </span>
                             </li>
@@ -298,6 +291,16 @@ export const ClassDetail = () => {
   );
 };
 
+export const getToSectionVideoTotalLength = (
+  section: ClassDetailData[]
+): string => {
+  let totalLength = 0;
+  section.forEach((item) => {
+    totalLength += item.videoLength;
+  });
+  const res = formatVideoDuration(totalLength);
+  return res;
+};
 const ClassDeatilContainer = styled.div`
   margin: 0 auto;
 `;
