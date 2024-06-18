@@ -11,6 +11,8 @@ import { getCartItemList } from "components/cart/hooks/getCartItemList";
 import { fetchsearchKeyWord } from "./hooks/fetchsearchKeyWord";
 import { getCookie, removeCookie, setCookie } from "hooks/CustomCookie";
 import path from "path";
+import { CartItemType } from "hooks/CartProvider";
+import { useCartData } from "./hooks/useCartData";
 
 const NavigationPC = styled.div`
   @media (max-width: 1023px) {
@@ -42,6 +44,7 @@ export const NaviPC = ({ userData }: INavProps) => {
   const AuthCookie = getCookie("Authorization");
   const [isMyMenuOpen, setIsMyMenuOpen] = useState(false);
   const [searchKeyWord, setSearchKeyWord] = useState<string>("");
+  const [cartData, setCartData] = useState<CartItemType[] | null>(null);
   const queryClient = useQueryClient();
   const nav = useNavigate();
   const myPageRef = useRef<HTMLLIElement>(null);
@@ -49,16 +52,7 @@ export const NaviPC = ({ userData }: INavProps) => {
     nav(`${location}`);
   };
 
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["cartItemList"],
-    queryFn: () => {
-      if (userData) {
-        getCartItemList(userData.userId);
-      } else {
-        return [];
-      }
-    },
-  });
+  const { data, isLoading, isError, error } = useCartData(userData.userId);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (

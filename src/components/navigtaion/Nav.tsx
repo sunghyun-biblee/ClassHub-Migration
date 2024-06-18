@@ -29,13 +29,18 @@ export const Nav = () => {
     }
   };
   fetchData();
-  useEffect(() => {
-    queryClient.prefetchQuery({
-      queryKey: ["cartItemList"],
-      queryFn: () => getCartItemList(userData.userId),
-    });
-  }, [queryClient, userData]);
-
+  // console.log(userData.userId);
+  // useEffect(() => {
+  //   if (userData.userId) {
+  //     queryClient.prefetchQuery({
+  //       queryKey: ["cartItemList", userData.userId],
+  //       queryFn: () => getCartItemList(userData.userId),
+  //     });
+  //   }
+  // }, [queryClient, userData]);
+  if (userIsLoading) {
+    return <div></div>;
+  }
   return (
     <>
       <NaviPC userData={userData}></NaviPC>

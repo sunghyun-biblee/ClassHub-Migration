@@ -20,7 +20,8 @@ export const CartList = () => {
     queryKey: ["cartItemList"],
     queryFn: () => getCartItemList(userData.userId),
   });
-  console.log(data);
+  const data1 = queryClient.getQueryData(["cartItemList"]);
+  console.log(data1);
   const renderCategortText = (categoryId: number) => {
     switch (categoryId) {
       case 1:
@@ -115,9 +116,7 @@ export const CartList = () => {
       setSelectItemId([]);
     },
   });
-  if (isError) {
-    return <span>{error.message}</span>;
-  }
+
   const allSelect = () => {
     if (!isAllSelect && data) {
       setSelectItem([...data]);
@@ -153,10 +152,19 @@ export const CartList = () => {
       return;
     }
   };
-  console.log(selectItemId);
+
   if (userIsLoading) {
     return <div>로딩중</div>;
   }
+  if (isLoading) {
+    return <div>로딩중</div>;
+  }
+  if (isError) {
+    console.log(error.message);
+    return null;
+  }
+  console.log(data);
+
   return (
     <div>
       <h1 className="text-center text-3xl md:p-10 mysm:p-7 font-extrabold">
@@ -177,9 +185,11 @@ export const CartList = () => {
 
       <div className="flex md:flex-row mysm:flex-col justify-around">
         <ul className="lg:w-[65%] md:w-[70%] md:h-[70vh] mysm:h-[50vh] border-t-[1px] pt-2 overflow-scroll">
-          {isLoading ? (
-            <div>
-              <h1 className="text-9xl">로딩중</h1>
+          {data === null || data === undefined || data.length === 0 ? (
+            <div className="flex justify-center items-center h-[50%]">
+              <h1 className="lg:text-4xl md:text-3xl mysm:text-[1.35rem] [text-shadow:_2px_2px_2px_#d5d5d5] text-gray-500 font-semibold ">
+                장바구니에 상품이 존재하지 않습니다
+              </h1>
             </div>
           ) : (
             data &&

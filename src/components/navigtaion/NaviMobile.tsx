@@ -10,6 +10,7 @@ import { userType } from "hooks/fetchUserData";
 import { useQuery } from "@tanstack/react-query";
 import { getCartItemList } from "components/cart/hooks/getCartItemList";
 import { NaviMobileCategory } from "./NaviMobileCategory";
+import { useCartData } from "./hooks/useCartData";
 const NavigationMobile = styled.div`
   position: fixed;
   top: 0;
@@ -95,10 +96,7 @@ export const NaviMobile = ({ userData }: INavtype) => {
     window.location.reload();
   };
 
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["cartItemList"],
-    queryFn: () => getCartItemList(userData.userId),
-  });
+  const { data, isLoading, isError, error } = useCartData(userData.userId);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -150,9 +148,9 @@ export const NaviMobile = ({ userData }: INavtype) => {
               >
                 <div className="relative">
                   <img src={cart} alt="장바구니" className="md:w-7 mysm:w-6" />
-                  {data?.length >= 0 && (
+                  {data && data?.length >= 0 && (
                     <div className="absolute bg-red-500 rounded-[50%] -top-[30%] -right-[40%] w-5 h-5 flex justify-center items-center">
-                      <p className="text-white">1</p>
+                      <p className="text-white">{data?.length}</p>
                     </div>
                   )}
                 </div>
