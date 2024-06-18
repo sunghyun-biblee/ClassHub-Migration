@@ -13,13 +13,13 @@ import { formatVideoDuration } from "components/mypage/teacherPage/addclass/Vide
 import preview from "assets/img/preview.jpg";
 
 interface ClassDetailData {
-  classDeatilId: number;
+  classDetailId: number;
   classId: number;
   editDate: string | null;
   regdate: string | null;
   sectionTitle: string | null;
   title: string;
-  video: File;
+  video: string;
   videoLength: number;
 }
 

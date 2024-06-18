@@ -75,6 +75,7 @@ function App() {
     const userData = localStorage.getItem("user");
     const loginuser = userData ? JSON.parse(userData) : {};
     const QueryClient = useQueryClient();
+
     if (loginuser.snsId) {
       QueryClient.prefetchQuery({
         queryKey: ["UserData", loginuser.snsId],

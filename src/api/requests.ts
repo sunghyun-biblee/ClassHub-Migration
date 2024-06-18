@@ -31,7 +31,7 @@ const requests = {
     getAllLecture: "/lecture/selectAll",
     getTargetLecture: "/lecture/selectById",
     getTargetLectureDetail: "/lecture/selectClassDetail",
-    getTargetLectureLearningData: "/lecture/selectLearningDasta",
+    getTargetLectureLearningData: "/lecture/selectLearningData",
     getLectureListCategory: "/lecture/selectByCategory",
     getUpdateLectrueData: "/lecture/responseForUpdateVideo", //${classid}
   },
