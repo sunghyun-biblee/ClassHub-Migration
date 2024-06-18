@@ -12,18 +12,34 @@ export const LearnVideoList = () => {
     }
   };
   return (
-    <article>
-      <ul className="p-2 mt-3">
+    <article className=" lg:mb-0 mysm:mb-[40px]  bg-[#BEC9CE] lg:rounded-lg">
+      <ul
+        className="p-2 border-t-2 lg:border-0 mysm:border-gray-400
+       shadow-2xl  
+      overflow-scroll max-h-[50vh]
+
+      "
+      >
         {sectionArray.map((item, index) => (
-          <li className="mb-2">
+          <li className="mb-2 ">
             <div
-              className="bg-[#F5F5F5] px-3 py-4 flex justify-between
-              border-b-[1px] border-[#2C3539]/30
-              "
+              className={`bg-[#F5F5F5] px-3 py-4 flex justify-between
+              border-b-[1px] border-[#2C3539]/30 
+              ${showVideoList === index ? "  rounded-t-md" : "  rounded-md"}
+            
+              `}
               onClick={() => handleClickVideoList(index)}
             >
-              <h1 className="text-xl font-semibold ">
-                섹션{index}. {item.sectionName}
+              <h1
+                className="md:text-xl mysm:text-md font-semibold overflow-hidden
+                whitespace-nowrap text-ellipsis
+                min-w-[300px]
+                lg:max-w-[500px]
+              mysm:max-w-90vw
+              "
+              >
+                섹션{index}. {item.sectionName}파이썬 프로그래밍 입문 - 강의
+                소개
               </h1>
               <img
                 src={left}
@@ -33,7 +49,13 @@ export const LearnVideoList = () => {
                 } `}
               />
             </div>
-            <ul className={`${showVideoList === index ? "block" : "hidden"}`}>
+            <ul
+              className={`${
+                showVideoList === index
+                  ? "block rounded-b-md overflow-hidden"
+                  : "hidden"
+              }`}
+            >
               {item.video.map((item) => (
                 <li className="border-b-[1px] border-[#2C3539]/30 px-4 py-4 flex justify-between font-medium cursor-pointer bg-[#efefef]">
                   <p className="text-gray-600 ">{item.videoTitle}</p>

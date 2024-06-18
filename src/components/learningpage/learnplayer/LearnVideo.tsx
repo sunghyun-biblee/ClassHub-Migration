@@ -1,35 +1,66 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
-import preview from "assets/img/preview.jpg";
+
 export const LearnVideo = () => {
   const playerRef = useRef<ReactPlayer | null>(null);
   const [playing, setPlaying] = useState(false);
   const [lastPlayedTime, setLastPlayedTime] = useState(0);
+  const [videoDuration, setVideoDuration] = useState(0);
+  const [videoEnded, setVideoEnded] = useState(false);
 
-  // 현재 재생 중인 시간을 주기적으로 저장합니다. (이어듣기를 위해서)
+  // 현재 재생 중인 시간을 주기적으로 저장 (이어듣기를 위해서)
   const handleProgress = (progress: {
     played: number;
     playedSeconds: number;
   }) => {
-    localStorage.setItem("lastPlayedTime", progress.playedSeconds.toString());
+    localStorage.setItem(
+      "lastPlayedTime",
+      timeFloor(progress.playedSeconds).toString()
+    );
+  };
+
+  // 영상을 일시정지하였을때 해당 시점을 저장
+  const handlePause = () => {
+    if (playerRef.current) {
+      const currentTime = timeFloor(playerRef.current.getCurrentTime());
+      localStorage.setItem("lastPlayedTime", currentTime.toString());
+    }
   };
 
   //   동영상이 준비되었을때 저장된 시간이 있다면 저장된 시간으로 이동
 
   const handleReady = () => {
-    const lastPlayedTimeStr = localStorage.getItem("lastPlayedTime");
+    const lastPlayedTimeStr = localStorage.getItem("lastPlayedTime"); // 마지막으로 시청한 영상 길이
     const currentTime =
       lastPlayedTimeStr !== null ? timeFloor(parseFloat(lastPlayedTimeStr)) : 0;
 
     if (playerRef.current) {
       const playerCurrTime = timeFloor(playerRef.current.getCurrentTime());
 
-      if (currentTime === 0 || playerCurrTime === currentTime) {
+      if (playerCurrTime === currentTime) {
+        // localStorage.removeItem("lastPlayedTime"); // 영상을 끝까지 다 들었거나, 기본값이 0인 경우 로컬스토리지에서 삭제하여 처음부터 다시 들을 수 있도록
+
         return setPlaying(false);
       }
       playerRef.current.seekTo(lastPlayedTime, "seconds");
       setPlaying(true);
+      setVideoDuration(timeFloor(playerRef.current.getDuration()));
     }
+  };
+  // 재생버튼을 눌렀을떄 실행
+  const handlePlay = () => {
+    if (videoEnded && playerRef.current) {
+      playerRef.current.seekTo(0); // 비디오가 끝난 상태에서 재생 버튼을 누르면 0초로 이동
+      setVideoEnded(false); // 비디오가 다시 재생되므로 끝난 상태를 해제
+    }
+    setPlaying(true);
+  };
+
+  // 영상을 끝까지 다 들었을때 다시 버튼을 누르게되면 로컬스토리지에서 삭제하여 처음부터 다시 듣도록
+  const handleEnded = () => {
+    localStorage.removeItem("lastPlayedTime");
+    setPlaying(false);
+    setVideoEnded(true);
   };
 
   const timeFloor = (time: number): number => {
@@ -44,9 +75,9 @@ export const LearnVideo = () => {
       setLastPlayedTime(parseFloat(savedTime));
     }
   }, []);
-
+  console.log(videoDuration);
   return (
-    <article>
+    <article className="lg:h-[calc(100dvh-84px)] mysm:h-[calc(100dvh-112px)] p-1 lg:w-[100%]">
       <ReactPlayer
         ref={playerRef}
         url={"/videos/test.mp4"}
@@ -54,11 +85,14 @@ export const LearnVideo = () => {
         muted={true}
         controls={true}
         width="100%"
-        height="80dvh"
+        height="100%"
         // light={<img src={preview} alt="thumbnail" className="w-[500px]" />}
         progressInterval={1000}
         onProgress={handleProgress}
         onReady={handleReady}
+        onPause={handlePause}
+        onEnded={handleEnded}
+        onPlay={handlePlay}
         config={{
           file: {
             attributes: {
