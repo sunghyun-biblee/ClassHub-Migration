@@ -15,10 +15,10 @@ export const LearningPage = () => {
     queryFn: () => selectClassinfo(id),
   });
 
-  if (data && data[0].title) {
-    document.title = data[0].title;
-  }
-
+  // if (data && data[0].title) {
+  //   document.title = data[0].title;
+  // }
+  console.log(data);
   return (
     <LearnContainer
       className="lg:pt-[100px] md:pt-[90px] mysm:pt-[90px] max-w-[100vw] lg:max-w-[1200px]
@@ -29,8 +29,8 @@ export const LearningPage = () => {
       ) : (
         data && (
           <div className="flex flex-col w-[100%]">
-            <LearnHeader data={data[0]}></LearnHeader>
-            <LectureVideoList></LectureVideoList>
+            <LearnHeader data={data}></LearnHeader>
+            <LectureVideoList data={data}></LectureVideoList>
           </div>
         )
       )}

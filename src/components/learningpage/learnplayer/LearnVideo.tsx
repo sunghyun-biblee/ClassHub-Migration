@@ -1,20 +1,25 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 
-export const LearnVideo = () => {
+type ILearnVideo = {
+  videoData: string | null;
+  classDetailId: number | null;
+};
+export const LearnVideo = ({ videoData, classDetailId }: ILearnVideo) => {
   const playerRef = useRef<ReactPlayer | null>(null);
   const [playing, setPlaying] = useState(false);
   const [lastPlayedTime, setLastPlayedTime] = useState(0);
   const [videoDuration, setVideoDuration] = useState(0);
   const [videoEnded, setVideoEnded] = useState(false);
 
+  console.log(videoData);
   // 현재 재생 중인 시간을 주기적으로 저장 (이어듣기를 위해서)
   const handleProgress = (progress: {
     played: number;
     playedSeconds: number;
   }) => {
     localStorage.setItem(
-      "lastPlayedTime",
+      `${classDetailId}`,
       timeFloor(progress.playedSeconds).toString()
     );
   };
@@ -23,14 +28,14 @@ export const LearnVideo = () => {
   const handlePause = () => {
     if (playerRef.current) {
       const currentTime = timeFloor(playerRef.current.getCurrentTime());
-      localStorage.setItem("lastPlayedTime", currentTime.toString());
+      localStorage.setItem(`${classDetailId}`, currentTime.toString());
     }
   };
 
   //   동영상이 준비되었을때 저장된 시간이 있다면 저장된 시간으로 이동
 
   const handleReady = () => {
-    const lastPlayedTimeStr = localStorage.getItem("lastPlayedTime"); // 마지막으로 시청한 영상 길이
+    const lastPlayedTimeStr = localStorage.getItem(`${classDetailId}`); // 마지막으로 시청한 영상 길이
     const currentTime =
       lastPlayedTimeStr !== null ? timeFloor(parseFloat(lastPlayedTimeStr)) : 0;
 
@@ -58,7 +63,7 @@ export const LearnVideo = () => {
 
   // 영상을 끝까지 다 들었을때 다시 버튼을 누르게되면 로컬스토리지에서 삭제하여 처음부터 다시 듣도록
   const handleEnded = () => {
-    localStorage.removeItem("lastPlayedTime");
+    localStorage.removeItem(`${classDetailId}`);
     setPlaying(false);
     setVideoEnded(true);
   };
@@ -70,17 +75,17 @@ export const LearnVideo = () => {
 
   //   저장된 시간이 있는지 로컬 스토리지에서 불러오기
   useEffect(() => {
-    const savedTime = localStorage.getItem("lastPlayedTime");
+    const savedTime = localStorage.getItem(`${classDetailId}`);
     if (savedTime) {
       setLastPlayedTime(parseFloat(savedTime));
     }
-  }, []);
-  console.log(videoDuration);
+  }, [classDetailId]);
+
   return (
     <article className="lg:h-[calc(100dvh-84px)] mysm:h-[calc(100dvh-112px)] p-1 lg:w-[100%]">
       <ReactPlayer
         ref={playerRef}
-        url={"/videos/test.mp4"}
+        url={`${videoData}`}
         playing={playing}
         muted={true}
         controls={true}

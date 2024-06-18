@@ -1,12 +1,74 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LearnVideo } from "./LearnVideo";
 import { LearnVideoList } from "./LearnVideoList";
 import hamburgerIcon from "assets/img/MenuBar.svg";
+import { useQuery } from "@tanstack/react-query";
+import axios from "api/axios";
+import { selectClassinfo } from "components/class/hooks/useGetArray";
+import { useLocation } from "react-router-dom";
+import { ClassDataType } from "components/class/ClassDetail";
+import requests from "api/requests";
+
 export const LearnPlayer = () => {
   const [isShowSection, setIsShowSection] = useState(false);
+  const [VideoData, setVideoData] = useState<string | null>(null);
+  const classId = parseInt(useLocation().pathname.split("/")[2]);
+  const classDetailId = parseInt(useLocation().pathname.split("/")[3]);
+  const { data, isLoading, isError, error } = useQuery<ClassDataType, Error>({
+    queryKey: ["classDeatil", classId],
+    queryFn: () => selectClassinfo(classId),
+  });
+  console.log(data);
+
+  // const fetchData = async () => {
+  //   try {
+  //     const res = await axios.get(
+  //       `${requests.lecture.getTargetLectureLearningData}/${classDetailId}`
+  //     );
+  //     console.log(res);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // fetchData();
+  const renderVideo = (VideoData: string | null) => {
+    if (VideoData) {
+      return (
+        <LearnVideo
+          videoData={VideoData}
+          classDetailId={classDetailId}
+        ></LearnVideo>
+      );
+    } else {
+      return <div>로딩중</div>;
+    }
+  };
+  useEffect(() => {
+    if (data) {
+      data?.classDetail.map((arr, index) => {
+        arr.map((item) => {
+          console.log("calssdetailid", item.classDetailId);
+          if (item.classDetailId === classDetailId) {
+            return setVideoData(item.video);
+          }
+        });
+      });
+    } else {
+      return;
+    }
+  }, [classDetailId, data]);
+
+  if (isLoading) {
+    return <div>로딩중</div>;
+  }
+  if (isError || !data) {
+    return <div>{error && error.message}</div>;
+  }
+  console.log(classDetailId);
+
   return (
     <div
-      className="lg:mt-[84px] md:mt-[72px] mysm:mt-[72px] max-w-[100vw]  my-0 mx-auto  bg-[#2C3539] flex justify-center  lg:pb-0
+      className="lg:mt-[84px] md:mt-[72px] mysm:mt-[72px] max-w-[100vw]  my-0 mx-auto  bg-[#2E2E2E] flex justify-center  lg:pb-0
     lg:mb-0 mysm:mb-[50px] lg:h-[calc(100vh-84px)] mysm:h-[calc(100vh-112px)]
     relative
     "
@@ -18,9 +80,9 @@ export const LearnPlayer = () => {
         lg:justify-between
         "
         >
-          <LearnVideo></LearnVideo>
+          {renderVideo(VideoData)}
           <div className="mysm:block lg:hidden">
-            <LearnVideoList />
+            <LearnVideoList data={data} />
           </div>
           <div
             className={`absolute top-2 right-2  lg:block mysm:hidden  lg:rounded-lg m-2 overflow-hidden  
@@ -33,7 +95,7 @@ export const LearnPlayer = () => {
                 isShowSection ? "translate-y-0" : "-translate-y-[100%]"
               } transition-all bg-[#BEC9CE] z-10 relative`}
             >
-              <LearnVideoList></LearnVideoList>
+              <LearnVideoList data={data} />
               <div className="w-[100%] flex justify-center items-center bg-[#BEC9CE]">
                 <button
                   onClick={() => setIsShowSection(false)}
@@ -47,7 +109,7 @@ export const LearnPlayer = () => {
           </div>
           <div
             className={`flex absolute top-2 right-2 m-2
-             overflow-hidden z-0
+             overflow-hidden z-0 lg:block mysm:hidden
             `}
           >
             <button
