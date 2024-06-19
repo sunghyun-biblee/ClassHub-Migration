@@ -4,15 +4,15 @@ import styled from "styled-components";
 import { MypageCategory } from "./MypageCategory";
 import { useQueryClient } from "@tanstack/react-query";
 import {
+  fetchMyCommuList,
   fetchPaymentedList,
-  fetchQuestionList,
 } from "../community/hooks/fetchCommuArray";
 import { getTeacherData } from "./hooks/getTeacherData";
 import { fetchMyLectureList } from "./hooks/fetchMyLectureList";
 import { useAuth } from "hooks/AuthProvider";
 
 export const Mypage = () => {
-  const { userData } = useAuth();
+  const { userData, userId } = useAuth();
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -22,13 +22,13 @@ export const Mypage = () => {
     });
     queryClient.prefetchQuery({
       queryKey: ["myCommu"],
-      queryFn: () => fetchQuestionList(1),
+      queryFn: () => fetchMyCommuList(userId),
     });
     // queryClient.prefetchQuery({
     //   queryKey: ["myLectureList"],
     //   queryFn: () => fetchMyLectureList(),
     // });
-  }, [userData, queryClient]);
+  }, [userData, queryClient, userId]);
 
   return (
     <MypageContainer className="lg:pt-[130px] md:pt-[100px] mysm:pt-[90px] max-w-[100vw] lg:max-w-[1200px] lg:grid lg:grid-cols-[1fr,4fr] md:flex md:flex-col">

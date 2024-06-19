@@ -1,22 +1,33 @@
 import React, { useState } from "react";
 import { Header } from "../Header";
-import { fetchQuestionList } from "components/community/hooks/fetchCommuArray";
+import {
+  Icommuitem,
+  fetchMyCommuList,
+  fetchQuestionList,
+} from "components/community/hooks/fetchCommuArray";
 import { Item } from "../management/Item";
 import { useQuery } from "@tanstack/react-query";
 import { PageNation } from "components/class/PageNation";
 import { MyCommuItem } from "./MyCommuItem";
+import { useAuth } from "hooks/AuthProvider";
+import { CommuInfo } from "components/community/hooks/useTargetPost";
+import like from "assets/img/likes.svg";
 
 export const MyCommu = () => {
+  const { userId } = useAuth();
   const type = "commu";
   const [page, setPage] = useState(1);
-  const postLimit = 5;
-  const pageOfLast = page * postLimit; // 페이지마다 마지막 포스트 위치
-  const pageOfFirst = pageOfLast - postLimit; // 페이지마다 첫 포스트 위치
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["myCommu"],
-    queryFn: () => fetchQuestionList(1),
+    queryFn: () => fetchMyCommuList(userId),
   });
+  if (isLoading) {
+    return <div>로딩중</div>;
+  }
+  if (isError) {
+    return <span>{error.message}</span>;
+  }
 
   return (
     <div
@@ -28,7 +39,7 @@ export const MyCommu = () => {
       <section className="p-5">
         <Header type={type}></Header>
         <article>
-          <ul className="grid md:grid-cols-[0.5fr,1fr,0.6fr,0.5fr,0.5fr,0.5fr] mysm:grid-cols-[1fr,1fr,1fr,0.7fr,0.7fr] text-center border-[1px] rounded-md my-5 font-semibold md:text-base mysm:text-sm  text-blue-950 ">
+          <ul className="grid md:grid-cols-[0.5fr,1fr,0.6fr,0.6fr,0.4fr,0.3fr] mysm:grid-cols-[1fr,1fr,1fr,0.7fr,0.7fr] text-center border-[1px] rounded-md my-5 font-semibold md:text-base mysm:text-sm  text-blue-950 ">
             <li className="py-[5px] md:block mysm:hidden">게시글ID</li>
             <li
               className="py-[5px] md:text-center mysm:text-center 
@@ -37,17 +48,22 @@ export const MyCommu = () => {
             >
               제목
             </li>
-            <li className="py-[5px]">작성자</li>
+            <li className="py-[5px]">작성일</li>
             <li className="py-[5px]">카테고리</li>
             <li className="py-[5px] md:text-base mysm:text-sm">관리하기</li>
-            <li className="py-[5px]">삭제</li>
+            <li className="py-[5px] flex justify-center items-center">
+              <img src={like} alt="" className="w-5" />
+            </li>
           </ul>
-          {/* <div className="flex flex-col gap-y-5">
-            {data?.slice(pageOfFirst, pageOfLast).map((item) => (
-              <MyCommuItem item={item} key={item.id} />
-            ))}
+
+          <div className="flex flex-col gap-y-5">
+            {data &&
+              data.map((item: CommuInfo, index: number) => (
+                <MyCommuItem item={item} key={item.userId + index} />
+              ))}
           </div>
-          <PageNation
+
+          {/* <PageNation
             listLength={data ? data.length : 0}
             postLimit={postLimit}
             page={page}
