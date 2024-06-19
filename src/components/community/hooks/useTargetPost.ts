@@ -1,20 +1,20 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { selectCommuinfo } from "./fetchCommuArray";
 
 export interface CommuInfo {
-  userId: number;
-  nickname: string;
+  commentCount: number;
   communityId: number;
   communityType: string;
-  title: string;
-  text: string;
-  regDate: string;
   editDate: string;
   favoriteCount: number;
-  commentCount: number;
-  imageIds: number[];
   image: string[];
+  imageIds: number[];
   likeUsers: number[];
+  nickname: string;
+  regDate: string;
+  text: string;
+  title: string;
+  userId: number;
 }
 export function useTargetPost(id: number, category: string) {
   const { data, isLoading, isError, error } = useQuery<CommuInfo, Error>({
