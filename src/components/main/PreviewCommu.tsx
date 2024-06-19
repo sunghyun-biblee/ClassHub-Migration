@@ -84,10 +84,10 @@ export const PreviewCommu = ({
         </div>
       </div>
       <section className="grid grid-cols-3 gap-3 py-3">
-        {mainCommuList.slice(0, 3).map((item) => (
+        {mainCommuList.slice(0, 3).map((item, index) => (
           <article
             className="flex flex-col justify-between border-[1px] p-2 rounded-md"
-            key={`${item.title}+${item.nickname}`}
+            key={`${item.userId + "index" + item.communityId + item.regDate}`}
             onClick={() =>
               handleShowDetail(item.communityType, item.communityId)
             }
