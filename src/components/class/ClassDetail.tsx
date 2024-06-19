@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { selectClassinfo } from "./hooks/useGetArray";
 import styled from "styled-components";
 import axios from "api/axios";
@@ -11,7 +11,12 @@ import { impCode } from "api/payment";
 import { IClassType } from "./ShowClass";
 import { formatVideoDuration } from "components/mypage/teacherPage/addclass/VideoInsert";
 import preview from "assets/img/preview.jpg";
+import { CartItemType } from "hooks/CartProvider";
 
+type cartMutateType = {
+  classId: number;
+  userId: number;
+};
 interface ClassDetailData {
   classDetailId: number;
   classId: number;
@@ -31,6 +36,7 @@ export interface ClassDataType {
   percentage: number;
 }
 export const ClassDetail = () => {
+  const queryClient = useQueryClient();
   const { userData } = useAuth();
   const { pathname } = useLocation();
   const id = parseInt(pathname.split("/")[2], 10);
@@ -38,18 +44,53 @@ export const ClassDetail = () => {
     queryKey: ["classDeatil", id],
     queryFn: () => selectClassinfo(id),
   });
-  console.log(data);
-  console.log(data?.classInfo.className);
+
+  const CartUpdateMutation = useMutation<
+    void,
+    Error,
+    { classId: number; userId: number }
+  >({
+    mutationFn: ({ classId, userId }) => addCartItem(classId, userId),
+    onSettled: () => {
+      return queryClient.invalidateQueries({
+        queryKey: ["cartItemList"],
+      });
+    },
+    onMutate: async () => {
+      await queryClient.cancelQueries({
+        queryKey: ["cartItemList"],
+      });
+
+      const prevData = queryClient.getQueryData(["cartItemList"]);
+
+      await queryClient.setQueryData(
+        ["cartItemList"],
+        (oldData: CartItemType[] | undefined) => {
+          if (oldData) {
+            const newItem = {
+              userId: userData.userId,
+              classId: id,
+            };
+            const newData = [...oldData, newItem];
+            return newData;
+          }
+          return oldData;
+        }
+      );
+      return { prevData };
+    },
+  });
+
   if (data && data.classInfo) {
     document.title = data.classInfo.className;
   }
-  console.log(userData);
+
   const handleAddCart = (classId: number) => {
     if (!userData.userId) {
       alert("로그인 후 이용가능합니다");
       return;
     } else {
-      addCartItem(classId, userData.userId);
+      CartUpdateMutation.mutate({ classId, userId: userData.userId });
     }
   };
   const handlePayMent = () => {
