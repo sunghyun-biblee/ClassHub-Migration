@@ -15,7 +15,7 @@ const requests = {
     deleteImg: "/community/delete/image",
     updatePost: "/community/modify/board",
     mainPageCommunity: "/community/mainpage",
-    mypageCommunity: "/community/quest",
+    mypageCommunity: "/community/mypage",
   },
   lecture: {
     addLectureMaterial: "/lecture/uploadAndSyncMaterials",
