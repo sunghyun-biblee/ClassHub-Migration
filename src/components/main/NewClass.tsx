@@ -37,8 +37,13 @@ export const NewClass = ({
           <img src={rightArrow} alt="" className="w-5 h-auto ml-2" />
         </div>
       </div>
-      <section className="grid grid-cols-4 gap-3">
+      <section className=" grid-cols-4 gap-3 md:grid mysm:hidden">
         {data.contents.slice(0, 4).map((item) => (
+          <ClassItem item={item} key={`exex+${item.classId}`}></ClassItem>
+        ))}
+      </section>
+      <section className=" grid-cols-3 gap-3 md:hidden mysm:grid">
+        {data.contents.slice(0, 3).map((item) => (
           <ClassItem item={item} key={`exex+${item.classId}`}></ClassItem>
         ))}
       </section>
