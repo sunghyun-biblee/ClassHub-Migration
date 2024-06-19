@@ -52,7 +52,9 @@ export const NaviPC = ({ userData }: INavProps) => {
     nav(`${location}`);
   };
 
-  const { data, isLoading, isError, error } = useCartData(userData.userId);
+  const { data, isLoading, isError, error } = useCartData(
+    userData && userData.userId
+  );
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -63,14 +65,15 @@ export const NaviPC = ({ userData }: INavProps) => {
     }
   };
   const handleLogOut = () => {
-    if (AuthCookie) {
-      console.log(AuthCookie);
+    window.location.href = "https://api.devproject.store/logout";
+    // if (AuthCookie) {
+    //   console.log(AuthCookie);
 
-      removeCookie("Authorization");
+    //   removeCookie("Authorization");
 
-      console.log("쿠키 삭제 완료");
-      // window.location.reload();
-    }
+    //   console.log("쿠키 삭제 완료");
+    //    window.location.reload();
+    // }
   };
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);

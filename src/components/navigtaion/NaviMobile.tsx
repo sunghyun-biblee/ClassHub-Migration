@@ -96,7 +96,9 @@ export const NaviMobile = ({ userData }: INavtype) => {
     window.location.reload();
   };
 
-  const { data, isLoading, isError, error } = useCartData(userData.userId);
+  const { data, isLoading, isError, error } = useCartData(
+    userData && userData.userId
+  );
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
