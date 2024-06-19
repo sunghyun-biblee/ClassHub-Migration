@@ -9,6 +9,7 @@ import { getCartItemList } from "./hooks/getCartItemList";
 import { addOrder } from "./hooks/addOrder";
 import { cartClear, deleteCartItem } from "./hooks/deleteCartItem";
 import { deleteOrder } from "./hooks/deleteOrder";
+import { CartListItem } from "./CartListItem";
 export const CartList = () => {
   const queryClient = useQueryClient();
   const { userData, userIsLoading, userIsError, userError } = useAuth();
@@ -22,24 +23,7 @@ export const CartList = () => {
   });
   const data1 = queryClient.getQueryData(["cartItemList"]);
   console.log(data1);
-  const renderCategortText = (categoryId: number) => {
-    switch (categoryId) {
-      case 1:
-        return "개발 프로그래밍";
 
-      case 2:
-        return "게임 개발";
-
-      case 3:
-        return "인공지능";
-
-      case 4:
-        return "보안 네크워크";
-
-      default:
-        break;
-    }
-  };
   const handleToggleCheckbox = (item: CartItemType) => {
     if (selectItem.includes(item)) {
       // 이미 체크된 아이템일 경우 제거
@@ -137,7 +121,15 @@ export const CartList = () => {
     EachDeleteMutation.mutate(cartid);
   };
   const handleCartClear = (userid: number) => {
-    CartClearMutation.mutate(userid);
+    if (data.length === 0) {
+      alert("장바구니에 추가된 강의가 없습니다");
+      return;
+    }
+    if (window.confirm("장바구니를 비우시겠습니까?")) {
+      CartClearMutation.mutate(userid);
+    } else {
+      return;
+    }
   };
   const handleOrderClick = () => {
     if (selectItemId.length < 1) {
@@ -194,70 +186,12 @@ export const CartList = () => {
           ) : (
             data &&
             data.map((item: CartItemType) => (
-              <li
-                className="flex flex-col  items-start mb-10 md:p-0 md:mx-1 border-2 rounded-md shadow-[0px_1px_1px_rgba(149,157,165,0.3)]"
-                key={item.cartId + item.userId}
-              >
-                <div className="flex md:flex-row mysm:flex-col w-[100%] h-[100%] ">
-                  <div className="lg:w-[100px]  md:w-[70px]  mysm:w-[100%] py-3  md:px-0 mysm:px-3 flex mysm:justify-start md:justify-center items-center bg-[#F8F8F8]">
-                    <input
-                      type="checkbox"
-                      onChange={() => handleToggleCheckbox(item)}
-                      checked={selectItem.includes(item)}
-                    />
-                  </div>
-                  <div
-                    id="lectureInfo"
-                    className="flex justify-between w-[100%]"
-                  >
-                    <div className="flex items-center justify-center">
-                      <img
-                        src={exThumnail}
-                        alt="lectrueImg"
-                        className=" lg:h-[200px] 
-        md:h-[130px]
-        mysm:h-[100px]
-        p-2  rounded-xl"
-                      />
-                    </div>
-                    <ul className="flex flex-col justify-between p-3 w-[50%] ">
-                      <li className="text-[#959595] font-semibold py-1 flex justify-between">
-                        <span>주문번호 &nbsp;{item.cartId}</span>
-                        <button
-                          className="text-red-700/70 font-semibold"
-                          onClick={() => handleDeleteItem(item.cartId)}
-                        >
-                          삭제
-                        </button>
-                      </li>
-                      <li className="font-semibold py-1">
-                        강의명:&nbsp;{item.classResponseDTO.className}
-                      </li>
-                      <li className="text-[#959595] font-semibold py-1">
-                        {renderCategortText(item.classResponseDTO.categoryId)}
-                      </li>
-                    </ul>
-                    <ul
-                      className=" border-l-[1px] py-1 px-1 flex flex-col justify-center items-center 
-      lg:w-[110px]
-      md:w-[100px]
-      mysm:w-[100px]
-      "
-                    >
-                      <li>
-                        <span className="font-semibold text-[#858585]">
-                          강의 가격
-                        </span>
-                      </li>
-                      <li className="mt-2">
-                        <strong className="min-w-[80px]  md:p-2 mysm:p-0">
-                          {item.classResponseDTO.price.toLocaleString()}원
-                        </strong>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
+              <CartListItem
+                item={item}
+                selectItem={selectItem}
+                handleToggleCheckbox={handleToggleCheckbox}
+                handleDeleteItem={handleDeleteItem}
+              ></CartListItem>
             ))
           )}
         </ul>
@@ -289,4 +223,23 @@ export const CartList = () => {
       </div>
     </div>
   );
+};
+
+export const renderCategoryText = (categoryId: number) => {
+  switch (categoryId) {
+    case 1:
+      return "개발 프로그래밍";
+
+    case 2:
+      return "게임 개발";
+
+    case 3:
+      return "인공지능";
+
+    case 4:
+      return "보안 네크워크";
+
+    default:
+      return "";
+  }
 };
