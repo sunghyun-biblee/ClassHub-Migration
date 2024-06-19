@@ -3,18 +3,20 @@ import { HeartSVG } from "./HeartSVG";
 import { paymentResType } from "components/cart/PaymentedPage";
 import { paymentedItemType } from "./ShowList";
 import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 interface IApplicationItemProp {
   data: paymentedItemType;
 }
 
 export const ApplicationItem = ({ data }: IApplicationItemProp) => {
   const queryClient = useQueryClient();
-
   queryClient.prefetchQuery({
-    queryKey: ["paymented"],
-    // queryFn: () => PaymentedItem(id),
+    queryKey: ["paymentedDetail", data.ordersId],
   });
-
+  const nav = useNavigate();
+  const handlePaymentedDeatil = (orderId: number) => {
+    nav(`/cart/order/paymented/${orderId}`);
+  };
   return (
     <div className=" border-[1px] py-2 px-1 mb-3 rounded-md ">
       <ul
@@ -39,7 +41,10 @@ export const ApplicationItem = ({ data }: IApplicationItemProp) => {
         <li className="px-[5px] flex justify-center items-center">
           <p>{data.finalOrderStatus === 1 ? "✅" : "❌"}</p>
         </li>
-        <li className="px-[5px] flex justify-center items-center cursor-pointer">
+        <li
+          className="px-[5px] flex justify-center items-center cursor-pointer"
+          onClick={() => handlePaymentedDeatil(data.ordersId)}
+        >
           <p>{">"}</p>
         </li>
       </ul>

@@ -13,7 +13,7 @@ export const Application = () => {
     md:mt-2
     "
     >
-      <section className="md:p-5 mysm:px-3 mysm:py-5">
+      <section className="md:p-5 mysm:px-2 mysm:py-5">
         <header className="flex justify-between items-center">
           <h1 className="md:text-xl font-semibold mysm:text-xl">구매내역</h1>
           {/* <ApplicationFilter setFilter={setFilter} /> */}

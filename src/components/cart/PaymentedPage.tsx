@@ -60,7 +60,7 @@ export const PaymentedPage = () => {
   const { pathname } = useLocation();
   const id = pathname.split("/")[4];
   const { data, isLoading, isError, error } = useQuery<paymentResType, Error>({
-    queryKey: ["paymented"],
+    queryKey: ["paymentedDetail", id],
     queryFn: () => PaymentedItem(id),
   });
   console.log(id);
