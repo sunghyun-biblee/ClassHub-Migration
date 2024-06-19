@@ -7,8 +7,7 @@ type CartRes = {
 };
 export async function getCartItemList(userId: number) {
   if (!userId) {
-    alert("유저아이디가 없습니다");
-    return;
+    return [];
   }
 
   try {
