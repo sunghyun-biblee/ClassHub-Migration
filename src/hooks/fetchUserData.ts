@@ -3,13 +3,11 @@ import requests from "api/requests";
 
 export interface userType {
   userId: number;
-  snsId: string;
-  accessToken: string;
+  userName: string;
   name: string;
   nickname: string | null;
   email: string;
   profilePicture: string;
-  platformType: string;
   introduce: string | null;
   regDate: string;
   exitDate: string | null;
