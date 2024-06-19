@@ -22,11 +22,33 @@ export const ShowList = () => {
   const { userData } = useAuth();
   const [propsArray, setPropsArray] = useState(examApp);
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error } = useQuery<
+    paymentedListType,
+    Error
+  >({
     queryKey: ["paymentedList"],
     queryFn: () => fetchPaymentedList(userData.userId),
   });
-  console.log(data);
+  if (isLoading) {
+    return <div>로딩중</div>;
+  }
+  if (isError) {
+    return <span>{error.message}</span>;
+  }
+  if (data && data.data.length < 1) {
+    return (
+      <div className="w-[100%] flex justify-center items-center min-h-[30vh]">
+        <span
+          className="tracking-wide lg:text-3xl md:text-2xl mysm:text-xl
+        text-gray-500 [text-shadow:2px_2px_3px_#c5c5c6]
+        "
+        >
+          구매 내역이 없습니다
+        </span>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div>
