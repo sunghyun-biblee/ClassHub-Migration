@@ -1,5 +1,5 @@
-import axios from "../../../api/axios";
-import requests from "../../../api/requests";
+import axios from "api/axios";
+import requests from "api/requests";
 import { Community } from "../Community";
 
 export interface Icommuitem {
@@ -46,7 +46,28 @@ export async function fetchQuestionList(page: number) {
   const data = await axios.get(requests.community.getQuestionList);
   return data;
 }
+export async function fetchMyCommuList(userID: number) {
+  try {
+    if (userID === 0) {
+      alert("정상적인 접근이 아닙니다");
+      return [];
+    }
+    const res = await axios.get(requests.community.mypageCommunity, {
+      params: {
+        userId: userID,
+      },
+      withCredentials: true,
+    });
+    console.log(res);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
 export async function selectCommuinfo(CommunityId: number, category: string) {
+  if (!category) {
+    return;
+  }
   if (category === "qna") {
     const data = await axios.get(`/community/question/${CommunityId}`);
 
