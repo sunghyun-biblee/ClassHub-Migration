@@ -176,9 +176,8 @@ export const OrderPage = () => {
               <strong>
                 {data && data.length >= 2
                   ? data[0].classResponseDTO.className +
-                    `외 ${data.length - 1} 건`
+                    ` 외 ${data.length - 1} 건`
                   : data && data[0].classResponseDTO.className}
-                건
               </strong>
             </li>
             <li className="flex justify-between py-1">

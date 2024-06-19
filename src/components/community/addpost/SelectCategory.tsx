@@ -29,6 +29,9 @@ export const SelectCategory = ({
           <option value="0">---카테고리---</option>
           <option value="1">질문답변</option>
           <option value="2">스터디</option>
+          <option value="3" disabled={mainCategory ? false : true}>
+            스터디 모집완료
+          </option>
         </select>
       </div>
     </div>
