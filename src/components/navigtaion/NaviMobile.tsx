@@ -11,6 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getCartItemList } from "components/cart/hooks/getCartItemList";
 import { NaviMobileCategory } from "./NaviMobileCategory";
 import { useCartData } from "./hooks/useCartData";
+import { getCookie } from "hooks/CustomCookie";
 const NavigationMobile = styled.div`
   position: fixed;
   top: 0;
@@ -75,6 +76,7 @@ interface INavtype {
   userData: userType;
 }
 export const NaviMobile = ({ userData }: INavtype) => {
+  const AuthCookie = getCookie("Authorization");
   const [isMyMenu, setIsMyMenu] = useState(false);
   const myPageRef = useRef(null);
   const nav = useNavigate();
@@ -92,8 +94,7 @@ export const NaviMobile = ({ userData }: INavtype) => {
     nav(`${location}`);
   };
   const handleLogOut = () => {
-    localStorage.removeItem("user");
-    window.location.reload();
+    window.location.href = "https://api.devproject.store/logout";
   };
 
   const { data, isLoading, isError, error } = useCartData(
@@ -117,8 +118,8 @@ export const NaviMobile = ({ userData }: INavtype) => {
   }, []);
 
   return (
-    <NavigationMobile className="screen-width lg:hidden z-20 h-[72px]">
-      <nav className=" md:flex justify-between items-center py-[4px] md:pl-5 md:pr-2 mysm:pl-2 ">
+    <NavigationMobile className="screen-width lg:hidden z-20 h-[4.5rem]">
+      <nav className=" md:flex justify-between items-center py-[4px] md:px-5 mysm:px-2 ">
         <div>
           <img
             src={MenuBar}
@@ -137,12 +138,12 @@ export const NaviMobile = ({ userData }: INavtype) => {
         </div>
         <div
           onClick={() => handleNav("/")}
-          className="mysm:translate-x-7 md:translate-x-5"
+          className={`${AuthCookie && "mysm:translate-x-7 md:translate-x-5"}`}
         >
-          <img src={logo} alt="" className="logo w-[64px] h-13 " />
+          <img src={logo} alt="" className="logo w-[4rem] h-13 " />
         </div>
         <div>
-          {userData && userData.userId ? (
+          {AuthCookie ? (
             <ul className="md:flex justify-between  items-center w-42 second-menu font-semibold ">
               <li
                 className="px-4 cursor-pointer"
@@ -181,7 +182,7 @@ export const NaviMobile = ({ userData }: INavtype) => {
             <ul className="flex justify-between  items-center w-42 second-menu font-semibold ">
               <li
                 className=" border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer hover:bg-blue-300 hover:text-white hover:transition-colors
-              mr-3 p-1
+              p-1
               text-sm
               "
               >
