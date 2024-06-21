@@ -131,7 +131,7 @@ export const OrderPage = () => {
   return (
     <div className="flex justify-center items-center mt-10">
       <section
-        className=" border-2 w-[50%]
+        className=" border-2 lg:w-[50%] md:w-[70%] mysm:w-[95%]
       border-dashed py-5 px-3 shadow-md"
       >
         <article className="flex flex-col ">
