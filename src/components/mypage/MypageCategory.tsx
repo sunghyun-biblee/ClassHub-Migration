@@ -5,6 +5,9 @@ import { Icon } from "./Icon";
 import { GradeUpBtn, handleClick } from "./GradeUpBtn";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { userType } from "hooks/fetchUserData";
+import axios from "api/axios";
+import requests from "api/requests";
+import { addInstructor } from "./hooks/AddInstructor";
 
 interface IMyCategoryType {
   userData: userType;
@@ -33,6 +36,7 @@ export const MypageCategory = ({ userData }: IMyCategoryType) => {
       }
     }
   };
+
   return (
     <CategoryContainer
       className="lg:px-4 lg:py-3 md:px-2 md:py-2 border-[1px] rounded-lg lg:mr-3 mysm:mx-1 lg:block mysm:grid md:grid-cols-[1fr,3fr] mysm:grid-cols-[1.6fr,3fr]
@@ -171,7 +175,7 @@ export const MypageCategory = ({ userData }: IMyCategoryType) => {
             </p>
           </button>
         </Li>
-        {teacherData?.type ? (
+        {userData && userData.role === "INSTRUCTOR" ? (
           <Li
             className={`lg:mb-1 lg:border-none md:block mysm:flex mysm:justify-center ${
               stylePath === "teacherpage"
@@ -203,13 +207,13 @@ export const MypageCategory = ({ userData }: IMyCategoryType) => {
           >
             <button
               className="md:p-2 mysm:px-3 mysm:py-1 mysm:my-1 mysm:flex items-center md:text-base mysm:text-[13px] border-[1px] rounded-lg
-              lg:hidden
+              lg:block
               text-[#efefef]
               font-extrabold
               bg-[#3B82F6]
               "
               id="teacherpage"
-              onClick={handleClick}
+              onClick={() => addInstructor(userData)}
             >
               강사신청
             </button>
