@@ -50,7 +50,7 @@ export const EditClass = () => {
   const [completeSectionArray, setCompleteSectionArray] = useState<
     editSectionInfo[]
   >([]);
-  const [isAddMaterial, setIsAddMaterial] = useState<boolean>(false);
+  // const [isAddMaterial, setIsAddMaterial] = useState<boolean>(false);
   const [saveSectionTitle, setSaveSectionTitle] = useState<string>("");
   const [sectionArray, setSectionArray] = useState<editSectionInfo[]>([]);
   const [uploadVideo, setUploadVideo] = useState<resVideoInfo[]>([]);
@@ -79,7 +79,7 @@ export const EditClass = () => {
       setCompleteSectionArray([...lectureVideoData.sections]);
       setSectionArray([...lectureVideoData.sections]);
     }
-  }, [lectureData]);
+  }, [lectureData, lectureVideoData]);
   console.log(completeSectionArray);
   const addSession = () => {
     if (sectionArray.length === 0) {
@@ -123,11 +123,11 @@ export const EditClass = () => {
     setIsAddSectionOn(true);
   };
 
-  const addVideoToSession = (index: number, videoInfo: resVideoInfo) => {
-    const newSectionArray = [...sectionArray];
-    newSectionArray[index].videos.push(videoInfo);
-    setSectionArray(newSectionArray);
-  };
+  // const addVideoToSession = (index: number, videoInfo: resVideoInfo) => {
+  //   const newSectionArray = [...sectionArray];
+  //   newSectionArray[index].videos.push(videoInfo);
+  //   setSectionArray(newSectionArray);
+  // };
 
   const handleSectionTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSaveSectionTitle(e.target.value);
