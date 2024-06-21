@@ -3,28 +3,42 @@ import React from "react";
 import requests from "api/requests";
 import axios from "api/axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "hooks/AuthProvider";
+
+import { addInstructor } from "./hooks/AddInstructor";
 
 export const GradeUpBtn = () => {
+  const { userData, logOut } = useAuth();
   const nav = useNavigate();
   const handleLogOut = () => {
     localStorage.removeItem("user");
     nav("/");
   };
+
   return (
     <div
       className="lg:flex lg:justify-between    lg:flex-row md:flex-col 
     mysm:flex-col 
    "
     >
-      <button
-        className=" border-none rounded-lg lg:p-2 md:p-1  lg:text-sm md:text-[12px]  bg-blue-500 text-gray-100 lg:font-semibold "
-        onClick={handleClick}
-      >
-        강사 신청
-      </button>
+      {userData && userData.role !== "INSTRUCTOR" ? (
+        <button
+          className=" border-none rounded-lg lg:p-2 md:p-1  lg:text-sm md:text-[12px]  bg-blue-500 text-gray-100 lg:font-semibold "
+          onClick={() => addInstructor(userData)}
+        >
+          강사 신청
+        </button>
+      ) : (
+        <button
+          className=" border-none rounded-lg lg:p-2 md:p-1  lg:text-sm md:text-[12px]  bg-blue-500 text-gray-100 lg:font-semibold "
+          onClick={() => addInstructor(userData)}
+        >
+          강사 취소
+        </button>
+      )}
       <button
         className=" border-none  rounded-lg lg:p-2 lg:m-0 md:mt-1 md:p-1 lg:text-sm md:text-[12px]  bg-gray-400 text-black-300 font-semibold"
-        onClick={handleLogOut}
+        onClick={logOut}
       >
         로그아웃
       </button>
