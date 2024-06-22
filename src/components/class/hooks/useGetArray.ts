@@ -24,6 +24,7 @@ export async function fetchClassList(categoryType: number, page: number) {
           page: page,
         },
       });
+
       console.log(res.data.contents);
       return res.data;
     } else {
@@ -33,6 +34,7 @@ export async function fetchClassList(categoryType: number, page: number) {
           page: page,
         },
       });
+
       return res.data;
     }
   } catch (error) {
