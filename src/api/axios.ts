@@ -2,7 +2,7 @@ import axios, { AxiosInstance } from "axios";
 
 const instance = axios.create({
   baseURL: "/api",
-  // withCredentials: true,
+  withCredentials: true,
 });
 // https://api.devproject.store
 // const instance: AxiosInstance = axios.create({
