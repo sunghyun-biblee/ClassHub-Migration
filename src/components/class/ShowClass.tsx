@@ -27,12 +27,23 @@ interface IShowClass {
   categoryType: number;
 }
 export const ShowClass = ({ categoryType }: IShowClass) => {
-  const [page, setPage] = useState(1);
+  const queryClient = useQueryClient();
+  const [page, setPage] = useState<number>(1);
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["classListAll"],
+    queryKey: ["classListAll", page],
     queryFn: () => fetchClassList(categoryType, page),
   });
+
+  console.log(data);
+  useEffect(() => {
+    const nextpage = page + 1;
+    queryClient.prefetchQuery({
+      queryKey: ["classListAll", nextpage],
+      queryFn: () => fetchClassList(categoryType, nextpage),
+    });
+  }, [page, queryClient, categoryType]);
+
   if (isLoading) {
     return <div>로딩중</div>;
   }
