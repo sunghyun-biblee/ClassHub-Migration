@@ -43,6 +43,7 @@ import { PaymentedPage } from "components/cart/PaymentedPage";
 import { EditClass } from "components/mypage/teacherPage/editClass/EditClass";
 import { CookiesProvider } from "react-cookie";
 import axios from "axios";
+import { queryClient } from "queryClient";
 
 const cliendtId =
   "386437749459-jjvcsk0qiqdg429e7ihbkhu411b21l0c.apps.googleusercontent.com";
@@ -70,7 +71,7 @@ function App() {
     }
   }, [pathname]);
 
-  const queryClient = new QueryClient();
+  const myQueryClient = queryClient;
   const LayOut = () => {
     const userData = localStorage.getItem("user");
     const loginuser = userData ? JSON.parse(userData) : {};
@@ -95,7 +96,7 @@ function App() {
   return (
     <CookiesProvider>
       <GoogleOAuthProvider clientId={cliendtId}>
-        <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={myQueryClient}>
           <AuthProvider>
             <ClassTypeProvider>
               <div className="min-h-[100vh] flex flex-col ">
