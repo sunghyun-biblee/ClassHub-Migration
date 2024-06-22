@@ -7,7 +7,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { userType } from "hooks/fetchUserData";
 import axios from "api/axios";
 import requests from "api/requests";
-import { addInstructor } from "./hooks/AddInstructor";
+import { addInstructor } from "./hooks/updateInstructor";
 
 interface IMyCategoryType {
   userData: userType;
@@ -22,8 +22,6 @@ export const MypageCategory = ({ userData }: IMyCategoryType) => {
     stylePath = "home";
   }
 
-  const teacherDataString = localStorage.getItem("teacher");
-  const teacherData = teacherDataString ? JSON.parse(teacherDataString) : null;
   const renderUserType = () => {
     if (userData) {
       switch (userData.role) {
@@ -39,15 +37,17 @@ export const MypageCategory = ({ userData }: IMyCategoryType) => {
 
   return (
     <CategoryContainer
-      className="lg:px-4 lg:py-3 md:px-2 md:py-2 border-[1px] rounded-lg lg:mr-3 mysm:mx-1 lg:block mysm:grid md:grid-cols-[1fr,3fr] mysm:grid-cols-[1.6fr,3fr]
-      
+      className={`lg:px-4 lg:py-3 md:px-2 md:py-2 border-[1px] rounded-lg lg:mr-3 mysm:mx-1 lg:block mysm:grid md:grid-cols-[1fr,3fr] mysm:grid-cols-[1.6fr,3fr]
     lg:shadow-[0px_8px_24px_rgba(149,157,165,0.3)]
-    lg:h-[530px]
-    
-    "
+   ${
+     userData && userData.role === "INSTRUCTOR"
+       ? "max-h-[530px]"
+       : "max-h-[480px]"
+   }
+ `}
     >
       <div
-        className="flex md:justify-between mysm:justify-between  md:w-[100%] mysm:w-[100%] lg:pb-3  lg:border-none mysm:border-r-[1px] mysm:p-2"
+        className="flex md:justify-between mysm:justify-between  md:w-[100%] mysm:w-[100%] lg:pb-3  lg:border-none mysm:border-r-[1px] mysm:p-2 "
         onClick={() => nav("/mypage")}
       >
         <div className="flex flex-col  justify-between py-1">
@@ -61,6 +61,7 @@ export const MypageCategory = ({ userData }: IMyCategoryType) => {
           "
         />
       </div>
+
       <ul
         className="lg:pt-5 lg:pb-5 lg:border-t-[1px] lg:border-b-[1px] lg:block md:flex md:justify-around md:items-center md:pl-2 w-[100%]
         mysm:grid mysm:grid-cols-3 
@@ -175,7 +176,7 @@ export const MypageCategory = ({ userData }: IMyCategoryType) => {
             </p>
           </button>
         </Li>
-        {userData && userData.role === "INSTRUCTOR" ? (
+        {userData && userData.role === "INSTRUCTOR" && (
           <Li
             className={`lg:mb-1 lg:border-none md:block mysm:flex mysm:justify-center ${
               stylePath === "teacherpage"
@@ -199,7 +200,23 @@ export const MypageCategory = ({ userData }: IMyCategoryType) => {
               </p>
             </button>
           </Li>
-        ) : (
+        )}
+      </ul>
+      <div className="lg:block md:hidden mysm:hidden lg:pt-5 h-[auto]">
+        <GradeUpBtn></GradeUpBtn>
+      </div>
+    </CategoryContainer>
+  );
+};
+
+const CategoryContainer = styled.div``;
+const Li = styled.li`
+  padding: 10px 0;
+`;
+
+/*
+
+: (
           <li
             className={`lg:mb-1 lg:border-none md:block mysm:flex mysm:justify-center ${
               stylePath === "home" ? "md:border-blue-400 md:border-b-[2px]" : ""
@@ -218,16 +235,5 @@ export const MypageCategory = ({ userData }: IMyCategoryType) => {
               강사신청
             </button>
           </li>
-        )}
-      </ul>
-      <div className="lg:block md:hidden mysm:hidden lg:pt-5">
-        <GradeUpBtn></GradeUpBtn>
-      </div>
-    </CategoryContainer>
-  );
-};
-
-const CategoryContainer = styled.div``;
-const Li = styled.li`
-  padding: 10px 0;
-`;
+        )
+*/
