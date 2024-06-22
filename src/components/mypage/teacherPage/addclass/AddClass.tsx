@@ -44,12 +44,12 @@ export const AddClass = () => {
   const [classDescription, setClassDescription] = useState<string>("");
   const [overView, setOverView] = useState<string>("");
   const [thumbnail, setThumbnail] = useState<Thumbnail>();
-  const [category, setCategory] = useState<number>();
+  const [category, setCategory] = useState<number>(0);
   const [price, setPrice] = useState<number>();
   const [isEditSectionTitle, setIsEditSectionTitle] = useState(true);
   const [completeSectionArray, setCompleteSectionArray] =
     useState<SectionInfo[]>();
-  const [isAddMaterial, setIsAddMaterial] = useState<boolean>(false);
+  // const [isAddMaterial, setIsAddMaterial] = useState<boolean>(false);
   const [saveSectionTitle, setSaveSectionTitle] = useState<string>("");
   const [sectionArray, setSectionArray] = useState<SectionInfo[]>([]);
   const [uploadVideo, setUploadVideo] = useState<VideoInfo[]>([]);
@@ -149,14 +149,22 @@ export const AddClass = () => {
     }
   };
 
-  console.log(completeSectionArray);
-  console.log(uploadVideo);
   const postAddLecture = async () => {
     const formData = new FormData();
-    const requestMaterial = {
-      id: 123,
-      files: [...materialArray],
-    };
+    if (!classTitle || !overView || !classDescription || !price) {
+      return alert("강의 제목, 요약 설명, 상세설명, 가격을 모두 작성해주세요");
+    }
+    if (!thumbnail) {
+      return alert("썸네일을 등록해주세요");
+    }
+    if (category === 0) {
+      return alert("카테고리를 선택해주세요");
+    }
+
+    if (!completeSectionArray) {
+      return alert("등록된 섹션 (영상) 이 없습니다");
+    }
+
     const request = {
       instructorsId: 6,
       categoryId: category,
@@ -226,13 +234,31 @@ export const AddClass = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      const materialRes = await axios.post(
-        requests.lecture.addLectureMaterial,
-        requestMaterial
-      );
+      if (res.data) {
+        const requestMaterial = {
+          id: res.data,
+          files: [...materialArray],
+        };
+        try {
+          const materialRes = await axios.post(
+            requests.lecture.addLectureMaterial,
+            requestMaterial,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+          console.log(materialRes);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        alert("강의 자료 등록중 오류가 발생했습니다");
+        return;
+      }
 
       console.log(res);
-      console.log(materialRes);
     } catch (error) {
       console.log(error);
     }
@@ -339,7 +365,9 @@ md:mt-2
                 name="category"
                 id="classCategory"
                 onChange={handleChangeCategory}
+                value={category}
               >
+                <option value="0">--카테고리--</option>
                 <option value="1">개발·프로그래밍</option>
                 <option value="2">게임 개발</option>
                 <option value="3">인공지능</option>
