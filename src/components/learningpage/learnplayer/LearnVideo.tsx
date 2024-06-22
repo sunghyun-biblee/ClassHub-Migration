@@ -61,7 +61,7 @@ export const LearnVideo = ({ videoData, classDetailId }: ILearnVideo) => {
     setPlaying(true);
   };
 
-  // 영상을 끝까지 다 들었을때 다시 버튼을 누르게되면 로컬스토리지에서 삭제하여 처음부터 다시 듣도록
+  // 영상을 끝까지 다 들었을때 로컬스토리지에서 삭제하여 처음부터 다시 듣도록
   const handleEnded = () => {
     localStorage.removeItem(`${classDetailId}`);
     setPlaying(false);
@@ -82,7 +82,7 @@ export const LearnVideo = ({ videoData, classDetailId }: ILearnVideo) => {
   }, [classDetailId]);
 
   return (
-    <article className="lg:h-[calc(100dvh-84px)] mysm:h-[calc(100dvh-112px)] p-1 lg:w-[100%]">
+    <article className="lg:h-[calc(100dvh-84px)] mysm:h-[calc(100dvh-112px)] lg:w-[100%] ">
       <ReactPlayer
         ref={playerRef}
         url={`${videoData}`}
@@ -92,7 +92,7 @@ export const LearnVideo = ({ videoData, classDetailId }: ILearnVideo) => {
         width="100%"
         height="100%"
         // light={<img src={preview} alt="thumbnail" className="w-[500px]" />}
-        progressInterval={1000}
+        progressInterval={30000}
         onProgress={handleProgress}
         onReady={handleReady}
         onPause={handlePause}
