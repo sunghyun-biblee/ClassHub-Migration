@@ -12,7 +12,7 @@ import { fetchMyLectureList } from "./hooks/fetchMyLectureList";
 import { useAuth } from "hooks/AuthProvider";
 
 export const Mypage = () => {
-  const { userData, userId } = useAuth();
+  const { userData, userId, userIsLoading } = useAuth();
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -30,6 +30,9 @@ export const Mypage = () => {
     // });
   }, [userData, queryClient, userId]);
 
+  if (userIsLoading) {
+    return <div>로딩중</div>;
+  }
   return (
     <MypageContainer className="lg:pt-[130px] md:pt-[100px] mysm:pt-[90px] max-w-[100vw] lg:max-w-[1200px] lg:grid lg:grid-cols-[1fr,4fr] md:flex md:flex-col">
       <MypageCategory userData={userData}></MypageCategory>

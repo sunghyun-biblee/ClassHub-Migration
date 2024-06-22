@@ -81,7 +81,7 @@ export const AuthProvider = ({ children }: AuthProviderType) => {
     window.location.href = "https://api.devproject.store/logout";
   };
   // console.log(user);
-
+  console.log(userData);
   return (
     <AuthContext.Provider
       value={{
