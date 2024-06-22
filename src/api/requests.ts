@@ -26,6 +26,8 @@ const requests = {
     editLecture: "/lecture/editClass",
     removeFavoriteLecture: "/lecture/clearFavoriteLecture",
     addInstructor: "/lecture/addInstructor",
+    deleteInstructor: "/lecture/deleteInstructor",
+
     getLectureMaterial: "/lecture/selectMaterial",
     getCategoryLecture: "/lecture/selectByCategory",
     getAllLecture: "/lecture/selectAll",
