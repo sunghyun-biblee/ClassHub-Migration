@@ -73,7 +73,7 @@ export const LearnPlayer = () => {
     relative
     "
     >
-      <div className="w-[100%] h-[100%] lg:max-w-[1200px] ">
+      <div className="w-[100%] h-[100%] lg:max-w-[2000px] ">
         <section
           className="flex w-[100%] lg:flex-row mysm:flex-col 
         
@@ -92,7 +92,7 @@ export const LearnPlayer = () => {
           >
             <div
               className={`${
-                isShowSection ? "translate-y-0" : "-translate-y-[100%]"
+                isShowSection ? "translate-x-0" : "translate-x-[101%]"
               } transition-all bg-[#BEC9CE] z-10 relative`}
             >
               <LearnVideoList data={data} />
