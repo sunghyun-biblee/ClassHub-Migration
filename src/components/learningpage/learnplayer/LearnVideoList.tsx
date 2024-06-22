@@ -20,7 +20,7 @@ export const LearnVideoList = ({ data }: ILearinVideoList) => {
   const handleMoveTargetVideo = (classId: number, classDetailId: number) => {
     nav(`/learnplay/${classId}/${classDetailId}`);
   };
-  console.log(data);
+
   return (
     <article className=" lg:mb-0 mysm:mb-[40px]  bg-[#BEC9CE] lg:rounded-lg">
       <ul
@@ -52,7 +52,6 @@ export const LearnVideoList = ({ data }: ILearinVideoList) => {
                 {section[index].sectionTitle
                   ? section[index].sectionTitle
                   : "N번째"}
-                파이썬 프로그래밍 입문 - 강의 소개
               </h1>
               <img
                 src={left}
@@ -89,111 +88,3 @@ export const LearnVideoList = ({ data }: ILearinVideoList) => {
     </article>
   );
 };
-
-const sectionArray = [
-  {
-    sectionName: "react1",
-    video: [
-      {
-        videoTitle: "redux",
-        videoURL: "recoil",
-        videoLength: 340,
-      },
-      {
-        videoTitle: "redux",
-        videoURL: "recoil",
-        videoLength: 340,
-      },
-      {
-        videoTitle: "redux",
-        videoURL: "recoil",
-        videoLength: 340,
-      },
-      {
-        videoTitle: "redux",
-        videoURL: "recoil",
-        videoLength: 340,
-      },
-      {
-        videoTitle: "redux",
-        videoURL: "recoil",
-        videoLength: 340,
-      },
-    ],
-  },
-  {
-    sectionName: "react2",
-    video: [
-      {
-        videoTitle: "redux",
-        videoURL: "recoil",
-        videoLength: 340,
-      },
-      {
-        videoTitle: "redux",
-        videoURL: "recoil",
-        videoLength: 340,
-      },
-      {
-        videoTitle: "redux",
-        videoURL: "recoil",
-        videoLength: 340,
-      },
-    ],
-  },
-  {
-    sectionName: "react3",
-    video: [
-      {
-        videoTitle: "redux",
-        videoURL: "recoil",
-        videoLength: 340,
-      },
-      {
-        videoTitle: "redux",
-        videoURL: "recoil",
-        videoLength: 340,
-      },
-      {
-        videoTitle: "redux",
-        videoURL: "recoil",
-        videoLength: 340,
-      },
-    ],
-  },
-  {
-    sectionName: "react4",
-    video: [
-      {
-        videoTitle: "redux",
-        videoURL: "recoil",
-        videoLength: 340,
-      },
-      {
-        videoTitle: "redux",
-        videoURL: "recoil",
-        videoLength: 340,
-      },
-      {
-        videoTitle: "redux",
-        videoURL: "recoil",
-        videoLength: 340,
-      },
-    ],
-  },
-  {
-    sectionName: "react5",
-    video: [
-      {
-        videoTitle: "redux",
-        videoURL: "recoil",
-        videoLength: 340,
-      },
-      {
-        videoTitle: "redux",
-        videoURL: "recoil",
-        videoLength: 340,
-      },
-    ],
-  },
-];
