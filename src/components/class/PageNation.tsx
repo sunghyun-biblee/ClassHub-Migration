@@ -34,11 +34,9 @@ export const PageNation = ({
         <Button
           key={i}
           id={data.currentPage === i ? "page" : ""}
-          className={
-            data.currentPage === i
-              ? "bg-blue-500/90 text-gray-50 cursor-pointer"
-              : "cursor-pointer"
-          }
+          className={`${
+            data.currentPage === i && "bg-blue-500/90 text-gray-50"
+          } cursor-pointer`}
           // 선택된 페이지네이션이 현재 화면에 출력된 페이지일때 클래스명을 주어서 스타일링을 함
           onClick={() => {
             setPage(i);
