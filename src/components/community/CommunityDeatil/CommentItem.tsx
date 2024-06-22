@@ -105,7 +105,7 @@ export const CommentItem = ({ item, id, postUserId }: ICommentProp) => {
       <p className="flex items-center justify-between">
         <div>
           <strong className="py-2 mr-1">{item.nickname}</strong>
-          {userData.userId === postUserId && (
+          {userData && userData.userId === postUserId && (
             <span className="text-[10px] text-gray-400 border-[1px] rounded-lg px-1 bg-gray-500/30">
               작성자
             </span>
@@ -114,7 +114,8 @@ export const CommentItem = ({ item, id, postUserId }: ICommentProp) => {
         <span className="text-gray-600 font-semibold">{item.regDate}</span>
       </p>
       <div className="flex justify-between pt-3 pb-1 items-end">
-        {isEdit &&
+        {userData &&
+        isEdit &&
         userData.userId === item.userId &&
         item.commentId === editCommentId ? (
           <input
@@ -129,7 +130,7 @@ export const CommentItem = ({ item, id, postUserId }: ICommentProp) => {
           </span>
         )}
         <div className="text-gray-500 font-semibold">
-          {userData.userId === item.userId && (
+          {userData && userData.userId === item.userId && (
             <>
               {isEdit ? (
                 <>
