@@ -20,7 +20,7 @@ export const AddPost = () => {
   const { userData } = useAuth();
   const [title, setTitle] = useState<string>();
   const [text, setText] = useState<string>();
-  const [mainCategory, setMainCategory] = useState<string | null>(null);
+  const [mainCategory, setMainCategory] = useState<string>("0");
   const [requestImgId, setRequestImgId] = useState<number[]>([]);
   const [previmg, setPrevimg] = useState<selectImgType[] | undefined>();
   const [imgArray, setImgArray] = useState<selectImgType[]>([]);
@@ -30,6 +30,9 @@ export const AddPost = () => {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log(requestImgId);
     e.preventDefault();
+    if (mainCategory === "0") {
+      return alert("카테고리를 입력해주세요");
+    }
 
     const communityObject = {
       userId: userData.userId,
