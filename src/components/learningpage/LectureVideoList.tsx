@@ -2,8 +2,10 @@ import React from "react";
 import { ILearnHeaderProp } from "./LearnHeader";
 import { formatVideoDuration } from "components/mypage/teacherPage/addclass/VideoInsert";
 import { getToSectionVideoTotalLength } from "components/class/ClassDetail";
+import { useNavigate } from "react-router-dom";
 
 export const LectureVideoList = ({ data }: ILearnHeaderProp) => {
+  const nav = useNavigate();
   const totalVideo = () => {
     if (data) {
       const totalCount = data.classDetail.reduce(
@@ -16,6 +18,9 @@ export const LectureVideoList = ({ data }: ILearnHeaderProp) => {
     }
   };
 
+  const handleMoveTargetVideo = (classId: number, classDetailId: number) => {
+    nav(`/learnplay/${classId}/${classDetailId}`);
+  };
   return (
     <div className="px-2 py-5 border-b-[1px] mt-5">
       <section>
@@ -98,8 +103,14 @@ export const LectureVideoList = ({ data }: ILearnHeaderProp) => {
                   </p>
                 </div>
                 <ul>
-                  {section.map((item) => (
-                    <li className="border-b-[1px] px-4 py-4 flex justify-between font-medium cursor-pointer">
+                  {section.map((item, index) => (
+                    <li
+                      className="border-b-[1px] px-4 py-4 flex justify-between font-medium cursor-pointer"
+                      key={item.classDetailId + index.toString()}
+                      onClick={() =>
+                        handleMoveTargetVideo(item.classId, item.classDetailId)
+                      }
+                    >
                       <p className="text-gray-600 ">{item.title}</p>
                       <p className="text-gray-400">
                         {formatVideoDuration(item.videoLength)}
