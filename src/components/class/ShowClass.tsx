@@ -31,7 +31,7 @@ export const ShowClass = ({ categoryType }: IShowClass) => {
   const [page, setPage] = useState<number>(1);
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["classListAll", page],
+    queryKey: ["classListAll", categoryType, page],
     queryFn: () => fetchClassList(categoryType, page),
   });
 
@@ -39,7 +39,7 @@ export const ShowClass = ({ categoryType }: IShowClass) => {
   useEffect(() => {
     const nextpage = page + 1;
     queryClient.prefetchQuery({
-      queryKey: ["classListAll", nextpage],
+      queryKey: ["classListAll", categoryType, nextpage],
       queryFn: () => fetchClassList(categoryType, nextpage),
     });
   }, [page, queryClient, categoryType]);
