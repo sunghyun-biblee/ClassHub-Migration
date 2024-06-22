@@ -1,6 +1,7 @@
 import { userType } from "hooks/fetchUserData";
 import axios from "api/axios";
 import requests from "api/requests";
+import { useNavigate } from "react-router-dom";
 
 export const addInstructor = async (userData: userType) => {
   const requestBody = {
@@ -12,12 +13,19 @@ export const addInstructor = async (userData: userType) => {
     requestStatus: "1",
   };
   try {
-    const addInstrucRes = await axios.post(
-      requests.lecture.addInstructor,
-      requestBody
-    );
-    console.log(addInstrucRes);
+    await axios.post(requests.lecture.addInstructor, requestBody);
   } catch (error) {
     console.log(error);
+  }
+};
+export const deleteInstructor = async (userData: userType) => {
+  if (userData) {
+    try {
+      await axios.post(requests.lecture.deleteInstructor, "", {
+        params: { userId: userData.userId },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 };

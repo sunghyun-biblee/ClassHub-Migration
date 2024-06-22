@@ -1,20 +1,77 @@
-import { useQueryClient } from "@tanstack/react-query";
 import React from "react";
 import requests from "api/requests";
 import axios from "api/axios";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "hooks/AuthProvider";
-
-import { addInstructor } from "./hooks/AddInstructor";
+import { addInstructor, deleteInstructor } from "./hooks/updateInstructor";
+import { userType } from "hooks/fetchUserData";
+import { useNavigate } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const GradeUpBtn = () => {
   const { userData, logOut } = useAuth();
   const nav = useNavigate();
-  const handleLogOut = () => {
-    localStorage.removeItem("user");
-    nav("/");
-  };
+  const queryClient = useQueryClient();
+  /*
+  queryKey: ["UserData"],
+    queryFn: () => fetchUserData(userCookie),
+  */
+  const roleUpdateMutation = useMutation({
+    mutationFn: (userData: userType) => addInstructor(userData),
+    onSettled: () => {
+      return queryClient.invalidateQueries({
+        queryKey: ["UserData"],
+      });
+    },
+    onMutate: async (userdata) => {
+      await queryClient.cancelQueries({
+        queryKey: ["UserData"],
+      });
 
+      const prevData: userType | undefined = queryClient.getQueryData([
+        "UserData",
+      ]);
+      await queryClient.setQueryData(["UserData"], () => {
+        const newData = { ...prevData, role: "INSTRUCTOR" };
+        return newData;
+      });
+      return prevData;
+    },
+  });
+  const roleDeleteMutation = useMutation({
+    mutationFn: (userData: userType) => deleteInstructor(userData),
+    onSettled: () => {
+      return queryClient.invalidateQueries({
+        queryKey: ["UserData"],
+      });
+    },
+    onMutate: async (userdata) => {
+      await queryClient.cancelQueries({
+        queryKey: ["UserData"],
+      });
+
+      const prevData: userType | undefined = queryClient.getQueryData([
+        "UserData",
+      ]);
+      await queryClient.setQueryData(["UserData"], () => {
+        const newData = { ...prevData, role: "USER" };
+        return newData;
+      });
+      return prevData;
+    },
+  });
+  const AddInstructor = async (userData: userType) => {
+    if (window.confirm("강사권한을 신청 하시겠습니까?")) {
+      roleUpdateMutation.mutate(userData);
+      nav("/mypage/teacherpage");
+    } else {
+      return;
+    }
+  };
+  const InstructorOut = async (userData: userType) => {
+    roleDeleteMutation.mutate(userData);
+
+    nav("/mypage");
+  };
   return (
     <div
       className="lg:flex lg:justify-between    lg:flex-row md:flex-col 
@@ -24,20 +81,20 @@ export const GradeUpBtn = () => {
       {userData && userData.role !== "INSTRUCTOR" ? (
         <button
           className=" border-none rounded-lg lg:p-2 md:p-1  lg:text-sm md:text-[12px]  bg-blue-500 text-gray-100 lg:font-semibold "
-          onClick={() => addInstructor(userData)}
+          onClick={() => AddInstructor(userData)}
         >
           강사 신청
         </button>
       ) : (
         <button
-          className=" border-none rounded-lg lg:p-2 md:p-1  lg:text-sm md:text-[12px]  bg-blue-500 text-gray-100 lg:font-semibold "
-          onClick={() => addInstructor(userData)}
+          className=" border-none rounded-lg lg:p-2 md:p-1  lg:text-sm md:text-[12px]  bg-indigo-400 text-gray-100 lg:font-semibold "
+          onClick={() => InstructorOut(userData)}
         >
           강사 취소
         </button>
       )}
       <button
-        className=" border-none  rounded-lg lg:p-2 lg:m-0 md:mt-1 md:p-1 lg:text-sm md:text-[12px]  bg-gray-400 text-black-300 font-semibold"
+        className="   rounded-lg lg:p-2 lg:m-0 md:mt-1 md:p-1 lg:text-sm md:text-[12px]   text-gray-600 font-semibold border-[1px]"
         onClick={logOut}
       >
         로그아웃

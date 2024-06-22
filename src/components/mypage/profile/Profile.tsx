@@ -3,6 +3,7 @@ import myIMG from "assets/img/preview.jpg";
 import { useAuth } from "hooks/AuthProvider";
 import axios from "api/axios";
 import requests from "api/requests";
+import { deleteInstructor } from "../hooks/updateInstructor";
 
 export const Profile = () => {
   const { userData, userIsLoading, userIsError, userError } = useAuth();
@@ -73,9 +74,9 @@ export const Profile = () => {
   };
 
   return (
-    <div className="border-[1px] lg:m-0 mysm:m-1 shadow-[0px_8px_24px_rgba(149,157,165,0.3)] rounded-lg flex flex-col md:mt-2">
+    <div className="border-[1px] lg:m-0 mysm:m-1 shadow-[0px_8px_24px_rgba(149,157,165,0.3)] rounded-lg flex flex-col md:mt-2 mysm:mb-[45px] md:mb-0">
       {userData && userData.userId && (
-        <section className="md:py-10 md:px-5 mysm:py-5 mysm:px-3 flex flex-col gap-y-3">
+        <section className="md:py-10 md:px-5 mysm:py-5 mysm:px-3 flex flex-col gap-y-3 ">
           <article className="flex md:flex-row mysm:flex-col md:gap-5 mysm:gap-2 relative">
             <div className="md:w-[40%] mysm:w-[55%]shadow-[0px_8px_24px_rgba(149,157,165,0.3)] h-[300px]">
               <input
@@ -131,14 +132,16 @@ export const Profile = () => {
                 </li>
               </ul>
               {isEdit ? (
-                <li className="flex">
+                <li className="flex justify-end">
                   <button
                     className="border-[1px] py-1 px-2.5 rounded-xl
               shadow-[0px_1px_10px_rgba(149,157,165,0.3)]
              md:max-w-[100%]
              mysm:max-w-26
              md:font-normal
-             mysm:font-semibold"
+             mysm:font-semibold 
+             mysm:text-sm
+             mysm:mt-4"
                     onClick={handleCompleteEdit}
                   >
                     수정완료
@@ -152,38 +155,13 @@ export const Profile = () => {
       flex-row
               md:static
               md:text-base
-              mysm:text-[12px]
+              mysm:text-sm
               md:mt-0
               mysm:mt-4
             right-0 
             lg:gap-4
             "
                   >
-                    <button
-                      className="border-[1px] py-1 px-2.5 rounded-xl
-              shadow-[0px_1px_10px_rgba(149,157,165,0.3)]
-             md:max-w-[100%]
-             mysm:max-w-26
-             md:font-normal
-             mysm:font-semibold"
-                      onClick={() => setIsEdit((prev) => !prev)}
-                    >
-                      수정하기
-                    </button>
-                    <button
-                      className="border-[1px] py-1 px-2.5 rounded-xl
-              shadow-[0px_1px_10px_rgba(149,157,165,0.3)]
-             md:max-w-[100%]
-             mysm:max-w-26
-             md:font-normal
-             mysm:font-semibold
-             md:mt-0
-             md:mx-2
-             mysm:mx-2
-              "
-                    >
-                      비밀번호 수정 및 찾기
-                    </button>
                     <button
                       className="border-[1px] py-1 px-2.5 rounded-xl
               shadow-[0px_1px_10px_rgba(149,157,165,0.3)] bg-red-300 font-semibold
@@ -193,6 +171,33 @@ export const Profile = () => {
               "
                     >
                       회원탈퇴
+                    </button>
+                    <button
+                      className="border-[1px] py-1 px-2.5 rounded-xl bg-indigo-400
+              shadow-[0px_1px_10px_rgba(149,157,165,0.3)] text-slate-950 
+             md:max-w-[100%]
+             mysm:max-w-26
+            
+             mysm:font-semibold
+             md:mt-0
+             md:mx-2
+             mysm:mx-2
+              "
+                      onClick={() => deleteInstructor(userData)}
+                    >
+                      강사 권한 해제
+                    </button>
+
+                    <button
+                      className="border-[1px] py-1 px-2.5 rounded-xl
+              shadow-[0px_1px_10px_rgba(149,157,165,0.3)]
+             md:max-w-[100%]
+             mysm:max-w-26
+             
+             mysm:font-semibold"
+                      onClick={() => setIsEdit((prev) => !prev)}
+                    >
+                      수정하기
                     </button>
                   </div>
                 </li>
