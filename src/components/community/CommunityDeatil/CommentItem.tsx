@@ -99,8 +99,7 @@ export const CommentItem = ({ item, id, postUserId }: ICommentProp) => {
       setIsEdit(false);
     }
   };
-  console.log(userData.userId);
-  console.log(item.userId);
+
   return (
     <li className="border-b-[1px] py-1 px-3 flex flex-col my-1 justify-between">
       <p className="flex items-center justify-between">
