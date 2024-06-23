@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { PageNation } from "components/class/PageNation";
 import { CommnuItem } from "./CommnuItem";
@@ -32,25 +32,45 @@ export const ShowCommuList = () => {
   const nav = useNavigate();
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState<string>("");
-  // const [searchType, setSearchType] = useState<string>("");
+  const [searchType, setSearchType] = useState<number>(0);
 
-  const { data, isLoading, isError, error } = useCommuList(
+  const { data, isLoading, isError, error, refetch } = useCommuList(
     category,
     page,
-    search
+    search,
+    searchType
   );
   console.log(category);
-  const updateMutation = useMutation({
-    mutationFn: () => fetchCommuList(category, page, search),
-    onSettled: () => {
-      return queryClient.invalidateQueries({
-        queryKey: [category, page],
-      });
-    },
-    onSuccess: (data) => {
-      queryClient.setQueryData([category, page], data);
-    },
-  });
+  // useEffect(() => {
+  //   const nextpage = page + 1;
+  //   queryClient.prefetchQuery({
+  //     queryKey: [category, nextpage, searchType],
+  //     queryFn: () => fetchCommuList(category, nextpage, search, searchType),
+  //   });
+  // }, [page, searchType, category, queryClient]);
+
+  useEffect(() => {
+    // 상태 초기화
+    queryClient.invalidateQueries({
+      queryKey: [category, page, searchType],
+    });
+  }, [page, searchType, category, queryClient]);
+
+  // useEffect(() => {
+  //   refetch();
+  // }, [page, searchType, category]);
+
+  // const updateMutation = useMutation({
+  //   mutationFn: () => fetchCommuList(category, page, search, searchType),
+  //   onSettled: () => {
+  //     return queryClient.invalidateQueries({
+  //       queryKey: [category, page, search, searchType],
+  //     });
+  //   },
+  //   onSuccess: (data) => {
+  //     queryClient.setQueryData([category, page, search, searchType], data);
+  //   },
+  // });
   if (isLoading) {
     return <div>로딩중</div>;
   }
@@ -93,13 +113,15 @@ export const ShowCommuList = () => {
     setSearch(e.target.value);
   };
   const handleChangeSearchType = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    // setSearchType(e.target.value);
+    setSearchType(parseInt(e.target.value));
+    refetch();
   };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     console.log("hello");
     e.preventDefault();
-    updateMutation.mutate();
+    refetch();
   };
+
   return (
     <div className="md:mr-3">
       <div
@@ -110,6 +132,7 @@ export const ShowCommuList = () => {
         <select
           id="select"
           onChange={handleChangeSearchType}
+          value={searchType}
           className={` border-2 border-solid px-1 py-1
     rounded-md focus:border-blue-300  outline-blue-400
     ${category === "study" ? "block" : "hidden"}`}
@@ -144,7 +167,9 @@ export const ShowCommuList = () => {
           {data?.data.contents.map((item: IcommunityItem, index: number) => (
             <li
               className="my-2 py-4 px-2 border-[1px] border-solid rounded-md mx-1"
-              key={item.communityId}
+              key={
+                item.communityId + new Date().getSeconds().toString() + index
+              }
             >
               <CommnuItem item={item}></CommnuItem>
             </li>

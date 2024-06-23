@@ -12,13 +12,18 @@ interface CommuListType {
     rightEndNum: number;
   };
 }
-export function useCommuList(category: string, page: number, search: string) {
+export function useCommuList(
+  category: string,
+  page: number,
+  search: string,
+  searchType: number
+) {
   const { data, isLoading, isError, error, refetch } = useQuery<
     CommuListType,
     Error
   >({
-    queryKey: [category, page],
-    queryFn: () => fetchCommuList(category, page, search),
+    queryKey: [category, page, searchType],
+    queryFn: () => fetchCommuList(category, page, search, searchType),
   });
   return { data, isLoading, isError, error, refetch };
 }

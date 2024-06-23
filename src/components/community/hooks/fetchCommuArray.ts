@@ -14,25 +14,38 @@ export interface Icommuitem {
 export async function fetchCommuList(
   category: string,
   page: number,
-  search: string
+  search: string,
+  searchType: number
 ) {
   let url: string;
-  console.log(category);
-  console.log("fetchArray");
-  if (category === "qna") {
-    url = requests.community.getQuestionList;
+  if (searchType >= 2 && category === "study") {
+    const data = await axios.get(requests.community.getStudyListStatus, {
+      params: {
+        studyStatus: searchType,
+        page: page,
+        search: search,
+        type: search ? "all" : "",
+      },
+    });
+    console.log(data);
+    return data;
   } else {
-    url = requests.community.getStudyList;
-  }
-  const data = await axios.get(url, {
-    params: {
-      page: page,
-      search: search,
-      type: search ? "all" : "",
-    },
-  });
+    if (category === "qna") {
+      url = requests.community.getQuestionList;
+    } else {
+      url = requests.community.getStudyList;
+    }
 
-  return data;
+    const data = await axios.get(url, {
+      params: {
+        page: page,
+        search: search,
+        type: search ? "all" : "",
+      },
+    });
+
+    return data;
+  }
 }
 export async function fetchPaymentedList(userid: number) {
   const data = await axios.get(`${requests.order.getOrderList}/${userid}`);
