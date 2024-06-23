@@ -75,6 +75,12 @@ export const OrderPage = () => {
 
       const callback = async (res: RequestPayResponse) => {
         console.log(res);
+        if (!res.success) {
+          let msg = "오류로 인하여 결제가 시작되지 못하였습니다.";
+          msg += "에러내용 : " + res.error_msg;
+          console.log(res.error_msg);
+          alert(msg);
+        }
         if (res.success && userData.userId) {
           // 결제 성공시 처리
           try {
@@ -116,6 +122,8 @@ export const OrderPage = () => {
               buyer_email: userData.email, //구매자 이메일
               buyer_name: userData.name, // 구매자 이름
               buyer_tel: "010-0000-0000", // 구매자 번호
+              m_redirect_url:
+                "http://local.devproject.store:3000/cart/order/mobile/payments",
             },
             callback
           );
