@@ -2,7 +2,7 @@ import React from "react";
 
 export const Heart = () => {
   return (
-    <div className="lg:w-5 md:w-5 mr-1 h-5 cursor-pointer">
+    <div className="w-5 md:w-5 mr-1 h-5 cursor-pointer">
       <svg
         data-slot="icon"
         fill="none"

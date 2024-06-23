@@ -36,10 +36,10 @@ export const CommnuItem = ({ item }: ICommnuItemprop) => {
         return "질문 & 답변";
 
       case "2":
-        return "스터디 모집중";
+        return "모집중";
 
       case "3":
-        return "스터디 모집완료";
+        return "모집완료";
       default:
         break;
     }
@@ -47,24 +47,38 @@ export const CommnuItem = ({ item }: ICommnuItemprop) => {
   return (
     <div>
       <div onClick={handleClick} className="flex justify-between">
-        <div className="flex flex-col justify-between w-[100%]">
+        <div className="flex flex-col justify-between w-[80%]">
           <div className="flex ">
-            <Span className="mr-5 ">{renderCategory(item.communityType)}</Span>
-            <h1 className="font-extrabold">{item.title}</h1>
+            <Span className="mr-4 lg:min-w-[6rem]">
+              {renderCategory(item.communityType)}
+            </Span>
+            <h1 className="font-extrabold w-[calc(100%-7rem)] overflow-hidden text-ellipsis whitespace-nowrap ">
+              {item.title}
+            </h1>
           </div>
-          <p>{item.text?.length > 20 ? item.text.slice(0, 20) : item.text}</p>
+          <p className="overflow-hidden text-ellipsis whitespace-nowrap max-w-[400px] mysm:max-w-[300px]">
+            {item.text}
+          </p>
         </div>
 
-        <div className="flex">
+        <div className="flex w-[20%] justify-end px-1">
           <div className="flex  items-end flex-col justify-between gap-3">
             <p className="px-1">{item.nickname}</p>
-            <div className="flex px-2 pt-2">
-              <div className="flex mr-7 cursor-pointer items-center">
-                <img src={likes} alt="" className="w-[16px] h-auto mr-2" />
+            <div className="flex  pt-2 min-w-[50px]">
+              <div className="flex md:mr-7 mysm:mr-4 cursor-pointer items-center">
+                <img
+                  src={likes}
+                  alt=""
+                  className="w-4 h-auto md:mr-2 mysm:mr-1"
+                />
                 <strong>{item.favoriteCount}</strong>
               </div>
               <div className="flex cursor-pointer items-center">
-                <img src={comment} alt="" className="w-[16px] h-auto mr-2" />
+                <img
+                  src={comment}
+                  alt=""
+                  className="w-4 h-auto md:mr-2 mysm:mr-1"
+                />
                 <strong>{item.commentCount}</strong>
               </div>
             </div>

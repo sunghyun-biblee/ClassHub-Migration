@@ -39,8 +39,8 @@ export const Community = () => {
         lg:px-5 
         md:px-0
         md:py-5
-        mysm:pt-5
-        mysm:pb-10
+        mysm:py-5
+        
         relative
 ${
   pathname === "addpost" || pathname === "modifyPost"

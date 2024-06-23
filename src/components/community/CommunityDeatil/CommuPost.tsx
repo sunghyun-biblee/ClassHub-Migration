@@ -42,16 +42,21 @@ export const CommuPost = ({ postData }: IPostProp) => {
       return array.includes(userId);
     };
     const result = isUserLinked(postData.likeUsers, userId);
+
     switch (result) {
       case false:
         return (
           <div
-            onClick={() =>
-              updateLikeMutation.mutate({
-                userId: userData.userId,
-                favoritId: postData.communityId,
-              })
-            }
+            onClick={() => {
+              if (userData && userData.userId) {
+                updateLikeMutation.mutate({
+                  userId: userData.userId,
+                  favoritId: postData.communityId,
+                });
+              } else {
+                return alert("로그인 후 이용가능합니다");
+              }
+            }}
           >
             <Heart></Heart>
           </div>
@@ -71,7 +76,7 @@ export const CommuPost = ({ postData }: IPostProp) => {
           />
         );
       default:
-        return "";
+        return;
     }
   };
 
@@ -114,12 +119,16 @@ export const CommuPost = ({ postData }: IPostProp) => {
       return { prevData };
     },
   });
-
+  if (userIsLoading) {
+    return <div>로딩중</div>;
+  }
   return (
     <>
       <article className="md:pt-5 md:border-0 mysm:border-b-[1px]">
         <div className="mysm:block md:hidden px-1 md:border-0 mysm:border-b-[1px] ">
-          <DetailProfile category={"학생"} postData={postData}></DetailProfile>
+          {postData && (
+            <DetailProfile role={"학생"} postData={postData}></DetailProfile>
+          )}
         </div>
         <div className="flex justify-between items-center">
           <h1 className="py-5 px-5 text-2xl font-extrabold">
@@ -136,10 +145,12 @@ export const CommuPost = ({ postData }: IPostProp) => {
               </Link>
             )}
         </div>
-        <div className="flex justify-between md:px-5 mysm:pl-5 mysm:pr-10  pb-5 pt-2 text-gray-500 ">
+        <div className="flex justify-between md:px-5 mysm:px-5  pb-5 pt-2 text-gray-500 ">
           <p>{postData.regDate}</p>
           <div className="flex items-center ">
-            {userData && compareLike(postData, userData.userId)}
+            <div className="block">
+              {compareLike(postData, userData && userData.userId)}
+            </div>
             <p>{postData.favoriteCount}</p>
           </div>
         </div>

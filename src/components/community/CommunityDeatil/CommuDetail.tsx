@@ -98,10 +98,10 @@ export const CommuDetail = () => {
     await ComentAddMutation.mutate(commentObj);
   };
 
-  if (isPostLoading && isCommentLoading && userIsLoading) {
+  if (isPostLoading || isCommentLoading || userIsLoading) {
     return <div>Loading...</div>;
   }
-  if (isPostError && isCommentError) {
+  if (isPostError || isCommentError) {
     return (
       <div className="flex flex-col">
         <p>{postError?.message}</p>
@@ -168,10 +168,7 @@ export const CommuDetail = () => {
             {userIsLoading ? (
               ""
             ) : (
-              <DetailProfile
-                category={"학생"}
-                postData={postData}
-              ></DetailProfile>
+              <DetailProfile role={"학생"} postData={postData}></DetailProfile>
             )}
           </div>
         </section>
