@@ -76,8 +76,8 @@ export const OrderPage = () => {
       const callback = async (res: RequestPayResponse) => {
         console.log(res);
         if (!res.success) {
-          let msg = "오류로 인하여 결제가 시작되지 못하였습니다.";
-          msg += "에러내용 : " + res.error_msg;
+          let msg = "";
+          msg += "실패 : " + res.error_msg;
           console.log(res.error_msg);
           alert(msg);
         }
@@ -114,7 +114,7 @@ export const OrderPage = () => {
           IMP.request_pay(
             {
               // param
-              pg: "html5_inicis", //pg사
+              pg: "html5_inicis.INIpayTest", //pg사
               pay_method: "card", //결제수단
               merchant_uid: merchantUid, // 주문번호
               name: requestName, //주문명
@@ -123,7 +123,7 @@ export const OrderPage = () => {
               buyer_name: userData.name, // 구매자 이름
               buyer_tel: "010-0000-0000", // 구매자 번호
               m_redirect_url:
-                "http://local.devproject.store:3000/cart/order/mobile/payments",
+                "http://local.devproject.store:3000/order/mobile/payments",
             },
             callback
           );

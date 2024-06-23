@@ -76,7 +76,7 @@ export const PaymentedPage = () => {
     <div className="flex justify-center items-center mt-10">
       {data && (
         <section
-          className=" border-2 lg:w-[40%] md:w-[70%] mysm:w-[100%]
+          className=" border-2 lg:w-[50%] md:w-[70%] mysm:w-[100%]
 border-dashed py-5 px-3 shadow-md"
         >
           <article className="flex flex-col ">
@@ -168,7 +168,11 @@ border-dashed py-5 px-3 shadow-md"
   );
 };
 
-async function PaymentedItem(uid: string) {
+export async function PaymentedItem(uid: string) {
+  if (!uid) {
+    alert("비정상적인 접근입니다");
+    return (window.location.href = "devproject.store/");
+  }
   try {
     const res = await axios.get(`${requests.payment.getPaymentItem}/${uid}`);
     return res.data;
