@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { selectClassinfo } from "./hooks/useGetArray";
 import styled from "styled-components";
@@ -12,6 +12,7 @@ import { IClassType } from "./ShowClass";
 import { formatVideoDuration } from "components/mypage/teacherPage/addclass/VideoInsert";
 import preview from "assets/img/preview.jpg";
 import { CartItemType } from "hooks/CartProvider";
+import { addOrder } from "components/cart/hooks/addOrder";
 
 type cartMutateType = {
   classId: number;
@@ -37,6 +38,7 @@ export interface ClassDataType {
 }
 export const ClassDetail = () => {
   const queryClient = useQueryClient();
+  const nav = useNavigate();
   const { userData } = useAuth();
   const { pathname } = useLocation();
   const id = parseInt(pathname.split("/")[2], 10);
@@ -93,34 +95,42 @@ export const ClassDetail = () => {
       CartUpdateMutation.mutate({ classId, userId: userData.userId });
     }
   };
-  const handlePayMent = () => {
-    console.log("heelo");
-
+  const handlePayMent = async () => {
     let paymentNumber;
-
-    if (data && data.classInfo.classId) {
-      const IMP = window.IMP;
-      IMP.init(impCode);
-      paymentNumber = data.classInfo.className;
-
-      const callback = () => {};
-      IMP.request_pay(
-        {
-          // param
-          pg: "html5_inicis", //pg사
-          pay_method: "card", //결제수단
-          merchant_uid: `${paymentNumber}_${new Date().getTime()}`, // 주문번호
-          name: data.classInfo.className, //주문명
-          amount: 100, //결제금액
-          buyer_email: "gildong@gmail.com", //구매자 이메일
-          buyer_name: "홍길동", // 구매자 이름
-          buyer_tel: "010-4242-4242", // 구매자 번호
-          buyer_addr: "서울특별시 강남구 신사동", // 구매자 주소
-          buyer_postcode: "01181", // 구매자 우편번호
-        },
-        callback
-      );
+    if (!userData) {
+      return alert("로그인 후 이용가능합니다");
     }
+    if (data?.classInfo.classId) {
+      const res = await addOrder([data?.classInfo.classId], userData.userId);
+      if (res && res.status === 200) {
+        nav("/cart/order");
+      }
+    }
+
+    // if (data && data.classInfo.classId) {
+    //   const IMP = window.IMP;
+    //   IMP.init(impCode);
+    //   paymentNumber = data.classInfo.className;
+
+    //   const callback = () => {};
+    //   IMP.request_pay(
+    //     {
+    //       // param
+    //       pg: "html5_inicis", //pg사
+    //       pay_method: "card", //결제수단
+    //       merchant_uid: `${paymentNumber}_${new Date().getTime()}`, // 주문번호
+    //       name: data.classInfo.className, //주문명
+    //       amount: 100, //결제금액
+    //       buyer_email: "gildong@gmail.com", //구매자 이메일
+    //       buyer_name: "홍길동", // 구매자 이름
+    //       buyer_tel: "010-4242-4242", // 구매자 번호
+    //       buyer_addr: "서울특별시 강남구 신사동", // 구매자 주소
+    //       buyer_postcode: "01181", // 구매자 우편번호
+    //       m_redirect_url: "https://devproject.store/mobile/payments",
+    //     },
+    //     callback
+    //   );
+    // }
   };
 
   const renderCategory = (value: number) => {
@@ -141,6 +151,7 @@ export const ClassDetail = () => {
         break;
     }
   };
+
   return (
     <ClassDeatilContainer
       className="
@@ -155,7 +166,6 @@ export const ClassDetail = () => {
               md:px-7
               mysm:px-3
               py-5 
-              
               md:gap-0 
               mysm:gap-1 
               md:flex-nowrap
