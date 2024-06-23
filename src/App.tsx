@@ -186,6 +186,11 @@ function App() {
                       path="learnplay/:classId/:videoId"
                       element={<LearnPlayer></LearnPlayer>}
                     ></Route>
+                    <Route
+                      index
+                      path="order/mobile/payments"
+                      element={<MobilePaymented></MobilePaymented>}
+                    ></Route>
                     <Route path="cart" element={<Cart></Cart>}>
                       <Route index element={<CartList></CartList>}></Route>
                       <Route
@@ -197,11 +202,6 @@ function App() {
                         index
                         path="order/paymented/:ordersId"
                         element={<PaymentedPage></PaymentedPage>}
-                      ></Route>
-                      <Route
-                        index
-                        path="order/mobile/payments"
-                        element={<MobilePaymented></MobilePaymented>}
                       ></Route>
                     </Route>
                   </Route>
