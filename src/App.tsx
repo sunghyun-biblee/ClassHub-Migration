@@ -44,6 +44,7 @@ import { EditClass } from "components/mypage/teacherPage/editClass/EditClass";
 import { CookiesProvider } from "react-cookie";
 import axios from "axios";
 import { queryClient } from "queryClient";
+import { MobilePaymented } from "components/cart/MobilePaymented";
 
 const cliendtId =
   "386437749459-jjvcsk0qiqdg429e7ihbkhu411b21l0c.apps.googleusercontent.com";
@@ -197,7 +198,11 @@ function App() {
                         path="order/paymented/:ordersId"
                         element={<PaymentedPage></PaymentedPage>}
                       ></Route>
-                      <Route index path=""></Route>
+                      <Route
+                        index
+                        path="order/mobile/payments"
+                        element={<MobilePaymented></MobilePaymented>}
+                      ></Route>
                     </Route>
                   </Route>
                 </Routes>
