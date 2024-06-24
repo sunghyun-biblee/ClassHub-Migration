@@ -1,6 +1,4 @@
 import React from "react";
-import { HeartSVG } from "./HeartSVG";
-import { paymentResType } from "components/cart/PaymentedPage";
 import { paymentedItemType } from "./ShowList";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +16,7 @@ export const ApplicationItem = ({ data }: IApplicationItemProp) => {
     nav(`/cart/order/paymented/${orderId}`);
   };
   return (
-    <div className=" border-[1px] py-2 px-1 mb-3 rounded-md ">
+    <li className=" border-[1px] py-2 px-1 mb-3 rounded-md ">
       <ul
         className="grid 
       md:grid-cols-[0.5fr,1.5fr,0.7fr,0.7fr,0.5fr,0.5fr]
@@ -48,6 +46,6 @@ export const ApplicationItem = ({ data }: IApplicationItemProp) => {
           <p>{">"}</p>
         </li>
       </ul>
-    </div>
+    </li>
   );
 };
