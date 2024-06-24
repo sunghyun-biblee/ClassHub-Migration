@@ -56,7 +56,6 @@ export const OrderPage = () => {
       alert("로그인 후 이용가능합니다");
       return;
     }
-    console.log(data);
 
     if (data && data.length >= 1) {
       const IMP = window.IMP;
@@ -74,7 +73,6 @@ export const OrderPage = () => {
           : data[0].classResponseDTO.className;
 
       const callback = async (res: RequestPayResponse) => {
-        console.log(res);
         if (!res.success) {
           let msg = "";
           msg += "실패 : " + res.error_msg;
@@ -109,12 +107,13 @@ export const OrderPage = () => {
           merchantUid: merchantUid,
           amount: payPrice,
         });
-        console.log(prePareResponse);
+
         if (prePareResponse.status === 200) {
           IMP.request_pay(
             {
               // param
               pg: "html5_inicis.INIpayTest", //pg사
+              // pg: "html5_inicis", //pg사
               pay_method: "card", //결제수단
               merchant_uid: merchantUid, // 주문번호
               name: requestName, //주문명

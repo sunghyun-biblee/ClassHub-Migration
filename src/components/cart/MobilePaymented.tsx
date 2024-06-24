@@ -3,27 +3,43 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { PaymentedItem, paymentResType } from "./PaymentedPage";
 import { useQuery } from "@tanstack/react-query";
 import styled from "styled-components";
+import { useAuth } from "hooks/AuthProvider";
+import axios from "api/axios";
+import requests from "api/requests";
 
 export const MobilePaymented = () => {
+  const { userId } = useAuth();
   const nav = useNavigate();
   const usePathQuery = () => {
     return new URLSearchParams(useLocation().search);
   };
   const query = usePathQuery();
   const impId = query.get("imp_uid");
+  const impSuccess = query.get("imp_success");
   const { data, isLoading, isError, error } = useQuery<paymentResType, Error>({
     queryKey: ["paymentedDetail", impId],
     queryFn: () => PaymentedItem(impId ? impId : ""),
   });
-  const tes = "imp_042063947061";
-  console.log(impId === tes);
+  //   const tes = "imp_042063947061";
+
+  if (impSuccess === "true") {
+    try {
+      const reqeustBody = {
+        userId: userId,
+        impUid: impId,
+      };
+      axios.post(requests.payment.addPaymentInfo, reqeustBody);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   if (isLoading) {
     return <div>로딩중</div>;
   }
   if (isError) {
     return <span>{error.message}</span>;
   }
-  console.log(data);
+
   return (
     <div className="mt-[84px]">
       <div className="flex justify-center items-center pt-10">

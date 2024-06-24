@@ -11,6 +11,7 @@ export const CartHeader = ({ progress }: ICartHeader) => {
   const handleMoveClick = (location: string) => {
     nav(`${location}`);
   };
+  console.log(progress);
   return (
     <div className="w-[100%] md:text-base mysm:text-sm">
       <ul className="grid grid-cols-3  text-center gap-5 mx-1">

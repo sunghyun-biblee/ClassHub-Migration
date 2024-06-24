@@ -1,6 +1,6 @@
-import { CartItemType, useCart } from "hooks/CartProvider";
-import React, { useContext, useState } from "react";
-import exThumnail from "assets/img/preview.jpg";
+import { CartItemType } from "hooks/CartProvider";
+import React, { useState } from "react";
+
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "hooks/AuthProvider";
@@ -21,8 +21,6 @@ export const CartList = () => {
     queryKey: ["cartItemList"],
     queryFn: () => getCartItemList(userData.userId),
   });
-  const data1 = queryClient.getQueryData(["cartItemList"]);
-  console.log(data1);
 
   const handleToggleCheckbox = (item: CartItemType) => {
     if (selectItem.includes(item)) {
@@ -61,7 +59,7 @@ export const CartList = () => {
       queryClient.setQueryData(["cartItemList"], (oldData: CartItemType[]) => {
         if (oldData) {
           const newData: CartItemType[] = [];
-          console.log(newData);
+
           return newData;
         }
         return oldData;
@@ -88,7 +86,7 @@ export const CartList = () => {
       queryClient.setQueryData(["cartItemList"], (oldData: CartItemType[]) => {
         if (oldData) {
           const newData = oldData.filter((item) => item.cartId !== cartid);
-          console.log(newData);
+
           return newData;
         }
         return oldData;
@@ -155,7 +153,6 @@ export const CartList = () => {
     console.log(error.message);
     return null;
   }
-  console.log(data);
 
   return (
     <div>

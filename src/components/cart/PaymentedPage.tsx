@@ -63,8 +63,7 @@ export const PaymentedPage = () => {
     queryKey: ["paymentedDetail", id],
     queryFn: () => PaymentedItem(id),
   });
-  console.log(id);
-  console.log(data);
+
   if (isLoading) {
     return <div>로딩중</div>;
   }
@@ -116,12 +115,24 @@ border-dashed py-5 px-3 shadow-md"
                   </Li>
                   <Li>
                     <strong>결제수단:</strong>
-                    <Span>{data.response.cardName}</Span>
+                    <Span>
+                      {" "}
+                      {data.response.cardName
+                        ? data.response.cardName
+                        : data.response.embPgProvider
+                        ? data.response.embPgProvider
+                        : "미제공"}
+                    </Span>
                   </Li>
 
                   <Li>
                     <strong>카드번호:</strong>
-                    <Span>{data.response.cardNumber}</Span>
+                    <Span>
+                      {" "}
+                      {data.response.cardNumber
+                        ? data.response.cardNumber
+                        : "카드번호 미제공"}
+                    </Span>
                   </Li>
                   <Li>
                     <strong>결제승인:</strong>
