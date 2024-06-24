@@ -53,8 +53,11 @@ export const ShowList = () => {
   return (
     <div>
       <Ul>
-        {data?.data.map((item: paymentedItemType) => (
-          <ApplicationItem data={item} key={item.ordersId}></ApplicationItem>
+        {data?.data.map((item: paymentedItemType, index: number) => (
+          <ApplicationItem
+            data={item}
+            key={item.ordersId + new Date().getTime() + index}
+          ></ApplicationItem>
         ))}
       </Ul>
     </div>

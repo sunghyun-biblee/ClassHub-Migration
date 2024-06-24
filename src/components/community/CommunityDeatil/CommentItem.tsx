@@ -100,7 +100,7 @@ export const CommentItem = ({ item, id, postUserId }: ICommentProp) => {
 
   return (
     <li className="border-b-[1px] py-1 px-3 flex flex-col my-1 justify-between">
-      <p className="flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <div>
           <strong className="py-2 mr-1">{item.nickname}</strong>
           {userData && userData.userId === postUserId && (
@@ -110,7 +110,7 @@ export const CommentItem = ({ item, id, postUserId }: ICommentProp) => {
           )}
         </div>
         <span className="text-gray-600 font-semibold">{item.regDate}</span>
-      </p>
+      </div>
       <div className="flex justify-between pt-3 pb-1 items-end">
         {userData &&
         isEdit &&

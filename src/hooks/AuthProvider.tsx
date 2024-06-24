@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }: AuthProviderType) => {
   const testUserId = localStorage.getItem("user");
   const userId = testUserId ? parseInt(testUserId) : inistialState.userId;
   const userCookie = getCookie("Authorization");
-  console.log(userCookie);
+
   // if (userCookie) {
   //   try {
   //     const res = axios.get(requests.user.getUserData, {
@@ -80,6 +80,7 @@ export const AuthProvider = ({ children }: AuthProviderType) => {
     localStorage.removeItem("user");
     window.location.href = "https://api.devproject.store/logout";
   };
+
   // console.log(user);
 
   return (

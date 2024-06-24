@@ -41,7 +41,7 @@ export let reqeustSections: sectionstype[] = [];
 
 let i = 0;
 export const AddClass = () => {
-  const { userId } = useAuth();
+  const { userData, userId } = useAuth();
   const nav = useNavigate();
   const [isAddSectionOn, setIsAddSectionOn] = useState(true);
   const [classTitle, setClassTitle] = useState<string>("");
@@ -168,7 +168,8 @@ export const AddClass = () => {
     }
 
     const request = {
-      instructorsId: 6,
+      instructorsId:
+        userData && userData.instructorsId ? userData.instructorsId : 6,
       categoryId: category,
       className: classTitle,
       description: classDescription,

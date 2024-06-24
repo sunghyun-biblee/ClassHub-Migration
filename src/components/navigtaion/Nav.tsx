@@ -16,11 +16,9 @@ export const Nav = () => {
   const fetchData = async () => {
     if (userData) {
       try {
-        console.log(value);
-        const res = await axios.get(requests.user.getUserData, {
+        await axios.get(requests.user.getUserData, {
           withCredentials: true,
         });
-        console.log(res);
       } catch (error) {
         console.log(error);
       }

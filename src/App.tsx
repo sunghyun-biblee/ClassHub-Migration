@@ -46,8 +46,7 @@ const cliendtId =
 function App() {
   const text = async () => {
     try {
-      const res = await axios.get("/api/community/mainpage");
-      console.log(res);
+      await axios.get("/api/community/mainpage");
     } catch (error) {
       console.log(error);
     }

@@ -49,8 +49,11 @@ export const PCTpage = () => {
             </ul>
             <div className="flex flex-col gap-y-5">
               {data &&
-                data.map((item: IMyLectureItem) => (
-                  <RegistClassItem item={item} />
+                data.map((item: IMyLectureItem, index: number) => (
+                  <RegistClassItem
+                    item={item}
+                    key={item.className + new Date().getTime() + index}
+                  />
                 ))}
             </div>
           </article>

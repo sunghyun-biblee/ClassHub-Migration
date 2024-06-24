@@ -15,7 +15,7 @@ interface IMyCategoryType {
 export const MypageCategory = ({ userData }: IMyCategoryType) => {
   const nav = useNavigate();
   const { pathname } = useLocation();
-  console.log(userData);
+
   let stylePath = pathname.split("/")[2];
   if (stylePath === undefined) {
     stylePath = "home";

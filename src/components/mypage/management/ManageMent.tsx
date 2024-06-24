@@ -59,8 +59,11 @@ export const ManageMent = () => {
           </ul>
           <Ul className="flex flex-col gap-y-5 overflow-x-hidden overflow-y-scroll h-[500px]">
             {data &&
-              data.map((item: Iclassitem) => (
-                <Item item={item} key={item.regdate} />
+              data.map((item: Iclassitem, index: number) => (
+                <Item
+                  item={item}
+                  key={item.regdate + new Date().getTime() + index}
+                />
               ))}
           </Ul>
           {/* <PageNation

@@ -183,8 +183,14 @@ export const CartList = () => {
         ) : (
           <Ul className="lg:w-[65%] md:w-[70%] md:h-[70vh] mysm:h-[50vh] border-t-[1px] pt-2 overflow-x-hidden overflow-y-scroll">
             {data &&
-              data.map((item: CartItemType) => (
+              data.map((item: CartItemType, index: number) => (
                 <CartListItem
+                  key={
+                    item.cartId +
+                    new Date().getTime() +
+                    index +
+                    item.classId.toString()
+                  }
                   item={item}
                   selectItem={selectItem}
                   handleToggleCheckbox={handleToggleCheckbox}
