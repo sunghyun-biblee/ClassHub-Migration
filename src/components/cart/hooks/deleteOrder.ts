@@ -8,7 +8,6 @@ export async function deleteOrder(classid: number, userid: number) {
   };
   try {
     const res = await axios.post(requests.order.deletOrder, requestBody);
-    console.log(res);
 
     return res;
   } catch (error) {

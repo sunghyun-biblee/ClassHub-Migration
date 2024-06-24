@@ -23,7 +23,7 @@ export const MypageHome = () => {
         </h1>
       </div>
       <div className=" lg:min-h-[400px]  md:min-h-[50dvh] mysm:min-h-[40dvh] flex ">
-        {userData.introduce ? (
+        {userData && userData.introduce ? (
           <div className="w-[100%] mx-1 mb-4 ">
             <p className="text-xl font-medium lg:px-5 mysm:px-4 py-2  text-black">
               {userData.introduce}

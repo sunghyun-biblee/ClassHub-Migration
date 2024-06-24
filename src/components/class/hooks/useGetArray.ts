@@ -25,7 +25,6 @@ export async function fetchClassList(categoryType: number, page: number) {
         },
       });
 
-      console.log(res.data.contents);
       return res.data;
     } else {
       const res = await axios.get(requests.lecture.getLectureListCategory, {
@@ -44,7 +43,7 @@ export async function fetchClassList(categoryType: number, page: number) {
 export async function selectClassinfo(id: number) {
   try {
     const res = await axios.get(`${requests.lecture.getTargetLecture}/${id}`);
-    console.log(res.data);
+
     return res.data;
   } catch (error) {
     console.log(error);

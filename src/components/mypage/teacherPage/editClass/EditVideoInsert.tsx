@@ -20,7 +20,6 @@ export const EditVideoInsert = ({
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleVideoTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     setVideoTitle(e.target.value);
   };
   const handleChangeVideoUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,7 +113,7 @@ export const EditVideoInsert = ({
     }
   };
   // shadow-[0px_8px_24px_rgba(149,157,165,0.3)]
-  console.log(videoUrl);
+
   return (
     <div>
       <div className="flex py-3  px-5 bg-[#d8d9db] rounded-lg min-h-[45dvh]">

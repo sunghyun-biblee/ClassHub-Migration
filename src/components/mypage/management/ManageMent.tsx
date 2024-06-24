@@ -16,6 +16,12 @@ export const ManageMent = () => {
     queryKey: ["classList", page],
     queryFn: fetchClass,
   });
+  if (isLoading) {
+    return <div>로딩중</div>;
+  }
+  if (isError) {
+    return <span>{error.message}</span>;
+  }
   return (
     <div
       className="border-[1px] lg:m-0 mysm:m-1 shadow-[0px_8px_24px_rgba(149,157,165,0.3)] rounded-lg
@@ -45,9 +51,10 @@ export const ManageMent = () => {
             <li className="py-[5px]">바로가기</li>
           </ul>
           <div className="flex flex-col gap-y-5">
-            {data?.slice(pageOfFirst, pageOfLast).map((item) => (
-              <Item item={item} key={item.id} />
-            ))}
+            {data &&
+              data
+                ?.slice(pageOfFirst, pageOfLast)
+                .map((item) => <Item item={item} key={item.id} />)}
           </div>
           {/* <PageNation
             listLength={examArr.length}

@@ -39,7 +39,7 @@ export const Community = () => {
         lg:px-5 
         md:px-0
         md:py-5
-        mysm:py-5
+        mysm:p-5
         
         relative
 ${

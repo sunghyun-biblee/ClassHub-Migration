@@ -5,9 +5,8 @@ import { Icon } from "./Icon";
 import { GradeUpBtn, handleClick } from "./GradeUpBtn";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { userType } from "hooks/fetchUserData";
-import axios from "api/axios";
-import requests from "api/requests";
-import { addInstructor } from "./hooks/updateInstructor";
+
+import person from "assets/img/person.png";
 
 interface IMyCategoryType {
   userData: userType;
@@ -55,7 +54,7 @@ export const MypageCategory = ({ userData }: IMyCategoryType) => {
           <p className="text-gray-400 font-semibold">{renderUserType()}</p>
         </div>
         <img
-          src={userData && userData.profilePicture}
+          src={userData ? userData.profilePicture : person}
           alt="userImg"
           className="object-cover md:w-[50%] mysm:w-[50%] rounded-2xl shadow-[0px_8px_24px_rgba(149,157,165,0.3)] 
           "

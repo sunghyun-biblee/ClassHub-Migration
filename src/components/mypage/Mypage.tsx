@@ -7,8 +7,7 @@ import {
   fetchMyCommuList,
   fetchPaymentedList,
 } from "../community/hooks/fetchCommuArray";
-import { getTeacherData } from "./hooks/getTeacherData";
-import { fetchMyLectureList } from "./hooks/fetchMyLectureList";
+
 import { useAuth } from "hooks/AuthProvider";
 
 export const Mypage = () => {

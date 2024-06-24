@@ -12,7 +12,6 @@ export const LearnVideo = ({ videoData, classDetailId }: ILearnVideo) => {
   const [videoDuration, setVideoDuration] = useState(0);
   const [videoEnded, setVideoEnded] = useState(false);
 
-  console.log(videoData);
   // 현재 재생 중인 시간을 주기적으로 저장 (이어듣기를 위해서)
   const handleProgress = (progress: {
     played: number;

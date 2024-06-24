@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import requests from "api/requests";
+
 import { fetchCommuList } from "./fetchCommuArray";
 import { IcommunityItem } from "../ShowCommuList";
 

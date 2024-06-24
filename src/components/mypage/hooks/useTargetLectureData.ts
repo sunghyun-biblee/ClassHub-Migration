@@ -7,7 +7,7 @@ async function fetchLectureList(classid: number) {
     const res: IRegistClassProp = await axios.get(
       `${requests.lecture.getTargetLecture}/${classid}`
     );
-    console.log(res);
+
     return res.data;
   } catch (error) {
     console.log(error);

@@ -40,7 +40,7 @@ export const ShowCommuList = () => {
     search,
     searchType
   );
-  console.log(category);
+
   // useEffect(() => {
   //   const nextpage = page + 1;
   //   queryClient.prefetchQuery({
@@ -78,7 +78,6 @@ export const ShowCommuList = () => {
     return <div>{error?.message}</div>;
   }
 
-  console.log(data);
   const renderPageNation = () => {
     if (data) {
       const pageNationData = {

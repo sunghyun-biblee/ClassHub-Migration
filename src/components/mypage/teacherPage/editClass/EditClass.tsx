@@ -9,7 +9,7 @@ import {
   sectionvideoArraytype,
 } from "../addclass/AddClass";
 import left from "assets/img/carousel/leftArrow.svg";
-import { VideoInsert, formatVideoDuration } from "../addclass/VideoInsert";
+import { formatVideoDuration } from "../addclass/VideoInsert";
 import { EditVideoInsert } from "./EditVideoInsert";
 import { UpdateVideo } from "./UpdateVideo";
 import requests from "api/requests";
@@ -66,7 +66,6 @@ export const EditClass = () => {
   } = useUpdateLectureVideo(120);
   const { lectureData, lectureIsLoading, lectureIsError, lectureError } =
     useTargetLectureData(120);
-  console.log(lectureVideoData);
 
   useEffect(() => {
     if (lectureData && lectureVideoData) {
@@ -80,7 +79,7 @@ export const EditClass = () => {
       setSectionArray([...lectureVideoData.sections]);
     }
   }, [lectureData, lectureVideoData]);
-  console.log(completeSectionArray);
+
   const addSession = () => {
     if (sectionArray.length === 0) {
       setSectionArray([...sectionArray, { sectionTitle: ``, videos: [] }]);
@@ -165,8 +164,7 @@ export const EditClass = () => {
       id: 123,
       files: [...materialArray],
     };
-    const editDate = new Date();
-    console.log(editDate);
+
     if (lectureData && lectureVideoData) {
       const request = {
         classId: lectureData?.classInfo.classId,
@@ -255,7 +253,7 @@ export const EditClass = () => {
       </div>
     );
   }
-  console.log(selectEditSection);
+
   return (
     <div className="border-[1px] lg:m-0 mysm:m-1 shadow-[0px_8px_24px_rgba(149,157,165,0.3)] rounded-lg lg:flex flex-col mysm:hidden md:mt-2">
       {lectureVideoData && lectureData && (

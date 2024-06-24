@@ -8,7 +8,7 @@ interface ICommnuprop {
 }
 export const CommuCategory = ({ setCategory }: ICommnuprop) => {
   const getCategory = useGetpathname();
-  console.log(getCategory);
+
   const category = getCategory ? getCategory : "qna";
   const nav = useNavigate();
   const handleClickCategory = (category: string) => {

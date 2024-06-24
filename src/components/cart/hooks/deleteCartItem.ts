@@ -8,7 +8,7 @@ export async function deleteCartItem(cartid: number) {
   };
   try {
     const res = await axios.post(requests.cart.deleteCartItem, reuqestBody);
-    console.log(res);
+
     return res;
   } catch (error) {
     console.log(error);
@@ -20,9 +20,8 @@ export async function cartClear(userId: number) {
     userId: userId,
   };
   try {
-    console.log(userId);
     const res = await axios.post(requests.cart.clearCart, reuqestBody);
-    console.log(res);
+
     return res;
   } catch (error) {
     console.log(error);

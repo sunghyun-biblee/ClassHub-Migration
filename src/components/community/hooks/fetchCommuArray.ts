@@ -27,7 +27,7 @@ export async function fetchCommuList(
         type: search ? "all" : "",
       },
     });
-    console.log(data);
+
     return data;
   } else {
     if (category === "qna") {
@@ -71,7 +71,7 @@ export async function fetchMyCommuList(userID: number) {
       },
       withCredentials: true,
     });
-    console.log(res);
+
     return res.data;
   } catch (error) {
     console.log(error);
@@ -103,11 +103,11 @@ export async function selectCommuCommentinfo(CommunityId: number) {
 export const fetchPopularList = async (category: string) => {
   if (category === "qna") {
     const res = await axios.get(requests.community.getQuestionOderByFavorite);
-    console.log(res);
+
     return res;
   } else {
     const res = await axios.get(requests.community.getStudyOderByFavorite);
-    console.log(res);
+
     return res;
   }
 };

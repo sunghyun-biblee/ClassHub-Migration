@@ -7,12 +7,10 @@ import carousel_one from "assets/img/carousel/carousel_one.jpg";
 import carousel_two from "assets/img/carousel/carousel_two.jpg";
 import carousel_three from "assets/img/carousel/carousel_three.jpg";
 import preview from "assets/img/preview.jpg";
-import { fetchClassList } from "components/class/hooks/useGetArray";
-import { useQuery } from "@tanstack/react-query";
+
 import { useMainClassList } from "./hooks/useMainClassList";
 import { useMainCommuList } from "./hooks/useMainCommuList";
-import requests from "api/requests";
-import axios from "api/axios";
+
 export const MainPage = () => {
   const {
     mainClassList,

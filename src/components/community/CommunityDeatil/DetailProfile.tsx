@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import preview from "assets/img/preview.jpg";
 import { useAuth } from "hooks/AuthProvider";
 import { CommuInfo } from "../hooks/useTargetPost";
+import person from "assets/img/person.png";
+import axios from "api/axios";
+import requests from "api/requests";
 type IDetailProfileProp = {
   role: string;
   postData: CommuInfo;
@@ -25,7 +28,11 @@ export const DetailProfile = ({ role, postData }: IDetailProfileProp) => {
       md:gap-1 shadow-[0px_8px_24px_rgba(149,157,165,0.2)]"
       >
         <img
-          src={preview}
+          src={
+            postData && postData.profilePicture
+              ? postData.profilePicture
+              : person
+          }
           alt="profileIMg"
           className="lg:w-36 md:w-20 mysm:w-[60px]
        md:h-auto mysm:h-[60px] object-cover rounded-2xl

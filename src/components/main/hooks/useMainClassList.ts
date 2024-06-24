@@ -6,7 +6,7 @@ export function useMainClassList() {
     queryKey: ["classListAll"],
     queryFn: () => fetchClassList(0, 1),
   });
-  console.log(data);
+
   return {
     mainClassList: data,
     mainClassIsLoading: isLoading,

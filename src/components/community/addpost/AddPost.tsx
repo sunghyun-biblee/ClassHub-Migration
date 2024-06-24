@@ -46,7 +46,6 @@ export const AddPost = () => {
     await axios
       .post(`${requests.community.addPost}`, communityObject)
       .then((res) => {
-        console.log(res);
         nav("/community/qna");
       })
       .catch((error) => {
@@ -63,7 +62,6 @@ export const AddPost = () => {
   };
   const leftClick = () => {
     if (ref.current) {
-      console.log(ref.current.scrollLeft);
       ref.current.scrollLeft -= window.innerWidth - 10;
     }
   };
@@ -119,7 +117,7 @@ export const AddPost = () => {
     const selectItem = imgArray.filter((item) => item.id === target);
     setPrevimg(selectItem);
   };
-  console.log(requestImgId);
+
   return (
     <div className="relative">
       <form

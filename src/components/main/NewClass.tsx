@@ -38,14 +38,20 @@ export const NewClass = ({
         </div>
       </div>
       <section className=" grid-cols-4 gap-3 md:grid mysm:hidden">
-        {data.contents.slice(0, 4).map((item) => (
-          <ClassItem item={item} key={`exex+${item.classId}`}></ClassItem>
-        ))}
+        {data &&
+          data.contents
+            .slice(0, 4)
+            .map((item) => (
+              <ClassItem item={item} key={`exex+${item.classId}`}></ClassItem>
+            ))}
       </section>
       <section className=" grid-cols-3 gap-3 md:hidden mysm:grid">
-        {data.contents.slice(0, 3).map((item) => (
-          <ClassItem item={item} key={`exex+${item.classId}`}></ClassItem>
-        ))}
+        {data &&
+          data.contents
+            .slice(0, 3)
+            .map((item) => (
+              <ClassItem item={item} key={`exex+${item.classId}`}></ClassItem>
+            ))}
       </section>
     </div>
   );

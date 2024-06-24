@@ -4,6 +4,7 @@ import { VideoInsert, formatVideoDuration } from "./VideoInsert";
 import left from "assets/img/carousel/leftArrow.svg";
 import axios from "api/axios";
 import requests from "api/requests";
+import { useNavigate } from "react-router-dom";
 
 export interface VideoInfo {
   VideoTitle: string;
@@ -39,6 +40,7 @@ export let reqeustSections: sectionstype[] = [];
 
 let i = 0;
 export const AddClass = () => {
+  const nav = useNavigate();
   const [isAddSectionOn, setIsAddSectionOn] = useState(true);
   const [classTitle, setClassTitle] = useState<string>("");
   const [classDescription, setClassDescription] = useState<string>("");
@@ -101,9 +103,7 @@ export const AddClass = () => {
       setIsEditSectionTitle(false);
     }
   };
-  console.log(sectionArray);
-  console.log(uploadVideo);
-  console.log(showTargetSection);
+
   const handleSaveSection = (index: number) => {
     const sectionData = [...sectionArray];
     sectionData[index].videos.push(...uploadVideo);
@@ -174,7 +174,6 @@ export const AddClass = () => {
       price: price,
       thumnail: thumbnail?.preview,
     };
-    console.log(request);
 
     formData.append(
       "request",
@@ -205,7 +204,6 @@ export const AddClass = () => {
         sections: reqeustSections,
       };
 
-      console.log(sectionsArray);
       formData.append(
         "sections",
         new Blob([JSON.stringify(sectionsArray)], { type: "application/json" })
@@ -221,45 +219,50 @@ export const AddClass = () => {
       );
     }
 
-    for (let key of formData.keys()) {
-      console.log(key, ":", formData.get(key));
-    }
-    for (let value of formData.values()) {
-      console.log(value);
-    }
+    // for (let key of formData.keys()) {
+    //   console.log(key, ":", formData.get(key));
+    // }
+    // for (let value of formData.values()) {
+    //   console.log(value);
+    // }
 
     try {
+      // const RequestMaterialArray=materialArray.map((item:Material)=>item.material)
       const res = await axios.post(requests.lecture.addLecture, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      if (res.data) {
-        const requestMaterial = {
-          id: res.data,
-          files: [...materialArray],
-        };
-        try {
-          const materialRes = await axios.post(
-            requests.lecture.addLectureMaterial,
-            requestMaterial,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
-            }
-          );
-          console.log(materialRes);
-        } catch (error) {
-          console.log(error);
-        }
-      } else {
-        alert("강의 자료 등록중 오류가 발생했습니다");
-        return;
-      }
-
+      // if (res.data) {
+      //   const requestMaterial = {
+      //     id: res.data,
+      //     files: [...materialArray],
+      //   };
+      //   try {
+      //     const materialRes = await axios.post(
+      //       requests.lecture.addLectureMaterial,
+      //       requestMaterial,
+      //       {
+      //         headers: {
+      //           "Content-Type": "multipart/form-data",
+      //         },
+      //       }
+      //     );
+      //     console.log(materialRes);
+      //   } catch (error) {
+      //     console.log(error);
+      //     alert("강의 자료 등록중 오류가 발생했습니다");
+      //   }
+      //  } else {
+      //   alert("강의 자료 등록중 오류가 발생했습니다");
+      //   return;
+      // }
       console.log(res);
+      if (res.data) {
+        nav("/mypage/teacherpage");
+      }
     } catch (error) {
+      alert("강의 자료 등록중 오류가 발생했습니다");
       console.log(error);
     }
   };

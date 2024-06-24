@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "api/axios";
-import requests from "api/requests";
+
 import { fetchPopularList } from "./fetchCommuArray";
 
 export function usePopularList(category: string) {

@@ -18,7 +18,6 @@ export const LearnPlayer = () => {
     queryKey: ["classDeatil", classId],
     queryFn: () => selectClassinfo(classId),
   });
-  console.log(data);
 
   // const fetchData = async () => {
   //   try {
@@ -64,7 +63,6 @@ export const LearnPlayer = () => {
   if (isError || !data) {
     return <div>{error && error.message}</div>;
   }
-  console.log(classDetailId);
 
   return (
     <div

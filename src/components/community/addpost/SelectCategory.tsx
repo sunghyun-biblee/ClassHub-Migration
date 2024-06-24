@@ -7,12 +7,11 @@ interface ICommuCategory {
 
 export const SelectCategory = ({
   mainCategory,
-
   setMainCategory,
 }: ICommuCategory) => {
   const changeMainCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const data = e.currentTarget.value;
-    console.log(data);
+
     setMainCategory(data);
   };
   return (
@@ -20,8 +19,7 @@ export const SelectCategory = ({
       <div className="flex">
         <h1 className="font-semibold">카테고리</h1>
         <select
-          name=""
-          id=""
+          name="categoory"
           value={mainCategory === null ? "0" : mainCategory}
           onChange={changeMainCategory}
           className="border-[1px] rounded-md mysm:ml-3"

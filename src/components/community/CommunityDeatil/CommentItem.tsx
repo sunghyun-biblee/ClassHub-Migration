@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { commentType, prevData } from "./CommuDetail";
-import { userType } from "hooks/fetchUserData";
+
 import { useAuth } from "hooks/AuthProvider";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addComment, deleteComment, updateComment } from "../hooks/commentFn";
-import { CommuInfo } from "../hooks/useTargetPost";
+import { deleteComment, updateComment } from "../hooks/commentFn";
 
 interface ICommentProp {
   item: commentType;
@@ -72,14 +71,13 @@ export const CommentItem = ({ item, id, postUserId }: ICommentProp) => {
       queryClient.setQueryData(
         ["commuDetailComment", id],
         (oldData: prevData | undefined) => {
-          console.log(oldData);
           if (oldData) {
             const updateData = oldData.data.map((item) =>
               item.commentId === requestObj.commentId
                 ? { ...item, ...requestObj }
                 : item
             );
-            console.log(updateData);
+
             return updateData;
           }
           return oldData;

@@ -30,7 +30,7 @@ export const CommuDetail = () => {
   const { pathname } = useLocation();
   const id = parseInt(pathname.split("/")[3], 10);
   const category = pathname.split("/")[2];
-  console.log("디테일", category);
+
   const [comment, setComment] = useState<string>("");
   const { postData, isPostLoading, isPostError, postError } = useTargetPost(
     id,
@@ -58,7 +58,7 @@ export const CommuDetail = () => {
         id,
       ]);
       await queryClient.setQueryData(
-        ["commuDetailComment", commentObj.communityId],
+        ["commuDetailComment", id],
         (oldData: prevData | undefined) => {
           if (oldData) {
             const newData = [...oldData?.data, commentObj];
@@ -72,9 +72,7 @@ export const CommuDetail = () => {
       return { prevData };
     },
   });
-  if (postData) {
-    console.log(postData);
-  }
+
   const handleChangeComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
   };
@@ -115,7 +113,7 @@ export const CommuDetail = () => {
       className="
   lg:w-[1200px] mysm:w-[100vw]  lg:pt-[90px] md:pt-[80px] mysm:pt-[80px] mx-auto my-0"
     >
-      {postData && (
+      {postData && commentData && (
         <section className="md:grid md:grid-cols-[4fr,1.5fr] lg:w-[1200px] mysm:flex mysm:flex-col mysm:w-[100vw]">
           <div className="lg:border-x-[1px]  md:border-r-[1px] lg:mr-5 mysm:pb-[50px]">
             <CommuPost postData={postData}></CommuPost>

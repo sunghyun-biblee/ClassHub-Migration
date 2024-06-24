@@ -59,10 +59,7 @@ export const LearnHeader = ({ data }: ILearnHeaderProp) => {
                     className="lg:text-3xl mysm:text-xl py-2 md:text-2xl
                   tracking-tight"
                   >
-                    <span>
-                      {data.classInfo.className} 반갑습니다[JS] Phaser 게임 제작
-                      - 뱀파이어 서바이벌 클론
-                    </span>
+                    <span>{data.classInfo.className}</span>
                   </li>
                   <li
                     className="lg:text-xl md:text-xl mysm:text-sm py-2

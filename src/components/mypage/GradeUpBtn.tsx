@@ -117,10 +117,10 @@ export const handleClick = async () => {
     localStorage.setItem("teacher", JSON.stringify(newTdata));
   }
   const requestBody = {
-    userId: 2,
-    name: "성현",
+    userId: 21111111,
+    name: "123",
     field: "개발프로그래밍",
-    text: "해줘",
+    text: "123",
     userType: "1",
     requestStatus: "1",
   };

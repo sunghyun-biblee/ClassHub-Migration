@@ -1,12 +1,6 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import { Header } from "../Header";
 import { TeacherHeader } from "./TeacherHeader";
-import { Item } from "../management/Item";
 import { RegistClassItem } from "./RegistClassItem";
-import { useQuery } from "@tanstack/react-query";
-import axios from "api/axios";
-import requests from "api/requests";
 import { useTargetLectureData } from "../hooks/useTargetLectureData";
 
 export const PCTpage = () => {

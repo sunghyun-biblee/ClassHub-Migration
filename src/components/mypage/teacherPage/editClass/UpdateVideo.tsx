@@ -79,9 +79,7 @@ export const UpdateVideo = ({
       alert("영상을 선택해주세요");
       return;
     }
-    console.log(videoTitle);
-    console.log(videoUrl);
-    console.log(videoLength);
+
     if (videoTitle && videoUrl && videoLength) {
       if (editSectionVideos.length >= 1) {
         setEditSEctionVideos([
@@ -161,8 +159,7 @@ export const UpdateVideo = ({
     const ChangeData = [...completeSectionArray].map((item, index) =>
       index === seledtEditSectionIndex ? editSectionData : item
     );
-    console.log(editSectionData);
-    console.log(ChangeData);
+
     setCompleteSectionArray(ChangeData);
 
     setSelectEditSection({

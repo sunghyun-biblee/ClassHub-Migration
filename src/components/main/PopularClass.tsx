@@ -35,68 +35,70 @@ export const PopularClass = ({
         </div>
       </div>
       <section className=" grid-cols-4 gap-3 md:grid mysm:hidden">
-        {data.contents.slice(0, 4).map((item) => (
-          // <article
-          //   className="flex flex-col "
-          //   key={`${item.title}+${item.name}`}
-          // >
-          //   <div>
-          //     <img src={item.img} alt="classIMG" className="h-auto w-[100%]" />
-          //   </div>
-          //   <div className="h-[100%] flex flex-col justify-between">
-          //     <div className="flex justify-between pb-3 md:pb-2 mysm:flex-col pb-1">
-          //       <h1 className="lg:font-bold p-1 md:text-base mysm:text-[11px] font-extrabold p-[1px]">
-          //         {item.title}
-          //       </h1>
-          //       <h3 className="p-1 md:text-base mysm:text-[11px] p-[1px]">
-          //         {item.name}
-          //       </h3>
-          //     </div>
+        {data &&
+          data.contents.slice(0, 4).map((item) => (
+            // <article
+            //   className="flex flex-col "
+            //   key={`${item.title}+${item.name}`}
+            // >
+            //   <div>
+            //     <img src={item.img} alt="classIMG" className="h-auto w-[100%]" />
+            //   </div>
+            //   <div className="h-[100%] flex flex-col justify-between">
+            //     <div className="flex justify-between pb-3 md:pb-2 mysm:flex-col pb-1">
+            //       <h1 className="lg:font-bold p-1 md:text-base mysm:text-[11px] font-extrabold p-[1px]">
+            //         {item.title}
+            //       </h1>
+            //       <h3 className="p-1 md:text-base mysm:text-[11px] p-[1px]">
+            //         {item.name}
+            //       </h3>
+            //     </div>
 
-          //     <div className="flex justify-between pt-2 lg:flex-row md:flex-row mysm:flex-col pt-1">
-          //       <p className="px-1  md:text-base mysm:text-[11px] px-[1px] font-semibold">
-          //         {item.price}
-          //       </p>
-          //       <p className="px-2 pr-2  md:text-base mysm:text-[11px] px-[1px] font-semibold">
-          //         {item.score}점
-          //       </p>
-          //     </div>
-          //   </div>
-          // </article>
-          <ClassItem item={item} key={item.classId}></ClassItem>
-        ))}
+            //     <div className="flex justify-between pt-2 lg:flex-row md:flex-row mysm:flex-col pt-1">
+            //       <p className="px-1  md:text-base mysm:text-[11px] px-[1px] font-semibold">
+            //         {item.price}
+            //       </p>
+            //       <p className="px-2 pr-2  md:text-base mysm:text-[11px] px-[1px] font-semibold">
+            //         {item.score}점
+            //       </p>
+            //     </div>
+            //   </div>
+            // </article>
+            <ClassItem item={item} key={item.classId}></ClassItem>
+          ))}
       </section>
       <section className=" grid-cols-3 gap-3 md:hidden mysm:grid ">
-        {data.contents.slice(0, 3).map((item) => (
-          // <article
-          //   className="flex flex-col "
-          //   key={`${item.title}+${item.name}`}
-          // >
-          //   <div>
-          //     <img src={item.img} alt="classIMG" className="h-auto w-[100%]" />
-          //   </div>
-          //   <div className="h-[100%] flex flex-col justify-between">
-          //     <div className="flex justify-between pb-3 md:pb-2 mysm:flex-col pb-1">
-          //       <h1 className="lg:font-bold p-1 md:text-base mysm:text-[11px] font-extrabold p-[1px]">
-          //         {item.title}
-          //       </h1>
-          //       <h3 className="p-1 md:text-base mysm:text-[11px] p-[1px]">
-          //         {item.name}
-          //       </h3>
-          //     </div>
+        {data &&
+          data.contents.slice(0, 3).map((item) => (
+            // <article
+            //   className="flex flex-col "
+            //   key={`${item.title}+${item.name}`}
+            // >
+            //   <div>
+            //     <img src={item.img} alt="classIMG" className="h-auto w-[100%]" />
+            //   </div>
+            //   <div className="h-[100%] flex flex-col justify-between">
+            //     <div className="flex justify-between pb-3 md:pb-2 mysm:flex-col pb-1">
+            //       <h1 className="lg:font-bold p-1 md:text-base mysm:text-[11px] font-extrabold p-[1px]">
+            //         {item.title}
+            //       </h1>
+            //       <h3 className="p-1 md:text-base mysm:text-[11px] p-[1px]">
+            //         {item.name}
+            //       </h3>
+            //     </div>
 
-          //     <div className="flex justify-between pt-2 lg:flex-row md:flex-row mysm:flex-col pt-1">
-          //       <p className="px-1  md:text-base mysm:text-[11px] px-[1px] font-semibold">
-          //         {item.price}
-          //       </p>
-          //       <p className="px-2 pr-2  md:text-base mysm:text-[11px] px-[1px] font-semibold">
-          //         {item.score}점
-          //       </p>
-          //     </div>
-          //   </div>
-          // </article>
-          <ClassItem item={item} key={item.classId}></ClassItem>
-        ))}
+            //     <div className="flex justify-between pt-2 lg:flex-row md:flex-row mysm:flex-col pt-1">
+            //       <p className="px-1  md:text-base mysm:text-[11px] px-[1px] font-semibold">
+            //         {item.price}
+            //       </p>
+            //       <p className="px-2 pr-2  md:text-base mysm:text-[11px] px-[1px] font-semibold">
+            //         {item.score}점
+            //       </p>
+            //     </div>
+            //   </div>
+            // </article>
+            <ClassItem item={item} key={item.classId}></ClassItem>
+          ))}
       </section>
     </div>
   );

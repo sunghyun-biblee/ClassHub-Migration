@@ -69,7 +69,6 @@ export const AuthProvider = ({ children }: AuthProviderType) => {
 
   useEffect(() => {
     if (userData) {
-      console.log(userData.userId);
       // setUser(userData);
       localStorage.setItem("user", userData.userId);
     }
@@ -81,7 +80,7 @@ export const AuthProvider = ({ children }: AuthProviderType) => {
     window.location.href = "https://api.devproject.store/logout";
   };
   // console.log(user);
-  console.log(userData);
+
   return (
     <AuthContext.Provider
       value={{

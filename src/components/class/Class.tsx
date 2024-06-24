@@ -11,7 +11,6 @@ import { useClassCategory } from "hooks/ClassTypeProvider";
 
 export const Class = () => {
   const classType = useClassCategory();
-  const [category, setCategory] = useState<string>("all");
 
   // let categoryName = "전체 강의";
   // switch (category) {

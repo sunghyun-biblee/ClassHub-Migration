@@ -96,7 +96,7 @@ export const ClassDetail = () => {
     }
   };
   const handlePayMent = async () => {
-    let paymentNumber;
+    // let paymentNumber;
     if (!userData) {
       return alert("로그인 후 이용가능합니다");
     }
@@ -157,7 +157,7 @@ export const ClassDetail = () => {
       className="
     lg:max-w-[1200px] mysm:w-[100vw]  lg:pt-[110px] md:pt-[80px] mysm:pt-[80px]"
     >
-      {!isLoading && data?.classInfo ? (
+      {!isLoading && data && data?.classInfo ? (
         <>
           <section className="mysm:w-[100vw] lg:max-w-[1200px] min-h-[100vh] block">
             <div className="  bg-[#002333] text-white font-semibold w-[100%]">

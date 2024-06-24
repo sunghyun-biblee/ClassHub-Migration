@@ -9,7 +9,7 @@ export async function fetchsearchKeyWord(keyword: string, page: number) {
         page: page,
       },
     });
-    console.log(res.data);
+
     return res.data;
   } catch (error) {
     console.log(error);

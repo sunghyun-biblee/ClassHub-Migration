@@ -21,7 +21,6 @@ export const VideoInsert = ({
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleVideoTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     setVideoTitle(e.target.value);
   };
   const handleChangeVideoUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +33,6 @@ export const VideoInsert = ({
   };
   const handleLoadMetaData = () => {
     if (videoRef.current) {
-      console.log("영상의 길이(초):", videoRef.current.duration);
       setVideoLength(Math.round(videoRef.current.duration));
     }
   };
@@ -79,7 +77,7 @@ export const VideoInsert = ({
     }
   };
   // shadow-[0px_8px_24px_rgba(149,157,165,0.3)]
-  console.log(videoUrl);
+
   return (
     <div>
       <div className="flex py-3  px-5 bg-[#d8d9db] rounded-lg min-h-[45dvh]">
@@ -148,22 +146,23 @@ export const VideoInsert = ({
               섹션에 추가된 영상
             </h1>
             <div className="grid grid-cols-3 gap-3">
-              {prevVideoArray?.map((item, index) => (
-                <div
-                  className="flex flex-col text-zinc-900 font-semibold "
-                  key={item.VideoTitle + index + "C"}
-                >
-                  <p className="flex justify-between ">
-                    <span className="whitespace-nowrap text-ellipsis overflow-hidden w-15">
-                      {item.VideoTitle}
-                    </span>
-                    <span>{formatVideoDuration(item.videoLength)}</span>
-                  </p>
-                  {item.video && (
-                    <video src={URL.createObjectURL(item.video)}></video>
-                  )}
-                </div>
-              ))}
+              {prevVideoArray &&
+                prevVideoArray?.map((item, index) => (
+                  <div
+                    className="flex flex-col text-zinc-900 font-semibold "
+                    key={item.VideoTitle + index + "C"}
+                  >
+                    <p className="flex justify-between ">
+                      <span className="whitespace-nowrap text-ellipsis overflow-hidden w-15">
+                        {item.VideoTitle}
+                      </span>
+                      <span>{formatVideoDuration(item.videoLength)}</span>
+                    </p>
+                    {item.video && (
+                      <video src={URL.createObjectURL(item.video)}></video>
+                    )}
+                  </div>
+                ))}
             </div>
           </div>
         </div>

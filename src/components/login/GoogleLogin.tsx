@@ -31,7 +31,7 @@ export const GoogleLoginBtn = () => {
             requestBody
           );
           localStorage.setItem("user", JSON.stringify(requestBody));
-          console.log(result.data);
+
           if (result.data.statusCode === 200) {
             nav("/");
           }

@@ -18,7 +18,7 @@ export const LearningPage = () => {
   // if (data && data[0].title) {
   //   document.title = data[0].title;
   // }
-  console.log(data);
+
   return (
     <LearnContainer
       className="lg:pt-[100px] md:pt-[90px] mysm:pt-[90px] max-w-[100vw] lg:max-w-[1200px]

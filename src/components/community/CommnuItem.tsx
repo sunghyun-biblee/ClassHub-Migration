@@ -16,7 +16,7 @@ interface ICommnuItemprop {
 export const CommnuItem = ({ item }: ICommnuItemprop) => {
   const { pathname } = useLocation();
   const category = pathname.split("/")[2];
-  console.log("여기는", category);
+
   const nav = useNavigate();
   const handleClick = () => {
     nav(`/community/${category}/${item.communityId}`);

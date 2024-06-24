@@ -1,12 +1,7 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import { Outlet, Route, Routes, useLocation } from "react-router-dom";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { QueryClientProvider, useQueryClient } from "@tanstack/react-query";
 import { MainPage } from "./components/main/MainPage";
 import { Nav } from "./components/navigtaion/Nav";
 import { Mypage } from "./components/mypage/Mypage";

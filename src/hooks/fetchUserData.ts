@@ -19,7 +19,7 @@ export const fetchUserData = async (userCookie: string) => {
       const data = await axios.get(requests.user.getUserData, {
         withCredentials: true,
       });
-      console.log(data.data.data);
+      // console.log(data.data.data);
       return data.data.data;
     } catch (error) {
       console.log(error);

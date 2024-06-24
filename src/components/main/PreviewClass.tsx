@@ -29,7 +29,7 @@ export const PreviewClass = ({
   if (mainClassIsError) {
     return <span>{mainClassError?.message}</span>;
   }
-  console.log(data);
+
   return (
     <div>
       <PopularClass

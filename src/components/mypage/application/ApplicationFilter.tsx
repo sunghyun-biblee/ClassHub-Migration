@@ -6,7 +6,7 @@ type IfilterProp = {
 export const ApplicationFilter = ({ setFilter }: IfilterProp) => {
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
-    console.log(selectedValue);
+
     setFilter(selectedValue);
   };
   return (
