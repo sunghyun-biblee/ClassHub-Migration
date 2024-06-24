@@ -47,8 +47,13 @@ export async function fetchCommuList(
     return data;
   }
 }
+export async function fetchMyStudyList(userid: number) {
+  const data = await axios.get(`${requests.lecture.MyStudyList}/${userid}`);
+  return data.data;
+}
 export async function fetchPaymentedList(userid: number) {
   const data = await axios.get(`${requests.order.getOrderList}/${userid}`);
+  console.log(data);
   return data;
 }
 export async function fetchStudyList(page: number) {

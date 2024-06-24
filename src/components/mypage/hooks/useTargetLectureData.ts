@@ -13,7 +13,16 @@ async function fetchLectureList(classid: number) {
     console.log(error);
   }
 }
-
+export async function fetchMyUploadLectureList(userid: number) {
+  try {
+    const res = await axios.get(
+      `${requests.lecture.getMyUploadLectureList}/${userid}`
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
 export function useTargetLectureData(classid: number) {
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["targetLecture", classid],
