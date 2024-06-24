@@ -27,7 +27,7 @@ const requests = {
     removeFavoriteLecture: "/lecture/clearFavoriteLecture",
     addInstructor: "/lecture/addInstructor",
     deleteInstructor: "/lecture/deleteInstructor",
-
+    MyStudyList: "/lecture/findOrderClassByUserId",
     getLectureMaterial: "/lecture/selectMaterial",
     getCategoryLecture: "/lecture/selectByCategory",
     getAllLecture: "/lecture/selectAll",
@@ -36,6 +36,7 @@ const requests = {
     getTargetLectureLearningData: "/lecture/selectLearningData",
     getLectureListCategory: "/lecture/selectByCategory",
     getUpdateLectrueData: "/lecture/responseForUpdateVideo", //${classid}
+    getMyUploadLectureList: "/lecture/findClassByUserId",
   },
   comment: {
     addComment: "/comment/post",
