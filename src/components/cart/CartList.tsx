@@ -10,6 +10,7 @@ import { addOrder } from "./hooks/addOrder";
 import { cartClear, deleteCartItem } from "./hooks/deleteCartItem";
 import { deleteOrder } from "./hooks/deleteOrder";
 import { CartListItem } from "./CartListItem";
+import styled from "styled-components";
 export const CartList = () => {
   const queryClient = useQueryClient();
   const { userData, userIsLoading, userIsError, userError } = useAuth();
@@ -173,25 +174,25 @@ export const CartList = () => {
       </div>
 
       <div className="flex md:flex-row mysm:flex-col justify-around">
-        <ul className="lg:w-[65%] md:w-[70%] md:h-[70vh] mysm:h-[50vh] border-t-[1px] pt-2 overflow-scroll">
-          {data === null || data === undefined || data.length === 0 ? (
-            <div className="flex justify-center items-center h-[50%]">
-              <h1 className="lg:text-4xl md:text-3xl mysm:text-[1.35rem] [text-shadow:_2px_2px_2px_#d5d5d5] text-gray-500 font-semibold ">
-                장바구니에 상품이 존재하지 않습니다
-              </h1>
-            </div>
-          ) : (
-            data &&
-            data.map((item: CartItemType) => (
-              <CartListItem
-                item={item}
-                selectItem={selectItem}
-                handleToggleCheckbox={handleToggleCheckbox}
-                handleDeleteItem={handleDeleteItem}
-              ></CartListItem>
-            ))
-          )}
-        </ul>
+        {data === null || data === undefined || data.length === 0 ? (
+          <li className="flex justify-center items-center min-h-[300px]">
+            <h1 className="lg:text-4xl md:text-3xl mysm:text-[1.35rem] [text-shadow:_2px_2px_2px_#d5d5d5] text-gray-500 font-semibold ">
+              장바구니에 상품이 존재하지 않습니다
+            </h1>
+          </li>
+        ) : (
+          <Ul className="lg:w-[65%] md:w-[70%] md:h-[70vh] mysm:h-[50vh] border-t-[1px] pt-2 overflow-x-hidden overflow-y-scroll">
+            {data &&
+              data.map((item: CartItemType) => (
+                <CartListItem
+                  item={item}
+                  selectItem={selectItem}
+                  handleToggleCheckbox={handleToggleCheckbox}
+                  handleDeleteItem={handleDeleteItem}
+                ></CartListItem>
+              ))}
+          </Ul>
+        )}
 
         <ul
           className="py-2 px-3 md:w-[25%] mysm:w-[100%] h-[100%] border-2 rounded-md 
@@ -222,6 +223,24 @@ export const CartList = () => {
   );
 };
 
+export const Ul = styled.ul`
+  max-height: 500px;
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    display: block !important;
+    width: 6px;
+    height: 1px;
+  }
+  &::-webkit-scrollbar-track {
+    background: rgba(33, 122, 244, 0.1);
+  }
+  &::-webkit-scrollbar-thumb {
+    height: 30%;
+    background: #549bff;
+
+    border-radius: 10px;
+  }
+`;
 export const renderCategoryText = (categoryId: number) => {
   switch (categoryId) {
     case 1:

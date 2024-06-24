@@ -15,7 +15,7 @@ export const CartListItem = ({
   handleDeleteItem,
 }: ICartListItem) => {
   return (
-    <li
+    <div
       className="flex flex-col  items-start mb-10 md:p-0 md:mx-1 border-2 rounded-md shadow-[0px_1px_1px_rgba(149,157,165,0.3)]"
       key={item.cartId + item.userId}
     >
@@ -73,6 +73,6 @@ mysm:w-[6.9rem]
           </ul>
         </div>
       </div>
-    </li>
+    </div>
   );
 };
