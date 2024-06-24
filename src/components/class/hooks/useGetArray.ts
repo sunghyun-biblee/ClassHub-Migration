@@ -3,6 +3,22 @@ import preview from "../../../assets/img/preview.jpg";
 import axios from "api/axios";
 
 export interface Iclassitem {
+  categoryId: number;
+  categoryResponseDTO: null;
+  classId: number;
+  className: string;
+  description: string;
+  editDate: null;
+  instructorsId: number;
+  instructorsResponseDTO: null;
+  price: number;
+  regdate: string;
+  reviewScore: number;
+  summary: string;
+  thumnail: string;
+  totalVideoLength: number;
+}
+export interface IEXClassItem {
   img: string;
   title: string;
   name: string;
@@ -12,7 +28,7 @@ export interface Iclassitem {
   overview: string;
 }
 export async function fetchClass() {
-  let newClassArr: Iclassitem[];
+  let newClassArr: IEXClassItem[];
   newClassArr = classArr.slice();
   return newClassArr;
 }

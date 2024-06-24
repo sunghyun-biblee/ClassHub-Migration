@@ -12,6 +12,7 @@ export interface userType {
   regDate: string;
   exitDate: string | null;
   role: string | null;
+  instructorsId: number;
 }
 export const fetchUserData = async (userCookie: string) => {
   if (userCookie) {

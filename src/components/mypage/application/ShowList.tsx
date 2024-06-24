@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import right from "assets/img/carousel/rigthArrow.svg";
 import { ApplicationItem } from "./ApplicationItem";
-import { PageNation } from "components/class/PageNation";
+
 import { useQuery } from "@tanstack/react-query";
 import { fetchPaymentedList } from "components/community/hooks/fetchCommuArray";
 import { useAuth } from "hooks/AuthProvider";
-import { paymentResType } from "components/cart/PaymentedPage";
+
+import { Ul } from "components/cart/CartList";
 
 export type paymentedItemType = {
   ordersId: number;
@@ -51,17 +52,11 @@ export const ShowList = () => {
 
   return (
     <div>
-      <div>
+      <Ul>
         {data?.data.map((item: paymentedItemType) => (
           <ApplicationItem data={item} key={item.ordersId}></ApplicationItem>
         ))}
-      </div>
-      {/* <PageNation
-        page={page}
-        listLength={propsArray.length}
-        setPage={setPage}
-        postLimit={postLimit}
-      ></PageNation> */}
+      </Ul>
     </div>
   );
 };

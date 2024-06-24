@@ -1,11 +1,11 @@
-import React, { ClassType } from "react";
-import { classProp } from "../main/PreviewClass";
+import React from "react";
+
 import { useNavigate } from "react-router-dom";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { selectClassinfo } from "./hooks/useGetArray";
 import { IClassType } from "./ShowClass";
 import preview from "assets/img/preview.jpg";
-import star from "assets/img/Star.svg";
+
 interface IclassitemProp {
   item: IClassType;
 }
@@ -24,7 +24,7 @@ export const ClassItem = ({ item }: IclassitemProp) => {
     <article className="flex flex-col " onClick={handleClick}>
       <div>
         <img
-          src={preview}
+          src={item.thumnail ? item.thumnail : preview}
           alt="classIMG"
           className="h-auto w-[100%] rounded-md"
         />

@@ -1,17 +1,22 @@
 import React from "react";
 import { TeacherHeader } from "./TeacherHeader";
-import { RegistClassItem } from "./RegistClassItem";
-import { useTargetLectureData } from "../hooks/useTargetLectureData";
+import { IMyLectureItem, RegistClassItem } from "./RegistClassItem";
+import { fetchMyUploadLectureList } from "../hooks/useTargetLectureData";
+import { useAuth } from "hooks/AuthProvider";
+import { useQuery } from "@tanstack/react-query";
 
 export const PCTpage = () => {
-  const { lectureData, lectureIsLoading, lectureIsError, lectureError } =
-    useTargetLectureData(120);
-  console.log(lectureData);
-  if (lectureIsLoading) {
+  const { userId } = useAuth();
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["MyuploadLecture"],
+    queryFn: () => fetchMyUploadLectureList(userId),
+  });
+
+  if (isLoading) {
     return <div>로딩중</div>;
   }
-  if (lectureIsError) {
-    return <span>{lectureError?.message}</span>;
+  if (isError) {
+    return <span>{error?.message}</span>;
   }
   return (
     <div className="mysm:hidden lg:block">
@@ -43,7 +48,10 @@ export const PCTpage = () => {
               <li className="py-[5px]">수정하기</li>
             </ul>
             <div className="flex flex-col gap-y-5">
-              {lectureData && <RegistClassItem data={lectureData} />}
+              {data &&
+                data.map((item: IMyLectureItem) => (
+                  <RegistClassItem item={item} />
+                ))}
             </div>
           </article>
         </section>

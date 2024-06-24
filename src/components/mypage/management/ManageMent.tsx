@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import right from "assets/img/carousel/rigthArrow.svg";
 import { Item } from "./Item";
-import { PageNation } from "components/class/PageNation";
+
 import { Header } from "../Header";
 import { useQuery } from "@tanstack/react-query";
-import { fetchClass } from "components/class/hooks/useGetArray";
+import { Iclassitem } from "components/class/hooks/useGetArray";
+import { fetchMyStudyList } from "components/community/hooks/fetchCommuArray";
+import { useAuth } from "hooks/AuthProvider";
+
+import { Ul } from "components/cart/CartList";
+
 export const ManageMent = () => {
+  const { userId } = useAuth();
   const type = "management";
   const [page, setPage] = useState(1);
   const postLimit = 5;
@@ -13,9 +19,10 @@ export const ManageMent = () => {
   const pageOfFirst = pageOfLast - postLimit; // 페이지마다 첫 포스트 위치
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["classList", page],
-    queryFn: fetchClass,
+    queryKey: ["MyStudyList"],
+    queryFn: () => fetchMyStudyList(userId),
   });
+
   if (isLoading) {
     return <div>로딩중</div>;
   }
@@ -46,16 +53,16 @@ export const ManageMent = () => {
             >
               강의 제목
             </li>
-            <li className="py-[5px]">강사 이름</li>
+            <li className="py-[5px]">신청날짜</li>
             <li className="py-[5px]">진행률</li>
             <li className="py-[5px]">바로가기</li>
           </ul>
-          <div className="flex flex-col gap-y-5">
+          <Ul className="flex flex-col gap-y-5 overflow-x-hidden overflow-y-scroll h-[500px]">
             {data &&
-              data
-                ?.slice(pageOfFirst, pageOfLast)
-                .map((item) => <Item item={item} key={item.id} />)}
-          </div>
+              data.map((item: Iclassitem) => (
+                <Item item={item} key={item.regdate} />
+              ))}
+          </Ul>
           {/* <PageNation
             listLength={examArr.length}
             postLimit={postLimit}

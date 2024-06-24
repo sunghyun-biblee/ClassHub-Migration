@@ -1,4 +1,3 @@
-import { fetchPaymentedList } from "components/community/hooks/fetchCommuArray";
 import React from "react";
 
 export const ApplicationNav = () => {
@@ -6,9 +5,8 @@ export const ApplicationNav = () => {
     <div className="my-5 border-[1px] rounded-md">
       <ul
         className="grid 
-      
-      md:grid-cols-[0.6fr,1.5fr,0.7fr,0.7fr,0.5fr,0.5fr]
-      mysm:grid-cols-[0.9fr,1.2fr,0.7fr,0.7fr,0.5fr,0.8fr]
+      md:grid-cols-[0.5fr,1.5fr,0.7fr,0.7fr,0.5fr,0.5fr]
+     mysm:grid-cols-[0.5fr,1.3fr,0.7fr,0.7fr,0.5fr,0.8fr]
        py-[5px] text-center text-blue-950 font-semibold md:text-base mysm:text-sm"
       >
         <li className="px-[5px] ">주문번호</li>

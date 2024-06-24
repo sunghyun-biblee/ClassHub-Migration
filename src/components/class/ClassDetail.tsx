@@ -177,7 +177,11 @@ export const ClassDetail = () => {
                  "
                 >
                   <img
-                    src={preview}
+                    src={
+                      data.classInfo.thumnail
+                        ? data.classInfo.thumnail
+                        : preview
+                    }
                     alt="classimg"
                     className=" rounded-md lg:w-[90%] md:w-[80%] mysm:w-[300px] md:h-[100%] mysm:h-[300px]"
                   />
@@ -187,8 +191,7 @@ export const ClassDetail = () => {
                     <li>
                       <div className="lg:text-3xl  py-2 md:text-2xl mysm:text-xl">
                         <p className=" break-words">
-                          {data.classInfo.className} 반갑습니다[JS] Phaser 게임
-                          제작 - 뱀파이어 서바이벌 클론
+                          {data.classInfo.className}
                         </p>
                       </div>
                       <div className="py-2 lg:text-xl md:text-lg mysm:text-md">
@@ -303,7 +306,7 @@ export const ClassDetail = () => {
             </div>
             <div>
               <ul className="text-white bg-gray-600 p-5 rounded-md lg:hidden fixed bottom-0 w-[100%] mb-[40px] flex justify-between items-center">
-                <li className="  px-2 text-2xl font-semibold ">
+                <li className="  px-2 text-lg font-semibold ">
                   <p>{data.classInfo.price.toLocaleString()}원</p>
                 </li>
 

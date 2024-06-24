@@ -1,22 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { Header } from "../Header";
-import {
-  Icommuitem,
-  fetchMyCommuList,
-  fetchQuestionList,
-} from "components/community/hooks/fetchCommuArray";
-import { Item } from "../management/Item";
+import { fetchMyCommuList } from "components/community/hooks/fetchCommuArray";
+
 import { useQuery } from "@tanstack/react-query";
-import { PageNation } from "components/class/PageNation";
+
 import { MyCommuItem } from "./MyCommuItem";
 import { useAuth } from "hooks/AuthProvider";
 import { CommuInfo } from "components/community/hooks/useTargetPost";
 import like from "assets/img/likes.svg";
+import { Ul } from "components/cart/CartList";
 
 export const MyCommu = () => {
   const { userId } = useAuth();
   const type = "commu";
-  const [page, setPage] = useState(1);
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["myCommu"],
@@ -39,7 +35,7 @@ export const MyCommu = () => {
       <section className="p-5">
         <Header type={type}></Header>
         <article>
-          <ul className="grid md:grid-cols-[0.5fr,1fr,0.6fr,0.6fr,0.4fr,0.3fr] mysm:grid-cols-[1fr,1fr,1fr,0.7fr,0.7fr] text-center border-[1px] rounded-md my-5 font-semibold md:text-base mysm:text-sm  text-blue-950 ">
+          <ul className="grid md:grid-cols-[0.5fr,1fr,0.6fr,0.6fr,0.3fr] mysm:grid-cols-[1fr,1fr,1fr,0.7fr] text-center border-[1px] rounded-md my-5 font-semibold md:text-base mysm:text-sm  text-blue-950 ">
             <li className="py-[5px] md:block mysm:hidden">게시글ID</li>
             <li
               className="py-[5px] md:text-center mysm:text-center 
@@ -50,25 +46,18 @@ export const MyCommu = () => {
             </li>
             <li className="py-[5px]">작성일</li>
             <li className="py-[5px]">카테고리</li>
-            <li className="py-[5px] md:text-base mysm:text-sm">관리하기</li>
+
             <li className="py-[5px] flex justify-center items-center">
               <img src={like} alt="" className="w-5" />
             </li>
           </ul>
 
-          <div className="flex flex-col gap-y-5">
+          <Ul className="flex flex-col gap-y-5 max-h-[500px]">
             {data &&
               data.map((item: CommuInfo, index: number) => (
                 <MyCommuItem item={item} key={item.userId + index} />
               ))}
-          </div>
-
-          {/* <PageNation
-            listLength={data ? data.length : 0}
-            postLimit={postLimit}
-            page={page}
-            setPage={setPage}
-          ></PageNation> */}
+          </Ul>
         </article>
       </section>
     </div>

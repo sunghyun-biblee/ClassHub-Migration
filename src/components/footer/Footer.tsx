@@ -5,7 +5,7 @@ import logo from "assets/img/Logo.png";
 export const Footer = () => {
   return (
     <footer
-      className="bg-[#36454F] text-[#efefef] w-[100vw] lg:text-sm md:text-[10px] mysm:text-[6px]
+      className="bg-[#36454F] text-[#efefef] w-[100%] lg:text-sm md:text-[10px] mysm:text-[6px]
 mt-10"
     >
       <div className={`p-3 mysm:pb-[60px] lg:pb-0 `}>

@@ -1,10 +1,8 @@
-import React, { useState } from "react";
-import preview from "assets/img/preview.jpg";
-import { useAuth } from "hooks/AuthProvider";
+import React from "react";
+
 import { CommuInfo } from "../hooks/useTargetPost";
 import person from "assets/img/person.png";
-import axios from "api/axios";
-import requests from "api/requests";
+
 type IDetailProfileProp = {
   role: string;
   postData: CommuInfo;

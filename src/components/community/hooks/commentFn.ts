@@ -1,4 +1,3 @@
-import { useQueryClient } from "@tanstack/react-query";
 import axios from "api/axios";
 import requests from "api/requests";
 import { commentType } from "../CommunityDeatil/CommuDetail";
