@@ -35,6 +35,7 @@ const inistialState: AuthContextType = {
     regDate: "",
     exitDate: "",
     role: "",
+    instructorsId: 0,
   },
   userId: 0,
   userIsLoading: null,
