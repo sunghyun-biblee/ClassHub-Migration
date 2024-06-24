@@ -256,7 +256,7 @@ export const AddClass = () => {
       //   alert("강의 자료 등록중 오류가 발생했습니다");
       //   return;
       // }
-      console.log(res);
+
       if (res.data) {
         const newFormData = new FormData();
         const img = Array.from([thumbnail.fileImg]);
