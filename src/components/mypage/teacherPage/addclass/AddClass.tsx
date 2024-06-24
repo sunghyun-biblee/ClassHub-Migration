@@ -5,6 +5,7 @@ import left from "assets/img/carousel/leftArrow.svg";
 import axios from "api/axios";
 import requests from "api/requests";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "hooks/AuthProvider";
 
 export interface VideoInfo {
   VideoTitle: string;
@@ -18,8 +19,8 @@ export interface SectionInfo {
   videos: VideoInfo[];
 }
 export interface Thumbnail {
-  preview: string | undefined;
-  fileImg: File | null;
+  preview: string;
+  fileImg: File;
 }
 export interface Material {
   id: string;
@@ -40,6 +41,7 @@ export let reqeustSections: sectionstype[] = [];
 
 let i = 0;
 export const AddClass = () => {
+  const { userId } = useAuth();
   const nav = useNavigate();
   const [isAddSectionOn, setIsAddSectionOn] = useState(true);
   const [classTitle, setClassTitle] = useState<string>("");
@@ -172,7 +174,7 @@ export const AddClass = () => {
       description: classDescription,
       summary: overView,
       price: price,
-      thumnail: thumbnail?.preview,
+      thumnail: thumbnail.preview,
     };
 
     formData.append(
@@ -219,9 +221,6 @@ export const AddClass = () => {
       );
     }
 
-    // for (let key of formData.keys()) {
-    //   console.log(key, ":", formData.get(key));
-    // }
     // for (let value of formData.values()) {
     //   console.log(value);
     // }
@@ -259,7 +258,26 @@ export const AddClass = () => {
       // }
       console.log(res);
       if (res.data) {
-        nav("/mypage/teacherpage");
+        const newFormData = new FormData();
+        const img = Array.from([thumbnail.fileImg]);
+        img.forEach((file) => {
+          newFormData.append("thumnail", file);
+        });
+
+        for (let key of newFormData.keys()) {
+          console.log(key, ":", newFormData.get(key));
+        }
+        const classId = res.data;
+        try {
+          const res = await axios.post(
+            `/lecture/uploadThumnail/${classId}`,
+            newFormData
+          );
+          console.log(res);
+          nav("/mypage/teacherpage");
+        } catch (error) {
+          console.log(error);
+        }
       }
     } catch (error) {
       alert("강의 자료 등록중 오류가 발생했습니다");
