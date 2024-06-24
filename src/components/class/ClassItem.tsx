@@ -24,7 +24,8 @@ export const ClassItem = ({ item }: IclassitemProp) => {
     <article className="flex flex-col " onClick={handleClick}>
       <div>
         <img
-          src={item.thumnail ? item.thumnail : preview}
+          src={preview}
+          // item.thumnail ? item.thumnail :
           alt="classIMG"
           className="h-auto w-[100%] rounded-md"
         />

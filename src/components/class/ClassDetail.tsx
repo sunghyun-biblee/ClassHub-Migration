@@ -177,11 +177,10 @@ export const ClassDetail = () => {
                  "
                 >
                   <img
-                    src={
-                      data.classInfo.thumnail
-                        ? data.classInfo.thumnail
-                        : preview
-                    }
+                    src={preview}
+                    // data.classInfo.thumnail
+                    //   ? data.classInfo.thumnail
+                    //   : preview
                     alt="classimg"
                     className=" rounded-md lg:w-[90%] md:w-[80%] mysm:w-[300px] md:h-[100%] mysm:h-[300px]"
                   />

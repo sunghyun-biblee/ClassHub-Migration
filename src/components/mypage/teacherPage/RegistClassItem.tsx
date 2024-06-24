@@ -3,7 +3,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import axios from "api/axios";
 import requests from "api/requests";
-import { Item } from "./../management/Item";
 
 type IclassInfo = {
   categoryId: number;

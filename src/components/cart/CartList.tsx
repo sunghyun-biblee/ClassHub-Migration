@@ -224,7 +224,7 @@ export const CartList = () => {
 };
 
 export const Ul = styled.ul`
-  max-height: 500px;
+  max-height: 700px;
   overflow: scroll;
   &::-webkit-scrollbar {
     display: block !important;
