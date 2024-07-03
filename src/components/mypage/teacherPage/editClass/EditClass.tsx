@@ -206,9 +206,7 @@ export const EditClass = () => {
           title: editTitle,
           sections: reqeustSections,
         };
-        console.log(requestMaterial);
-        console.log(request);
-        console.log(sectionsArray);
+
         formData.append(
           "sections",
           new Blob([JSON.stringify(sectionsArray)], {
@@ -219,7 +217,6 @@ export const EditClass = () => {
         completeSectionArray.map((item) =>
           item.videos.map((item) => {
             if (item.video !== null) {
-              console.log(item.video);
               formData.append("videos", item.video);
             }
           })
@@ -310,7 +307,7 @@ export const EditClass = () => {
                     className="h-[55%] border-b-[1px]"
                   >
                     {completeSectionArray?.map((section, index) => (
-                      <div className="px-3">
+                      <div className="px-3" key={section.sectionTitle + index}>
                         <div
                           className="flex justify-between py-1 border-[1px] px-2 rounded-sm"
                           onClick={() => {
@@ -338,8 +335,11 @@ export const EditClass = () => {
                             showTargetSection === index ? "block" : "hidden"
                           } `}
                         >
-                          {section.videos.map((item) => (
-                            <li className="flex justify-between py-1">
+                          {section.videos.map((item, index) => (
+                            <li
+                              className="flex justify-between py-1"
+                              key={item.classDetailId + index}
+                            >
                               <span className="overflow-hidden whitespace-nowrap text-ellipsis max-w-32">
                                 {item.title}
                               </span>
@@ -371,8 +371,11 @@ export const EditClass = () => {
                         </label>
                       </div>
                       <ul className="mt-1">
-                        {materialArray?.map((item) => (
-                          <li className="py-1 flex justify-between items-center border-b-[1px]">
+                        {materialArray?.map((item, index) => (
+                          <li
+                            className="py-1 flex justify-between items-center border-b-[1px]"
+                            key={item.id + index + new Date().getTime()}
+                          >
                             <span className="w-[150px] overflow-hidden whitespace-nowrap text-ellipsis">
                               {item.material?.name}
                             </span>
