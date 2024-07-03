@@ -12,8 +12,8 @@ export const ApplicationItem = ({ data }: IApplicationItemProp) => {
     queryKey: ["paymentedDetail", data.ordersId],
   });
   const nav = useNavigate();
-  const handlePaymentedDeatil = (orderId: number) => {
-    nav(`/cart/order/paymented/${orderId}`);
+  const handlePaymentedDeatil = (impUid: string) => {
+    nav(`/cart/order/paymented/${impUid}`);
   };
   return (
     <li className=" border-[1px] py-2 px-1 mb-3 rounded-md ">
@@ -41,7 +41,7 @@ export const ApplicationItem = ({ data }: IApplicationItemProp) => {
         </li>
         <li
           className="px-[5px] flex justify-center items-center cursor-pointer"
-          onClick={() => handlePaymentedDeatil(data.ordersId)}
+          onClick={() => handlePaymentedDeatil(data.impUid)}
         >
           <p>{">"}</p>
         </li>

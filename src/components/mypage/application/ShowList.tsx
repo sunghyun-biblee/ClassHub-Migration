@@ -15,6 +15,7 @@ export type paymentedItemType = {
   totalPrice: number;
   finalOrderStatus: number;
   regdate: string;
+  impUid: string;
 };
 export type paymentedListType = {
   data: paymentedItemType[];
