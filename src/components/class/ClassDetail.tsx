@@ -266,7 +266,10 @@ export const ClassDetail = () => {
                 >
                   <ul className="w-[100%] ">
                     {data.classDetail.map((section, index) => (
-                      <li className="border-[1px] rounded-lg overflow-hidden mb-5 shadow-md">
+                      <li
+                        className="border-[1px] rounded-lg overflow-hidden mb-5 shadow-md"
+                        key={new Date().getTime() + index}
+                      >
                         <ul className="bg-[#F5F5F5] w-[100%] flex justify-between items-center p-3  ">
                           <li>
                             <h1 className=" text-left  font-semibold text-lg">
@@ -286,8 +289,11 @@ export const ClassDetail = () => {
                           </li>
                         </ul>
                         <ul>
-                          {section.map((item) => (
-                            <li className="flex justify-between p-3  font-medium border-b-[1px] cursor-pointer">
+                          {section.map((item, index) => (
+                            <li
+                              className="flex justify-between p-3  font-medium border-b-[1px] cursor-pointer"
+                              key={new Date().getDay() + index}
+                            >
                               <span className="text-gray-600">
                                 {item.title}
                               </span>

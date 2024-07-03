@@ -84,7 +84,10 @@ export const LectureVideoList = ({ data }: ILearnHeaderProp) => {
         <article>
           <ul className="p-2 mt-3">
             {data.classDetail.map((section, index) => (
-              <li className="mb-2 border-[1px] rounded-lg overflow-hidden">
+              <li
+                className="mb-2 border-[1px] rounded-lg overflow-hidden"
+                key={section[index].classDetailId + index}
+              >
                 <div
                   className="bg-[#F5F5F5] px-3 py-4 text-xl font-semibold
                 flex justify-between"
