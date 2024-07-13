@@ -1,6 +1,6 @@
 # Classhub \_ 온라인 학습시스템
 
-<img src="./src/img/PreviewIMG/mainpage2.jpg" width="300px" >
+<img src="./src/assets/img/Logo.png" width="200px" >
 
 > ## ✔ 개발인원 , 개발기간 및 역할
 
@@ -64,9 +64,13 @@
     - 소셜로그인 (Google) 으로 회원가입 및 로그인 시 발급받는 JWT 토큰을 쿠키로 관리 하며, 유저정보는 `ContextAPI` 를 사용하여 전역적으로 관리
 
 3.  **PortOne을 활용하여 강의 결제 및 결제내역 조회 구현**
+
     - 강의 바로신청 및 장바구니 결제 시, 물품 정보와 금액 정보를 DB로 전달하는 API를 호출하여 사전 결제 금액을 확인하고, 이와 동일하다면 결제를 가능하게 구현했습니다. <br/>결제가 성공하면 반환된 imp_Uid를 참조하여 결제 내역을 조회하고 출력하도록 구현
+
 4.  **강의 업로드 페이지 구현**
+
     - 비디오 업로드를 위해 이중 배열로 구성하여 각 섹션별로 저장하고, 강의 제목, 가격 등의 정보를 JSON 형식으로 formData에 추가 한 후, 강의 업로드시 multipart/formData 형식 으로 POST 요청하도록 기능을 구현
+
 5.  **localStorage를 사용하여 영상 이어듣기 구현**
     - 사용자가 영상을 시청할 때 localStorage에 영상 정보를 저장하여, 추후에 재시청할 때 localStorage의 정보를 참조하여 영상을 이어서 들을 수 있도록 구현
 
@@ -104,41 +108,96 @@ CORS 오류로 인해 모든 API 호출이 차단되어 아무 작업도 할 수
 ### [회고]
 
 이번 프로젝트에서 API에 매우 의존적인 프로젝트는 CORS 오류가 발생하면 아무 작업도 할 수 없다는 점을 실감했습니다. 이런 상황을 해결하기 위해 `Mock Service Worker`의 필요성을 느꼈고, 이를 대비하여 미리 Mock 데이터를 활용할 수 있는 방법에 대해 공부해야겠다고 결심했습니다.
+
+<br/>
+<br/>
+
+강의 시청페이지 데이터 호출시 파일을 불러올 수 없음
+
+### [문제점]
+
+강의 데이터 호출시 썸네일과 영상 데이터 url을 가져왔으나, url을 참조하면 데이터가 출력되지않았다. <br/>
+강의 탭에서는 썸네일도 불러오지 못하고, 영상 시청페이지에서도 해당 url로 영상이 출력되지않았다.<br/>
+커뮤니티의 이미지 post, get 방식과 동일하였으나, 강의쪽에서만 문제가 발생하였다.
+
+### [문제 해결을 위해 시도한 방법]
+
+1. 프론트엔드쪽 문제인 것 같아 강의 썸네일도 커뮤니티의 이미지를 불러오는 방식으로 변경해보았고, <br/>영상은 react player가 아닌 일반 html 태그인 video 태그도 활용해보았지만 출력이 되지않았다.
+
+2. 데이터를 호출하였을때 전달 받은 url을 브라우저 주소창에 입력하였을 때, 커뮤니티 이미지 url은 이미지를 잘 보여주었으나, <br/> 강의 썸네일 이미지 url을 입력하였을 때는 아무일도 일어나지않았다.
+
+3. 백엔드팀들과 화면공유로 강의 등록시 데이터가 제대로 전달되는지 실시간으로 확인하였다. <br/>
+   확인결과 `데이터는 제대로 전달되는 것으로 확인`되었으나, 백엔드쪽에서 `ubuntu`에 저장하는 과정에서 문제가 발생한 것으로 확인되었다.
+
+### [해결 실패]
+
+결론적으로는 해당 문제를 해결하지 못하였다. <br/>
+백엔드팀들과 계속 이야기하였으나, 영상은 다른 이유가 있다하더라도, <br/>
+강의정보의 썸네일은 커뮤니티 이미지를 저장하고 불러오는 방식과 똑같기때문에 출력되어야했으나, 데이터가 출력되지않았다. <br/>
+
+### [결과]
+
+`ubuntu` 저장과정에서 발생하는 문제라 프론트 입장에서 더 이상 도움을 줄 수 있는 방법이 없었다.
+프로젝트 마감기간 동안 해당 문제를 해결하지 못하였고,
+
+차선책으로 프론트엔드 로컬환경에서 `localStorage`를 통하여 영상 이어듣기를 구현해 보았다.
+
+영상 데이터를 불러와서 실시간으로 영상 정보를 주고받는 기능을 구현하지 못하여 아쉬웠지만, <br/> `localStroage`를 통해서도 이어듣기를 구현할 수 있던 것에 만족하였다.
+
+### [향후 계획]
+
+이번 문제를 통해 또 다시 `Mock Service Worker`의 필요성을 깨달았다.
+
+API 의존도가 높은 프로젝트에서 `CORS에러`와 유사하듯이 백엔드팀에서 이슈가 발생하게되면 프론트엔드 입장에서 아무것도 할 수 없는 상태가 되어 무력했었다.
+
+앞으로 비슷한 문제가 다시 발생하게 된다면, `Mock Service Worker`를 활용하여 간접적으로 API 통신 및 기능을 구현하기 위해,<br/> 추후 `Mock Service Worker`에 대해서 반드시 공부할 예정입니다.
+
+<br/>
 <br/>
 
 > ## 📷 화면구성
 >
-> **배포사이트가 없는 관계로 스크린샷과 mp4 형식의 동영상 파일로 대신 첨부합니다**
+> **배포사이트가 없는 관계로 스크린샷과 gif 파일로 대신 첨부합니다** > <br/> > _gif 파일이 아닌경우는 화면이 보이지않을 정도로 화질이 좋지않아 사진으로 대신합니다_
 
-## pc - 강의 탭, 커뮤니티 탭
+<br/>
 
-<video width="600" height="400" controls>
+## 메인페이지
 
-  <source src="https://github.com/user-attachments/assets/cda95469-1b5b-43c8-8086-adb4471a6336" type="video/mp4">
-</video>
+<img src="https://github.com/user-attachments/assets/96c8a0bc-e1c5-4cfc-9e41-8d847c316c95" width="400px" height="500px">
+
+## pc - 강의 탭, 커뮤니티 탭, 장바구니
+
+<img src="https://github.com/user-attachments/assets/b1285a68-12de-4183-94f6-ea84f11116e7" width="400px">
+
+<br/>
+
+<img src="https://github.com/user-attachments/assets/b7d00575-da57-47b9-9d0a-9f264014de96" width="400px">
+
+<!-- ![LecturePage2](https://github.com/user-attachments/assets/b1285a68-12de-4183-94f6-ea84f11116e7)
+
+![CommunityPage](https://github.com/user-attachments/assets/b7d00575-da57-47b9-9d0a-9f264014de96) -->
 
 ## 모바일 버전 - 강의 탭, 커뮤니티 탭, 장바구니
 
-<video width="600" height="400" controls>
+<img src="https://github.com/user-attachments/assets/e966ddc4-f6a9-41f1-9460-9aba51fafd8c" width="400px">
 
-  <source src="https://github.com/user-attachments/assets/4c95d1e7-2719-4f8d-b550-a6aa6a71f8f1" type="video/mp4">
-</video>
+<br/>
+
+<img src="https://github.com/user-attachments/assets/29b75faa-53f6-4194-87f9-c7437668eb8c" width="400px">
+
+<br/>
+
+<img src="https://github.com/user-attachments/assets/6e960863-9577-4301-a9ce-fc08532445ba" width="400px">
+
+<br/>
 
 ## 커뮤니티 글 작성 조회 및 댓글
 
-<!-- ![커뮤니티-글-작성-및-댓글-조회](https://github.com/user-attachments/assets/89b77ec4-a6cc-4729-b0ab-d5150858d10d) -->
-<video width="600" height="400" controls>
-
-  <source src="https://github.com/user-attachments/assets/1e2fb811-3875-4f7f-8262-4daac63e125c" type="video/mp4">
-</video>
+![커뮤니티-글-작성-및-댓글-조회](https://github.com/user-attachments/assets/89b77ec4-a6cc-4729-b0ab-d5150858d10d)
 
 ## 강의 결제 기능
 
-<!-- ![장바구니-결제기능](https://github.com/user-attachments/assets/c4e43cff-a146-4668-be30-30c40ed493f2) -->
-<video width="600" height="400" controls>
-
-  <source src="https://github.com/user-attachments/assets/3bf83cf4-c887-4baa-bf8d-2c8184514841" type="video/mp4">
-</video>
+![장바구니-결제기능](https://github.com/user-attachments/assets/c4e43cff-a146-4668-be30-30c40ed493f2)
 
 <br/>
 <br/>
