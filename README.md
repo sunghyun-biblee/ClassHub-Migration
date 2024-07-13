@@ -2,7 +2,7 @@
 
 <img src="./src/assets/img/Logo.png" width="200px" >
 
-배포링크 : ~~devproject.store/~~
+배포링크 : ~~devproject.store/~~ <br/>
 `배포 중 팀 사정으로 인하여 배포가 중단되었습니다. 웹 화면은 아래 화면구성을 참조해주시면 감사하겠습니다 __`
 
 > ## ✔ 개발인원 , 개발기간 및 역할
