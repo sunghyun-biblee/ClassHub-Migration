@@ -169,11 +169,11 @@ API 의존도가 높은 프로젝트에서 `CORS에러`와 유사하듯이 백�
 
 <br/>
 
-## 메인페이지
+## 메인페이지 (Screen)
 
 <img src="https://github.com/user-attachments/assets/96c8a0bc-e1c5-4cfc-9e41-8d847c316c95" width="400px" height="500px">
 
-## pc - 강의 탭, 커뮤니티 탭
+## pc - 강의 탭, 커뮤니티 탭 (Screen)
 
 <img src="https://github.com/user-attachments/assets/b1285a68-12de-4183-94f6-ea84f11116e7" width="400px">
 
@@ -185,7 +185,7 @@ API 의존도가 높은 프로젝트에서 `CORS에러`와 유사하듯이 백�
 
 ![CommunityPage](https://github.com/user-attachments/assets/b7d00575-da57-47b9-9d0a-9f264014de96) -->
 
-## 모바일 버전 - 강의 탭, 커뮤니티 탭, 장바구니
+## 모바일 버전 - 강의 탭, 커뮤니티 탭, 장바구니 (Screen)
 
 <img src="https://github.com/user-attachments/assets/e966ddc4-f6a9-41f1-9460-9aba51fafd8c" width="400px">
 
@@ -199,11 +199,11 @@ API 의존도가 높은 프로젝트에서 `CORS에러`와 유사하듯이 백�
 
 <br/>
 
-## 커뮤니티 글 작성 조회 및 댓글
+## 커뮤니티 글 작성 조회 및 댓글 (Gif)
 
 ![커뮤니티-글-작성-및-댓글-조회](https://github.com/user-attachments/assets/89b77ec4-a6cc-4729-b0ab-d5150858d10d)
 
-## 강의 결제 기능
+## 강의 결제 기능 (Gif)
 
 ![장바구니-결제기능](https://github.com/user-attachments/assets/c4e43cff-a146-4668-be30-30c40ed493f2)
 
