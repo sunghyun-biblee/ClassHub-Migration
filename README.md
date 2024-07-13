@@ -205,6 +205,8 @@ API 의존도가 높은 프로젝트에서 `CORS에러`와 유사하듯이 백�
 
 ## 강의 결제 기능 (Gif)
 
+결제가 진행되는 20초는 컷 편집하였습니다.
+
 ![장바구니-결제기능](https://github.com/user-attachments/assets/c4e43cff-a146-4668-be30-30c40ed493f2)
 
 <br/>
