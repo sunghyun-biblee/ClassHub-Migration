@@ -38,7 +38,6 @@
 
 <br/>
 
-<!-- ![장바구니-결제기능](https://github.com/user-attachments/assets/c4e43cff-a146-4668-be30-30c40ed493f2) -->
 
 > ## ✨ 프로젝트 핵심 기능
 
@@ -114,26 +113,22 @@ React-Query의 Mutation을 활용하여 댓글 작성 시 댓글 목록이 실�
 
 pc - 강의 탭, 커뮤니티 탭
 <video width="600" height="400" controls>
-
   <source src="https://github.com/user-attachments/assets/cda95469-1b5b-43c8-8086-adb4471a6336" type="video/mp4">
 </video>
 
 모바일 버전 - 강의 탭, 커뮤니티 탭, 장바구니
 <video width="600" height="400" controls>
-
   <source src="https://github.com/user-attachments/assets/4c95d1e7-2719-4f8d-b550-a6aa6a71f8f1" type="video/mp4">
 </video>
 
 커뮤니티 글 작성 조회 및 댓글
 <video width="600" height="400" controls>
-
   <source src="https://github.com/user-attachments/assets/1e2fb811-3875-4f7f-8262-4daac63e125c" type="video/mp4">
 </video>
 
 강의 결제
 (36초부터58초까지는 결제 진행중이라 화면에 녹화되지 않습니다.)
 <video width="600" height="400" controls>
-
   <source src="https://github.com/user-attachments/assets/3bf83cf4-c887-4baa-bf8d-2c8184514841" type="video/mp4">
 </video>
 
