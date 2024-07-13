@@ -36,6 +36,8 @@
 개발자로 성장하는 과정에서 독학으로 여러 학습 시스템을 활용한 경험이 많은 저는 <br/> 인프런이나 유데미 등 학습 플랫폼에서 제공되는 영상 이어보기, 학습 현황 추적 기능을 직접 구현해 보고 <br/> 또한 학습자들과 소통할 수있는 기능과 특히 독학자를 위한 스터디 모집 기능을 구현해보면
 좋을 것 같다는 생각이 들어서, <br/>효율적인 학습 환경을 구현해보고자 프로젝트를 기획하게 되었습니다.
 
+ `배포사이트가 없는 관계로 아래 화면 구성을 참조해주시면 감사하겠습니다`
+
 <br/>
 
 <!-- ![장바구니-결제기능](https://github.com/user-attachments/assets/c4e43cff-a146-4668-be30-30c40ed493f2) -->
@@ -165,7 +167,7 @@ API 의존도가 높은 프로젝트에서 `CORS에러`와 유사하듯이 백�
 
 <img src="https://github.com/user-attachments/assets/96c8a0bc-e1c5-4cfc-9e41-8d847c316c95" width="400px" height="500px">
 
-## pc - 강의 탭, 커뮤니티 탭, 장바구니
+## pc - 강의 탭, 커뮤니티 탭
 
 <img src="https://github.com/user-attachments/assets/b1285a68-12de-4183-94f6-ea84f11116e7" width="400px">
 
