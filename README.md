@@ -8,4 +8,5 @@
 - `Firebase로 마이그레이션할 예정입니다. 완료되면 추가 업데이트 하도록 하겠습니다.`
 
 - `마이그레이션 레포지토리 입니다`
-  `원본 레포지토리는 https://github.com/sunghyun-biblee/ClassHub 에서 확인하실 수 있습니다`
+  `원본 레포지토리는 아래 링크에서 확인하실 수 있습니다`
+  https://github.com/sunghyun-biblee/ClassHub
