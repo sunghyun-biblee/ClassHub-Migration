@@ -1,49 +1,55 @@
-import React, { useEffect } from "react";
-import "./App.css";
-import { Outlet, Route, Routes, useLocation } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import { QueryClientProvider, useQueryClient } from "@tanstack/react-query";
-import { MainPage } from "./components/main/MainPage";
-import { Nav } from "./components/navigtaion/Nav";
-import { Mypage } from "./components/mypage/Mypage";
-import { Community } from "./components/community/Community";
-import { Class } from "./components/class/Class";
-import { NaviMobileBottom } from "./components/navigtaion/NaviMobileBottom";
-import { ClassDetail } from "./components/class/ClassDetail";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { CommuDetail } from "./components/community/CommunityDeatil/CommuDetail";
-import { Dashboard } from "./components/mypage/dashboard/Dashboard";
-import { MypageHome } from "./components/mypage/MypageHome";
-import { Profile } from "./components/mypage/profile/Profile";
-import { ManageMent } from "./components/mypage/management/ManageMent";
-import { Application } from "./components/mypage/application/Application";
-import { MyCommu } from "./components/mypage/myCommunity/MyCommu";
-import { AuthProvider } from "./hooks/AuthProvider";
-import { LoginPage } from "./components/login/LoginPage";
-import { TeacherPage } from "./components/mypage/teacherPage/TeacherPage";
-import { AddPost } from "./components/community/addpost/AddPost";
-import { ShowCommuList } from "./components/community/ShowCommuList";
-import { AddClass } from "./components/mypage/teacherPage/addclass/AddClass";
-import { LearningPage } from "components/learningpage/LearningPage";
-import { LearnPlayer } from "components/learningpage/learnplayer/LearnPlayer";
-import { Footer } from "components/footer/Footer";
+import axios from "axios";
 import { Cart } from "components/cart/Cart";
 import { CartList } from "components/cart/CartList";
-import { OrderPage } from "components/cart/OrderPage";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-import { fetchUserData } from "hooks/fetchUserData";
-import { ModifyPost } from "components/community/modifyPost/ModifyPost";
-import { ClassTypeProvider } from "hooks/ClassTypeProvider";
-import { SearchPage } from "components/class/searchpage/SearchPage";
-import { PaymentedPage } from "components/cart/PaymentedPage";
-import { EditClass } from "components/mypage/teacherPage/editClass/EditClass";
-import { CookiesProvider } from "react-cookie";
-import axios from "axios";
-import { queryClient } from "queryClient";
 import { MobilePaymented } from "components/cart/MobilePaymented";
+import { OrderPage } from "components/cart/OrderPage";
+import { PaymentedPage } from "components/cart/PaymentedPage";
+import { SearchPage } from "components/class/searchpage/SearchPage";
+import { ModifyPost } from "components/community/modifyPost/ModifyPost";
+import { Footer } from "components/footer/Footer";
+import { LearningPage } from "components/learningpage/LearningPage";
+import { LearnPlayer } from "components/learningpage/learnplayer/LearnPlayer";
+import { EditClass } from "components/mypage/teacherPage/editClass/EditClass";
+import { ClassTypeProvider } from "hooks/ClassTypeProvider";
+import { fetchUserData } from "hooks/fetchUserData";
+import { queryClient } from "queryClient";
+import { useEffect, useLayoutEffect } from "react";
+import { CookiesProvider } from "react-cookie";
+import { Outlet, Route, Routes, useLocation } from "react-router-dom";
+import "./App.css";
+import { Class } from "./components/class/Class";
+import { ClassDetail } from "./components/class/ClassDetail";
+import { AddPost } from "./components/community/addpost/AddPost";
+import { Community } from "./components/community/Community";
+import { CommuDetail } from "./components/community/CommunityDeatil/CommuDetail";
+import { ShowCommuList } from "./components/community/ShowCommuList";
+import { LoginPage } from "./components/login/LoginPage";
+import { MainPage } from "./components/main/MainPage";
+import { Application } from "./components/mypage/application/Application";
+import { Dashboard } from "./components/mypage/dashboard/Dashboard";
+import { ManageMent } from "./components/mypage/management/ManageMent";
+import { MyCommu } from "./components/mypage/myCommunity/MyCommu";
+import { Mypage } from "./components/mypage/Mypage";
+import { MypageHome } from "./components/mypage/MypageHome";
+import { Profile } from "./components/mypage/profile/Profile";
+import { AddClass } from "./components/mypage/teacherPage/addclass/AddClass";
+import { TeacherPage } from "./components/mypage/teacherPage/TeacherPage";
+import { Nav } from "./components/navigtaion/Nav";
+import { NaviMobileBottom } from "./components/navigtaion/NaviMobileBottom";
+import { AuthProvider } from "./hooks/AuthProvider";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { LoginDataState, LoginLoadingState } from "recoilAtoms/loginState";
+import { getUserData } from "components/login/AuthFunctions/getUserData";
 
 const cliendtId =
   "386437749459-jjvcsk0qiqdg429e7ihbkhu411b21l0c.apps.googleusercontent.com";
 function App() {
+  const setLoginLoadingState = useSetRecoilState(LoginLoadingState);
+  const [loginData, setLoginDataState] = useRecoilState(LoginDataState);
+
   const text = async () => {
     try {
       await axios.get("/api/community/mainpage");
@@ -87,7 +93,23 @@ function App() {
       </div>
     );
   };
-  text();
+  useEffect(() => {
+    setLoginLoadingState(true);
+    const fetchLoginData = async () => {
+      try {
+        const result = await getUserData();
+
+        setLoginDataState(result);
+        setLoginLoadingState(false);
+      } catch (error) {
+        setLoginLoadingState(false);
+      }
+    };
+
+    fetchLoginData();
+    text();
+  }, [loginData]);
+
   return (
     <CookiesProvider>
       <GoogleOAuthProvider clientId={cliendtId}>

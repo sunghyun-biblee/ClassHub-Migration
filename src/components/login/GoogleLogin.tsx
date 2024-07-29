@@ -2,17 +2,21 @@ import google from "assets/img/SNSIMG/web_light_sq_na.svg";
 
 import { useNavigate } from "react-router-dom";
 
-import { FireBaseLogin } from "./AuthFunctions/AuthFunction";
+import { FireBaseLogin } from "./AuthFunctions/firebaseLogin";
+import { useSetRecoilState } from "recoil";
+import { LoginDataState } from "recoilAtoms/loginState";
+import { getUserData } from "./AuthFunctions/getUserData";
 
 export const GoogleLoginBtn = () => {
   const nav = useNavigate();
-
+  const setLoginData = useSetRecoilState(LoginDataState);
   const handleLogin = async () => {
-    const prevData = localStorage.getItem("ClassHub_LUD");
+    const prevData = await getUserData();
     if (prevData) return nav("/");
 
     const result = await FireBaseLogin();
     if (result) {
+      setLoginData(true);
       return nav("/");
     } else {
       return alert("오류가 발생하였습니다.");
