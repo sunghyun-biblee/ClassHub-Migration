@@ -13,6 +13,8 @@ import { getCookie, removeCookie, setCookie } from "hooks/CustomCookie";
 import path from "path";
 import { CartItemType } from "hooks/CartProvider";
 import { useCartData } from "./hooks/useCartData";
+import { useRecoilState } from "recoil";
+import { LoginDataState, LoginLoadingState } from "recoilAtoms/loginState";
 
 const NavigationPC = styled.div`
   @media (max-width: 1023px) {
@@ -41,6 +43,7 @@ interface INavProps {
   userData: userType;
 }
 export const NaviPC = ({ userData }: INavProps) => {
+  const [loginData, setLoginData] = useRecoilState(LoginDataState);
   const AuthCookie = getCookie("Authorization");
   const [isMyMenuOpen, setIsMyMenuOpen] = useState(false);
   const [searchKeyWord, setSearchKeyWord] = useState<string>("");
@@ -65,16 +68,10 @@ export const NaviPC = ({ userData }: INavProps) => {
     }
   };
   const handleLogOut = () => {
-    window.location.href = "https://api.devproject.store/logout";
-    // if (AuthCookie) {
-    //   console.log(AuthCookie);
-
-    //   removeCookie("Authorization");
-
-    //   console.log("쿠키 삭제 완료");
-    //    window.location.reload();
-    // }
+    setLoginData(false);
+    localStorage.removeItem("ClassHub_LUD");
   };
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -140,7 +137,7 @@ export const NaviPC = ({ userData }: INavProps) => {
             </SearchButton>
           </div>
         </form>
-        {userData && userData.userId ? (
+        {loginData ? (
           <ul className="lg:flex  items-center justify-around w-80">
             <li className="lg:px-3 py-1 border-solid border-[2px] border-blue-500/50 rounded-md cursor-pointer hover:bg-blue-300 hover:text-white hover:transition-colors">
               <span>
