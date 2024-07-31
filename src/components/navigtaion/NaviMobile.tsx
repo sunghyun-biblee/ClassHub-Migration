@@ -12,6 +12,8 @@ import { getCartItemList } from "components/cart/hooks/getCartItemList";
 import { NaviMobileCategory } from "./NaviMobileCategory";
 import { useCartData } from "./hooks/useCartData";
 import { getCookie } from "hooks/CustomCookie";
+import { useRecoilState } from "recoil";
+import { LoginDataState } from "recoilAtoms/loginState";
 const NavigationMobile = styled.div`
   position: fixed;
   top: 0;
@@ -77,6 +79,7 @@ interface INavtype {
 }
 export const NaviMobile = ({ userData }: INavtype) => {
   const AuthCookie = getCookie("Authorization");
+  const [loginData, setLoginData] = useRecoilState(LoginDataState);
   const [isMyMenu, setIsMyMenu] = useState(false);
   const myPageRef = useRef(null);
   const nav = useNavigate();
@@ -138,12 +141,12 @@ export const NaviMobile = ({ userData }: INavtype) => {
         </div>
         <div
           onClick={() => handleNav("/")}
-          className={`${AuthCookie && "mysm:translate-x-7 md:translate-x-5"}`}
+          className={`${loginData && "mysm:translate-x-7 md:translate-x-5"}`}
         >
           <img src={logo} alt="" className="logo w-[4rem] h-13 " />
         </div>
         <div>
-          {AuthCookie ? (
+          {loginData ? (
             <ul className="md:flex justify-between  items-center w-42 second-menu font-semibold ">
               <li
                 className="px-4 cursor-pointer"
