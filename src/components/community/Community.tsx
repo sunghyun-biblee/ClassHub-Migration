@@ -27,7 +27,6 @@ export const Community = () => {
   //   queryKey: [`popular_${pathname}`],
   //   queryFn: () => fetchPopularList(pathname),
   // });
-  const [category, setCategory] = useState<string>("qna");
 
   return (
     <div>
@@ -49,7 +48,7 @@ ${
 }
        `}
         >
-          <CommuCategory setCategory={setCategory}></CommuCategory>
+          <CommuCategory></CommuCategory>
           <section>
             {/* <ShowCommuList></ShowCommuList> */}
             <Outlet></Outlet>

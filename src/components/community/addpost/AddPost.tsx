@@ -1,57 +1,68 @@
 import React, { useRef, useState } from "react";
 
-import preview from "assets/img/preview.jpg";
-import styled from "styled-components";
 import { SelectCategory } from "./SelectCategory";
-import axios from "api/axios";
 
-import requests from "api/requests";
+import { addDoc, collection, updateDoc } from "firebase/firestore";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "hooks/AuthProvider";
-// import axios from "axios";
+import { auth, db, storage } from "../../../firebase";
 
-interface selectImgType {
-  id: string;
-  img: string;
-}
+// import axios from "axios";
 
 export const AddPost = () => {
   const nav = useNavigate();
-  const { userData } = useAuth();
-  const [title, setTitle] = useState<string>();
-  const [text, setText] = useState<string>();
-  const [mainCategory, setMainCategory] = useState<string>("0");
-  const [requestImgId, setRequestImgId] = useState<number[]>([]);
-  const [previmg, setPrevimg] = useState<selectImgType[] | undefined>();
-  const [imgArray, setImgArray] = useState<selectImgType[]>([]);
-  const ref = useRef<HTMLDivElement>(null);
-  let i = 0;
+  const user = auth && auth.currentUser;
+  const [title, setTitle] = useState<string>("");
+  const [text, setText] = useState<string>("");
+  const [category, setCategory] = useState<string>("0");
+  const [previmg, setPrevimg] = useState<File[] | null>(null);
+  const [imgFiles, setImgFiles] = useState<File[]>([]);
+  const imgBoxRef = useRef<HTMLDivElement>(null);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(requestImgId);
     e.preventDefault();
-    if (mainCategory === "0") {
-      return alert("카테고리를 입력해주세요");
+    if (!user || !title || !text || category === "0") {
+      return alert("제목과 내용, 카테고리를 확인해주세요.");
     }
 
-    const communityObject = {
-      userId: userData.userId,
-      communityType: mainCategory,
-      title: title,
-      text: text,
-      communityImageIds: requestImgId,
-    };
-
-    console.log(communityObject);
-    await axios
-      .post(`${requests.community.addPost}`, communityObject)
-      .then((res) => {
-        nav("/community/qna");
-      })
-      .catch((error) => {
-        console.log(error);
-        return;
+    try {
+      const photoURLs = [];
+      console.log(user);
+      const postRef = await addDoc(collection(db, "posts"), {
+        postTitle: title,
+        postText: text,
+        postCategory: category,
+        createAt: Date.now(),
+        userName: user.displayName,
+        userId: user.uid,
       });
+      if (imgFiles) {
+        console.log(user.uid);
+        console.log(postRef.id);
+
+        const imgLocationRef = ref(storage, `posts/${user.uid}/${postRef.id}`);
+        for (const file of imgFiles) {
+          console.log(file.name);
+          const result = await uploadBytes(imgLocationRef, file);
+          console.log("File uploaded: ", result.ref.fullPath);
+          const url = await getDownloadURL(result.ref);
+          photoURLs.push(url);
+          console.log(url);
+        }
+        await updateDoc(postRef, { photos: photoURLs });
+        setText("");
+        setTitle("");
+        setCategory("");
+        setPrevimg(null);
+        setImgFiles([]);
+      }
+      // nav("/community/qna");
+      console.log(photoURLs);
+      alert("글이 작성되었습니다.");
+    } catch (error) {
+      console.log(error);
+    } finally {
+    }
   };
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,14 +72,14 @@ export const AddPost = () => {
     setText(e.target.value);
   };
   const leftClick = () => {
-    if (ref.current) {
-      ref.current.scrollLeft -= window.innerWidth - 10;
+    if (imgBoxRef.current) {
+      imgBoxRef.current.scrollLeft -= window.innerWidth - 10;
     }
   };
 
   const RightClick = () => {
-    if (ref.current) {
-      ref.current.scrollLeft += window.innerWidth + 10;
+    if (imgBoxRef.current) {
+      imgBoxRef.current.scrollLeft += window.innerWidth + 10;
     }
   };
 
@@ -77,46 +88,24 @@ export const AddPost = () => {
 
     const selectFiles = Array.from(data);
     if (selectFiles.length >= 4) {
-      alert("이미지는 최대 3개까지 등록 가능합니다");
-      return;
+      return alert("이미지는 최대 3개까지 등록 가능합니다");
     }
-
-    const formData = new FormData();
-    selectFiles?.forEach((file) => {
-      formData.append("multipartFiles", file);
-    });
-
-    if (selectFiles) {
-      try {
-        const requestData = await axios.post("/community/postImage", formData);
-        if (requestImgId && requestImgId?.length >= 1) {
-          const newArray = [...requestImgId, ...requestData.data];
-          setRequestImgId(newArray);
-        } else {
-          setRequestImgId([...requestData.data]);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    const selectFilesArray = selectFiles.map((item) => {
-      return { id: `addimg${++i}`, img: URL.createObjectURL(item) };
-    });
-
-    setImgArray((prev) => [...prev, ...selectFilesArray]);
+    setImgFiles((prev) => [...prev, ...selectFiles]);
   };
 
-  const modifyFile = (e: React.MouseEvent<HTMLDivElement>) => {
-    const target = e.currentTarget.id;
-    const newArray = imgArray.filter((item) => item.id !== target);
-    setImgArray(newArray);
+  const modifyFile = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const target = e.currentTarget.name;
+
+    const newArray = imgFiles.filter((item) => item.name !== target);
+    setImgFiles(newArray);
   };
   const modalOn = (e: React.MouseEvent<HTMLImageElement>) => {
     const target = e.currentTarget.id;
-    const selectItem = imgArray.filter((item) => item.id === target);
+    console.log(target);
+    const selectItem = imgFiles.filter((item) => item.name === target);
     setPrevimg(selectItem);
   };
+  console.log(category);
 
   return (
     <div className="relative">
@@ -127,7 +116,7 @@ export const AddPost = () => {
         "
       >
         {/* encType은 데이터를 백엔드로 보낼때 데이터들을 문자열이 아닌 여러형태의 자료(문자/바이너리)를 전송하기위한 전송 형태이다 */}
-        <header
+        <div
           className="flex justify-between md:items-center
         md:flex-row mysm:flex-col
         lg:max-w-[1150px] mysm:w-[100%]
@@ -150,11 +139,11 @@ export const AddPost = () => {
             />
           </div>
           <SelectCategory
-            mainCategory={mainCategory}
-            setMainCategory={setMainCategory}
+            mainCategory={category}
+            setMainCategory={setCategory}
           ></SelectCategory>
-        </header>
-        <main className="flex flex-col justify-center lg:items-baseline mysm:items-center mysm:w-[calc(100%-8px)]">
+        </div>
+        <div className="flex flex-col justify-center lg:items-baseline mysm:items-center mysm:w-[calc(100%-8px)]">
           <textarea
             name="overview"
             id="overview"
@@ -190,30 +179,29 @@ export const AddPost = () => {
               <div
                 className="flex overflow-x-scroll overflow-y-hidden lg:w-[600px]  mysm:w-[100%] z-0 py-5  px-10 bg-gray-500/50 rounded-lg
             shadow-[0px_8px_24px_rgba(149,157,165,0.3)] "
-                ref={ref}
+                ref={imgBoxRef}
               >
-                <div className="flex w-[600px] md:justify-normal mysm:justify-between ">
-                  {imgArray?.map((item, index) => (
-                    <div
+                <ul className="flex w-[600px] md:justify-normal mysm:justify-between ">
+                  {imgFiles?.map((item, index) => (
+                    <li
                       className="relative max-w-[150px] h-[150px] mx-3"
-                      key={item.id + "@@!!" + index}
+                      key={"@@!!" + index}
                     >
                       <img
-                        key={item.id + "!!!!" + index}
-                        src={item.img}
+                        src={URL.createObjectURL(item)}
                         alt="selectimg"
-                        id={item.id}
+                        id={item.name}
                         onClick={modalOn}
                         className="min-w-[150px] h-[150px] rounded-lg "
                       />
-                      <div
+                      <button
                         className="absolute top-0 right-2 text-red-600 font-extrabold"
                         onClick={modifyFile}
-                        id={item.id}
+                        name={item.name}
                       >
                         {"X"}
-                      </div>
-                    </div>
+                      </button>
+                    </li>
                   ))}
 
                   <div>
@@ -230,13 +218,13 @@ export const AddPost = () => {
                     <label
                       htmlFor="imgAdd"
                       className={` justify-center items-center border-[1px] rounded-lg w-[150px] h-[150px] mx-1 bg-[#efefef]
-                    ${imgArray.length < 3 ? "flex" : "hidden"}
+                    ${imgFiles.length < 3 ? "flex" : "hidden"}
                     `}
                     >
                       이미지 등록
                     </label>
                   </div>
-                </div>
+                </ul>
               </div>
               <div
                 className="w-10 z-10 absolute right-0  cursor-pointer flex h-[100%] items-center justify-center
@@ -262,17 +250,25 @@ export const AddPost = () => {
               </label>
             </div>
           </div>
-        </main>
+        </div>
         {previmg && (
           <div
             className={`absolute -top-5 lg:-left-5 z-10 lg:max-w-[1200px] mysm:w-[100vw] lg:h-[calc(100dvh-185px)] mysm:h-[calc(100dvh-192px)] flex flex-col justify-center items-center bg-[#333B3D]/90 
             backdrop-blur-sm`}
           >
-            <div className="relative">
-              <img src={previmg[0].img} alt="previmg" className="px-2" />
+            <div
+              className="relative  md:max-h-[80%] md:w-[70%] 
+           px-[auto] 
+             flex justify-center"
+            >
+              <img
+                src={URL.createObjectURL(previmg[0])}
+                alt="previmg"
+                className="w-full object-cover shadow-lg shadow-gray-700"
+              />
               <button
                 className="absolute top-[1%] right-[1%] text-white bg-[#1F38A1] w-20 h-8 rounded-lg"
-                onClick={() => setPrevimg(undefined)}
+                onClick={() => setPrevimg(null)}
               >
                 닫기
               </button>
