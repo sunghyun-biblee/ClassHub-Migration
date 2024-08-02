@@ -41,14 +41,6 @@ export const ShowCommuList = () => {
     searchType
   );
 
-  // useEffect(() => {
-  //   const nextpage = page + 1;
-  //   queryClient.prefetchQuery({
-  //     queryKey: [category, nextpage, searchType],
-  //     queryFn: () => fetchCommuList(category, nextpage, search, searchType),
-  //   });
-  // }, [page, searchType, category, queryClient]);
-
   useEffect(() => {
     // 상태 초기화
     queryClient.invalidateQueries({
@@ -56,27 +48,12 @@ export const ShowCommuList = () => {
     });
   }, [page, searchType, category, queryClient]);
 
-  // useEffect(() => {
-  //   refetch();
-  // }, [page, searchType, category]);
-
-  // const updateMutation = useMutation({
-  //   mutationFn: () => fetchCommuList(category, page, search, searchType),
-  //   onSettled: () => {
-  //     return queryClient.invalidateQueries({
-  //       queryKey: [category, page, search, searchType],
-  //     });
-  //   },
-  //   onSuccess: (data) => {
-  //     queryClient.setQueryData([category, page, search, searchType], data);
-  //   },
-  // });
-  if (isLoading) {
-    return <div>로딩중</div>;
-  }
-  if (isError) {
-    return <div>{error?.message}</div>;
-  }
+  // if (isLoading) {
+  //   return <div>로딩중</div>;
+  // }
+  // if (isError) {
+  //   return <div>{error?.message}</div>;
+  // }
 
   const renderPageNation = () => {
     if (data) {

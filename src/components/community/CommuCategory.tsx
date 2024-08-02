@@ -3,20 +3,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useGetpathname } from "./hooks/getPathname";
 
-interface ICommnuprop {
-  setCategory: (category: string) => void;
-}
-export const CommuCategory = ({ setCategory }: ICommnuprop) => {
+export const CommuCategory = () => {
   const getCategory = useGetpathname();
 
   const category = getCategory ? getCategory : "qna";
   const nav = useNavigate();
   const handleClickCategory = (category: string) => {
-    setCategory(category);
     nav(category);
   };
   const handleChangeCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCategory(e.target.value);
     nav(`${e.target.value}`);
   };
 
