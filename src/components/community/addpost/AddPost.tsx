@@ -5,7 +5,7 @@ import { SelectCategory } from "./SelectCategory";
 import { addDoc, collection, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
-import { auth, db, storage } from "../../../firebase";
+import { auth, db, storage } from "../../../chFirebase";
 
 // import axios from "axios";
 
@@ -14,21 +14,22 @@ export const AddPost = () => {
   const user = auth && auth.currentUser;
   const [title, setTitle] = useState<string>("");
   const [text, setText] = useState<string>("");
-  const [category, setCategory] = useState<string>("0");
+  const [category, setCategory] = useState<string | null>(null);
   const [previmg, setPrevimg] = useState<File[] | null>(null);
   const [imgFiles, setImgFiles] = useState<File[]>([]);
   const imgBoxRef = useRef<HTMLDivElement>(null);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!user || !title || !text || category === "0") {
+
+    if (!user || !title || !text || category === "none" || !category) {
       return alert("제목과 내용, 카테고리를 확인해주세요.");
     }
 
     try {
       const photoURLs = [];
-      console.log(user);
-      const postRef = await addDoc(collection(db, "posts"), {
+
+      const postRef = await addDoc(collection(db, `Posts`), {
         postTitle: title,
         postText: text,
         postCategory: category,
@@ -37,10 +38,7 @@ export const AddPost = () => {
         userId: user.uid,
       });
       if (imgFiles) {
-        console.log(user.uid);
-        console.log(postRef.id);
-
-        const imgLocationRef = ref(storage, `posts/${user.uid}/${postRef.id}`);
+        const imgLocationRef = ref(storage, `Posts/${user.uid}/${postRef.id}`);
         for (const file of imgFiles) {
           console.log(file.name);
           const result = await uploadBytes(imgLocationRef, file);
@@ -57,10 +55,9 @@ export const AddPost = () => {
         setImgFiles([]);
       }
       // nav("/community/qna");
-      console.log(photoURLs);
+
       alert("글이 작성되었습니다.");
     } catch (error) {
-      console.log(error);
     } finally {
     }
   };
@@ -141,6 +138,7 @@ export const AddPost = () => {
           <SelectCategory
             mainCategory={category}
             setMainCategory={setCategory}
+            createAt={null}
           ></SelectCategory>
         </div>
         <div className="flex flex-col justify-center lg:items-baseline mysm:items-center mysm:w-[calc(100%-8px)]">
