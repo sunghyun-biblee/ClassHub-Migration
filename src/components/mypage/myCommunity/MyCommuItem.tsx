@@ -24,7 +24,7 @@ export const MyCommuItem = ({ item }: IcommuProp) => {
 
   queryClient.prefetchQuery({
     queryKey: ["commuDetail", item.communityId],
-    queryFn: () => selectCommuinfo(item.communityId, category),
+    queryFn: () => selectCommuinfo(item.communityId.toString(), category),
   });
 
   const renderCategory = (typeValue: number) => {

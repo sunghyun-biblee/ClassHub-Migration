@@ -17,7 +17,7 @@ export const ModifyPost = () => {
   const category = pathname.split("/")[3];
 
   const { postData, isPostLoading, isPostError, postError } = useTargetPost(
-    parseInt(pathname.split("/")[4]),
+    pathname.split("/")[4],
     category
   );
   console.log(postData);
@@ -31,19 +31,19 @@ export const ModifyPost = () => {
   const [imgArray, setImgArray] = useState<selectImgType[]>([]);
   const ref = useRef<HTMLDivElement>(null);
   let i = 0;
-  useEffect(() => {
-    if (postData) {
-      const newImgData = postData.image.map((item, index) => ({
-        id: postData.imageIds[index].toString(),
-        img: item,
-      }));
-      setImgArray([...newImgData]);
-      setTitle(postData.title);
-      setText(postData.text);
-      setRequestImgId([...postData.imageIds]);
-      setMainCategory(postData.communityType);
-    }
-  }, [postData]);
+  // useEffect(() => {
+  //   if (postData) {
+  //     const newImgData = postData.image.map((item, index) => ({
+  //       id: postData.imageIds[index].toString(),
+  //       img: item,
+  //     }));
+  //     setImgArray([...newImgData]);
+  //     setTitle(postData.title);
+  //     setText(postData.text);
+  //     setRequestImgId([...postData.imageIds]);
+  //     setMainCategory(postData.communityType);
+  //   }
+  // }, [postData]);
   if (isPostLoading) {
     return <p>로딩중</p>;
   }
@@ -77,14 +77,14 @@ export const ModifyPost = () => {
         title: title,
         text: text,
         communityImageIds: requestImgId,
-        communityId: postData.communityId,
+        communityId: postData.docId,
       };
 
       console.log(communityObject);
 
       await axios
         .post(
-          `${requests.community.updatePost}/${postData.communityId}`,
+          `${requests.community.updatePost}/${postData.docId}`,
           communityObject
         )
         .then((res) => {
@@ -157,27 +157,27 @@ export const ModifyPost = () => {
   const modifyFile = async (e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.currentTarget.id.toString();
 
-    if (postData?.imageIds.includes(parseInt(target))) {
-      try {
-        const res = await axios.post(`${requests.community.deleteImg}`, null, {
-          params: {
-            removeFileId: parseInt(target),
-          },
-        });
-        console.log(res.data);
-        const newImgid = requestImgId.filter(
-          (item) => item !== parseInt(target)
-        );
-        setRequestImgId(newImgid);
-      } catch (error) {
-        console.log(error);
-      }
-      const newArray = imgArray.filter((item) => item.id !== target);
-      setImgArray(newArray);
-    } else {
-      const newArray = imgArray.filter((item) => item.id !== target);
-      setImgArray(newArray);
-    }
+    // if (postData?.imageIds.includes(parseInt(target))) {
+    //   try {
+    //     const res = await axios.post(`${requests.community.deleteImg}`, null, {
+    //       params: {
+    //         removeFileId: parseInt(target),
+    //       },
+    //     });
+    //     console.log(res.data);
+    //     const newImgid = requestImgId.filter(
+    //       (item) => item !== parseInt(target)
+    //     );
+    //     setRequestImgId(newImgid);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    //   const newArray = imgArray.filter((item) => item.id !== target);
+    //   setImgArray(newArray);
+    // } else {
+    //   const newArray = imgArray.filter((item) => item.id !== target);
+    //   setImgArray(newArray);
+    // }
   };
   const modalOn = (e: React.MouseEvent<HTMLImageElement>) => {
     const target = e.currentTarget.id;
@@ -210,7 +210,7 @@ export const ModifyPost = () => {
               lg:px-2 py-1
               mysm:px-1 
               "
-              placeholder={postData?.title}
+              placeholder={postData?.postTitle}
               value={title}
               onChange={handleChangeTitle}
             />
@@ -226,7 +226,7 @@ export const ModifyPost = () => {
             id="overview"
             className="resize-none border-[1px] lg:max-w-[1150px] mysm:w-[calc(100%-16px)]
           h-[30dvh] outline-blue-500 p-5 rounded-lg overflow-x-hiddenoverflow-y-scroll "
-            placeholder={postData?.text}
+            placeholder={postData?.postText}
             maxLength={3000}
             value={text}
             onChange={handleChangeText}

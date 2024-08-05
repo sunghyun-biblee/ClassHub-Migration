@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { PopularList } from "./PopularList";
 import { useGetpathname } from "./hooks/getPathname";
 import { useCommuList } from "./hooks/useCommuList";
-import { CLPostData, useFbPostListQuery } from "./hooks/fbPostListQuery";
+import { CHPostData, useFbPostListQuery } from "./hooks/useFbPostListQuery";
 
 export interface IcommunityItem {
   commentCount: number;
@@ -32,7 +32,7 @@ export const ShowCommuList = () => {
   const category = useGetpathname();
   const queryClient = useQueryClient();
   const nav = useNavigate();
-  const [page, setPage] = useState(1);
+
   const [search, setSearch] = useState<string>("");
   const [searchType, setSearchType] = useState<number>(0);
 
@@ -106,10 +106,10 @@ export const ShowCommuList = () => {
       </div>
       <article>
         <ul className="md:pt-10 mysm:pt-6">
-          {postData.map((post: CLPostData, index) => (
+          {postData.map((post: CHPostData, index) => (
             <li
               className="my-2 py-4 px-2 border-[1px] border-solid rounded-md mx-1"
-              key={post.postId}
+              key={post.docId}
             >
               <CommnuItem {...post}></CommnuItem>
             </li>

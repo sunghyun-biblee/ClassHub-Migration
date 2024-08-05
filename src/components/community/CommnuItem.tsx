@@ -9,9 +9,11 @@ import {
   selectCommuinfo,
 } from "./hooks/fetchCommuArray";
 import { IcommunityItem } from "./ShowCommuList";
-import { CLPostData } from "./hooks/fbPostListQuery";
+import { CHPostData } from "./hooks/useFbPostListQuery";
+import { useSetRecoilState } from "recoil";
+import { postDetailCategory, postDetailId } from "recoilAtoms/CommuState";
 
-export const CommnuItem = (props: CLPostData) => {
+export const CommnuItem = (props: CHPostData) => {
   const {
     createAt,
     photos,
@@ -20,23 +22,28 @@ export const CommnuItem = (props: CLPostData) => {
     postTitle,
     userId,
     userName,
-    postId,
+    docId,
   } = props;
   const { pathname } = useLocation();
   const category = pathname.split("/")[2];
 
+  const setDetailId = useSetRecoilState(postDetailId);
+  const setDetailCategory = useSetRecoilState(postDetailCategory);
+
   const nav = useNavigate();
   const handleClick = () => {
-    nav(`/community/${category}/${postId}`);
+    setDetailId(docId);
+    setDetailCategory(postCategory);
+    nav(`/community/${category}/${docId}`);
   };
   const queryClient = useQueryClient();
   queryClient.prefetchQuery({
-    queryKey: ["commuDetail", postId],
-    queryFn: () => selectCommuinfo(postId, category),
+    queryKey: ["commuDetail", docId],
+    queryFn: () => selectCommuinfo(docId, category),
   });
   queryClient.prefetchQuery({
-    queryKey: ["commuDetailComment", postId],
-    queryFn: () => selectCommuCommentinfo(postId),
+    queryKey: ["commuDetailComment", docId],
+    queryFn: () => selectCommuCommentinfo(docId),
   });
   const renderCategory = (communityType: string) => {
     switch (communityType) {

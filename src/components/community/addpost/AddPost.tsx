@@ -2,7 +2,12 @@ import React, { useRef, useState } from "react";
 
 import { SelectCategory } from "./SelectCategory";
 
-import { addDoc, collection, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 import { auth, db, storage } from "../../../chFirebase";
@@ -34,6 +39,7 @@ export const AddPost = () => {
         postText: text,
         postCategory: category,
         createAt: Date.now(),
+        timeStamp: serverTimestamp(),
         userName: user.displayName,
         userId: user.uid,
       });
@@ -102,7 +108,6 @@ export const AddPost = () => {
     const selectItem = imgFiles.filter((item) => item.name === target);
     setPrevimg(selectItem);
   };
-  console.log(category);
 
   return (
     <div className="relative">
