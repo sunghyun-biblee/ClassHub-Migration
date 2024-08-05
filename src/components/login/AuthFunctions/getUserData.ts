@@ -1,4 +1,4 @@
-import { db } from "../../../firebase";
+import { db } from "../../../chFirebase";
 import { doc, getDoc } from "firebase/firestore";
 
 export const getUserData = async () => {

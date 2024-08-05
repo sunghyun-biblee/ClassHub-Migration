@@ -82,7 +82,10 @@ export async function fetchMyCommuList(userID: number) {
     console.log(error);
   }
 }
-export async function selectCommuinfo(CommunityId: number, category: string) {
+export async function selectCommuinfo(
+  CommunityId: number | string,
+  category: string
+) {
   if (!category) {
     return;
   }
@@ -97,7 +100,7 @@ export async function selectCommuinfo(CommunityId: number, category: string) {
     return data.data;
   }
 }
-export async function selectCommuCommentinfo(CommunityId: number) {
+export async function selectCommuCommentinfo(CommunityId: number | string) {
   const data = await axios.get(requests.comment.getPostComment, {
     params: {
       community: CommunityId,

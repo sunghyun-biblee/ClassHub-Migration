@@ -15,7 +15,7 @@ export const PopularList = ({ category }: IPopularProp) => {
     usePopularList(category);
 
   if (listIsLoading) {
-    return <p>로딩즁</p>;
+    return <p>인기리스트</p>;
   }
   if (listIsError) {
     return <p>{listError?.message}</p>;
