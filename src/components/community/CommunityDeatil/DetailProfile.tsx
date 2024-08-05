@@ -3,11 +3,14 @@ import React from "react";
 import { CommuInfo } from "../hooks/useTargetPost";
 import person from "assets/img/person.png";
 
+import { DocumentData } from "firebase/firestore";
+import { FbUserType } from "recoilAtoms/loginState";
+
 type IDetailProfileProp = {
   role: string;
-  postData: CommuInfo;
+  userData: FbUserType | boolean;
 };
-export const DetailProfile = ({ role, postData }: IDetailProfileProp) => {
+export const DetailProfile = ({ role, userData }: IDetailProfileProp) => {
   const renderRole = (roleType: string) => {
     switch (roleType) {
       case "USER":
@@ -21,7 +24,7 @@ export const DetailProfile = ({ role, postData }: IDetailProfileProp) => {
 
   return (
     <div className="flex  lg:px-5 md:px-2 lg:py-8 md:py-5 flex-col mysm:py-2.5 ">
-      <div
+      {/* <div
         className="flex md:justify-between border-[1px] lg:p-3 md:p-2 rounded-xl
       md:gap-1 shadow-[0px_8px_24px_rgba(149,157,165,0.2)]"
       >
@@ -55,7 +58,7 @@ export const DetailProfile = ({ role, postData }: IDetailProfileProp) => {
             <span>{role && renderRole(role)}</span>
           </p>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

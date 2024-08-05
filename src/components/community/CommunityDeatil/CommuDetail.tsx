@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { useLocation } from "react-router-dom";
 import commentImg from "assets/img/comment.svg";
 import { DetailProfile } from "./DetailProfile";
 import { useTargetPost } from "../hooks/useTargetPost";
 import { useTargetPostComment } from "../hooks/useTargetPostComment";
 import { addComment } from "../hooks/commentFn";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "hooks/AuthProvider";
 import { CommentItem } from "./CommentItem";
 import { CommuPost } from "./CommuPost";
+import { useRecoilValue } from "recoil";
+import { postDetailId } from "recoilAtoms/CommuState";
+import { FbUserData } from "recoilAtoms/loginState";
 
 export interface commentType {
   commentId: number;
@@ -25,19 +28,24 @@ export interface prevData {
 }
 
 export const CommuDetail = () => {
-  const { userData, userIsLoading } = useAuth();
+  const userData = useRecoilValue(FbUserData);
   const queryClient = useQueryClient();
   const { pathname } = useLocation();
-  const id = parseInt(pathname.split("/")[3], 10);
+  const id = pathname.split("/")[3];
   const category = pathname.split("/")[2];
-
+  const number = 3;
   const [comment, setComment] = useState<string>("");
   const { postData, isPostLoading, isPostError, postError } = useTargetPost(
     id,
     category
   );
+  console.log(userData);
+  console.log(id);
+  console.log(postData);
+
   const { commentData, isCommentLoading, isCommentError, comentError } =
-    useTargetPostComment(id);
+    useTargetPostComment(number);
+
   const ComentAddMutation = useMutation({
     mutationKey: ["addComment"],
     mutationFn: addComment,
@@ -46,19 +54,19 @@ export const CommuDetail = () => {
     },
     onSettled: () => {
       return queryClient.invalidateQueries({
-        queryKey: ["commuDetailComment", id],
+        queryKey: ["commuDetailComment", number],
       });
     },
     onMutate: async (commentObj) => {
       await queryClient.cancelQueries({
-        queryKey: ["commuDetailComment", id],
+        queryKey: ["commuDetailComment", number],
       });
       const prevData: prevData | undefined = queryClient.getQueryData([
         "commuDetailComment",
-        id,
+        number,
       ]);
       await queryClient.setQueryData(
-        ["commuDetailComment", id],
+        ["commuDetailComment", number],
         (oldData: prevData | undefined) => {
           if (oldData) {
             const newData = [...oldData?.data, commentObj];
@@ -76,29 +84,29 @@ export const CommuDetail = () => {
   const handleChangeComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
   };
-  const handleCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!userData) {
-      alert("로그인이 필요한 서비스 입니다");
-      return;
-    }
+  // const handleCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   if (!userData) {
+  //     alert("로그인이 필요한 서비스 입니다");
+  //     return;
+  //   }
 
-    if (comment.length < 1) {
-      alert("댓글 내용이 없습니다");
-      return;
-    }
+  //   if (comment.length < 1) {
+  //     alert("댓글 내용이 없습니다");
+  //     return;
+  //   }
 
-    const commentObj = {
-      userId: userData.userId,
-      text: comment,
-      communityId: postData?.communityId,
-    };
-    await ComentAddMutation.mutate(commentObj);
-  };
+  //   const commentObj = {
+  //     userId: userData.userId,
+  //     text: comment,
+  //     communityId: postData?.postId,
+  //   };
+  //   await ComentAddMutation.mutate(commentObj);
+  // };
 
-  if (isPostLoading || isCommentLoading || userIsLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (isPostLoading || isCommentLoading || userIsLoading) {
+  //   return <div>Loading...</div>;
+  // }
   if (isPostError || isCommentError) {
     return (
       <div className="flex flex-col">
@@ -108,15 +116,25 @@ export const CommuDetail = () => {
     );
   }
 
+  const Loading = () => {
+    return (
+      <div className="flex justify-center items-center">
+        <span className="text-red-950 text-6xl">
+          로딩중입니다 잠시만 기다려주세요
+        </span>
+      </div>
+    );
+  };
   return (
     <div
       className="
   lg:w-[1200px] mysm:w-[100vw]  lg:pt-[90px] md:pt-[80px] mysm:pt-[80px] mx-auto my-0"
     >
-      {postData && commentData && (
+      {isPostLoading && <Loading />}
+      {postData && (
         <section className="md:grid md:grid-cols-[4fr,1.5fr] lg:w-[1200px] mysm:flex mysm:flex-col mysm:w-[100vw]">
           <div className="lg:border-x-[1px]  md:border-r-[1px] lg:mr-5 mysm:pb-[50px]">
-            <CommuPost postData={postData}></CommuPost>
+            <CommuPost {...postData}></CommuPost>
             <article className="md:px-5 mysm:p-3">
               <div className="flex items-center">
                 <h4 className="font-semibold text-gray-700">댓글</h4>
@@ -127,7 +145,7 @@ export const CommuDetail = () => {
               </div>
               <form
                 className="py-5 flex justify-between items-end"
-                onSubmit={handleCommentSubmit}
+                // onSubmit={handleCommentSubmit}
               >
                 <textarea
                   name="commentWrite"
@@ -151,22 +169,23 @@ export const CommuDetail = () => {
               <div id="commentList">
                 <ul>
                   {commentData?.map((item: commentType, index: number) => (
-                    <CommentItem
-                      item={item}
-                      id={id}
-                      key={item.commentId + index}
-                      postUserId={postData.userId}
-                    ></CommentItem>
+                    // <CommentItem
+                    //   item={item}
+                    //   id={number}
+                    //   key={item.commentId + index}
+                    //   // postUserId={postData.userId}
+                    // ></CommentItem>
+                    <div>1</div>
                   ))}
                 </ul>
               </div>
             </article>
           </div>
           <div className="mysm:hidden md:block">
-            {userIsLoading ? (
+            {userData ? (
               ""
             ) : (
-              <DetailProfile role={"학생"} postData={postData}></DetailProfile>
+              <DetailProfile role={"학생"} userData={userData}></DetailProfile>
             )}
           </div>
         </section>

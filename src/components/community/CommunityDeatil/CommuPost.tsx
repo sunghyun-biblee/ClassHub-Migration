@@ -11,15 +11,24 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { prevData } from "./CommuDetail";
 import { Link, useLocation } from "react-router-dom";
 import { Heart } from "./Heart";
+import { CHPostData } from "../hooks/useFbPostListQuery";
 
-export interface IPostProp {
-  postData: CommuInfo;
-}
 interface updateLikeType {
   user_id: number;
   favorite_type_id: number;
 }
-export const CommuPost = ({ postData }: IPostProp) => {
+export const CommuPost = (props: CHPostData) => {
+  const {
+    createAt,
+    photos,
+    postCategory,
+    postText,
+    postTitle,
+    userId,
+    userName,
+    timeStamp,
+    docId,
+  } = props;
   const { userData, userIsLoading } = useAuth();
   const queryClient = useQueryClient();
   const { pathname } = useLocation();
@@ -37,88 +46,88 @@ export const CommuPost = ({ postData }: IPostProp) => {
     }
   };
 
-  const compareLike = (postData: CommuInfo, userId: number) => {
-    const isUserLinked = (array: number[], userId: number): boolean => {
-      return array.includes(userId);
-    };
-    const result = isUserLinked(postData.likeUsers, userId);
+  // const compareLike = (postData: CommuInfo, userId: number) => {
+  //   const isUserLinked = (array: number[], userId: number): boolean => {
+  //     return array.includes(userId);
+  //   };
+  //   const result = isUserLinked(postData.likeUsers, userId);
 
-    switch (result) {
-      case false:
-        return (
-          <div
-            onClick={() => {
-              if (userData && userData.userId) {
-                updateLikeMutation.mutate({
-                  userId: userData.userId,
-                  favoritId: postData.communityId,
-                });
-              } else {
-                return alert("로그인 후 이용가능합니다");
-              }
-            }}
-          >
-            <Heart></Heart>
-          </div>
-        );
-      case true:
-        return (
-          <img
-            src={likes}
-            alt="like"
-            className="lg:w-5 md:w-5 mr-1 h-5 cursor-pointer"
-            onClick={() =>
-              updateLikeMutation.mutate({
-                userId: userData.userId,
-                favoritId: postData.communityId,
-              })
-            }
-          />
-        );
-      default:
-        return;
-    }
-  };
+  //   switch (result) {
+  //     case false:
+  //       return (
+  //         <div
+  //           onClick={() => {
+  //             if (userData && userData.userId) {
+  //               updateLikeMutation.mutate({
+  //                 userId: userData.userId,
+  //                 favoritId: postData.communityId,
+  //               });
+  //             } else {
+  //               return alert("로그인 후 이용가능합니다");
+  //             }
+  //           }}
+  //         >
+  //           <Heart></Heart>
+  //         </div>
+  //       );
+  //     case true:
+  //       return (
+  //         <img
+  //           src={likes}
+  //           alt="like"
+  //           className="lg:w-5 md:w-5 mr-1 h-5 cursor-pointer"
+  //           onClick={() =>
+  //             updateLikeMutation.mutate({
+  //               userId: userData.userId,
+  //               favoritId: postData.communityId,
+  //             })
+  //           }
+  //         />
+  //       );
+  //     default:
+  //       return;
+  //   }
+  // };
 
-  const updateLikeMutation = useMutation({
-    mutationFn: ({
-      userId,
-      favoritId,
-    }: {
-      userId: number;
-      favoritId: number;
-    }) => handleUpdateLike(userId, favoritId),
-    onSettled: () => {
-      return queryClient.invalidateQueries({
-        queryKey: ["commuDetail", postData.communityId],
-      });
-    },
-    onMutate: async (postObj) => {
-      await queryClient.cancelQueries({
-        queryKey: ["commuDetail", postData.communityId],
-      });
-      const prevData: CommuInfo | undefined = queryClient.getQueryData([
-        "commuDetail",
-        postData.communityId,
-      ]);
+  // const updateLikeMutation = useMutation({
+  //   mutationFn: ({
+  //     userId,
+  //     favoritId,
+  //   }: {
+  //     userId: number;
+  //     favoritId: number;
+  //   }) => handleUpdateLike(userId, favoritId),
+  //   onSettled: () => {
+  //     return queryClient.invalidateQueries({
+  //       queryKey: ["commuDetail", postData.communityId],
+  //     });
+  //   },
+  //   onMutate: async (postObj) => {
+  //     await queryClient.cancelQueries({
+  //       queryKey: ["commuDetail", postData.communityId],
+  //     });
+  //     const prevData: CommuInfo | undefined = queryClient.getQueryData([
+  //       "commuDetail",
+  //       postData.communityId,
+  //     ]);
 
-      await queryClient.setQueryData(
-        ["commuDetail", postData.communityId],
-        (oldData: CommuInfo | undefined) => {
-          if (oldData) {
-            const newData = oldData.likeUsers.includes(postObj.userId);
-            if (!newData) {
-              const newLikeUser = [...oldData.likeUsers, postObj.userId];
-              return { ...oldData, likeUsers: newLikeUser };
-            }
-          }
-          return oldData;
-        }
-      );
+  //     await queryClient.setQueryData(
+  //       ["commuDetail", postData.communityId],
+  //       (oldData: CommuInfo | undefined) => {
+  //         if (oldData) {
+  //           const newData = oldData.likeUsers.includes(postObj.userId);
+  //           if (!newData) {
+  //             const newLikeUser = [...oldData.likeUsers, postObj.userId];
+  //             return { ...oldData, likeUsers: newLikeUser };
+  //           }
+  //         }
+  //         return oldData;
+  //       }
+  //     );
 
-      return { prevData };
-    },
-  });
+  //     return { prevData };
+  //   },
+  // });
   if (userIsLoading) {
     return <div>로딩중</div>;
   }
@@ -126,15 +135,13 @@ export const CommuPost = ({ postData }: IPostProp) => {
     <>
       <article className="md:pt-5 md:border-0 mysm:border-b-[1px]">
         <div className="mysm:block md:hidden px-1 md:border-0 mysm:border-b-[1px] ">
-          {postData && (
+          {/* {postData && (
             <DetailProfile role={"학생"} postData={postData}></DetailProfile>
-          )}
+          )} */}
         </div>
         <div className="flex justify-between items-center">
-          <h1 className="py-5 px-5 text-2xl font-extrabold">
-            {postData.title}
-          </h1>
-          {!userIsLoading &&
+          <h1 className="py-5 px-5 text-2xl font-extrabold">{postTitle}</h1>
+          {/* {!userIsLoading &&
             userData &&
             userData.userId === postData.userId && (
               <Link
@@ -143,27 +150,27 @@ export const CommuPost = ({ postData }: IPostProp) => {
               >
                 수정
               </Link>
-            )}
+            )} */}
         </div>
         <div className="flex justify-between md:px-5 mysm:px-5  pb-5 pt-2 text-gray-500 ">
-          <p>{postData.regDate}</p>
+          <p>{createAt}</p>
           <div className="flex items-center ">
             <div className="block">
-              {compareLike(postData, userData && userData.userId)}
+              {/* {compareLike(postData, userData && userData.userId)} */}
             </div>
-            <p>{postData.favoriteCount}</p>
+            <p>{1}</p>
           </div>
         </div>
       </article>
       <article className="p-5 md:border-t-[1px]  border-b-[1px] border-solid">
         <div>
-          <p>{postData.text}</p>
+          <p>{postText}</p>
         </div>
         <div className="overflow-hidden">
-          {postData.image.map((item: string, index: number) => (
+          {photos.map((src: string, index: number) => (
             <div className="flex flex-col" key={index + "img"}>
-              {item !== "null" && (
-                <img src={item} alt="postImg" className="pt-5"></img>
+              {src !== "null" && (
+                <img src={src} alt="postImg" className="pt-5"></img>
               )}
             </div>
           ))}

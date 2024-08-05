@@ -61,7 +61,7 @@ export const PreviewCommu = ({
     if (category) {
       queryClient.prefetchQuery({
         queryKey: ["commuDetail", CommunityId],
-        queryFn: () => selectCommuinfo(CommunityId, category),
+        queryFn: () => selectCommuinfo(CommunityId.toString(), category),
       });
 
       nav(`/community/${category}/${CommunityId}`);

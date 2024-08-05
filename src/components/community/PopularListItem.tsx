@@ -19,7 +19,7 @@ export const PopularListItem = ({ item, category }: IpopListItem) => {
   const queryClient = useQueryClient();
   queryClient.prefetchQuery({
     queryKey: ["commuDetail", item.communityId],
-    queryFn: () => selectCommuinfo(item.communityId, category),
+    queryFn: () => selectCommuinfo(item.communityId.toString(), category),
   });
   queryClient.prefetchQuery({
     queryKey: ["commuDetailComment", item.communityId],

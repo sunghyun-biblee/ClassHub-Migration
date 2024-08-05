@@ -13,20 +13,6 @@ import {
 
 export const Community = () => {
   const pathname = useGetpathname();
-  const queryClient = useQueryClient();
-
-  // queryClient.prefetchQuery({
-  //   queryKey: ["qna", 1],
-  //   queryFn: () => fetchQuestionList(1),
-  // });
-  // queryClient.prefetchQuery({
-  //   queryKey: ["study", 1],
-  //   queryFn: () => fetchStudyList(1),
-  // });
-  // queryClient.prefetchQuery({
-  //   queryKey: [`popular_${pathname}`],
-  //   queryFn: () => fetchPopularList(pathname),
-  // });
 
   return (
     <div>

@@ -9,36 +9,51 @@ import {
   selectCommuinfo,
 } from "./hooks/fetchCommuArray";
 import { IcommunityItem } from "./ShowCommuList";
+import { CHPostData } from "./hooks/useFbPostListQuery";
+import { useSetRecoilState } from "recoil";
+import { postDetailCategory, postDetailId } from "recoilAtoms/CommuState";
 
-interface ICommnuItemprop {
-  item: IcommunityItem;
-}
-export const CommnuItem = ({ item }: ICommnuItemprop) => {
+export const CommnuItem = (props: CHPostData) => {
+  const {
+    createAt,
+    photos,
+    postCategory,
+    postText,
+    postTitle,
+    userId,
+    userName,
+    docId,
+  } = props;
   const { pathname } = useLocation();
   const category = pathname.split("/")[2];
 
+  const setDetailId = useSetRecoilState(postDetailId);
+  const setDetailCategory = useSetRecoilState(postDetailCategory);
+
   const nav = useNavigate();
   const handleClick = () => {
-    nav(`/community/${category}/${item.communityId}`);
+    setDetailId(docId);
+    setDetailCategory(postCategory);
+    nav(`/community/${category}/${docId}`);
   };
   const queryClient = useQueryClient();
   queryClient.prefetchQuery({
-    queryKey: ["commuDetail", item.communityId],
-    queryFn: () => selectCommuinfo(item.communityId, category),
+    queryKey: ["commuDetail", docId],
+    queryFn: () => selectCommuinfo(docId, category),
   });
   queryClient.prefetchQuery({
-    queryKey: ["commuDetailComment", item.communityId],
-    queryFn: () => selectCommuCommentinfo(item.communityId),
+    queryKey: ["commuDetailComment", docId],
+    queryFn: () => selectCommuCommentinfo(docId),
   });
   const renderCategory = (communityType: string) => {
     switch (communityType) {
-      case "1":
+      case "qna":
         return "질문 & 답변";
 
-      case "2":
+      case "study":
         return "모집중";
 
-      case "3":
+      case "completed":
         return "모집완료";
       default:
         break;
@@ -50,20 +65,20 @@ export const CommnuItem = ({ item }: ICommnuItemprop) => {
         <div className="flex flex-col justify-between w-[80%]">
           <div className="flex ">
             <Span className="mr-4 lg:min-w-[6rem]">
-              {renderCategory(item.communityType)}
+              {renderCategory(postCategory)}
             </Span>
             <h1 className="font-extrabold w-[calc(100%-7rem)] overflow-hidden text-ellipsis whitespace-nowrap ">
-              {item.title}
+              {postTitle}
             </h1>
           </div>
           <p className="overflow-hidden text-ellipsis whitespace-nowrap max-w-[400px] mysm:max-w-[300px]">
-            {item.text}
+            {postText}
           </p>
         </div>
 
         <div className="flex w-[20%] justify-end px-1">
           <div className="flex  items-end flex-col justify-between gap-3">
-            <p className="px-1">{item.nickname}</p>
+            <p className="px-1">{userName}</p>
             <div className="flex  pt-2 min-w-[50px]">
               <div className="flex md:mr-7 mysm:mr-4 cursor-pointer items-center">
                 <img
@@ -71,7 +86,7 @@ export const CommnuItem = ({ item }: ICommnuItemprop) => {
                   alt=""
                   className="w-4 h-auto md:mr-2 mysm:mr-1"
                 />
-                <strong>{item.favoriteCount}</strong>
+                <strong>{1}</strong>
               </div>
               <div className="flex cursor-pointer items-center">
                 <img
@@ -79,7 +94,7 @@ export const CommnuItem = ({ item }: ICommnuItemprop) => {
                   alt=""
                   className="w-4 h-auto md:mr-2 mysm:mr-1"
                 />
-                <strong>{item.commentCount}</strong>
+                <strong>{1}</strong>
               </div>
             </div>
           </div>

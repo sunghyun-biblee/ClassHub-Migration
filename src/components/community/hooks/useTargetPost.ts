@@ -18,8 +18,8 @@ export interface CommuInfo {
   role: string;
   profilePicture: string;
 }
-export function useTargetPost(id: number, category: string) {
-  const { data, isLoading, isError, error } = useQuery<CommuInfo, Error>({
+export function useTargetPost(id: string, category: string) {
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ["commuDetail", id],
     queryFn: () => selectCommuinfo(id, category),
   });

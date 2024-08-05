@@ -1,6 +1,9 @@
 import axios from "api/axios";
 import requests from "api/requests";
 import { Community } from "../Community";
+import { db } from "chFirebase";
+import { doc, DocumentData, getDoc } from "firebase/firestore";
+import { CHPostData } from "./useFbPostListQuery";
 
 export interface Icommuitem {
   id: number;
@@ -82,22 +85,17 @@ export async function fetchMyCommuList(userID: number) {
     console.log(error);
   }
 }
-export async function selectCommuinfo(CommunityId: number, category: string) {
-  if (!category) {
-    return;
-  }
-  if (category === "qna") {
-    const data = await axios.get(`/community/question/${CommunityId}`);
-
-    return data.data;
-  }
-
-  if (category === "study") {
-    const data = await axios.get(`/community/study/${CommunityId}`);
-    return data.data;
+export async function selectCommuinfo(CommunityId: string, category: string) {
+  const docRef = doc(db, "Posts", CommunityId);
+  try {
+    const docSnap = await getDoc(docRef);
+    const postData = { ...docSnap.data(), docId: CommunityId };
+    return postData as CHPostData;
+  } catch (e) {
+    console.log(e);
   }
 }
-export async function selectCommuCommentinfo(CommunityId: number) {
+export async function selectCommuCommentinfo(CommunityId: number | string) {
   const data = await axios.get(requests.comment.getPostComment, {
     params: {
       community: CommunityId,
