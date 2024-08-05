@@ -19,16 +19,17 @@ interface FbPostData {
   postTitle: string;
   userId: string;
   userName: string;
+  timeStamp: string;
 }
-export interface CLPostData extends FbPostData {
-  postId: string;
+export interface CHPostData extends FbPostData {
+  docId: string;
 }
 
 export function useFbPostListQuery(
   postLimit: number,
   traget?: RefObject<HTMLDivElement>
 ) {
-  const [postData, setPostData] = useState<CLPostData[]>([]);
+  const [postData, setPostData] = useState<CHPostData[]>([]);
   const [loading, setLoading] = useState(false);
   const [plusLoading, setPlustLoading] = useState(false);
 
@@ -45,7 +46,7 @@ export function useFbPostListQuery(
       setLoading(true);
       const snap = await getDocs(queryRef);
       const currPostData = snap.docs.map((doc) => ({
-        postId: doc.id,
+        docId: doc.id,
         ...(doc.data() as FbPostData),
       }));
       setPostData(currPostData);
@@ -79,7 +80,7 @@ export function useFbPostListQuery(
         setKey(snap.docs[snap.docs.length - 1]);
       }
       const currPostData = snap.docs.map((doc) => ({
-        postId: doc.id,
+        docId: doc.id,
         ...(doc.data() as FbPostData),
       }));
       setPostData((prev) => [...prev, ...currPostData]);

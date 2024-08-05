@@ -41,7 +41,11 @@ import { Nav } from "./components/navigtaion/Nav";
 import { NaviMobileBottom } from "./components/navigtaion/NaviMobileBottom";
 import { AuthProvider } from "./hooks/AuthProvider";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { LoginDataState, LoginLoadingState } from "recoilAtoms/loginState";
+import {
+  FbUserData,
+  LoginDataState,
+  LoginLoadingState,
+} from "recoilAtoms/loginState";
 import { getUserData } from "components/login/AuthFunctions/getUserData";
 
 const cliendtId =
@@ -49,14 +53,7 @@ const cliendtId =
 function App() {
   const setLoginLoadingState = useSetRecoilState(LoginLoadingState);
   const [loginData, setLoginDataState] = useRecoilState(LoginDataState);
-
-  const text = async () => {
-    try {
-      await axios.get("/api/community/mainpage");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const setUserData = useSetRecoilState(FbUserData);
 
   const { pathname } = useLocation();
   const pathData = pathname.split("/")[1];
@@ -95,11 +92,12 @@ function App() {
   };
   useEffect(() => {
     setLoginLoadingState(true);
+
     const fetchLoginData = async () => {
       try {
         const result = await getUserData();
-
-        setLoginDataState(result);
+        setUserData(result);
+        setLoginDataState(true);
         setLoginLoadingState(false);
       } catch (error) {
         setLoginLoadingState(false);
@@ -107,7 +105,10 @@ function App() {
     };
 
     fetchLoginData();
-    text();
+
+    return () => {
+      setLoginLoadingState(false);
+    };
   }, [loginData]);
 
   return (
