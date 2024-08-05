@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { PopularList } from "./PopularList";
 import { useGetpathname } from "./hooks/getPathname";
 import { useCommuList } from "./hooks/useCommuList";
+import { CLPostData, useFbPostListQuery } from "./hooks/fbPostListQuery";
 
 export interface IcommunityItem {
   commentCount: number;
@@ -27,6 +28,7 @@ export interface IcommunityItem {
 }
 
 export const ShowCommuList = () => {
+  const postLimit = 5;
   const category = useGetpathname();
   const queryClient = useQueryClient();
   const nav = useNavigate();
@@ -34,44 +36,10 @@ export const ShowCommuList = () => {
   const [search, setSearch] = useState<string>("");
   const [searchType, setSearchType] = useState<number>(0);
 
-  const { data, isLoading, isError, error, refetch } = useCommuList(
-    category,
-    page,
-    search,
-    searchType
-  );
+  const { postData, loading, noMore, plusLoading } =
+    useFbPostListQuery(postLimit);
+  console.log(postData);
 
-  useEffect(() => {
-    // 상태 초기화
-    queryClient.invalidateQueries({
-      queryKey: [category, page, searchType],
-    });
-  }, [page, searchType, category, queryClient]);
-
-  // if (isLoading) {
-  //   return <div>로딩중</div>;
-  // }
-  // if (isError) {
-  //   return <div>{error?.message}</div>;
-  // }
-
-  const renderPageNation = () => {
-    if (data) {
-      const pageNationData = {
-        currentPage: data?.data.currentPageNum,
-        lastPage: data?.data.totalNum,
-        leftPage: data?.data.leftEndNum,
-        rightPage: data?.data.rightEndNum,
-      };
-      return (
-        <PageNation
-          pageNationData={pageNationData}
-          page={page}
-          setPage={setPage}
-        ></PageNation>
-      );
-    }
-  };
   const renderText = () => {
     switch (category) {
       case undefined:
@@ -90,12 +58,10 @@ export const ShowCommuList = () => {
   };
   const handleChangeSearchType = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSearchType(parseInt(e.target.value));
-    refetch();
   };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     console.log("hello");
     e.preventDefault();
-    refetch();
   };
 
   return (
@@ -140,7 +106,15 @@ export const ShowCommuList = () => {
       </div>
       <article>
         <ul className="md:pt-10 mysm:pt-6">
-          {data?.data.contents.map((item: IcommunityItem, index: number) => (
+          {postData.map((post: CLPostData, index) => (
+            <li
+              className="my-2 py-4 px-2 border-[1px] border-solid rounded-md mx-1"
+              key={post.postId}
+            >
+              <CommnuItem {...post}></CommnuItem>
+            </li>
+          ))}
+          {/* {postData.map((item: IcommunityItem, index: number) => (
             <li
               className="my-2 py-4 px-2 border-[1px] border-solid rounded-md mx-1"
               key={
@@ -149,13 +123,13 @@ export const ShowCommuList = () => {
             >
               <CommnuItem item={item}></CommnuItem>
             </li>
-          ))}
+          ))} */}
         </ul>
       </article>
       <aside>
         <PopularList category={category}></PopularList>
       </aside>
-      {renderPageNation()}
+      {/* {renderPageNation()} */}
     </div>
   );
 };
